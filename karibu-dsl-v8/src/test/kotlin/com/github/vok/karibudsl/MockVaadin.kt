@@ -2,6 +2,9 @@ package com.github.vok.karibudsl
 
 import com.vaadin.server.*
 import com.vaadin.ui.UI
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.util.*
 
 object MockVaadin {
@@ -24,3 +27,7 @@ object MockVaadin {
         UI.setCurrent(ui)
     }
 }
+
+fun Any.serializeToBytes(): ByteArray = ByteArrayOutputStream().use { it -> ObjectOutputStream(it).writeObject(this); it }.toByteArray()
+inline fun <reified T: Any> ByteArray.deserialize(): T = ObjectInputStream(inputStream()).readObject() as T
+inline fun <reified T: Any> T.serializeDeserialize() = serializeToBytes().deserialize<T>()

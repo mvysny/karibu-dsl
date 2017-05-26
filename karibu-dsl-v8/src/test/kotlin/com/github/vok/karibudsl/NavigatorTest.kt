@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl
 
+import org.junit.Before
 import org.junit.Test
 import kotlin.test.expect
 
@@ -7,6 +8,9 @@ import kotlin.test.expect
  * @author mavi
  */
 class AutoViewProviderTest {
+    @Before
+    fun setupVaadin() = MockVaadin.setup()
+
     @Test
     fun testParseViewName() {
         expect("foo") { AutoViewProvider.Companion.parseViewName("!foo/25") }
