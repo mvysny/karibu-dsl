@@ -1,8 +1,8 @@
-# Karibu-DSL
+# Karibu-DSL (Vaadin Kotlin Extensions)
 
 # WORK IN PROGRESS, NOT YET FULLY AVAILABLE
 
-Kotlin extensions/bindings for the [Vaadin](https://www.vaadin.com) framework:
+Kotlin extensions and DSL for the [Vaadin](https://www.vaadin.com) framework:
 
 * Allows you to create Vaadin UI designs/component graphs in the DSL fashion
 * Auto-discovery and auto-mapping of Views via a custom Navigator
