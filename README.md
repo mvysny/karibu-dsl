@@ -1,5 +1,7 @@
 # Karibu-DSL (Vaadin Kotlin Extensions)
 
+[![Build Status](https://travis-ci.org/mvysny/karibu-dsl.svg?branch=master)](https://travis-ci.org/mvysny/karibu-dsl)
+
 # WORK IN PROGRESS, NOT YET FULLY AVAILABLE
 
 Kotlin extensions and DSL for the [Vaadin](https://www.vaadin.com) framework:
