@@ -1,0 +1,65 @@
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.jetbrains.kotlinx:kotlinx-support-jdk8:0.3'
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    compile 'io.michaelrocks:bimap:1.0.2'
+
+    // Vaadin
+    compile "com.vaadin:vaadin-server:$vaadin_version"
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+
+    // IDEA language injections
+    compile 'com.intellij:annotations:12.0'
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId 'karibu-dsl-v8'
+            version project.version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Karibu-DSL, Kotlin extensions/DSL for Vaadin')
+                root.appendNode('name', 'Karibu-DSL v8')
+                root.appendNode('url', 'https://github.com/mvysny/karibu-dsl')
+            }
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+build.dependsOn publishToMavenLocal
+
+bintray {
+    user = local.getProperty('bintray.user')
+    key = local.getProperty('bintray.key')
+    pkg {
+        repo = 'vaadin-on-kotlin'
+        name = 'vaadin-on-kotlin'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/mvysny/vaadin-on-kotlin'
+        publish = true
+        publications = ['mavenJava']
+        version {
+            name = project.version
+            released = new Date()
+        }
+    }
+}
