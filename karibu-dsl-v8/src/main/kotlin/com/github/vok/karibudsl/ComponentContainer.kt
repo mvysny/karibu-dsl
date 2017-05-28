@@ -2,6 +2,50 @@ package com.github.vok.karibudsl
 
 import com.vaadin.ui.*
 
+fun HasComponents.verticalLayout(block: (@VaadinDsl VerticalLayout).()->Unit = {}) = init(VerticalLayout(), block)
+
+fun HasComponents.horizontalLayout(block: (@VaadinDsl HorizontalLayout).()->Unit = {}) = init(HorizontalLayout(), block)
+
+fun HasComponents.formLayout(block: (@VaadinDsl FormLayout).()->Unit = {}) = init(FormLayout(), block)
+
+fun HasComponents.absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}) = init(AbsoluteLayout(), block)
+
+fun HasComponents.cssLayout(block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout(), block)
+
+fun HasComponents.gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}) = init(GridLayout(columns, rows), block)
+
+/**
+ * Adds a [child] to this component. Only concrete subclasses are supported:
+ *
+ * * [ComponentContainer]
+ * * [SingleComponentContainer] (fails if the container already has a child)
+ * * [PopupView]
+ * * [AbstractSplitPanel]
+ * * [SpecialContainer]
+ *
+ * The function will fail if the component
+ * is already full (e.g. it is a split panel and it already contains two components).
+ *
+ * For custom containers just implement the [SpecialContainer] interface.
+ */
+fun HasComponents.addChild(child: Component) {
+    when (this) {
+        is ComponentContainer -> addComponent(child)
+        is SpecialContainer -> addComponent(child)
+        is SingleComponentContainer -> {
+            if (componentCount >= 1) throw IllegalArgumentException("$this can only have one child")
+            content = child
+        }
+        is PopupView -> popupComponent = child
+        is AbstractSplitPanel -> when (componentCount) {
+            0 -> firstComponent = child
+            1 -> secondComponent = child
+            else -> throw IllegalArgumentException("$this can only have 2 children")
+        }
+        else -> throw IllegalArgumentException("Unsupported component container $this")
+    }
+}
+
 /**
  * Sets the expand ratio of this component with respect to its parent layout. See [AbstractOrderedLayout.setExpandRatio] for more details.
  *

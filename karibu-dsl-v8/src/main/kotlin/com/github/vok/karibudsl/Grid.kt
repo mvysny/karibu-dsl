@@ -1,10 +1,20 @@
 package com.github.vok.karibudsl
 
+import com.vaadin.data.provider.DataProvider
 import com.vaadin.ui.Grid
+import com.vaadin.ui.HasComponents
 import com.vaadin.ui.renderers.TextRenderer
 import elemental.json.Json
 import elemental.json.JsonValue
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+
+fun <T: Any> HasComponents.grid(clazz: KClass<T>, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
+        init(Grid<T>(clazz.java)) {
+            this.caption = caption
+            if (dataProvider != null) this.dataProvider = dataProvider
+            block()
+        }
 
 /**
  * Causes the Grid to only show given set of columns, and in given order.

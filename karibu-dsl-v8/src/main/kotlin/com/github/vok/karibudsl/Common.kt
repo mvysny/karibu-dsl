@@ -10,6 +10,22 @@ import com.vaadin.ui.themes.ValoTheme
 import org.intellij.lang.annotations.Language
 
 /**
+ * When introducing extensions for your custom components, just call this in your method. For example:
+ *
+ * `fun HasComponents.shinyComponent(caption: String? = null, block: ShinyComponent.()->Unit = {}) = init(ShinyComponent(caption), block)`
+ *
+ * Adds [component] to receiver, see [addChild] for details.
+ *
+ * @param component the component to attach
+ * @param block optional block to run over the component, allowing you to add children to the [component]
+ */
+fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.()->Unit = {}): T {
+    addChild(component)
+    component.block()
+    return component
+}
+
+/**
  * Shows given html in this label.
  * @param html the html code to show.
  */

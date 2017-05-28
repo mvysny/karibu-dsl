@@ -11,7 +11,7 @@ dependencies {
     compile 'io.michaelrocks:bimap:1.0.2'
 
     // Vaadin
-    compile "com.vaadin:vaadin-server:$vaadin_version"
+    compile "com.vaadin:vaadin-server:$vaadin8_version"
     compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // IDEA language injections
@@ -54,7 +54,7 @@ bintray {
         repo = 'vaadin-on-kotlin'
         name = 'vaadin-on-kotlin'
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/mvysny/vaadin-on-kotlin'
+        vcsUrl = 'https://github.com/mvysny/karibu-dsl'
         publish = true
         publications = ['mavenJava']
         version {
