@@ -13,7 +13,6 @@ Kotlin extensions and DSL for the [Vaadin](https://www.vaadin.com) framework:
 Supports:
 
 * Vaadin 8 (including support for v7 compatibility package)
-* Experimental support for Vaadin 10 (Flow)
 
 ## QuickStart
 
@@ -40,8 +39,7 @@ To start the sample projects see below.
     <version>0.1.0</version>
 </dependency>
 ```
-(If you need support for v7-compat libraries, use the `karibu-dsl-v8compat7` artifact - this also depends on `karibu-dsl-v8`; for Flow depend
-on `karibu-dsl-flow` instead)
+(If you need support for v7-compat libraries, use the `karibu-dsl-v8compat7` artifact - this also depends on `karibu-dsl-v8`)
 
 4. Add Kotlin support to your `pom.xml`: in Intellij just create a Kotlin class, Intellij will offer to auto-add kotlin
    to your `pom.xml`. Otherwise: https://kotlinlang.org/docs/reference/using-maven.html
@@ -153,10 +151,6 @@ button {
 }
 if (button.w.isFillParent) { ... }
 ```
-
-### How to write DSLs for Vaadin 10 (Flow)
-
-todo
 
 ## Run the sample projects outside of any IDE:
 
