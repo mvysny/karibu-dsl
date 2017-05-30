@@ -68,7 +68,7 @@ class AutoViewProvider : ServletContainerInitializer {
         private val viewNameToClass: MutableBiMap<String, Class<out View>> = HashBiMap()
 
         internal fun <T: View> getMapping(clazz: Class<T>): String =
-                viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: $viewNameToClass")
+                viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString()}")
     }
 
     private fun Class<*>.toViewName(): String {
