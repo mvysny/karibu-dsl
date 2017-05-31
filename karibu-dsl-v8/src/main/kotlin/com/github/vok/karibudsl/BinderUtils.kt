@@ -40,9 +40,9 @@ fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingB
         withConverter(LocalDateTimeToDateConverter(ZoneOffset.ofTotalSeconds(Page.getCurrent().webBrowser.timezoneOffset / 1000)))
 
 /**
- * Allows you to create [Binder] like this: `Binder<Person>()` instead of `Binder(Person::class.java)`
+ * Allows you to create [BeanValidationBinder] like this: `BeanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
  */
-inline fun <reified T : Any> BeanValidationBinder(): BeanValidationBinder<T> = BeanValidationBinder(T::class.java)
+inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = BeanValidationBinder(T::class.java)
 
 /**
  * Allows you to bind the component directly in the component's definition. E.g.

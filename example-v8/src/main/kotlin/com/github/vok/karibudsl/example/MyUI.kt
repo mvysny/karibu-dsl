@@ -1,6 +1,7 @@
 package com.github.vok.karibudsl.example
 
 import com.github.vok.karibudsl.*
+import com.github.vok.karibudsl.example.form.FormView
 import com.vaadin.annotations.Theme
 import com.vaadin.annotations.Title
 import com.vaadin.annotations.VaadinServletConfiguration
@@ -53,7 +54,7 @@ private class Content: VerticalLayout(), ViewDisplay {
             menuBar {
                 expandRatio = 1f
                 addItem("Welcome") { WelcomeView.navigateTo() }
-//                addItem("CRUD Demo") { CrudView.navigateTo() }
+                addItem("Form Demo") { FormView.navigateTo() }
             }
             currentTimeLabel = label {
                 setWidthUndefined()
