@@ -10,6 +10,7 @@ import com.vaadin.navigator.ViewDisplay
 import com.vaadin.server.VaadinRequest
 import com.vaadin.server.VaadinServlet
 import com.vaadin.ui.*
+import org.slf4j.bridge.SLF4JBridgeHandler
 import javax.servlet.annotation.WebServlet
 
 /**
@@ -31,7 +32,15 @@ class MyUI : UI() {
 
 @WebServlet(urlPatterns = arrayOf("/*"), name = "MyUIServlet", asyncSupported = true)
 @VaadinServletConfiguration(ui = MyUI::class, productionMode = false)
-class MyUIServlet : VaadinServlet()
+class MyUIServlet : VaadinServlet() {
+    companion object {
+        init {
+            // Vaadin logs into java.util.logging. Redirect that, so that all logging goes through slf4j.
+            SLF4JBridgeHandler.removeHandlersForRootLogger()
+            SLF4JBridgeHandler.install()
+        }
+    }
+}
 
 private class Content: VerticalLayout(), ViewDisplay {
     private val viewPlaceholder: CssLayout

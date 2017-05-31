@@ -17,5 +17,12 @@ fun main(args: Array<String>) {
     context.configurations = arrayOf<Configuration>(AnnotationConfiguration(), WebInfConfiguration(), WebXmlConfiguration(), MetaInfConfiguration(), FragmentConfiguration(), EnvConfiguration(), PlusConfiguration(), JettyWebXmlConfiguration())
     server.handler = context
     server.start()
+    println("""
+
+===============================================
+The example is running on http://localhost:8080
+===============================================
+
+""")
     server.join()
 }

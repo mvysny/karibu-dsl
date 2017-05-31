@@ -4,10 +4,10 @@ dependencies {
     compile(project(":karibu-dsl-v8"))
 
     // logging
-    // currently we are logging through the SLF4J API to LogBack. See logback.xml file for the logger configuration
+    // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.slf4j:slf4j-api:1.7.25'
-    // this will configure Vaadin to log to SLF4J
+    // this will allow us to configure Vaadin to log to SLF4J
     compile 'org.slf4j:jul-to-slf4j:1.7.25'
 
     // Vaadin
@@ -21,6 +21,8 @@ dependencies {
     compile 'org.hibernate:hibernate-validator:5.3.4.Final'
     // http://stackoverflow.com/questions/24386771/javax-validation-validationexception-hv000183-unable-to-load-javax-el-express
     compile 'org.glassfish.web:javax.el:2.2.6'
+
+    // @todo mavi add Material Theme and Gradle Theme Compiler
 
     // easy development with Jetty
     testCompile "org.eclipse.jetty:jetty-webapp:$jettyVer"
