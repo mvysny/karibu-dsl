@@ -17,10 +17,11 @@ dependencies {
     // IDEA language injections
     compile 'com.intellij:annotations:12.0'
 
-    testCompile 'javax.validation:validation-api:1.0.0.GA'  // so that the BeanFieldGroup will perform JSR303 validations
-    testCompile 'org.hibernate:hibernate-validator:5.4.1.Final'
+    // always include support for bean validation
+    compile 'javax.validation:validation-api:1.0.0.GA'  // so that the BeanFieldGroup will perform JSR303 validations
+    compile 'org.hibernate:hibernate-validator:5.4.1.Final'
     // http://stackoverflow.com/questions/24386771/javax-validation-validationexception-hv000183-unable-to-load-javax-el-express
-    testCompile 'org.glassfish.web:javax.el:2.2.6'
+    compile 'org.glassfish.web:javax.el:2.2.6'
 
 }
 

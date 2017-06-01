@@ -10,7 +10,12 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
-import kotlin.reflect.KProperty1
+import javax.validation.Constraint
+import javax.validation.ConstraintValidator
+import javax.validation.ConstraintValidatorContext
+import javax.validation.Payload
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty1
 
 /**
  * Trims the user input string before storing it into the underlying property data source. Vital for mobile-oriented apps:
@@ -64,5 +69,24 @@ fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.B
  * A type-safe binding which binds only to a property of given type, found on given bean.
  * @param prop the bean property
  */
-fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KProperty1<BEAN, FIELDVALUE?>): Binder.Binding<BEAN, FIELDVALUE> =
-        bind(prop.name)
+fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KMutableProperty1<BEAN, FIELDVALUE?>): Binder.Binding<BEAN, FIELDVALUE> =
+        bind({ bean -> prop.get(bean) }, { bean, value -> prop.set(bean, value) })
+
+/**
+ * Allows you to perform the @Past validation on LocalDate fields.
+ */
+@Target(AnnotationTarget.FIELD)
+@Constraint(validatedBy = arrayOf(PastDateValidator::class))
+@MustBeDocumented
+annotation class PastDate(val message: String = "Must be in the past", val groups: Array<KClass<*>> = arrayOf(), val payload: Array<KClass<out Payload>> = arrayOf())
+class PastDateValidator : ConstraintValidator<PastDate, LocalDate?> {
+
+    override fun initialize(constraintAnnotation: PastDate) {}
+
+    override fun isValid(`object`: LocalDate?, constraintContext: ConstraintValidatorContext): Boolean {
+        if (`object` == null) {
+            return true
+        }
+        return `object` < LocalDate.now()
+    }
+}

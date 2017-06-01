@@ -1,19 +1,13 @@
 package com.github.vok.karibudsl
 
 import com.vaadin.data.Binder
-import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 import org.junit.Before
 import org.junit.Test
 import java.io.Serializable
 import java.time.LocalDate
-import javax.validation.Constraint
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
-import javax.validation.Payload
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
-import kotlin.reflect.KClass
 import kotlin.test.expect
 
 class BinderUtilsTest {
@@ -64,30 +58,14 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
 
 data class Person(@field:NotNull
                   @field:Size(min = 3, max = 200)
-                  val fullName: String? = null,
+                  var fullName: String? = null,
 
                   @field:NotNull
                   @field:PastDate
-                  val dateOfBirth: LocalDate? = null,
+                  var dateOfBirth: LocalDate? = null,
 
                   @field:NotNull
                   var alive: Boolean? = null,
 
                   var comment: String? = null
 ) : Serializable
-
-@Target(AnnotationTarget.FIELD)
-@Constraint(validatedBy = arrayOf(PastDateValidator::class))
-@MustBeDocumented
-annotation class PastDate(val message: String = "Must be in the past", val groups: Array<KClass<*>> = arrayOf(), val payload: Array<KClass<out Payload>> = arrayOf())
-class PastDateValidator : ConstraintValidator<PastDate, LocalDate?> {
-
-    override fun initialize(constraintAnnotation: PastDate) {}
-
-    override fun isValid(`object`: LocalDate?, constraintContext: ConstraintValidatorContext): Boolean {
-        if (`object` == null) {
-            return true
-        }
-        return `object` < LocalDate.now()
-    }
-}

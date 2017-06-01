@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl.example.form
 
+import com.github.vok.karibudsl.PastDate
 import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
@@ -18,11 +19,11 @@ import javax.validation.constraints.Size
 data class Person(
         @field:NotNull
         @field:Size(min = 3, max = 200)
-        val fullName: String? = null,
+        var fullName: String? = null,
 
         @field:NotNull
         @field:PastDate
-        val dateOfBirth: LocalDate? = null,
+        var dateOfBirth: LocalDate? = null,
 
         @field:NotNull
         var maritalStatus: MaritalStatus? = null,
