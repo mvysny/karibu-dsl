@@ -17,6 +17,9 @@ class FormView: VerticalLayout(), View {
     private val binder = beanValidationBinder<Person>()
 
     init {
+        label("Add New Person Demo") {
+            addStyleNames(ValoTheme.LABEL_COLORED, ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN)
+        }
         // create the UI.
         formLayout {
             textField("Full Name:") {

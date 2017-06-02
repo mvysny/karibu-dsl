@@ -5,6 +5,7 @@ import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.shared.Version
 import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.themes.ValoTheme
 
 /**
  * This is the root (or main) view. MyUI initially shows view whose name is "" (an empty string).
@@ -18,9 +19,12 @@ class WelcomeView: VerticalLayout(), View {
     }
 
     init {
-        setSizeFull(); isMargin = true
+        isMargin = true
+        label("Welcome To The Karibu-DSL Demo") {
+            addStyleNames(ValoTheme.LABEL_COLORED, ValoTheme.LABEL_H2)
+        }
         label {
-            html("""<h3>Karibu-DSL</h3>Welcome to the Karibu-DSL demo. Karibu-DSL offers the following:
+            html("""Karibu-DSL offers the following:
             <ul><li>Provides Vaadin DSL builder support, allowing you to build your Vaadin UIs in Kotlin declarative, statically compiler-checked code</li>
             <li>Provides auto-discovery of your Views</li></ul>
             And more.""")
