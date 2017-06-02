@@ -8,14 +8,15 @@ import com.vaadin.annotations.VaadinServletConfiguration
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.View
-import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.navigator.ViewDisplay
-import com.vaadin.server.*
+import com.vaadin.server.Resource
+import com.vaadin.server.Responsive
+import com.vaadin.server.VaadinRequest
+import com.vaadin.server.VaadinServlet
 import com.vaadin.ui.*
+import com.vaadin.ui.themes.ValoTheme
 import org.slf4j.bridge.SLF4JBridgeHandler
 import javax.servlet.annotation.WebServlet
-import com.vaadin.ui.themes.ValoTheme
-import com.vaadin.ui.CssLayout
 
 /**
  * The Vaadin UI which demoes all the features. If not familiar with Vaadin, please check out the Vaadin tutorial first.
@@ -30,6 +31,19 @@ class MyUI : UI() {
     override fun init(request: VaadinRequest?) {
         setContent(content)
         Responsive.makeResponsive(this)
+
+        // The navigator resolves http paths to views, so that different view shows for different app urls.
+        // See https://vaadin.com/docs/-/part/framework/advanced/advanced-navigator.html for more details.
+        // For example, URL http://localhost:8080/#!form will navigate towards the FormView. The mapping is done by
+        // the autoViewProvider and the @AutoView annotation, just check out documentation on those two guys.
+
+        // Shebang #! thingy: when the URL changes, the browser reloads the whole page. This we want to avoid with Vaadin
+        // since in Vaadin the page never changes, instead the page contents are mutated. The only way to achieve this
+        // is to change the 'fragment' portion of the URL only - only then the browser won't reload the page. That explain
+        // the hash # part. The bang part is used for indexing: Google indexer usually ignores fragment since it points
+        // into the same document, just to a different part. However, that's not the case with single-page self-modifying
+        // apps, so we tell Google by using #! that the fragment differ and Google need to index that as well.
+
         navigator = Navigator(this, content as ViewDisplay)
         navigator.addProvider(autoViewProvider)
     }
@@ -47,6 +61,9 @@ class MyUIServlet : VaadinServlet() {
     }
 }
 
+/**
+ * The main screen with the menu and a view placeholder, where the view contents will go.
+ */
 private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
     /**
      * Tracks the registered menu items associated with view; when a view is shown, highlight appropriate menu item button.
