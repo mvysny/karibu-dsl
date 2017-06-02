@@ -8,6 +8,7 @@ import com.vaadin.annotations.VaadinServletConfiguration
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.View
+import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.navigator.ViewDisplay
 import com.vaadin.server.*
 import com.vaadin.ui.*
@@ -47,6 +48,12 @@ class MyUIServlet : VaadinServlet() {
 }
 
 private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
+    /**
+     * Tracks the registered menu items associated with view; when a view is shown, highlight appropriate menu item button.
+     */
+    private val views = mutableMapOf<Class<out View>, Button>()
+    private val menuButtons = mutableSetOf<Button>()
+
     private val menuArea: CssLayout
     private val viewPlaceholder: CssLayout
     init {
@@ -60,12 +67,8 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
                 label("Va") {
                     w = wrapContent; primaryStyleName = ValoTheme.MENU_LOGO
                 }
-                menuButton(VaadinIcons.MENU, "Welcome", "3") {
-                    onLeftClick { WelcomeView.navigateTo() }
-                }
-                menuButton(VaadinIcons.FORM, "Form Demo") {
-                    onLeftClick { FormView.navigateTo() }
-                }
+                menuButton(VaadinIcons.MENU, "Welcome", "3", WelcomeView::class.java)
+                menuButton(VaadinIcons.FORM, "Form Demo", view = FormView::class.java)
             }
         }
 
@@ -77,7 +80,13 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
         }
     }
 
-    private fun CssLayout.menuButton(icon: Resource, caption: String, badge: String? = null, block: Button.()->Unit) {
+    /**
+     * Registers a button to a menu with given [icon] and [caption], which launches given [view].
+     * @param badge optional badge which is displayed in the button's top-right corner. Usually this is a number, showing number of notifications or such.
+     * @param view optional view; if not null, clicking this menu button will launch this view with no parameters; also the button will be marked selected
+     * when the view is shown.
+     */
+    private fun CssLayout.menuButton(icon: Resource, caption: String, badge: String? = null, view: Class<out View>? = null, block: Button.()->Unit = {}) {
         val b = button {
             primaryStyleName = ValoTheme.MENU_ITEM
             this.icon = icon
@@ -87,13 +96,22 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
             } else {
                 this.caption = caption
             }
+            if (view != null) {
+                onLeftClick { navigateToView(view) }
+                views[view] = this
+            }
+            menuButtons.add(this)
         }
-        // @todo b.addStyleName("selected")
         b.block()
     }
 
-    override fun showView(view: View?) {
+    override fun showView(view: View) {
+        // show the view itself
         viewPlaceholder.removeAllComponents()
         viewPlaceholder.addComponent(view as Component)
+
+        // make the appropriate menu button selected, to show the current view
+        menuButtons.forEach { it.removeStyleName("selected") }
+        views[view.javaClass as Class<*>]?.addStyleName("selected")
     }
 }
