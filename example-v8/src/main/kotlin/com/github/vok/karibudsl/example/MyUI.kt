@@ -19,7 +19,9 @@ import org.slf4j.bridge.SLF4JBridgeHandler
 import javax.servlet.annotation.WebServlet
 
 /**
- * The Vaadin UI which demoes all the features. If not familiar with Vaadin, please check out the Vaadin tutorial first.
+ * The Vaadin UI which demoes all the features of the Karibu-DSL framework.
+ * If not familiar with Vaadin, please check out the Vaadin tutorial first, or the tutorial at
+ * [http://www.vaadinonkotlin.eu/].
  * @author mvy
  */
 @Theme("valo")
