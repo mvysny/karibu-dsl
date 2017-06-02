@@ -14,6 +14,8 @@ import com.vaadin.ui.themes.ValoTheme
 @AutoView
 class FormView: VerticalLayout(), View {
 
+    // binder is used to bind value-editing components to the Person bean itself.
+    // for more information just check https://vaadin.com/vaadin-fw8-documentation-portlet/framework/datamodel/datamodel-forms.html
     private val binder = beanValidationBinder<Person>()
 
     init {
@@ -49,7 +51,8 @@ class FormView: VerticalLayout(), View {
                 styleName = ValoTheme.BUTTON_PRIMARY
                 onLeftClick {
                     val person = Person()
-                    if (!binder.writeBeanIfValid(person)) {
+                    // binder.validate() will highlight all invalid fields
+                    if (binder.validate().hasErrors() || !binder.writeBeanIfValid(person)) {
                         componentError = UserError("The form contains invalid values")
                     } else {
                         componentError = null
