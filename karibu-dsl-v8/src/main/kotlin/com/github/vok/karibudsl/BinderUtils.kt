@@ -70,7 +70,10 @@ fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.B
  * @param prop the bean property
  */
 fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KMutableProperty1<BEAN, FIELDVALUE?>): Binder.Binding<BEAN, FIELDVALUE> =
-        bind({ bean -> prop.get(bean) }, { bean, value -> prop.set(bean, value) })
+// oh crap, don't use binding by getter and setter - validations won't work!
+// we need to use bind(String) even though that will use undebuggable crappy Java 8 lambdas :-(
+//        bind({ bean -> prop.get(bean) }, { bean, value -> prop.set(bean, value) })
+        bind(prop.name)
 
 /**
  * Allows you to perform the @Past validation on LocalDate fields.

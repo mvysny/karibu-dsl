@@ -1,6 +1,7 @@
 package com.github.vok.karibudsl
 
 import com.vaadin.data.Binder
+import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 import org.junit.Before
 import org.junit.Test
@@ -31,11 +32,22 @@ class BinderUtilsTest {
         expect(true) { binder.writeBeanIfValid(person) }
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment")) { person }
     }
+
+    @Test
+    fun `test validation errors`() {
+        val binder = beanValidationBinder<Person>()
+        val form = Form(binder)
+        form.fullName.value = ""
+        val person = Person()
+        expect(false) { binder.writeBeanIfValid(person) }
+        expect(Person()) { person }  // make sure that no value has been written
+    }
 }
 
 private class Form(binder: Binder<Person>): VerticalLayout() {
+    val fullName: TextField
     init {
-        textField("Full Name:") {
+        fullName = textField("Full Name:") {
             // binding to a BeanValidationBinder will also validate the value automatically.
             // please read https://vaadin.com/docs/-/part/framework/datamodel/datamodel-forms.html for more information
             bind(binder).trimmingConverter().bind(Person::fullName)
