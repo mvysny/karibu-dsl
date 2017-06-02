@@ -9,10 +9,7 @@ import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewDisplay
-import com.vaadin.server.Resource
-import com.vaadin.server.Responsive
-import com.vaadin.server.VaadinRequest
-import com.vaadin.server.VaadinServlet
+import com.vaadin.server.*
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 import org.slf4j.bridge.SLF4JBridgeHandler
@@ -71,9 +68,9 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
      * Tracks the registered menu items associated with view; when a view is shown, highlight appropriate menu item button.
      */
     private val views = mutableMapOf<Class<out View>, Button>()
-    private val menuButtons = mutableSetOf<Button>()
 
     private val menuArea: CssLayout
+    private lateinit var menu: CssLayout
     private val viewPlaceholder: CssLayout
     init {
         setSizeFull()
@@ -81,13 +78,40 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
 
         menuArea = cssLayout {
             primaryStyleName = ValoTheme.MENU_ROOT
-            cssLayout {
-                addStyleNames(ValoTheme.MENU_PART, ValoTheme.MENU_PART_LARGE_ICONS)
-                label("Va") {
-                    w = wrapContent; primaryStyleName = ValoTheme.MENU_LOGO
+            menu = cssLayout { // menu
+                horizontalLayout {
+                    w = fillParent; isSpacing = false; defaultComponentAlignment = Alignment.MIDDLE_LEFT
+                    styleName = ValoTheme.MENU_TITLE
+                    label {
+                        html("<h3>Karibu-DSL <strong>Sample App</strong></h3>")
+                        w = wrapContent
+                        expandRatio = 1f
+                    }
+
                 }
-                menuButton(VaadinIcons.MENU, "Welcome", "3", WelcomeView::class.java)
-                menuButton(VaadinIcons.FORM, "Form Demo", view = FormView::class.java)
+                button("Menu") { // only visible when the top bar is shown
+                    onLeftClick {
+                        menu.toggleStyleName("valo-menu-visible", !menu.hasStyleName("valo-menu-visible"))
+                    }
+                    addStyleNames(ValoTheme.BUTTON_PRIMARY, ValoTheme.BUTTON_SMALL, "valo-menu-toggle")
+                    icon = FontAwesome.LIST
+                }
+                menuBar { // the user menu, settings
+                    styleName = "user-menu"
+                    addItem("John Doe", ClassResource("profilepic300px.jpg"), null).apply {
+                        addItem("Edit Profile", null)
+                        addItem("Preferences", null)
+                        addSeparator()
+                        addItem("Sign Out", null)
+                    }
+                }
+                // the navigation buttons
+                cssLayout {
+                    primaryStyleName = "valo-menuitems"
+                    section("Basic", "2")
+                    menuButton(VaadinIcons.MENU, "Welcome", "3", WelcomeView::class.java)
+                    menuButton(VaadinIcons.FORM, "Form Demo", view = FormView::class.java)
+                }
             }
         }
 
@@ -96,6 +120,20 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
             addStyleName("v-scrollable")
             setSizeFull()
             expandRatio = 1f
+        }
+    }
+
+    private fun CssLayout.section(caption: String, badge: String? = null, block: Label.()->Unit = {}) {
+        label {
+            if (badge == null) {
+                this.caption = caption
+            } else {
+                html("""$caption <span class="valo-menu-badge">$badge</span>""")
+            }
+            primaryStyleName = ValoTheme.MENU_SUBTITLE
+            w = wrapContent
+            addStyleName(ValoTheme.LABEL_H4)
+            block()
         }
     }
 
@@ -119,7 +157,6 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
                 onLeftClick { navigateToView(view) }
                 views[view] = this
             }
-            menuButtons.add(this)
         }
         b.block()
     }
@@ -130,7 +167,7 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
         viewPlaceholder.addComponent(view as Component)
 
         // make the appropriate menu button selected, to show the current view
-        menuButtons.forEach { it.removeStyleName("selected") }
+        views.values.forEach { it.removeStyleName("selected") }
         views[view.javaClass as Class<*>]?.addStyleName("selected")
     }
 }
