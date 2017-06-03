@@ -108,8 +108,9 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
                 // the navigation buttons
                 cssLayout {
                     primaryStyleName = "valo-menuitems"
-                    section("Basic", "2")
                     menuButton(VaadinIcons.MENU, "Welcome", "3", WelcomeView::class.java)
+                    menuButton(VaadinIcons.NOTEBOOK, "Common UI Elements", view = CommonElementsView::class.java)
+                    section("Forms", "1")
                     menuButton(VaadinIcons.FORM, "Form Demo", view = FormView::class.java)
                 }
             }

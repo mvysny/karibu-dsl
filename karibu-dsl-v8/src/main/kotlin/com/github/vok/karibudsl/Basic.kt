@@ -3,6 +3,7 @@ package com.github.vok.karibudsl
 import com.vaadin.server.ExternalResource
 import com.vaadin.server.Resource
 import com.vaadin.ui.*
+import com.vaadin.ui.themes.ValoTheme
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 @DslMarker
@@ -32,6 +33,12 @@ fun HasComponents.textField(caption: String? = null, value: String? = null, bloc
  * @param block use to set additional label parameters
  */
 fun HasComponents.label(content: String? = null, block: (@VaadinDsl Label).()->Unit = {}) = init(Label(content), block)
+/**
+ * A small rectangular spinner (indeterminate progress bar).
+ */
+fun HasComponents.spinner(block: (@VaadinDsl Label).()->Unit = {}) = init(Label()) {
+    styleName = ValoTheme.LABEL_SPINNER
+}
 
 fun HasComponents.accordion(block: (@VaadinDsl Accordion).()->Unit = {}) = init(Accordion(), block)
 
