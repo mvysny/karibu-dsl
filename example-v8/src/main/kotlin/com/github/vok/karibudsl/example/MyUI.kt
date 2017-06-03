@@ -13,6 +13,7 @@ import com.vaadin.server.*
 import com.vaadin.shared.Position
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
+import org.slf4j.LoggerFactory
 import org.slf4j.bridge.SLF4JBridgeHandler
 import javax.servlet.annotation.WebServlet
 
@@ -36,6 +37,7 @@ class MyUI : UI() {
         navigator = Navigator(this, content as ViewDisplay)
         navigator.addProvider(autoViewProvider)
         setErrorHandler { e ->
+            log.error("Vaadin UI uncaught exception $e", e)
             // when the exception occurs, show a nice notification
             Notification("Oops", "An error occurred, and we are really sorry about that. Already working on the fix!", Notification.Type.ERROR_MESSAGE).apply {
                 styleName = ValoTheme.NOTIFICATION_CLOSABLE
@@ -43,6 +45,11 @@ class MyUI : UI() {
                 show(Page.getCurrent())
             }
         }
+    }
+
+    companion object {
+        @JvmStatic
+        private val log = LoggerFactory.getLogger(MyUI::class.java)
     }
 }
 
