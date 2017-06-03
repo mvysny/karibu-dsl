@@ -17,9 +17,8 @@ Supports:
 ## Why DSL?
 
 Just compare the Kotlin-based [CommonElementsView](example-v8/src/main/kotlin/com/github/vok/karibudsl/example/CommonElementsView.kt)
-with the original Java [CommonParts](https://github.com/vaadin/framework/blob/master/uitest/src/main/java/com/vaadin/tests/themes/valo/CommonParts.java):
-
-With Kotlin DSL:
+with the original Java [CommonParts](https://github.com/vaadin/framework/blob/master/uitest/src/main/java/com/vaadin/tests/themes/valo/CommonParts.java).
+Both render the [Common UI Elements](https://demo.vaadin.com/valo-theme/#!common) page, yet with Kotlin DSL:
 
 * The UI structure is immediately visible
 * The code is more readable and much shorter and concise
