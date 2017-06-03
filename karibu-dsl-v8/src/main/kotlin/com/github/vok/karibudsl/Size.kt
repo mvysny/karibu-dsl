@@ -62,6 +62,10 @@ val Int.perc: Size
     get() = toFloat().perc
 val Float.perc: Size
     get() = Size(this, Sizeable.Unit.PERCENTAGE)
+val Int.em: Size
+    get() = toFloat().em
+val Float.em: Size
+    get() = Size(this, Sizeable.Unit.EM)
 var Component.w: Size
     get() = Size(width, widthUnits)
     set(value) {
