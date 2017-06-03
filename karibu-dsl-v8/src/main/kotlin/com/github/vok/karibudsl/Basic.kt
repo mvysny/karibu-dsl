@@ -69,8 +69,6 @@ fun HasComponents.link(caption: String? = null, url: String? = null, block: (@Va
 
 fun <T> HasComponents.listSelect(caption: String? = null, block: (@VaadinDsl ListSelect<T>).()->Unit = {}) = init(ListSelect<T>(caption), block)
 
-fun HasComponents.menuBar(block: (@VaadinDsl MenuBar).()->Unit = {}) = init(MenuBar(), block)
-
 fun HasComponents.nativeButton(caption: String? = null, leftClickListener: ((Button.ClickEvent)->Unit)? = null, block: (@VaadinDsl NativeButton).() -> Unit = {})
         = init(NativeButton(caption), block).apply {
     if (leftClickListener != null) onLeftClick(leftClickListener)
@@ -104,6 +102,7 @@ fun HasComponents.richTextArea(caption: String? = null, block: (@VaadinDsl RichT
 fun HasComponents.slider(caption: String? = null, block: (@VaadinDsl Slider).()->Unit = {}) = init(Slider(caption), block)
 
 fun HasComponents.tabSheet(block: (@VaadinDsl TabSheet).()->Unit = {}) = init(TabSheet(), block)
+val TabSheet.lastTab: TabSheet.Tab get() = getTab(componentCount - 1)
 
 /**
  * Creates a [TextArea] and attaches it to this component.

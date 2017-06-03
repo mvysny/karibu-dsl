@@ -1,14 +1,16 @@
 package com.github.vok.karibudsl.example
 
 import com.github.vok.karibudsl.*
+import com.vaadin.event.ShortcutAction
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
+import com.vaadin.server.AbstractErrorMessage
+import com.vaadin.server.ErrorMessage
 import com.vaadin.server.Page
+import com.vaadin.server.UserError
 import com.vaadin.shared.Position
-import com.vaadin.ui.MenuBar
-import com.vaadin.ui.Notification
-import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
@@ -46,7 +48,7 @@ class CommonElementsView : VerticalLayout(), View {
                 }
             }
 
-            panel("Notifications") {
+            addComponent(Panel("Notifications").apply {
                 verticalLayout {
                     val notification = Notification("")
                     var typeString: String = ""
@@ -71,20 +73,20 @@ class CommonElementsView : VerticalLayout(), View {
                     }
                     menuBar {
                         caption = "Type"; styleName = ValoTheme.MENUBAR_SMALL
-                        val typeCommand = MenuBar.Command { selectedItem ->
+                        val typeCommand = { selectedItem: MenuBar.MenuItem ->
                             typeString = if (selectedItem.text == "Humanized") "" else selectedItem.text.toLowerCase()
                             updateTypeStyle()
                             items.forEach { item -> item.isChecked = false }
                             selectedItem.isChecked = true
                         }
-                        addItem("Humanized", typeCommand).apply {
+                        item("Humanized", menuSelected = typeCommand) {
                             isCheckable = true
                             isChecked = true
                         }
-                        addItem("Tray", typeCommand).isCheckable = true
-                        addItem("Warning", typeCommand).isCheckable = true
-                        addItem("Error", typeCommand).isCheckable = true
-                        addItem("System", typeCommand).isCheckable = true
+                        item("Tray", menuSelected = typeCommand) { isCheckable = true }
+                        item("Warning", menuSelected = typeCommand) { isCheckable = true }
+                        item("Error", menuSelected = typeCommand) { isCheckable = true }
+                        item("System", menuSelected = typeCommand) { isCheckable = true }
                     }
                     menuBar {
                         caption = "Additional style"; styleName = ValoTheme.MENUBAR_SMALL
@@ -111,7 +113,8 @@ class CommonElementsView : VerticalLayout(), View {
                             }
                             value = "1000"
                         }
-                        button { // clear
+                        button {
+                            // clear
                             icon = VaadinIcons.CLOSE_CIRCLE
                             addStyleNames("last", ValoTheme.BUTTON_SMALL, ValoTheme.BUTTON_ICON_ONLY)
                             onLeftClick { delay.value = "" }
@@ -130,10 +133,188 @@ class CommonElementsView : VerticalLayout(), View {
                         Position.values().sliceArray(0..8).forEach { buttonWhichShows(it) }
                     }
                 }
+            }, 1, 0, 1, 2)
+
+            panel("Dialogs") {
+                verticalLayout {
+                    val win = DemoDialog()
+                    win.footerVisible = true
+                    isSpacing = true; isMargin = true
+                    menuBar {
+                        caption = "Content"; styleName = ValoTheme.MENUBAR_SMALL
+                        item("Auto Height", { win.autoHeight = it.isChecked }).isCheckable = true
+                        item("Tabs", { win.tabsVisible = it.isChecked }).isCheckable = true
+                        item("Footer", { win.footerVisible = it.isChecked }) {
+                            isCheckable = true
+                            isChecked = true
+                        }
+                    }
+                    menuBar {
+                        caption = "Toolbars"; styleName = ValoTheme.MENUBAR_SMALL
+                        item("Footer Toolbar", { win.footerToolbar = it.isChecked }).isCheckable = true
+                        item("Top Toolbar", { win.toolbarVisible = it.isChecked }).isCheckable = true
+                        item("Borderless Toolbars", { win.toolbarStyle = if (it.isChecked) ValoTheme.MENUBAR_BORDERLESS else null }).isCheckable = true
+                    }
+                    menuBar {
+                        caption = "Options"; styleName = ValoTheme.MENUBAR_SMALL
+                        item("Caption", { win.win.caption = if (it.isChecked) "Window Caption" else null }) {
+                            isCheckable = true
+                            isChecked = true
+                        }
+                        item("Closable", { win.win.isClosable = it.isChecked }).isCheckable = true
+                        item("Resizable", { win.win.isResizable = it.isChecked }).isCheckable = true
+                        item("Modal", { win.win.isModal = it.isChecked }).isCheckable = true
+                    }
+                    val show = button("Open Window") {
+                        onLeftClick { event ->
+                            win.show()
+                            event.button.isEnabled = false
+                        }
+                        setPrimary()
+                    }
+                    checkBox("Hidden") {
+                        addValueChangeListener { event -> win.win.isVisible = !event.value }
+                    }
+                    win.win.addCloseListener { show.isEnabled = true }
+                }
+            }
+
+            panel("Tooltips") {
+                horizontalLayout {
+                    isMargin = true; styleName = ValoTheme.LAYOUT_HORIZONTAL_WRAPPING
+                    label("Try out different tooltips/descriptions by hovering over the labels.")
+                    label("Simple") {
+                        styleName = ValoTheme.LABEL_BOLD
+                        description = "Simple tooltip message"
+                    }
+                    label("Long") {
+                        styleName = ValoTheme.LABEL_BOLD
+                        description = "Long tooltip message. Inmensae subtilitatis, obscuris et malesuada fames. Salutantibus vitae elit libero, a pharetra augue."
+                    }
+                    label("HTML tooltip") {
+                        styleName = ValoTheme.LABEL_BOLD
+                        description = "<div><h1>Ut enim ad minim veniam, quis nostrud exercitation</h1><p><span>Morbi fringilla convallis sapien, id pulvinar odio volutpat.</span> <span>Vivamus sagittis lacus vel augue laoreet rutrum faucibus.</span> <span>Donec sed odio operae, eu vulputate felis rhoncus.</span> <span>At nos hinc posthac, sitientis piros Afros.</span> <span>Tu quoque, Brute, fili mi, nihil timor populi, nihil!</span></p><p><span>Gallia est omnis divisa in partes tres, quarum.</span> <span>Praeterea iter est quasdam res quas ex communi.</span> <span>Cum ceteris in veneratione tui montes, nascetur mus.</span> <span>Quam temere in vitiis, legem sancimus haerentia.</span> <span>Idque Caesaris facere voluntate liceret: sese habere.</span></p></div>"
+                    }
+                    label("With an error message") {
+                        styleName = ValoTheme.LABEL_BOLD
+                        description = "Simple tooltip message"
+                        componentError = UserError("Something terrible has happened")
+                    }
+                    label("With a long error message") {
+                        styleName = ValoTheme.LABEL_BOLD
+                        description = "Simple tooltip message"
+                        componentError = UserError(
+                                "<h2>Contra legem facit qui id facit quod lex prohibet <span>Tityre, tu patulae recubans sub tegmine fagi  dolor.</span> <span>Tityre, tu patulae recubans sub tegmine fagi  dolor.</span> <span>Prima luce, cum quibus mons aliud  consensu ab eo.</span> <span>Quid securi etiam tamquam eu fugiat nulla pariatur.</span> <span>Fabio vel iudice vincam, sunt in culpa qui officia.</span> <span>Nihil hic munitissimus habendi senatus locus, nihil horum?</span></p><p><span>Plura mihi bona sunt, inclinet, amari petere vellent.</span> <span>Integer legentibus erat a ante historiarum dapibus.</span> <span>Quam diu etiam furor iste tuus nos eludet?</span> <span>Nec dubitamus multa iter quae et nos invenerat.</span> <span>Quisque ut dolor gravida, placerat libero vel, euismod.</span> <span>Quae vero auctorem tractata ab fiducia dicuntur.</span></h2>",
+                                AbstractErrorMessage.ContentMode.HTML,
+                                ErrorMessage.ErrorLevel.CRITICAL)
+                    }
+                    label("Error message only") {
+                        styleName = ValoTheme.LABEL_BOLD
+                        componentError = UserError("Something terrible has happened")
+                    }
+                }
             }
         }
     }
 
     override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
+    }
+}
+
+private class DemoDialog {
+    val win = Window("Window Caption").apply {
+        w = 380.px
+        h = 300.px
+        isClosable = false
+        isResizable = false
+        setCloseShortcut(ShortcutAction.KeyCode.ESCAPE)
+    }
+    var footerVisible: Boolean = false
+        set(value) { field = value; updateContent() }
+    var autoHeight: Boolean = false
+        set(value) {
+            field = value
+            win.h = if (value) wrapContent else 300.px
+            updateContent()
+        }
+    var tabsVisible: Boolean = false
+        set(value) { field = value; updateContent() }
+    var toolbarVisible: Boolean = false
+        set(value) { field = value; updateContent() }
+    var footerToolbar: Boolean = false
+        set(value) { field = value; updateContent() }
+    var toolbarStyle: String? = null
+        set(value) { field = value; updateContent() }
+
+    private fun updateContent() {
+        win.content = windowContent()
+    }
+
+    private fun windowContent() = VerticalLayout().apply {
+        val content: Component
+        if (toolbarVisible) {
+            sampleToolBar {
+                w = wrapContent
+                addStyleNames(toolbarStyle ?: "", ValoTheme.WINDOW_TOP_TOOLBAR)
+            }
+        }
+        if (tabsVisible) {
+            content = tabSheet {
+                setSizeFull(); styleName = ValoTheme.TABSHEET_PADDED_TABBAR
+                verticalLayout {
+                    isMargin = true
+                    label {
+                        w = fillParent
+                        html("<h2>Subtitle</h2><p>Normal type for plain text. Etiam at risus et justo dignissim congue. Phasellus laoreet lorem vel dolor tempus vehicula.</p><p>Quisque ut dolor gravida, placerat libero vel, euismod. Etiam habebis sem dicantur magna mollis euismod. Nihil hic munitissimus habendi senatus locus, nihil horum? Curabitur est gravida et libero vitae dictum. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Morbi odio eros, volutpat ut pharetra vitae, lobortis sed nibh.</p>")
+                    }
+                }
+                lastTab.caption = "Selected"
+                addTab(Label(), "Another")
+                addTab(Label(), "One more")
+            }
+        } else if (!autoHeight) {
+            content = panel {
+                setSizeFull()
+                addStyleNames(ValoTheme.PANEL_BORDERLESS, ValoTheme.PANEL_SCROLL_INDICATOR)
+                verticalLayout {
+                    isMargin = true
+                    label {
+                        w = fillParent
+                        html("<h2>Subtitle</h2><p>Normal type for plain text. Etiam at risus et justo dignissim congue. Phasellus laoreet lorem vel dolor tempus vehicula.</p><p>Quisque ut dolor gravida, placerat libero vel, euismod. Etiam habebis sem dicantur magna mollis euismod. Nihil hic munitissimus habendi senatus locus, nihil horum? Curabitur est gravida et libero vitae dictum. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Morbi odio eros, volutpat ut pharetra vitae, lobortis sed nibh.</p>")
+                    }
+                }
+            }
+        } else {
+            content = label {
+                w = fillParent
+                html("<h2>Subtitle</h2><p>Normal type for plain text. Etiam at risus et justo dignissim congue. Phasellus laoreet lorem vel dolor tempus vehicula.</p><p>Quisque ut dolor gravida, placerat libero vel, euismod. Etiam habebis sem dicantur magna mollis euismod. Nihil hic munitissimus habendi senatus locus, nihil horum? Curabitur est gravida et libero vitae dictum. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Morbi odio eros, volutpat ut pharetra vitae, lobortis sed nibh.</p>")
+            }
+            isMargin = true
+        }
+        if (footerVisible) {
+            if (!footerToolbar) {
+                horizontalLayout {
+                    w = fillParent; isSpacing = true; styleName = ValoTheme.WINDOW_BOTTOM_TOOLBAR
+                    label("Footer text") { w = wrapContent; expandRatio = 1f }
+                    button("OK") { setPrimary() }
+                    button("Cancel")
+                }
+            } else {
+                sampleToolBar {
+                    styleName = toolbarStyle; w = wrapContent
+                }
+            }
+        }
+        if (!autoHeight) {
+            setSizeFull()
+            setExpandRatio(content, 1f)
+        }
+    }
+
+    fun show() {
+        updateContent()
+        UI.getCurrent().addWindow(win)
+        win.center()
+        win.focus()
     }
 }

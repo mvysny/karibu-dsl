@@ -10,6 +10,7 @@ import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewDisplay
 import com.vaadin.server.*
+import com.vaadin.shared.Position
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 import org.slf4j.bridge.SLF4JBridgeHandler
@@ -31,20 +32,17 @@ class MyUI : UI() {
         setContent(content)
         Responsive.makeResponsive(this)
 
-        // The navigator resolves http paths to views, so that different view shows for different app urls.
-        // See https://vaadin.com/docs/-/part/framework/advanced/advanced-navigator.html for more details.
-        // For example, URL http://localhost:8080/#!form will navigate towards the FormView. The mapping is done by
-        // the autoViewProvider and the @AutoView annotation, just check out documentation on those two guys.
-
-        // Shebang #! thingy: when the URL changes, the browser reloads the whole page. This we want to avoid with Vaadin
-        // since in Vaadin the page never changes, instead the page contents are mutated. The only way to achieve this
-        // is to change the 'fragment' portion of the URL only - only then the browser won't reload the page. That explain
-        // the hash # part. The bang part is used for indexing: Google indexer usually ignores fragment since it points
-        // into the same document, just to a different part. However, that's not the case with single-page self-modifying
-        // apps, so we tell Google by using #! that the fragment differ and Google need to index that as well.
-
+        // Read more about navigators here: https://github.com/mvysny/karibu-dsl
         navigator = Navigator(this, content as ViewDisplay)
         navigator.addProvider(autoViewProvider)
+        setErrorHandler { e ->
+            // when the exception occurs, show a nice notification
+            Notification("Oops", "An error occurred, and we are really sorry about that. Already working on the fix!", Notification.Type.ERROR_MESSAGE).apply {
+                styleName = ValoTheme.NOTIFICATION_CLOSABLE
+                position = Position.TOP_CENTER
+                show(Page.getCurrent())
+            }
+        }
     }
 }
 
@@ -110,6 +108,8 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
                     primaryStyleName = "valo-menuitems"
                     menuButton(VaadinIcons.MENU, "Welcome", "3", WelcomeView::class.java)
                     menuButton(VaadinIcons.NOTEBOOK, "Common UI Elements", view = CommonElementsView::class.java)
+                    section("Components", "1")
+                    menuButton(VaadinIcons.MENU, "Menu Bars", view = MenuBars::class.java)
                     section("Forms", "1")
                     menuButton(VaadinIcons.FORM, "Form Demo", view = FormView::class.java)
                 }
