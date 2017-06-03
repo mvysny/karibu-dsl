@@ -47,17 +47,17 @@ please read on.
 
 ### Maven quickstart
 
-1. Generate a Vaadin app: https://vaadin.com/maven
-2. Add the JCenter repository to your `pom.xml`:
+  * Generate a Vaadin app: https://vaadin.com/maven
+  * Add the JCenter repository to your `pom.xml`:
 ```xml
 <repositories>
     <repository>
-      <id>jcenter</id>
-      <url>https://jcenter.bintray.com/</url>
+      <id>jcenter-mvysny</id>
+      <url>https://dl.bintray.com/mvysny/vaadin-on-kotlin</url>
     </repository>
 </repositories>
 ```
-3. Add Karibu-DSL dependency:
+  * Add Karibu-DSL dependency:
 ```xml
 <dependency>
     <groupId>com.github.vok.karibudsl</groupId>
@@ -67,17 +67,25 @@ please read on.
 ```
 (If you need support for v7-compat libraries, use the `karibu-dsl-v8compat7` artifact - this also depends on `karibu-dsl-v8`)
 
-4. Add Kotlin support to your `pom.xml`: in Intellij just create a Kotlin class, Intellij will offer to auto-add kotlin
+  * Add Kotlin support to your `pom.xml`: in Intellij just create a Kotlin class, Intellij will offer to auto-add kotlin
    to your `pom.xml`. Otherwise: https://kotlinlang.org/docs/reference/using-maven.html
 
 
 ### Gradle quickstart
 
-Currently there is no template project. Yet Karibu-DSL is in JCenter:
+Currently there is no template project; you'll need to follow these steps:
  
- 1. create a Gradle project: https://github.com/johndevs/gradle-vaadin-plugin/wiki/Getting-Started
- 2. add dependency on VaadinOnKotlin: `dependency 'com.github.vok.karibudsl:karibu-dsl-v8:0.1.0`
- 3. Add Kotlin to your `build.gradle`: https://kotlinlang.org/docs/reference/using-gradle.html
+  * Create a Gradle project: https://github.com/johndevs/gradle-vaadin-plugin/wiki/Getting-Started
+  * Add the repository:
+```groovy
+repositories {
+    maven {
+        url "https://dl.bintray.com/mvysny/vaadin-on-kotlin"
+    }
+}
+```
+  * Add dependency on VaadinOnKotlin: `dependency 'com.github.vok.karibudsl:karibu-dsl-v8:0.1.0`
+  * Add Kotlin to your `build.gradle`: https://kotlinlang.org/docs/reference/using-gradle.html
 
 ## Tutorials
 
