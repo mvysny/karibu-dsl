@@ -56,7 +56,7 @@ cd karibu-helloworld-application
 ./gradlew appRun
 ```
 
-Please see the [archetybe github page](https://github.com/mvysny/karibu-helloworld-application) for further
+Please see the [archetype github page](https://github.com/mvysny/karibu-helloworld-application) for further
 details on development.
 
 ## Tutorials
@@ -75,6 +75,7 @@ Karibu-DSL adds additional support for View auto-discovery:
         navigator.addProvider(autoViewProvider)
     }
 ```
+See [Example MyUI.kt](example-v8/src/main/kotlin/com/github/vok/karibudsl/example/MyUI.kt) for a working code example.
 
 2. Then annotate your Views with `@AutoView` annotation and that's it - `autoViewProvider` will
    discover your view and register it to the navigator.
@@ -150,7 +151,7 @@ verticalLayout7 {
 
 #### More complex examples:
 
-* More complex form: see the example project for details @todo link for v8 and v7-compat forms
+* More complex form: see the example [FormView](example-v8/src/main/kotlin/com/github/vok/karibudsl/example/form/FormView.kt) for details
 * A Grid example: see the example project for details @todo link for v8 and v7-compat forms
 
 #### Simple popups
@@ -196,7 +197,7 @@ button {
 if (button.w.isFillParent) { ... }
 ```
 
-## Launch the example project in Intellij IDEA:
+## Launching the example project in Intellij IDEA:
 
 ### Embedded Jetty
 
@@ -217,5 +218,8 @@ Disadvantages:
 
 ### Tomcat
 
-* Open the project in Intellij IDEA Ultimate
-* Launch the `example-v8` WAR in Tomcat as described here: https://kotlinlang.org/docs/tutorials/httpservlets.html
+Please see https://github.com/mvysny/karibu-helloworld-application for tutorial on how to launch a WAR project in Tomcat in Intellij.
+Then:
+
+* Open this whole project in Intellij IDEA Ultimate, simply by File / Open... and clicking [build.gradle](build.gradle).
+* Navigate to the `example-v8` project and launch it as an exploded WAR in Tomcat
