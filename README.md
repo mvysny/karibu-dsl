@@ -46,7 +46,8 @@ DSL bindings without any database and other stuff, please read on.
 
 A very simple Gradle-based application archetype is located here: https://github.com/mvysny/karibu-helloworld-application
 The project only shows a very simple Button, so it is an ideal quick start application for experimenting
-and further development.
+and further development. And you can always consult the [example-v8](example-v8) project for interesting
+components or new ways how to use them.
  
 To generate the archetype and run the app:
   
@@ -63,7 +64,8 @@ details on development.
 
 ### Navigator examples
 
-The navigator resolves http paths to views, so that different view shows for different app urls.
+The navigator resolves http paths to views, in order to show different parts of the app to the user. For example,
+when the user navigates to `http://localhost:8080/#!invoices` the Navigator makes sure that the `InvoicesView` UI component is shown. 
 See [Vaadin Book on Navigator](https://vaadin.com/docs/-/part/framework/advanced/advanced-navigator.html) for more details.
 
 Karibu-DSL adds additional support for View auto-discovery:
