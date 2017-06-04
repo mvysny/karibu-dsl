@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/mvysny/karibu-dsl.svg?branch=master)](https://travis-ci.org/mvysny/karibu-dsl)
 
-# WORK IN PROGRESS, NOT YET FULLY AVAILABLE
-
 Kotlin extensions and DSL for the [Vaadin](https://www.vaadin.com) framework:
 
 * Allows you to create Vaadin UI designs/component graphs in the DSL fashion
@@ -36,56 +34,30 @@ cd karibu-dsl
 
 Online demo of the example application: [https://demo.vaadin.com/valo-theme/#!common](https://demo.vaadin.com/valo-theme/#!common)
 
-In case of questions you can always browse the sample projects here: todo mavi links to test projects
-To start the sample projects see below.
+In case of questions you can always [browse the sample project sources here](example-v8).
 
 ## Using in your projects
 
 You'll probably want to use [Vaadin On Kotlin](http://www.vaadinonkotlin.eu) which makes use of this library and adds
-support for database, REST and other niceties, and has good documentation. Anyway, if you wish to use this library anyway,
-please read on.
+support for database, REST and other niceties, and has good documentation. However, if you just want to try out the Vaadin
+DSL bindings without any database and other stuff, please read on.
 
-### Maven quickstart
+### Gradle Quickstart Application
 
-  * Generate a Vaadin app: https://vaadin.com/maven
-  * Add the JCenter repository to your `pom.xml`:
-```xml
-<repositories>
-    <repository>
-      <id>jcenter-mvysny</id>
-      <url>https://dl.bintray.com/mvysny/vaadin-on-kotlin</url>
-    </repository>
-</repositories>
-```
-  * Add Karibu-DSL dependency:
-```xml
-<dependency>
-    <groupId>com.github.vok.karibudsl</groupId>
-    <artifact>karibu-dsl-v8</artifact>
-    <version>0.1.0</version>
-</dependency>
-```
-(If you need support for v7-compat libraries, use the `karibu-dsl-v8compat7` artifact - this also depends on `karibu-dsl-v8`)
-
-  * Add Kotlin support to your `pom.xml`: in Intellij just create a Kotlin class, Intellij will offer to auto-add kotlin
-   to your `pom.xml`. Otherwise: https://kotlinlang.org/docs/reference/using-maven.html
-
-
-### Gradle quickstart
-
-Currently there is no template project; you'll need to follow these steps:
+A very simple Gradle-based application archetype is located here: https://github.com/mvysny/karibu-helloworld-application
+The project only shows a very simple Button, so it is an ideal quick start application for experimenting
+and further development.
  
-  * Create a Gradle project: https://github.com/johndevs/gradle-vaadin-plugin/wiki/Getting-Started
-  * Add the repository:
-```groovy
-repositories {
-    maven {
-        url "https://dl.bintray.com/mvysny/vaadin-on-kotlin"
-    }
-}
+To generate the archetype and run the app:
+  
+```bash
+git clone https://github.com/mvysny/karibu-helloworld-application
+cd karibu-helloworld-application
+./gradlew appRun
 ```
-  * Add dependency on VaadinOnKotlin: `dependency 'com.github.vok.karibudsl:karibu-dsl-v8:0.1.0`
-  * Add Kotlin to your `build.gradle`: https://kotlinlang.org/docs/reference/using-gradle.html
+
+Please see the [archetybe github page](https://github.com/mvysny/karibu-helloworld-application) for further
+details on development.
 
 ## Tutorials
 
