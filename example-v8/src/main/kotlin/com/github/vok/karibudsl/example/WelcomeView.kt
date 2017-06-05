@@ -29,7 +29,9 @@ class WelcomeView: VerticalLayout(), View {
             <li>Provides auto-discovery of your Views</li></ul>
             And more.""")
         }
-        label("Vaadin version ${Version.getFullVersion()}")
+        label {
+            html("""<strong>Vaadin version:</strong> ${Version.getFullVersion()}<br/><strong>Kotlin version:</strong> ${KotlinVersion.CURRENT}""")
+        }
     }
 
     override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
