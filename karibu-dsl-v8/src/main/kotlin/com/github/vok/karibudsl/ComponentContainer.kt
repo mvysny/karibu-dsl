@@ -2,17 +2,17 @@ package com.github.vok.karibudsl
 
 import com.vaadin.ui.*
 
-fun HasComponents.verticalLayout(block: (@VaadinDsl VerticalLayout).()->Unit = {}) = init(VerticalLayout(), block)
+fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).()->Unit = {}) = init(VerticalLayout(), block)
 
-fun HasComponents.horizontalLayout(block: (@VaadinDsl HorizontalLayout).()->Unit = {}) = init(HorizontalLayout(), block)
+fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).()->Unit = {}) = init(HorizontalLayout(), block)
 
-fun HasComponents.formLayout(block: (@VaadinDsl FormLayout).()->Unit = {}) = init(FormLayout(), block)
+fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).()->Unit = {}) = init(FormLayout(), block)
 
-fun HasComponents.absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}) = init(AbsoluteLayout(), block)
+fun (@VaadinDsl HasComponents).absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}) = init(AbsoluteLayout(), block)
 
-fun HasComponents.cssLayout(block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout(), block)
+fun (@VaadinDsl HasComponents).cssLayout(block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout(), block)
 
-fun HasComponents.gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}) = init(GridLayout(columns, rows), block)
+fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}) = init(GridLayout(columns, rows), block)
 
 /**
  * Adds a [child] to this component. Only concrete subclasses are supported:
@@ -101,7 +101,7 @@ var (@VaadinDsl AbsoluteLayout.ComponentPosition).right: Size
 /**
  * Sets all four margins to given value.
  */
-var AbstractOrderedLayout.isMargin: Boolean
+var (@VaadinDsl AbstractOrderedLayout).isMargin: Boolean
     get() = margin.hasAll()
     set(value) { setMargin(value) }
 
