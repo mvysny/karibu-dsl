@@ -89,4 +89,7 @@ fun (@VaadinDsl Button).setPrimary() {
  */
 fun goBack() = Page.getCurrent().javaScript.execute("window.history.back();")
 
+/**
+ * Alias for [goBack].
+ */
 fun navigateBack() = goBack()

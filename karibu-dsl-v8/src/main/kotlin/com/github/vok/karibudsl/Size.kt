@@ -66,7 +66,7 @@ val Int.em: Size
     get() = toFloat().em
 val Float.em: Size
     get() = Size(this, Sizeable.Unit.EM)
-var Component.w: Size
+var (@VaadinDsl Component).w: Size
     get() = Size(width, widthUnits)
     set(value) {
         setWidth(value.size, value.units)

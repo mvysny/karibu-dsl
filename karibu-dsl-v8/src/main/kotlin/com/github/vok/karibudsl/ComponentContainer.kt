@@ -28,7 +28,7 @@ fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block
  *
  * For custom containers just implement the [SpecialContainer] interface.
  */
-fun HasComponents.addChild(child: Component) {
+fun (@VaadinDsl HasComponents).addChild(child: Component) {
     when (this) {
         is ComponentContainer -> addComponent(child)
         is SpecialContainer -> addComponent(child)

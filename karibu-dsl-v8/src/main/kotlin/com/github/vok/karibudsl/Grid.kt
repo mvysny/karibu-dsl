@@ -9,7 +9,7 @@ import elemental.json.JsonValue
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-fun <T: Any> HasComponents.grid(clazz: KClass<T>, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
+fun <T: Any> (@VaadinDsl HasComponents).grid(clazz: KClass<T>, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
         init(Grid<T>(clazz.java)) {
             this.caption = caption
             if (dataProvider != null) this.dataProvider = dataProvider

@@ -5,7 +5,7 @@ import com.vaadin.ui.HasComponents
 import com.vaadin.ui.Label
 import com.vaadin.ui.PopupView
 
-fun HasComponents.popupView(small: String? = null, block: (@VaadinDsl PopupView).()->Unit = {}): PopupView {
+fun (@VaadinDsl HasComponents).popupView(small: String? = null, block: (@VaadinDsl PopupView).()->Unit = {}): PopupView {
     val result = init(PopupView(SimpleContent.EMPTY), block)
     if (small != null) result.minimizedValueAsHTML = small
     return result
@@ -23,10 +23,10 @@ data class SimpleContent(val small: String, val large: Component) : PopupView.Co
     override fun getMinimizedValueAsHTML() = small
 }
 
-private var PopupView.simpleContent: SimpleContent
+private var (@VaadinDsl PopupView).simpleContent: SimpleContent
     get() {
         val content = content
-        return if (content is SimpleContent) content else SimpleContent(content)
+        return content as? SimpleContent ?: SimpleContent(content)
     }
     set(value) {
         content = value
@@ -35,7 +35,7 @@ private var PopupView.simpleContent: SimpleContent
 /**
  * Allows you to set the popup component directly, without changing [minimizedValueAsHTML]
  */
-var PopupView.popupComponent: Component
+var (@VaadinDsl PopupView).popupComponent: Component
     get() = content.popupComponent
     set(value) {
         content = simpleContent.copy(large = value)
@@ -44,7 +44,7 @@ var PopupView.popupComponent: Component
 /**
  * Allows you to set the minimized text directly, without changing [popupComponent]
  */
-var PopupView.minimizedValueAsHTML: String
+var (@VaadinDsl PopupView).minimizedValueAsHTML: String
     get() = content.minimizedValueAsHTML
     set(value) {
         content = simpleContent.copy(small = value)

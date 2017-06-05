@@ -27,20 +27,20 @@ private fun String.upperCamelToLowerHyphen(): String {
     return sb.toString()
 }
 
-private fun String.shouldPrependHyphen(i: Int): Boolean {
+private fun String.shouldPrependHyphen(i: Int): Boolean =
     if (i == 0) {
         // Never put a hyphen at the beginning
-        return false
+        false
     } else if (!Character.isUpperCase(this[i - 1])) {
         // Append if previous char wasn't upper case
-        return true
+        true
     } else if (i + 1 < this.length && !Character.isUpperCase(this[i + 1])) {
         // Append if next char isn't upper case
-        return true
+        true
     } else {
-        return false
+        false
     }
-}
+
 
 /**
  * Internal class which enumerates views. Do not use directly - instead, just add [autoViewProvider] to your [com.vaadin.navigator.Navigator],

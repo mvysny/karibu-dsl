@@ -38,7 +38,7 @@ fun shortcutListener(shortcut: Int, block: () -> Unit) = shortcutListener(KeySho
  * Panel, UI or Window.
  * @param shortcut the shortcut, e.g. `Ctrl + Alt + C`
  */
-fun Component.addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): ShortcutListener {
+fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): ShortcutListener {
     val listener = shortcutListener(shortcut, action)
     (this as AbstractComponent).addShortcutListener(listener)
     return listener
@@ -49,7 +49,7 @@ fun Component.addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Uni
  * Panel, UI or Window.
  * @param keyCode the key code, e.g. [ShortcutAction.KeyCode.C]
  */
-fun Component.addGlobalShortcutListener(keyCode: Int, action: () -> Unit) = addGlobalShortcutListener(KeyShortcut(keyCode), action)
+fun (@VaadinDsl Component).addGlobalShortcutListener(keyCode: Int, action: () -> Unit) = addGlobalShortcutListener(KeyShortcut(keyCode), action)
 
 /**
  * Makes it possible to invoke a click on this button by pressing the given
@@ -58,6 +58,6 @@ fun Component.addGlobalShortcutListener(keyCode: Int, action: () -> Unit) = addG
  *
  * Example of shortcut expression: `Ctrl + Alt + C`
  */
-var Button.clickShortcut: KeyShortcut
+var (@VaadinDsl Button).clickShortcut: KeyShortcut
     get() = throw RuntimeException("Property is write-only")
     set(shortcut) = setClickShortcut(shortcut.keyCode, *shortcut.vaadinModifiers)
