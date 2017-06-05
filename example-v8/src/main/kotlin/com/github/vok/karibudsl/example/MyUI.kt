@@ -78,8 +78,7 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
     private lateinit var menu: CssLayout
     private val viewPlaceholder: CssLayout
     init {
-        setSizeFull()
-        isSpacing = false
+        setSizeFull(); isSpacing = false
 
         menuArea = cssLayout {
             primaryStyleName = ValoTheme.MENU_ROOT
@@ -99,15 +98,15 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
                         menu.toggleStyleName("valo-menu-visible", !menu.hasStyleName("valo-menu-visible"))
                     }
                     addStyleNames(ValoTheme.BUTTON_PRIMARY, ValoTheme.BUTTON_SMALL, "valo-menu-toggle")
-                    icon = FontAwesome.LIST
+                    icon = VaadinIcons.MENU
                 }
                 menuBar { // the user menu, settings
                     styleName = "user-menu"
                     addItem("John Doe", ClassResource("profilepic300px.jpg"), null).apply {
-                        addItem("Edit Profile", null)
-                        addItem("Preferences", null)
+                        item("Edit Profile")
+                        item("Preferences")
                         addSeparator()
-                        addItem("Sign Out", null)
+                        item("Sign Out")
                     }
                 }
                 // the navigation buttons
