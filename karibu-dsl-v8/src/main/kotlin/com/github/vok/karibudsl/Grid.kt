@@ -62,3 +62,8 @@ fun <T, V> (@VaadinDsl Grid<T>).removeColumn(property: KProperty1<T, V>) = remov
 @Suppress("UNCHECKED_CAST")
 fun <T, V> (@VaadinDsl Grid<T>).addColumn(property: KProperty1<T, V>, converter: (V)->String, block: Grid.Column<T, V>.() -> Unit = {}): Grid.Column<T, V> =
         (addColumn(property.name, ConvertingRenderer(converter)) as Grid.Column<T, V>).apply { block() }
+
+/**
+ * Refreshes the Grid and re-polls for data.
+ */
+fun (@VaadinDsl Grid<*>).refresh() = dataProvider.refreshAll()
