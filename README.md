@@ -57,6 +57,8 @@ cd karibu-helloworld-application
 ./gradlew appRun
 ```
 
+The app will run on [http://localhost:8080](http://localhost:8080).
+
 Please see the [archetype github page](https://github.com/mvysny/karibu-helloworld-application) for further
 details on development.
 
