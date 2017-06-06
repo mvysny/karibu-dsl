@@ -45,15 +45,19 @@ class ValoMenu: HorizontalLayout(), ViewDisplay {
     /**
      * The current view placeholder - all views will be placed here. By default a full-screen CssLayout which scrolls its contents;
      * you can set a different placeholder component to replace the original one.
+     *
+     * Note: the old placeholder is removed from [ValoMenu], but the new one is not added. This supports more complex placeholder
+     * layouts where the placeholder is not directly nested in the [ValoMenu] layout.
+     * When you add a component to [ValoMenu] to act as a placeholder (or to host a placeholder), don't forget to set the following on the newly added component:
+     *
+     * ```
+     * primaryStyleName = "valo-content"; setSizeFull(); expandRatio = 1f
+     * ```
      */
     var viewPlaceholder: HasComponents = CssLayout()
     set(value) {
         removeComponent(field)
         field = value
-        addComponent(field)
-        field.primaryStyleName = "valo-content"
-        field.setSizeFull()
-        field.expandRatio = 1f
     }
 
     private lateinit var titleLabel: Label
@@ -104,7 +108,8 @@ class ValoMenu: HorizontalLayout(), ViewDisplay {
             }
         }
 
-        viewPlaceholder = CssLayout().apply {
+        viewPlaceholder = cssLayout {
+            primaryStyleName = "valo-content"; setSizeFull(); expandRatio = 1f
             addStyleName("v-scrollable")
         }
     }
