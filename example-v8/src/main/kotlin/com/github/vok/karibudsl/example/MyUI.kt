@@ -5,6 +5,7 @@ import com.github.vok.karibudsl.example.form.FormView
 import com.vaadin.annotations.Theme
 import com.vaadin.annotations.Title
 import com.vaadin.annotations.VaadinServletConfiguration
+import com.vaadin.annotations.Viewport
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.View
@@ -25,6 +26,7 @@ import javax.servlet.annotation.WebServlet
  */
 @Theme("valo")
 @Title("Karibu-DSL Demo")
+@Viewport("width=device-width, initial-scale=1.0")
 class MyUI : UI() {
 
     private val content = ValoMenuLayout()
@@ -78,10 +80,14 @@ private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
     private lateinit var menu: CssLayout
     private val viewPlaceholder: CssLayout
     init {
-        setSizeFull(); isSpacing = false
+        setSizeFull(); isSpacing = false; styleName = "valo-menu-responsive"
+        Responsive.makeResponsive(this)
 
         menuArea = cssLayout {
             primaryStyleName = ValoTheme.MENU_ROOT
+            addStyleNames("sidebar", "valo-menu-part", "no-vertical-drag-hints", "no-horizontal-drag-hints")
+            w = wrapContent; h = fillParent
+
             menu = cssLayout { // menu
                 horizontalLayout {
                     w = fillParent; isSpacing = false; defaultComponentAlignment = Alignment.MIDDLE_LEFT

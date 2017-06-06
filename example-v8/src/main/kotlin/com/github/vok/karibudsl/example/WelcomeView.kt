@@ -21,15 +21,18 @@ class WelcomeView: VerticalLayout(), View {
     init {
         isMargin = true
         label("Welcome To The Karibu-DSL Demo") {
+            w = fillParent
             addStyleNames(ValoTheme.LABEL_COLORED, ValoTheme.LABEL_H2)
         }
         label {
+            w = fillParent
             html("""Karibu-DSL offers the following:
             <ul><li>Provides Vaadin DSL builder support, allowing you to build your Vaadin UIs in Kotlin declarative, statically compiler-checked code</li>
             <li>Provides auto-discovery of your Views</li></ul>
             And more.""")
         }
         label {
+            w = fillParent
             html("""<strong>Vaadin version:</strong> ${Version.getFullVersion()}<br/><strong>Kotlin version:</strong> ${KotlinVersion.CURRENT}""")
         }
     }
