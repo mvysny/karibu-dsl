@@ -2,6 +2,7 @@
 
 package com.github.vok.karibudsl.v7
 
+import com.github.vok.karibudsl.VaadinDsl
 import com.github.vok.karibudsl.init
 import com.vaadin.event.ShortcutListener
 import com.vaadin.ui.HasComponents
@@ -20,7 +21,7 @@ import java.util.*
  * @param value the optional value
  */
 @Deprecated("Use TextField from Vaadin 8")
-fun HasComponents.textField7(caption: String? = null, value: String? = null, block: TextField.()->Unit = {}): TextField {
+fun (@VaadinDsl HasComponents).textField7(caption: String? = null, value: String? = null, block: TextField.()->Unit = {}): TextField {
     val textField = TextField(caption, value)
     textField.nullRepresentation = ""
     init(textField, block)
@@ -33,38 +34,38 @@ fun HasComponents.textField7(caption: String? = null, value: String? = null, blo
  * @param block use to set additional label parameters
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.label7(content: String? = null, block: Label.()->Unit = {}) = init(Label(content), block)
+fun (@VaadinDsl HasComponents).label7(content: String? = null, block: (@VaadinDsl Label).()->Unit = {}) = init(Label(content), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.calendar(caption: String? = null, block: Calendar.()->Unit = {}) = init(Calendar(caption), block)
+fun (@VaadinDsl HasComponents).calendar(caption: String? = null, block: (@VaadinDsl Calendar).()->Unit = {}) = init(Calendar(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.checkBox7(caption: String? = null, checked:Boolean? = null, block: CheckBox.()->Unit = {}) =
+fun (@VaadinDsl HasComponents).checkBox7(caption: String? = null, checked:Boolean? = null, block: (@VaadinDsl CheckBox).()->Unit = {}) =
         init(if (checked == null) CheckBox(caption) else CheckBox(caption, checked), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.colorPicker7(popupCaption: String? = null, block: ColorPicker.()->Unit = {}) = init(ColorPicker(popupCaption), block)
+fun (@VaadinDsl HasComponents).colorPicker7(popupCaption: String? = null, block: (@VaadinDsl ColorPicker).()->Unit = {}) = init(ColorPicker(popupCaption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.comboBox7(caption: String? = null, block: ComboBox.()->Unit = {}) = init(ComboBox(caption), block)
+fun (@VaadinDsl HasComponents).comboBox7(caption: String? = null, block: (@VaadinDsl ComboBox).()->Unit = {}) = init(ComboBox(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.dateField7(caption: String? = null, block: DateField.()->Unit = {}) = init(DateField(caption), block)
+fun (@VaadinDsl HasComponents).dateField7(caption: String? = null, block: (@VaadinDsl DateField).()->Unit = {}) = init(DateField(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.inlineDateField7(caption: String? = null, block: InlineDateField.()->Unit = {}) = init(InlineDateField(caption), block)
+fun (@VaadinDsl HasComponents).inlineDateField7(caption: String? = null, block: (@VaadinDsl InlineDateField).()->Unit = {}) = init(InlineDateField(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.listSelect7(caption: String? = null, block: ListSelect.()->Unit = {}) = init(ListSelect(caption), block)
+fun (@VaadinDsl HasComponents).listSelect7(caption: String? = null, block: (@VaadinDsl ListSelect).()->Unit = {}) = init(ListSelect(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.nativeSelect7(caption: String? = null, block: NativeSelect.()->Unit = {}) = init(NativeSelect(caption), block)
+fun (@VaadinDsl HasComponents).nativeSelect7(caption: String? = null, block: (@VaadinDsl NativeSelect).()->Unit = {}) = init(NativeSelect(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.optionGroup7(caption: String? = null, block: OptionGroup.()->Unit = {}) = init(OptionGroup(caption), block)
+fun (@VaadinDsl HasComponents).optionGroup7(caption: String? = null, block: (@VaadinDsl OptionGroup).()->Unit = {}) = init(OptionGroup(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.popupDateField7(caption: String? = null, block: PopupDateField.()->Unit = {}) = init(PopupDateField(caption), block)
+fun (@VaadinDsl HasComponents).popupDateField7(caption: String? = null, block: (@VaadinDsl PopupDateField).()->Unit = {}) = init(PopupDateField(caption), block)
 
 /**
  * Creates a [PasswordField]. [TextField.nullRepresentation] is set to an empty string, and the trimming converter is automatically pre-set.
@@ -73,7 +74,7 @@ fun HasComponents.popupDateField7(caption: String? = null, block: PopupDateField
  * will cause the password to not to match, which is a source of great confusion.
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.passwordField7(caption: String? = null, block: PasswordField.()->Unit = {}): PasswordField {
+fun (@VaadinDsl HasComponents).passwordField7(caption: String? = null, block: (@VaadinDsl PasswordField).()->Unit = {}): PasswordField {
     val component = PasswordField(caption)
     component.trimmingConverter()
     component.nullRepresentation = ""
@@ -82,16 +83,16 @@ fun HasComponents.passwordField7(caption: String? = null, block: PasswordField.(
 }
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.progressBar7(block: ProgressBar.()->Unit = {}) = init(ProgressBar(), block)
+fun (@VaadinDsl HasComponents).progressBar7(block: (@VaadinDsl ProgressBar).()->Unit = {}) = init(ProgressBar(), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.richTextArea7(caption: String? = null, block: RichTextArea.()->Unit = {}) = init(RichTextArea(caption), block)
+fun (@VaadinDsl HasComponents).richTextArea7(caption: String? = null, block: (@VaadinDsl RichTextArea).()->Unit = {}) = init(RichTextArea(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.slider7(caption: String? = null, block: Slider.()->Unit = {}) = init(Slider(caption), block)
+fun (@VaadinDsl HasComponents).slider7(caption: String? = null, block: (@VaadinDsl Slider).()->Unit = {}) = init(Slider(caption), block)
 
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.table(caption: String? = null, dataSource: Container? = null, block: Table.()->Unit = {}) =
+fun (@VaadinDsl HasComponents).table(caption: String? = null, dataSource: Container? = null, block: (@VaadinDsl Table).()->Unit = {}) =
         init(Table(caption, dataSource), block)
 
 /**
@@ -100,7 +101,7 @@ fun HasComponents.table(caption: String? = null, dataSource: Container? = null, 
  * @param value the optional value
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun HasComponents.textArea7(caption: String? = null, block: TextArea.()->Unit = {}): TextArea {
+fun (@VaadinDsl HasComponents).textArea7(caption: String? = null, block: (@VaadinDsl TextArea).()->Unit = {}): TextArea {
     val component = TextArea(caption)
     component.nullRepresentation = ""
     init(component, block)
@@ -108,21 +109,21 @@ fun HasComponents.textArea7(caption: String? = null, block: TextArea.()->Unit = 
 }
 
 @Deprecated("Replacement planned in Vaadin 8.1")
-fun HasComponents.tree(caption: String? = null, block: Tree.()->Unit = {}) = init(Tree(caption), block)
+fun (@VaadinDsl HasComponents).tree(caption: String? = null, block: (@VaadinDsl Tree).()->Unit = {}) = init(Tree(caption), block)
 
 @Deprecated("Replacement planned in Vaadin 8.1")
-fun HasComponents.treeTable(caption: String? = null, dataSource: Container? = null, block: TreeTable.()->Unit = {}) =
+fun (@VaadinDsl HasComponents).treeTable(caption: String? = null, dataSource: Container? = null, block: (@VaadinDsl TreeTable).()->Unit = {}) =
         init(TreeTable(caption, dataSource), block)
 
 @Deprecated("Use Upload from Vaadin 8 but beware of it being immediate by default")
-fun HasComponents.upload7(caption: String? = null, block: Upload.()->Unit = {}) = init(Upload(caption, null), block)
+fun (@VaadinDsl HasComponents).upload7(caption: String? = null, block: (@VaadinDsl Upload).()->Unit = {}) = init(Upload(caption, null), block)
 
 /**
  * Shows given html in this label.
  * @param html the html code to show.
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun Label.html(@Language("HTML") html: String?) {
+fun (@VaadinDsl Label).html(@Language("HTML") html: String?) {
     contentMode = ContentMode.HTML
     value = html
 }
@@ -132,7 +133,7 @@ fun Label.html(@Language("HTML") html: String?) {
  * @param enterListener the listener to invoke when the user presses the Enter key.
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun AbstractTextField.onEnterPressed(enterListener: (AbstractTextField) -> Unit) {
+fun (@VaadinDsl AbstractTextField).onEnterPressed(enterListener: (AbstractTextField) -> Unit) {
     val enterShortCut = object : ShortcutListener("EnterOnTextAreaShorcut", null, KeyCode.ENTER) {
         override fun handleAction(sender: Any, target: Any) {
             enterListener(this@onEnterPressed)
@@ -148,7 +149,7 @@ fun AbstractTextField.onEnterPressed(enterListener: (AbstractTextField) -> Unit)
  * such person can no longer log in from his PC unless he explicitely types in the space.
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun AbstractField<String>.trimmingConverter() {
+fun (@VaadinDsl AbstractField<String>).trimmingConverter() {
     setConverter(object : Converter<String?, String?> {
         override fun convertToModel(value: String?, targetType: Class<out String?>?, locale: Locale?): String? = value?.trim()
 
@@ -169,7 +170,7 @@ fun AbstractField<String>.trimmingConverter() {
  * @return the newly created item ID.
  */
 @Deprecated("Deprecated in Vaadin 8")
-fun AbstractSelect.addItem(itemId: Any?, caption: String) = addItem(itemId).apply { setItemCaption(itemId, caption) }!!
+fun (@VaadinDsl AbstractSelect).addItem(itemId: Any?, caption: String) = addItem(itemId).apply { setItemCaption(itemId, caption) }!!
 
 /**
  * Allows you to create [BeanFieldGroup] like this: `BeanFieldGroup<Person>()` instead of `BeanFieldGroup<Person>(Person::class.java)`

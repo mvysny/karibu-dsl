@@ -2,6 +2,7 @@
 
 package com.github.vok.karibudsl.v7
 
+import com.github.vok.karibudsl.VaadinDsl
 import com.github.vok.karibudsl.init
 import com.vaadin.ui.HasComponents
 import com.vaadin.v7.data.Container
@@ -24,36 +25,37 @@ private val gridColumnGrid: Field = Grid.Column::class.java.getDeclaredField("gr
  * Owner grid.
  */
 @Deprecated("Use Vaadin8 Grid")
-val Grid.Column.grid: Grid
+val (@VaadinDsl Grid.Column).grid: Grid
     get() = gridColumnGrid.get(this) as Grid
 
 private val propertyGenerators: Field = GeneratedPropertyContainer::class.java.getDeclaredField("propertyGenerators").apply { isAccessible = true }
 
 @Suppress("UNCHECKED_CAST")
 @Deprecated("Use Vaadin8 Grid")
-fun GeneratedPropertyContainer.isGenerated(propertyId: Any?): Boolean = (propertyGenerators.get(this) as Map<Any, *>).containsKey(propertyId)
+fun (@VaadinDsl GeneratedPropertyContainer).isGenerated(propertyId: Any?): Boolean = (propertyGenerators.get(this) as Map<Any, *>).containsKey(propertyId)
 
 @Deprecated("Use Vaadin8 Grid")
-fun Container.isGenerated(propertyId: Any?): Boolean = if (this is GeneratedPropertyContainer) isGenerated(propertyId) else false
+fun (@VaadinDsl Container).isGenerated(propertyId: Any?): Boolean = if (this is GeneratedPropertyContainer) isGenerated(propertyId) else false
 
 /**
  * True if this column is a generated column (part of the [GeneratedPropertyContainer]).
  */
 @Deprecated("Use Vaadin8 Grid")
-val Grid.Column.isGenerated: Boolean
+val (@VaadinDsl Grid.Column).isGenerated: Boolean
     get() = grid.containerDataSource.isGenerated(propertyId)
 
 /**
  * Starts adding of the columns into the grid.
  */
 @Deprecated("Use Vaadin8 Grid")
-fun Grid.cols(block: GridColumnBuilder.()->Unit): Unit {
+fun (@VaadinDsl Grid).cols(block: GridColumnBuilder.()->Unit): Unit {
     val adder = GridColumnBuilder(this)
     adder.block()
     setColumns(*adder.columnProperties.toTypedArray())
 }
 
 @Deprecated("Use Vaadin8 Grid")
+@VaadinDsl
 class GridColumnBuilder(val grid: Grid) {
     internal val columnProperties = LinkedList<Any?>()
 

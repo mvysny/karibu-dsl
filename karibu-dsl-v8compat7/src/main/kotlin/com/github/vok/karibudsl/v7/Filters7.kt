@@ -488,7 +488,7 @@ class DefaultFilterFieldFactory(container: Container.Filterable) : FilterFieldFa
  * @param grid the owner grid.
  * @param filterFieldFactory used to create the filters themselves. If null, [DefaultFilterFieldFactory] is used.
  */
-fun Grid.HeaderRow.generateFilterComponents(grid: Grid, filterFieldFactory: FilterFieldFactory = DefaultFilterFieldFactory(grid.containerDataSource as Container.Filterable)) {
+fun (@VaadinDsl Grid.HeaderRow).generateFilterComponents(grid: Grid, filterFieldFactory: FilterFieldFactory = DefaultFilterFieldFactory(grid.containerDataSource as Container.Filterable)) {
     for (propertyId in grid.containerDataSource.containerPropertyIds) {
         val field = if (grid.containerDataSource.isGenerated(propertyId)) null else filterFieldFactory.createField(propertyId)
         val cell = getCell(propertyId)
