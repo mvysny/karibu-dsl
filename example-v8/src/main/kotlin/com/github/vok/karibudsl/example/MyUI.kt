@@ -8,7 +8,6 @@ import com.vaadin.annotations.VaadinServletConfiguration
 import com.vaadin.annotations.Viewport
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
-import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewDisplay
 import com.vaadin.server.*
 import com.vaadin.shared.Position
@@ -29,11 +28,25 @@ import javax.servlet.annotation.WebServlet
 @Viewport("width=device-width, initial-scale=1.0")
 class MyUI : UI() {
 
-    private val content = ValoMenuLayout()
-
     override fun init(request: VaadinRequest?) {
-        setContent(content)
-        Responsive.makeResponsive(this)
+        val content = valoMenu {
+            appTitle = "<h3>Karibu-DSL <strong>Sample App</strong></h3>"
+            userMenu {
+                item("John Doe", ClassResource("profilepic300px.jpg")) {
+                    item("Edit Profile")
+                    item("Preferences")
+                    addSeparator()
+                    item("Sign Out")
+                }
+            }
+            menuButton("Welcome", VaadinIcons.MENU, "3", WelcomeView::class.java)
+            menuButton("Common UI Elements", VaadinIcons.NOTEBOOK, view = CommonElementsView::class.java)
+            section("Components", "2")
+            menuButton("Combo Boxes", VaadinIcons.DROP, view = ComboBoxes::class.java)
+            menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
+            section("Forms", "1")
+            menuButton("Form Demo", VaadinIcons.FORM, view = FormView::class.java)
+        }
 
         // Read more about navigators here: https://github.com/mvysny/karibu-dsl
         navigator = Navigator(this, content as ViewDisplay)
@@ -64,124 +77,5 @@ class MyUIServlet : VaadinServlet() {
             SLF4JBridgeHandler.removeHandlersForRootLogger()
             SLF4JBridgeHandler.install()
         }
-    }
-}
-
-/**
- * The main screen with the menu and a view placeholder, where the view contents will go.
- */
-private class ValoMenuLayout: HorizontalLayout(), ViewDisplay {
-    /**
-     * Tracks the registered menu items associated with view; when a view is shown, highlight appropriate menu item button.
-     */
-    private val views = mutableMapOf<Class<out View>, Button>()
-
-    private val menuArea: CssLayout
-    private lateinit var menu: CssLayout
-    private val viewPlaceholder: CssLayout
-    init {
-        setSizeFull(); isSpacing = false; styleName = "valo-menu-responsive"
-        Responsive.makeResponsive(this)
-
-        menuArea = cssLayout {
-            primaryStyleName = ValoTheme.MENU_ROOT
-            addStyleNames("sidebar", "valo-menu-part", "no-vertical-drag-hints", "no-horizontal-drag-hints")
-            w = wrapContent; h = fillParent
-
-            menu = cssLayout { // menu
-                horizontalLayout {
-                    w = fillParent; isSpacing = false; defaultComponentAlignment = Alignment.MIDDLE_LEFT
-                    styleName = ValoTheme.MENU_TITLE
-                    label {
-                        html("<h3>Karibu-DSL <strong>Sample App</strong></h3>")
-                        w = wrapContent
-                        expandRatio = 1f
-                    }
-
-                }
-                button("Menu") { // only visible when the top bar is shown
-                    onLeftClick {
-                        menu.toggleStyleName("valo-menu-visible", !menu.hasStyleName("valo-menu-visible"))
-                    }
-                    addStyleNames(ValoTheme.BUTTON_PRIMARY, ValoTheme.BUTTON_SMALL, "valo-menu-toggle")
-                    icon = VaadinIcons.MENU
-                }
-                menuBar { // the user menu, settings
-                    styleName = "user-menu"
-                    addItem("John Doe", ClassResource("profilepic300px.jpg"), null).apply {
-                        item("Edit Profile")
-                        item("Preferences")
-                        addSeparator()
-                        item("Sign Out")
-                    }
-                }
-                // the navigation buttons
-                cssLayout {
-                    primaryStyleName = "valo-menuitems"
-                    menuButton(VaadinIcons.MENU, "Welcome", "3", WelcomeView::class.java)
-                    menuButton(VaadinIcons.NOTEBOOK, "Common UI Elements", view = CommonElementsView::class.java)
-                    section("Components", "2")
-                    menuButton(VaadinIcons.DROP, "Combo Boxes", view = ComboBoxes::class.java)
-                    menuButton(VaadinIcons.MENU, "Menu Bars", view = MenuBars::class.java)
-                    section("Forms", "1")
-                    menuButton(VaadinIcons.FORM, "Form Demo", view = FormView::class.java)
-                }
-            }
-        }
-
-        viewPlaceholder = cssLayout {
-            primaryStyleName = "valo-content"
-            addStyleName("v-scrollable")
-            setSizeFull()
-            expandRatio = 1f
-        }
-    }
-
-    private fun CssLayout.section(caption: String, badge: String? = null, block: Label.()->Unit = {}) {
-        label {
-            if (badge == null) {
-                this.caption = caption
-            } else {
-                html("""$caption <span class="valo-menu-badge">$badge</span>""")
-            }
-            primaryStyleName = ValoTheme.MENU_SUBTITLE
-            w = wrapContent
-            addStyleName(ValoTheme.LABEL_H4)
-            block()
-        }
-    }
-
-    /**
-     * Registers a button to a menu with given [icon] and [caption], which launches given [view].
-     * @param badge optional badge which is displayed in the button's top-right corner. Usually this is a number, showing number of notifications or such.
-     * @param view optional view; if not null, clicking this menu button will launch this view with no parameters; also the button will be marked selected
-     * when the view is shown.
-     */
-    private fun CssLayout.menuButton(icon: Resource, caption: String, badge: String? = null, view: Class<out View>? = null, block: Button.()->Unit = {}) {
-        val b = button {
-            primaryStyleName = ValoTheme.MENU_ITEM
-            this.icon = icon
-            if (badge != null) {
-                isCaptionAsHtml = true
-                this.caption = """$caption <span class="valo-menu-badge">$badge</span>"""
-            } else {
-                this.caption = caption
-            }
-            if (view != null) {
-                onLeftClick { navigateToView(view) }
-                views[view] = this
-            }
-        }
-        b.block()
-    }
-
-    override fun showView(view: View) {
-        // show the view itself
-        viewPlaceholder.removeAllComponents()
-        viewPlaceholder.addComponent(view as Component)
-
-        // make the appropriate menu button selected, to show the current view
-        views.values.forEach { it.removeStyleName("selected") }
-        views[view.javaClass as Class<*>]?.addStyleName("selected")
     }
 }

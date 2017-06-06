@@ -47,6 +47,21 @@ fun (@VaadinDsl HasComponents).addChild(child: Component) {
 }
 
 /**
+ * Removes all components from given container.
+ */
+fun (@VaadinDsl HasComponents).removeAllComponents() {
+    when (this) {
+        is ComponentContainer -> removeAllComponents()
+//        is SpecialContainer ->    // unsupported
+        is SingleComponentContainer -> {
+            content = null
+        }
+        is PopupView -> popupComponent = Label("")
+        else -> throw IllegalArgumentException("Unsupported component container $this")
+    }
+}
+
+/**
  * Sets the expand ratio of this component with respect to its parent layout. See [AbstractOrderedLayout.setExpandRatio] for more details.
  *
  * Fails if this component is not nested inside [AbstractOrderedLayout].
