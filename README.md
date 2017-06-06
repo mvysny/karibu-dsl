@@ -32,7 +32,7 @@ cd karibu-dsl
 ./gradlew example-v8:appRun
 ```
 
-Online demo of the example application: [https://demo.vaadin.com/valo-theme/#!common](https://demo.vaadin.com/valo-theme/#!common)
+The example app will be running at [http://localhost:8080](http://localhost:8080). You can check the online demo of the example application: [https://demo.vaadin.com/valo-theme/#!common](https://demo.vaadin.com/valo-theme/#!common).
 
 In case of questions you can always [browse the sample project sources here](example-v8).
 

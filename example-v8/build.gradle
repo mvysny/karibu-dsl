@@ -15,6 +15,10 @@ apply plugin: 'org.akhikhl.gretty'
 // see https://github.com/vaadin/framework/issues/8134 for details
 ext.jettyVer = '9.4.2.v20170220'
 
+gretty {
+    contextPath = '/'
+}
+
 dependencies {
     compile(project(":karibu-dsl-v8"))
 
