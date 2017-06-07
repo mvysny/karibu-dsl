@@ -5,6 +5,7 @@ plugins {
 dependencies {
     compile(project(':karibu-dsl-v8'))
     compile "com.vaadin:vaadin-compatibility-server:$vaadin8_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 
 task sourceJar(type: Jar, dependsOn: classes) {

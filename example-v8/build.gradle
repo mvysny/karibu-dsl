@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.akhikhl.gretty:gretty:+'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -22,6 +23,7 @@ gretty {
 
 dependencies {
     compile(project(":karibu-dsl-v8"))
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     // logging
     // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
