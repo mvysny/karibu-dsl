@@ -13,6 +13,7 @@ task sourceJar(type: Jar, dependsOn: classes) {
 }
 
 apply plugin: 'maven-publish'
+apply plugin: 'kotlin'
 
 publishing {
     publications {

@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.jetbrains.kotlinx:kotlinx-support-jdk8:0.3'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     testCompile 'junit:junit:4.12'
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -31,6 +31,7 @@ task sourceJar(type: Jar, dependsOn: classes) {
 }
 
 apply plugin: 'maven-publish'
+apply plugin: 'kotlin'
 
 publishing {
     publications {
