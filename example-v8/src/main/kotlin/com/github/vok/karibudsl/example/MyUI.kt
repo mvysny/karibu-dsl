@@ -45,6 +45,7 @@ class MyUI : UI() {
             menuButton("Combo Boxes", VaadinIcons.DROP, view = ComboBoxes::class.java)
             menuButton("Color Pickers", VaadinIcons.PAINTBRUSH, view = ColorPickers::class.java)
             menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
+            menuButton("Trees", VaadinIcons.FILE_TREE, view = Trees::class.java)
             section("Forms", "1")
             menuButton("Form Demo", VaadinIcons.FORM, view = FormView::class.java)
         }
@@ -53,10 +54,10 @@ class MyUI : UI() {
         navigator = Navigator(this, content as ViewDisplay)
         navigator.addProvider(autoViewProvider)
         setErrorHandler { e ->
-            log.error("Vaadin UI uncaught exception $e", e)
+            log.error("Vaadin UI uncaught exception ${e.throwable}", e.throwable)
             // when the exception occurs, show a nice notification
             Notification("Oops", "An error occurred, and we are really sorry about that. Already working on the fix!", Notification.Type.ERROR_MESSAGE).apply {
-                styleName = ValoTheme.NOTIFICATION_CLOSABLE
+                styleName += " " + ValoTheme.NOTIFICATION_CLOSABLE
                 position = Position.TOP_CENTER
                 show(Page.getCurrent())
             }
