@@ -153,6 +153,30 @@ verticalLayout7 {
 }
 ```
 
+## Writing your own components
+
+Usually one writes custom components by extending the `CustomComponent` class; but you can of course extend
+any Vaadin component. Please read the [Composition with CustomComponent](https://vaadin.com/docs/-/part/framework/components/components-customcomponent.html) for more details.
+
+To integrate your component with Karibu-DSL, you will need to introduce your own extension method for your component.
+Just implement your component, say, `MyComposite`,
+and then you just write the following code below your component:
+
+```kotlin
+fun HasComponents.myComposite(block: MyComposite.()->Unit = {}) = init(MyComposite(), block)
+```
+
+This will allow you to use your component as follows:
+
+```kotlin
+verticalLayout {
+  myComposite {
+    styleName = "black"; w = 100.perc
+    ... // etc
+  }
+}
+```
+
 #### More complex examples:
 
 * More complex form: see the example [FormView](example-v8/src/main/kotlin/com/github/vok/karibudsl/example/form/FormView.kt) for details
