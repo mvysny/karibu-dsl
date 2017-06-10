@@ -11,13 +11,14 @@ class _TabSheet : TabSheet() {
      * tabSheet {
      *    // adding a component to tabsheet will create a tab for the component as well.
      *    label("Foo bar baz blah blah blah") {
-     *      ttab.caption = "Tab 1"
-     *      ttab.icon = VaadinIcons.TAB
+     *      tab.caption = "Tab 1"
+     *      tab.icon = VaadinIcons.TAB
      *    }
      * }
      * ```
      */
-    val (@VaadinDsl Component).ttab: Tab get() = this@_TabSheet.getTab(ttab@this) ?: throw IllegalStateException("${ttab@this} is not child of ${this@_TabSheet}")
+    @get:JvmName("getTab2")
+    val (@VaadinDsl Component).tab: Tab get() = this@_TabSheet.getTab(ttab@this) ?: throw IllegalStateException("${ttab@this} is not child of ${this@_TabSheet}")
 }
 
 fun (@VaadinDsl HasComponents).tabSheet(block: _TabSheet.()->Unit = {}) = init(_TabSheet(), block)

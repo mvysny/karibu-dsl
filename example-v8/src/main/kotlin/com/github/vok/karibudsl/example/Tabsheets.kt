@@ -1,7 +1,6 @@
 package com.github.vok.karibudsl.example
 
 import com.github.vok.karibudsl.*
-import com.vaadin.data.HasValue
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
@@ -82,12 +81,12 @@ class Tabsheets : VerticalLayout(), View {
             val sg = StringGenerator.iterator()
             for (i in 1..if (overflow.value!!) 20 else 3) {
                 verticalLayout {
-                    ttab.caption = if (captions.value!!) "${sg.next().capitalize()} ${sg.next()}" else null
-                    ttab.isClosable = closable.value!!
-                    ttab.isEnabled = !disable.value!!
+                    tab.caption = if (captions.value!!) "${sg.next().capitalize()} ${sg.next()}" else null
+                    tab.isClosable = closable.value!!
+                    tab.isEnabled = !disable.value!!
 
                     if (icons.value!!) {
-                        ttab.icon = VaadinIcons.values()[i % VaadinIcons.values().size]
+                        tab.icon = VaadinIcons.values()[i % VaadinIcons.values().size]
                     }
                     label("Content for tab " + i)
                     if (i == 2) {
