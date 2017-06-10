@@ -101,9 +101,6 @@ fun (@VaadinDsl HasComponents).richTextArea(caption: String? = null, block: (@Va
 
 fun (@VaadinDsl HasComponents).slider(caption: String? = null, block: (@VaadinDsl Slider).()->Unit = {}) = init(Slider(caption), block)
 
-fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).()->Unit = {}) = init(TabSheet(), block)
-val (@VaadinDsl TabSheet).lastTab: TabSheet.Tab get() = getTab(componentCount - 1)
-
 /**
  * Creates a [TextArea] and attaches it to this component.
  * @param caption optional caption
