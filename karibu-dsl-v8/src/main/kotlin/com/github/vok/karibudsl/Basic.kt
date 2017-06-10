@@ -40,8 +40,6 @@ fun (@VaadinDsl HasComponents).spinner(block: (@VaadinDsl Label).()->Unit = {}) 
     styleName = ValoTheme.LABEL_SPINNER
 }
 
-fun (@VaadinDsl HasComponents).accordion(block: (@VaadinDsl Accordion).()->Unit = {}) = init(Accordion(), block)
-
 fun (@VaadinDsl HasComponents).audio(caption: String? = null, resource: Resource? = null, block: (@VaadinDsl Audio).()->Unit = {}) = init(Audio(caption, resource), block)
 
 fun (@VaadinDsl HasComponents).browserFrame(url: String? = null, block: (@VaadinDsl BrowserFrame).()->Unit = {}) =

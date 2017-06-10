@@ -51,6 +51,7 @@ class MyUI : UI() {
             section("Containers", "2")
             menuButton("Split Panels", VaadinIcons.PANEL, view = SplitPanels::class.java)
             menuButton("Tabs", VaadinIcons.TAB, "123", Tabsheets::class.java)
+            menuButton("Accordions", VaadinIcons.ACCORDION_MENU, view = Accordions::class.java)
             section("Other", "1")
             menuButton("Form Demo", VaadinIcons.FORM, view = FormView::class.java)
         }
