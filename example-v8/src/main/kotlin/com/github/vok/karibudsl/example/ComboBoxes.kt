@@ -37,7 +37,7 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Normal") {
                 placeholder = "You can type here"
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 isEmptySelectionAllowed = false
                 value = 0
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -48,7 +48,7 @@ class ComboBoxes : VerticalLayout(), View {
                     w = 240.px
                     placeholder = "You can type here"
                     setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                    setItemCaptionGenerator { strings[it % strings.size] }
+                    itemCaptionGenerator = StringGenerator
                     isEmptySelectionAllowed = false
                     value = 0
                     setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -88,7 +88,7 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Custom color") {
                 placeholder = "You can type here"; styleName = "color1"
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 isEmptySelectionAllowed = false
                 value = 0
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -96,7 +96,7 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Custom color") {
                 placeholder = "You can type here"; styleName = "color2"
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 isEmptySelectionAllowed = false
                 value = 0
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -104,7 +104,7 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Custom color") {
                 placeholder = "You can type here"; styleName = "color3"
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 isEmptySelectionAllowed = false
                 value = 0
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -112,7 +112,7 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Small") {
                 placeholder = "You can type here"; styleName = ValoTheme.COMBOBOX_SMALL
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 isEmptySelectionAllowed = false
                 value = 0
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -120,7 +120,7 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Large") {
                 placeholder = "You can type here"; styleName = ValoTheme.COMBOBOX_LARGE
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 isEmptySelectionAllowed = false
                 value = 0
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
@@ -132,22 +132,18 @@ class ComboBoxes : VerticalLayout(), View {
             comboBox<Int>("Tiny") {
                 placeholder = "You can type here"; styleName = ValoTheme.COMBOBOX_TINY
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
             }
             comboBox<Int>("Huge") {
                 placeholder = "You can type here"; styleName = ValoTheme.COMBOBOX_HUGE
                 setItems({ caption: String, text: String -> caption.contains(text, ignoreCase = true)}, (0..199).toList())
-                setItemCaptionGenerator { strings[it % strings.size] }
+                itemCaptionGenerator = StringGenerator
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
             }
         }
     }
 
     override fun enter(event: ViewChangeEvent) {
-    }
-
-    companion object {
-        private val strings = arrayOf("lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "quid", "securi", "etiam", "tamquam", "eu", "fugiat", "nulla", "pariatur")
     }
 }

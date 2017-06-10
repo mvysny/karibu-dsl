@@ -43,8 +43,7 @@ class Trees : VerticalLayout(), View {
         tree<Int> {
             setSelectionMode(Grid.SelectionMode.MULTI)
             dataProvider = generateTestData()
-            val strings = arrayOf("lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "quid", "securi", "etiam", "tamquam", "eu", "fugiat", "nulla", "pariatur")
-            setItemCaptionGenerator { strings[it % strings.size] }
+            itemCaptionGenerator = StringGenerator
             setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
         }
     }

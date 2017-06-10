@@ -11,10 +11,12 @@ import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.ViewDisplay
 import com.vaadin.server.*
 import com.vaadin.shared.Position
+import com.vaadin.shared.util.SharedUtil
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 import org.slf4j.LoggerFactory
 import org.slf4j.bridge.SLF4JBridgeHandler
+import java.util.NoSuchElementException
 import javax.servlet.annotation.WebServlet
 
 /**
@@ -46,7 +48,9 @@ class MyUI : UI() {
             menuButton("Color Pickers", VaadinIcons.PAINTBRUSH, view = ColorPickers::class.java)
             menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
             menuButton("Trees", VaadinIcons.FILE_TREE, view = Trees::class.java)
-            section("Forms", "1")
+            section("Containers", "1")
+            menuButton("Tabs", VaadinIcons.TAB, "123", Tabsheets::class.java)
+            section("Other", "1")
             menuButton("Form Demo", VaadinIcons.FORM, view = FormView::class.java)
         }
 
@@ -80,4 +84,18 @@ class MyUIServlet : VaadinServlet() {
             SLF4JBridgeHandler.install()
         }
     }
+}
+
+/**
+ * An endless sequence of short lower-case strings.
+ */
+object StringGenerator: Sequence<String>, ItemCaptionGenerator<Int> {
+    private val strings = arrayOf("lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "quid", "securi", "etiam", "tamquam", "eu", "fugiat", "nulla", "pariatur")
+    override fun iterator(): Iterator<String> = object : Iterator<String> {
+        private var i = 0
+        override fun hasNext() = true
+        override fun next() = get(i++)
+    }
+    override fun apply(item: Int) = get(item)
+    operator fun get(index: Int) = strings[index % strings.size]
 }
