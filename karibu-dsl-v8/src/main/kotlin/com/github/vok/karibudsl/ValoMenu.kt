@@ -79,11 +79,10 @@ class ValoMenu: HorizontalLayout(), ViewDisplay {
 
         menuArea = cssLayout {
             primaryStyleName = ValoTheme.MENU_ROOT
-            addStyleNames("sidebar", "valo-menu-part", "no-vertical-drag-hints", "no-horizontal-drag-hints")
             w = wrapContent; h = fillParent
 
             menu = cssLayout { // menu
-                styleName = ValoTheme.MENU_PART
+                addStyleNames("sidebar", ValoTheme.MENU_PART, "no-vertical-drag-hints", "no-horizontal-drag-hints")
                 horizontalLayout {
                     w = fillParent; isSpacing = false; defaultComponentAlignment = Alignment.MIDDLE_LEFT
                     styleName = ValoTheme.MENU_TITLE
