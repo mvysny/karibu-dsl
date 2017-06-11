@@ -83,6 +83,7 @@ class ValoMenu: HorizontalLayout(), ViewDisplay {
             w = wrapContent; h = fillParent
 
             menu = cssLayout { // menu
+                styleName = ValoTheme.MENU_PART
                 horizontalLayout {
                     w = fillParent; isSpacing = false; defaultComponentAlignment = Alignment.MIDDLE_LEFT
                     styleName = ValoTheme.MENU_TITLE

@@ -1,7 +1,9 @@
 package com.github.vok.karibudsl.example
 
-import com.github.vok.karibudsl.*
+import com.github.vok.karibudsl.autoViewProvider
 import com.github.vok.karibudsl.example.form.FormView
+import com.github.vok.karibudsl.item
+import com.github.vok.karibudsl.valoMenu
 import com.vaadin.annotations.Theme
 import com.vaadin.annotations.Title
 import com.vaadin.annotations.VaadinServletConfiguration
@@ -9,15 +11,17 @@ import com.vaadin.annotations.Viewport
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.ViewDisplay
-import com.vaadin.server.*
+import com.vaadin.server.ClassResource
+import com.vaadin.server.Page
+import com.vaadin.server.VaadinRequest
+import com.vaadin.server.VaadinServlet
 import com.vaadin.shared.Position
-import com.vaadin.shared.util.SharedUtil
-import com.vaadin.ui.*
+import com.vaadin.ui.ItemCaptionGenerator
+import com.vaadin.ui.Notification
+import com.vaadin.ui.UI
 import com.vaadin.ui.themes.ValoTheme
-import javafx.stage.PopupWindow
 import org.slf4j.LoggerFactory
 import org.slf4j.bridge.SLF4JBridgeHandler
-import java.util.NoSuchElementException
 import javax.servlet.annotation.WebServlet
 
 /**
