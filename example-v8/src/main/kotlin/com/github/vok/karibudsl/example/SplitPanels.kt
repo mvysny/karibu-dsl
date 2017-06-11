@@ -11,10 +11,8 @@ import com.vaadin.ui.themes.ValoTheme
 class SplitPanels : VerticalLayout(), View {
     init {
         isSpacing = false
+        title("Split Panels")
 
-        label("Split Panels") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
         label("Outlines are just to show the areas of the SplitPanels. They are not part of the actual component style.") {
             w = 100.perc
         }

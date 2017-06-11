@@ -1,9 +1,7 @@
 package com.github.vok.karibudsl.example
 
-import com.github.vok.karibudsl.autoViewProvider
+import com.github.vok.karibudsl.*
 import com.github.vok.karibudsl.example.form.FormView
-import com.github.vok.karibudsl.item
-import com.github.vok.karibudsl.valoMenu
 import com.vaadin.annotations.Theme
 import com.vaadin.annotations.Title
 import com.vaadin.annotations.VaadinServletConfiguration
@@ -16,6 +14,7 @@ import com.vaadin.server.Page
 import com.vaadin.server.VaadinRequest
 import com.vaadin.server.VaadinServlet
 import com.vaadin.shared.Position
+import com.vaadin.ui.HasComponents
 import com.vaadin.ui.ItemCaptionGenerator
 import com.vaadin.ui.Notification
 import com.vaadin.ui.UI
@@ -48,7 +47,8 @@ class MyUI : UI() {
             }
             menuButton("Welcome", VaadinIcons.MENU, "3", WelcomeView::class.java)
             menuButton("Common UI Elements", VaadinIcons.NOTEBOOK, view = CommonElementsView::class.java)
-            section("Components", "4")
+            section("Components", "5")
+            menuButton("Labels", VaadinIcons.TEXT_LABEL, view = Labels::class.java)
             menuButton("Combo Boxes", VaadinIcons.DROP, view = ComboBoxes::class.java)
             menuButton("Color Pickers", VaadinIcons.PAINTBRUSH, view = ColorPickers::class.java)
             menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
@@ -106,4 +106,12 @@ object StringGenerator: Sequence<String>, ItemCaptionGenerator<Int> {
     }
     override fun apply(item: Int) = get(item)
     operator fun get(index: Int) = strings[index % strings.size]
+}
+
+/**
+ * An example of a DSL definition which simply wraps a label and adds styles necessary to display a nice [title].
+ */
+inline fun HasComponents.title(title: String) = label(title) {
+    w = fillParent
+    addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
 }

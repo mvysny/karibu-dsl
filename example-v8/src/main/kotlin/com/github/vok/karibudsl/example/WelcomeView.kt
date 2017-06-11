@@ -20,10 +20,8 @@ class WelcomeView: VerticalLayout(), View {
 
     init {
         isMargin = true
-        label("Welcome To The Karibu-DSL Demo") {
-            w = fillParent
-            addStyleNames(ValoTheme.LABEL_COLORED, ValoTheme.LABEL_H2)
-        }
+        title("Welcome To The Karibu-DSL Demo")
+
         label {
             w = fillParent
             html("""Karibu-DSL offers the following:

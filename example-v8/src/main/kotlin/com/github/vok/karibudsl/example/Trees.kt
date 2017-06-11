@@ -36,10 +36,8 @@ import java.util.*
 class Trees : VerticalLayout(), View {
     init {
         isSpacing = false
+        title("Trees")
 
-        label("Trees") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
         tree<Int> {
             setSelectionMode(Grid.SelectionMode.MULTI)
             dataProvider = generateTestData()

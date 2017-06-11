@@ -17,9 +17,8 @@ import com.vaadin.ui.themes.ValoTheme
 class CommonElementsView : VerticalLayout(), View {
     init {
         isSpacing = false
-        label("Common UI Elements") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Common UI Elements")
+
         gridLayout(2, 3) {
             w = fillParent; isSpacing = true
 

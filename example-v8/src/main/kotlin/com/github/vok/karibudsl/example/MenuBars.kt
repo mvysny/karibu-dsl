@@ -30,9 +30,7 @@ class MenuBars : VerticalLayout(), View {
         setMargin(true)
         isSpacing = true
 
-        label("Menu Bars") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Menu Bars")
         sampleMenuBar {
             caption = "Normal style"
         }

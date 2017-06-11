@@ -11,9 +11,8 @@ import com.vaadin.ui.themes.ValoTheme
 class Accordions : VerticalLayout(), View {
     init {
         isSpacing = false
-        label("Accordions") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Accordions")
+
         horizontalLayout {
             w = 100.perc
             demoAccordion("Normal")

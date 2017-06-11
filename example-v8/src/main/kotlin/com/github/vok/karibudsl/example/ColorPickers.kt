@@ -31,10 +31,7 @@ import com.vaadin.ui.themes.ValoTheme
 class ColorPickers : VerticalLayout(), View {
     init {
         isSpacing = false
-
-        label("Color Pickers") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Color Pickers")
 
         horizontalLayout {
             styleName = ValoTheme.LAYOUT_HORIZONTAL_WRAPPING

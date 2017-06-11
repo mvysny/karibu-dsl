@@ -29,9 +29,8 @@ class Tabsheets : VerticalLayout(), View {
 
     init {
         isSpacing = false
-        label("Tabs") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Tabs")
+
         horizontalLayout {
             styleName = ValoTheme.LAYOUT_HORIZONTAL_WRAPPING
             closable = checkBox("Closable")

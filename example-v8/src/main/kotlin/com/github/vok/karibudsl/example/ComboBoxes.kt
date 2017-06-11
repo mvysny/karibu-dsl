@@ -27,10 +27,7 @@ import com.vaadin.ui.themes.ValoTheme
 class ComboBoxes : VerticalLayout(), View {
     init {
         isSpacing = false
-
-        label("Combo Boxes") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Combo Boxes")
 
         horizontalLayout {
             styleName = ValoTheme.LAYOUT_HORIZONTAL_WRAPPING

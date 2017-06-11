@@ -10,9 +10,8 @@ import com.vaadin.ui.themes.ValoTheme
 class PopupViews : VerticalLayout(), View {
     init {
         isSpacing = false
-        label("Popup Views") {
-            addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
-        }
+        title("Popup Views")
+
         horizontalLayout {
             styleName = ValoTheme.LAYOUT_HORIZONTAL_WRAPPING
             popupView {
