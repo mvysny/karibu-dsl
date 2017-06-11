@@ -1,16 +1,10 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'org.akhikhl.gretty:gretty:+'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    // need to use Gretty here because of https://github.com/johndevs/gradle-vaadin-plugin/issues/317
+    id "org.akhikhl.gretty" version "1.4.2"
 }
 
 apply plugin: 'war'
 apply plugin: 'kotlin'
-apply plugin: 'org.akhikhl.gretty'
 
 // don't update Jetty carelessly, it tends to break Atmosphere and Push support!
 // test before commit :-)
@@ -23,7 +17,6 @@ gretty {
 
 dependencies {
     compile(project(":karibu-dsl-v8"))
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     // logging
     // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
@@ -55,6 +48,7 @@ dependencies {
     // in ClassNotFoundException: org.eclipse.jetty.websocket.WebSocketFactory$Acceptor
     // since the class is no longer there in Jetty 9.4
     testCompile "org.eclipse.jetty.websocket:javax-websocket-server-impl:$jettyVer"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     // Embedded Undertow is currently unsupported since it has no servlet/listener/... autodiscovery capabilities:
     // http://stackoverflow.com/questions/22307748/deploying-servlets-webapp-in-embedded-undertow
