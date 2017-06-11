@@ -14,6 +14,7 @@ import com.vaadin.shared.Position
 import com.vaadin.shared.util.SharedUtil
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
+import javafx.stage.PopupWindow
 import org.slf4j.LoggerFactory
 import org.slf4j.bridge.SLF4JBridgeHandler
 import java.util.NoSuchElementException
@@ -52,6 +53,7 @@ class MyUI : UI() {
             menuButton("Split Panels", VaadinIcons.PANEL, view = SplitPanels::class.java)
             menuButton("Tabs", VaadinIcons.TAB, "123", Tabsheets::class.java)
             menuButton("Accordions", VaadinIcons.ACCORDION_MENU, view = Accordions::class.java)
+            menuButton("Popup Views", VaadinIcons.MODAL, view = PopupViews::class.java)
             section("Other", "1")
             menuButton("Form Demo", VaadinIcons.FORM, view = FormView::class.java)
         }
