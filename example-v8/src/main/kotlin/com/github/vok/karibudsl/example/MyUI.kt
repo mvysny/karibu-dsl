@@ -53,6 +53,7 @@ class MyUI : UI() {
             menuButton("Text Fields", VaadinIcons.TEXT_INPUT, view = TextFields::class.java)
             menuButton("Date Fields", VaadinIcons.DATE_INPUT, view = DateFields::class.java)
             menuButton("Combo Boxes", VaadinIcons.DROP, view = ComboBoxes::class.java)
+            menuButton("Check Boxes & Option Groups", VaadinIcons.CHECK, view = CheckBoxes::class.java)
             menuButton("Color Pickers", VaadinIcons.PAINTBRUSH, view = ColorPickers::class.java)
             menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
             menuButton("Trees", VaadinIcons.FILE_TREE, view = Trees::class.java)
