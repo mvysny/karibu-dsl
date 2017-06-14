@@ -49,6 +49,7 @@ class MyUI : UI() {
             menuButton("Common UI Elements", VaadinIcons.NOTEBOOK, view = CommonElementsView::class.java)
             section("Components", "5")
             menuButton("Labels", VaadinIcons.TEXT_LABEL, view = Labels::class.java)
+            menuButton("Buttons & Links", VaadinIcons.BUTTON, view = ButtonsAndLinks::class.java)
             menuButton("Combo Boxes", VaadinIcons.DROP, view = ComboBoxes::class.java)
             menuButton("Color Pickers", VaadinIcons.PAINTBRUSH, view = ColorPickers::class.java)
             menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
