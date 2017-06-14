@@ -140,7 +140,12 @@ class ValoMenu: HorizontalLayout(), ViewDisplay {
         this.badge = badge
         this.caption = caption
         if (view != null) {
-            onLeftClick { navigateToView(view) }
+            onLeftClick {
+                // hides the menu on mobile phones, so that the user can see the outcome of the navigation without having
+                // menu blocking the screen. This does nothing on desktop browsers.
+                menu.removeStyleName("valo-menu-visible")
+                navigateToView(view)
+            }
             views[view] = this
         }
         block()
