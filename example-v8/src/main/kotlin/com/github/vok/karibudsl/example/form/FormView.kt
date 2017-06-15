@@ -1,9 +1,13 @@
 package com.github.vok.karibudsl.example.form
 
 import com.github.vok.karibudsl.*
+import com.github.vok.karibudsl.example.title
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.server.UserError
+import com.vaadin.ui.Alignment
+import com.vaadin.ui.FormLayout
+import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 
@@ -19,31 +23,76 @@ class FormView: VerticalLayout(), View {
     private val binder = beanValidationBinder<Person>()
 
     init {
-        label("Add New Person Demo") {
-            addStyleNames(ValoTheme.LABEL_COLORED, ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN)
-        }
+        title("Forms")
+
         // create the UI.
         formLayout {
-            textField("Full Name:") {
+            isMargin = false; w = 800.px
+
+            section("Personal Info")
+            textField("Name") {
+                w = 50.perc
                 // binding to a BeanValidationBinder will also validate the value automatically.
                 // please read https://vaadin.com/docs/-/part/framework/datamodel/datamodel-forms.html for more information
                 bind(binder).trimmingConverter().bind(Person::fullName)
             }
-            label("To break the validation, just specify a future date")
-            dateField("Date of Birth:") {
+            dateField("Birthday") {
                 bind(binder).bind(Person::dateOfBirth)
+                placeholder = "To break the validation, just specify a future date"
+                description = "To break the validation, just specify a future date"
             }
             comboBox<MaritalStatus>("Marital Status:") {
                 setItems(*MaritalStatus.values())
                 bind(binder).bind(Person::maritalStatus)
                 // so that you can trigger a validation error
                 isEmptySelectionAllowed = true
+                isTextInputAllowed = false
             }
-            checkBox("Is Alive") {
-                bind(binder).bind(Person::alive)
+            radioButtonGroup<Sex>("Sex") {
+                styleName = ValoTheme.OPTIONGROUP_HORIZONTAL
+                setItems(*Sex.values())
+                bind(binder).bind(Person::sex)
             }
-            textArea("Comment:") {
-                bind(binder).bind(Person::comment)
+            section("Contact Info", ValoTheme.LABEL_H3)
+            textField("Email") {
+                w = 50.perc
+                bind(binder).bind(Person::email)
+            }
+            textField("Location") {
+                w = 50.perc
+                bind(binder).bind(Person::location)
+            }
+            textField("Phone") {
+                w = 50.perc
+                bind(binder).bind(Person::phone)
+            }
+            horizontalLayout {
+                caption = "Newsletter"
+                checkBox("Subscribe to newsletter") {
+                    alignment = Alignment.MIDDLE_CENTER
+                    bind(binder).bind(Person::newsletter)
+                }
+                comboBox<NewsletterFrequency> {
+                    alignment = Alignment.MIDDLE_CENTER
+                    styleName = ValoTheme.COMBOBOX_SMALL; w = 120.px
+                    isTextInputAllowed = false
+                    bind(binder).bind(Person::newsletterFrequency)
+                    setItems(*NewsletterFrequency.values())
+                }
+            }
+            section("Additional Info", ValoTheme.LABEL_H4)
+            textField("Website") {
+                w = fillParent
+                placeholder = "http://"
+                bind(binder).bind(Person::website)
+            }
+            textArea("Short Bio") {
+                w = fillParent; h = 4.em
+                bind(binder).bind(Person::shortBio)
+            }
+            richTextArea("Bio") {
+                w = fillParent
+                bind(binder).bind(Person::longBio)
             }
         }
         horizontalLayout {
@@ -74,10 +123,15 @@ class FormView: VerticalLayout(), View {
     }
 
     override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
-        edit(Person())
+        edit(Person.createRandom())
     }
 
     companion object {
         fun navigateTo() = navigateToView<FormView>()
     }
+}
+
+fun FormLayout.section(caption: String, style: String = ValoTheme.LABEL_H2, block: Label.()->Unit={}) = init(Label(caption)) {
+    addStyleNames(style, ValoTheme.LABEL_COLORED)
+    block()
 }
