@@ -74,6 +74,8 @@ fun (@VaadinDsl HasComponents).nativeButton(caption: String? = null, leftClickLi
 
 fun <T> (@VaadinDsl HasComponents).nativeSelect(caption: String? = null, block: (@VaadinDsl NativeSelect<T>).()->Unit = {}) = init(NativeSelect<T>(caption), block)
 
+fun <T> (@VaadinDsl HasComponents).twinColSelect(caption: String? = null, block: (@VaadinDsl TwinColSelect<T>).()->Unit = {}) = init(TwinColSelect<T>(caption), block)
+
 fun <T> (@VaadinDsl HasComponents).radioButtonGroup(caption: String? = null, block: (@VaadinDsl RadioButtonGroup<T>).()->Unit = {}) = init(RadioButtonGroup<T>(caption), block)
 
 fun <T> (@VaadinDsl HasComponents).checkBoxGroup(caption: String? = null, block: (@VaadinDsl CheckBoxGroup<T>).()->Unit = {}) = init(CheckBoxGroup<T>(caption), block)
