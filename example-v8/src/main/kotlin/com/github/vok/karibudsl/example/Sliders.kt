@@ -134,9 +134,10 @@ class Sliders : VerticalLayout(), View {
         }
     }
 
-    internal var progress = 0f
+    private var progress = 0f
 
-    internal var update: Thread = object : Thread() {
+    @Transient
+    private val update: Thread = object : Thread() {
         override fun run() {
             try {
                 while (true) {
