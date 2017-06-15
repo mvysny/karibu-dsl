@@ -2,10 +2,7 @@ package com.github.vok.karibudsl.example
 
 import com.github.vok.karibudsl.*
 import com.github.vok.karibudsl.example.form.FormView
-import com.vaadin.annotations.Theme
-import com.vaadin.annotations.Title
-import com.vaadin.annotations.VaadinServletConfiguration
-import com.vaadin.annotations.Viewport
+import com.vaadin.annotations.*
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.ViewDisplay
@@ -29,7 +26,7 @@ import javax.servlet.annotation.WebServlet
  * [http://www.vaadinonkotlin.eu/].
  * @author mvy
  */
-@Theme("valo")
+@Theme("tests-valo")
 @Title("Karibu-DSL Demo")
 @Viewport("width=device-width, initial-scale=1.0")
 class MyUI : UI() {
@@ -54,6 +51,7 @@ class MyUI : UI() {
             menuButton("Date Fields", VaadinIcons.DATE_INPUT, view = DateFields::class.java)
             menuButton("Combo Boxes", VaadinIcons.DROP, view = ComboBoxes::class.java)
             menuButton("Check Boxes & Option Groups", VaadinIcons.CHECK, view = CheckBoxes::class.java)
+            menuButton("Sliders", VaadinIcons.SLIDER, view = Sliders::class.java)
             menuButton("Color Pickers", VaadinIcons.PAINTBRUSH, view = ColorPickers::class.java)
             menuButton("Menu Bars", VaadinIcons.MENU, view = MenuBars::class.java)
             menuButton("Trees", VaadinIcons.FILE_TREE, view = Trees::class.java)
@@ -117,5 +115,5 @@ object StringGenerator: Sequence<String>, ItemCaptionGenerator<Int> {
  */
 inline fun HasComponents.title(title: String) = label(title) {
     w = fillParent
-    addStyleNames(ValoTheme.LABEL_H2, ValoTheme.LABEL_COLORED)
+    addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_COLORED)
 }

@@ -42,4 +42,7 @@ subprojects {
             exceptionFormat "full"
         }
     }
+
+    // for some reason Vaadin Gradle Plugin causes javadoc task to run, which fails for karibu-dsl-v8
+    tasks.withType(Javadoc).all { enabled = false }
 }

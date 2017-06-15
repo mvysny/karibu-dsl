@@ -1,6 +1,7 @@
 plugins {
     // need to use Gretty here because of https://github.com/johndevs/gradle-vaadin-plugin/issues/317
     id "org.akhikhl.gretty" version "1.4.2"
+    id 'fi.jasoft.plugin.vaadin' version '1.1.11'
 }
 
 apply plugin: 'war'
@@ -10,6 +11,16 @@ apply plugin: 'kotlin'
 // test before commit :-)
 // see https://github.com/vaadin/framework/issues/8134 for details
 ext.jettyVer = '9.4.2.v20170220'
+
+vaadin {
+    version vaadin8_version
+    manageDependencies = false  // 'true' doesn't work with Gretty - Gretty won't pull in Vaadin dependencies on appRun and will crash because of missing widgetset
+    // have to use Gretty here, disable Vaadin Gradle Plugin jetty support for now
+//    logToConsole = true
+//    vaadinRun {
+//        server = 'jetty'
+//    }
+}
 
 gretty {
     contextPath = '/'

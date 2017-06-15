@@ -93,7 +93,10 @@ fun (@VaadinDsl HasComponents).passwordField(caption: String? = null, block: (@V
     return component
 }
 
-fun (@VaadinDsl HasComponents).progressBar(block: (@VaadinDsl ProgressBar).()->Unit = {}) = init(ProgressBar(), block)
+fun (@VaadinDsl HasComponents).progressBar(caption: String? = null, block: (@VaadinDsl ProgressBar).()->Unit = {}) = init(ProgressBar()) {
+    this.caption = caption
+    block()
+}
 
 fun (@VaadinDsl HasComponents).richTextArea(caption: String? = null, block: (@VaadinDsl RichTextArea).()->Unit = {}) = init(RichTextArea(caption), block)
 
