@@ -10,7 +10,10 @@ fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).()->Uni
 
 fun (@VaadinDsl HasComponents).absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}) = init(AbsoluteLayout(), block)
 
-fun (@VaadinDsl HasComponents).cssLayout(block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout(), block)
+fun (@VaadinDsl HasComponents).cssLayout(caption: String? = null, block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout()) {
+    this.caption = caption
+    block()
+}
 
 fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}) = init(GridLayout(columns, rows), block)
 
