@@ -27,7 +27,7 @@ class WelcomeView: VerticalLayout(), View {
             html("""Karibu-DSL offers the following:
             <ul><li>Provides Vaadin DSL builder support, allowing you to build your Vaadin UIs in Kotlin declarative, statically compiler-checked code</li>
             <li>Provides auto-discovery of your Views</li></ul>
-            And more.""")
+            And more.<br/><br/>You can find the sources of this app here: <a href='https://github.com/mvysny/karibu-dsl/tree/master/example-v8'>example-v8</a>""")
         }
         label {
             w = fillParent
