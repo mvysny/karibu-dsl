@@ -126,17 +126,17 @@ class TextFields : VerticalLayout(), View {
             passwordField("Password") {
                 placeholder = "Secret words"
                 addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON)
-                icon = FontAwesome.LOCK
+                icon = VaadinIcons.LOCK
             }
             passwordField("Password, right-aligned") {
                 placeholder = "Secret words"
                 addStyleNames(ValoTheme.TEXTFIELD_INLINE_ICON, ValoTheme.TEXTFIELD_ALIGN_RIGHT)
-                icon = FontAwesome.LOCK
+                icon = VaadinIcons.LOCK
             }
             passwordField("Password, centered") {
                 placeholder = "Secret words"
                 addStyleNames(ValoTheme.TEXTFIELD_INLINE_ICON, ValoTheme.TEXTFIELD_ALIGN_CENTER)
-                icon = FontAwesome.LOCK
+                icon = VaadinIcons.LOCK
             }
             textField("Tiny") {
                 value = "Field value"

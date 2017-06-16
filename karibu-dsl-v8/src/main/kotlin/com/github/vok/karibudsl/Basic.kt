@@ -38,6 +38,7 @@ fun (@VaadinDsl HasComponents).label(content: String? = null, block: (@VaadinDsl
  */
 fun (@VaadinDsl HasComponents).spinner(block: (@VaadinDsl Label).()->Unit = {}) = init(Label()) {
     styleName = ValoTheme.LABEL_SPINNER
+    block()
 }
 
 fun (@VaadinDsl HasComponents).audio(caption: String? = null, resource: Resource? = null, block: (@VaadinDsl Audio).()->Unit = {}) = init(Audio(caption, resource), block)
