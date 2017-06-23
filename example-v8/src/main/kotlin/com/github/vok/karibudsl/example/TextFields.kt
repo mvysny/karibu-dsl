@@ -20,7 +20,6 @@ import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.server.ClassResource
-import com.vaadin.server.FontAwesome
 import com.vaadin.server.UserError
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
@@ -99,13 +98,18 @@ class TextFields : VerticalLayout(), View {
             }
             cssLayout {
                 styleName = ValoTheme.LAYOUT_COMPONENT_GROUP
-                textField {
+                val text = textField {
+                    value = "Grouped with a button"
                     placeholder = "Grouped with a button"
                     addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON)
                     icon = testIcon.next()
                     w = 260.px
                 }
-                button("Do It")
+                button("Speak") {
+                    onLeftClick {
+                        if (text.value.isNotBlank()) tts(text.value.trim(), "UK English Female")
+                    }
+                }
             }
             textField("Borderless") {
                 placeholder = "Write here…"
@@ -202,6 +206,9 @@ class TextFields : VerticalLayout(), View {
                 value = "<b>Some</b> <i>rich</i> content"
                 isReadOnly = true
             }
+        }
+        label {
+            html("Text-to-Speech powered by <a href='https://responsivevoice.org/'>ResponsiveVoice</a>")
         }
     }
 

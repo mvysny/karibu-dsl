@@ -29,6 +29,7 @@ import javax.servlet.annotation.WebServlet
 @Theme("tests-valo")
 @Title("Karibu-DSL Demo")
 @Viewport("width=device-width, initial-scale=1.0")
+@JavaScript("https://code.jquery.com/jquery-2.1.4.min.js", "https://code.responsivevoice.org/responsivevoice.js")
 class MyUI : UI() {
 
     override fun init(request: VaadinRequest?) {
@@ -118,4 +119,12 @@ object StringGenerator: Sequence<String>, ItemCaptionGenerator<Int> {
 inline fun HasComponents.title(title: String) = label(title) {
     w = fillParent
     addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_COLORED)
+}
+
+fun tts(what: String, voice: String) {
+    Page.getCurrent().javaScript.execute("""if (window.responsiveVoice) {
+          window.responsiveVoice.speak('$what','$voice');
+        } else {
+            window.alert("Unfortunately, ResponsiveVoice is not supported by your browser. Please check your browser compatibility at http://caniuse.com/#feat=speech-synthesis")
+        }""")
 }
