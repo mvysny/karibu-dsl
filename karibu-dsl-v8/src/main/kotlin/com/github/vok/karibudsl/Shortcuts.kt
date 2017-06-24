@@ -2,6 +2,7 @@ package com.github.vok.karibudsl
 
 import com.vaadin.event.ShortcutAction
 import com.vaadin.event.ShortcutListener
+import com.vaadin.shared.Registration
 import com.vaadin.ui.AbstractComponent
 import com.vaadin.ui.Button
 import com.vaadin.ui.Component
@@ -34,17 +35,14 @@ private fun shortcutListener(shortcut: KeyShortcut, block: () -> Unit): Shortcut
             }
         }
 
-private fun shortcutListener(shortcut: Int, block: () -> Unit) = shortcutListener(KeyShortcut(shortcut), block)
-
 /**
  * Adds global shortcut listener. The listener is not added directly for this component - instead it is global, up to the nearest parent
  * Panel, UI or Window.
  * @param shortcut the shortcut, e.g. `Ctrl + Alt + C`
  */
-fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): ShortcutListener {
+fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): Registration {
     val listener = shortcutListener(shortcut, action)
-    (this as AbstractComponent).addShortcutListener(listener)
-    return listener
+    return (this as AbstractComponent).addShortcutListener(listener)
 }
 
 /**
