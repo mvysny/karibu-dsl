@@ -1,6 +1,8 @@
 package com.github.vok.karibudsl
 
+import com.vaadin.data.SelectionModel
 import com.vaadin.data.provider.DataProvider
+import com.vaadin.event.selection.SelectionEvent
 import com.vaadin.ui.Grid
 import com.vaadin.ui.HasComponents
 import com.vaadin.ui.renderers.TextRenderer
@@ -9,8 +11,8 @@ import elemental.json.JsonValue
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-fun <T: Any> (@VaadinDsl HasComponents).grid(clazz: KClass<T>, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
-        init(Grid<T>(clazz.java)) {
+fun <T: Any> (@VaadinDsl HasComponents).grid(clazz: KClass<T>? = null, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
+        init(if (clazz == null) Grid<T>() else Grid<T>(clazz.java)) {
             this.caption = caption
             if (dataProvider != null) this.dataProvider = dataProvider
             block()
@@ -67,3 +69,7 @@ fun <T, V> (@VaadinDsl Grid<T>).addColumn(property: KProperty1<T, V>, converter:
  * Refreshes the Grid and re-polls for data.
  */
 fun (@VaadinDsl Grid<*>).refresh() = dataProvider.refreshAll()
+
+val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*>
+val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*>
+val SelectionEvent<*>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
