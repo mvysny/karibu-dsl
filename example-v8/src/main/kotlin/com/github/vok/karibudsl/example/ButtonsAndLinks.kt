@@ -16,6 +16,10 @@
 package com.github.vok.karibudsl.example
 
 import com.github.vok.karibudsl.*
+import com.github.vok.karibudsl.ModifierKey.Alt
+import com.github.vok.karibudsl.ModifierKey.Ctrl
+import com.vaadin.event.ShortcutAction
+import com.vaadin.event.ShortcutAction.KeyCode.E
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
@@ -92,6 +96,11 @@ class ButtonsAndLinks : VerticalLayout(), View {
             button("Tiny") { styleName = ValoTheme.BUTTON_TINY }
             button("Huge") { styleName = ValoTheme.BUTTON_HUGE }
             nativeButton("Native")
+            button("Ctrl+Alt+E") {
+                addGlobalShortcutListener(Ctrl + Alt + E) {
+                    Notification.show("Ctrl+Alt+E pressed!")
+                }
+            }
         }
         label("Links") {
             styleName = ValoTheme.LABEL_H3

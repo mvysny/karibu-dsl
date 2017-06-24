@@ -1,6 +1,5 @@
 package com.github.vok.karibudsl
 
-import com.github.vok.karibudsl.internal.ShortcutListeners
 import com.vaadin.event.ShortcutAction
 import com.vaadin.event.ShortcutListener
 import com.vaadin.ui.AbstractComponent
@@ -28,10 +27,14 @@ data class KeyShortcut(val keyCode: Int, val modifierKeys: Set<ModifierKey> = se
     val vaadinModifiers: IntArray = modifierKeys.map { it.value }.toIntArray()
 }
 
-fun shortcutListener(shortcut: KeyShortcut, block: () -> Unit): ShortcutListener =
-        ShortcutListeners.listener(shortcut.keyCode, shortcut.vaadinModifiers, block)
+private fun shortcutListener(shortcut: KeyShortcut, block: () -> Unit): ShortcutListener =
+        object : ShortcutListener(null, null, shortcut.keyCode, shortcut.vaadinModifiers) {
+            override fun handleAction(sender: Any?, target: Any?) {
+                block()
+            }
+        }
 
-fun shortcutListener(shortcut: Int, block: () -> Unit) = shortcutListener(KeyShortcut(shortcut), block)
+private fun shortcutListener(shortcut: Int, block: () -> Unit) = shortcutListener(KeyShortcut(shortcut), block)
 
 /**
  * Adds global shortcut listener. The listener is not added directly for this component - instead it is global, up to the nearest parent
