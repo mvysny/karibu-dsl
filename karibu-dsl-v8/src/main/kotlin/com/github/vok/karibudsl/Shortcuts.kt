@@ -6,6 +6,7 @@ import com.vaadin.shared.Registration
 import com.vaadin.ui.AbstractComponent
 import com.vaadin.ui.Button
 import com.vaadin.ui.Component
+import java.io.Serializable
 
 enum class ModifierKey(val value: Int) {
     Shift(ShortcutAction.ModifierKey.SHIFT),
@@ -24,7 +25,7 @@ infix operator fun Set<ModifierKey>.plus(key: Int) = KeyShortcut(key, this)
  * becomes `Ctrl+Alt+C` ;)
  * @property keyCode one of the ShortcutAction.KeyCode.* constants.
  */
-data class KeyShortcut(val keyCode: Int, val modifierKeys: Set<ModifierKey> = setOf()) {
+data class KeyShortcut(val keyCode: Int, val modifierKeys: Set<ModifierKey> = setOf()) : Serializable {
     val vaadinModifiers: IntArray = modifierKeys.map { it.value }.toIntArray()
 }
 

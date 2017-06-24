@@ -68,21 +68,24 @@ class AutoViewProvider : ServletContainerInitializer {
         private val viewNameToClass: MutableBiMap<String, Class<out View>> = HashBiMap()
 
         internal fun <T: View> getMapping(clazz: Class<T>): String =
-                viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString()}")
+                viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString(transform = { it.name })}")
     }
 
     private fun Class<*>.toViewName(): String {
-        val name = getAnnotation(AutoView::class.java)!!.value
+        val name = findAnnotation(AutoView::class.java)!!.value
         return if (name == VIEW_NAME_USE_DEFAULT) simpleName.removeSuffix("View").upperCamelToLowerHyphen() else name
     }
 
     override fun onStartup(c: MutableSet<Class<*>>?, ctx: ServletContext?) {
         c?.forEach {
-            val viewName = it.toViewName()
-            if (viewNameToClass.containsKey(viewName)) {
-                throw RuntimeException("Views $it and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name")
+            // ignore annotations and interfaces
+            if (!it.isInterface && !it.isAnnotation) {
+                val viewName = it.toViewName()
+                check(!viewNameToClass.containsKey(viewName)) {
+                    "Views $it and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name"
+                }
+                viewNameToClass.put(viewName, it.asSubclass(View::class.java))
             }
-            viewNameToClass.put(viewName, it.asSubclass(View::class.java))
         }
     }
 }
@@ -104,11 +107,18 @@ val autoViewProvider = AutoViewProvider
 private const val VIEW_NAME_USE_DEFAULT = "USE_DEFAULT"
 
 fun navigateToView(view: Class<out View>, vararg params: String) {
-    require(view.getAnnotation(AutoView::class.java) != null) { "$view is not annotated with @AutoView" }
+    require(view.findAnnotation(AutoView::class.java) != null) { "$view is not annotated with @AutoView; unfortunately all views must be annotated directly, otherwise ServletContainerInitializer won't auto-discover it for us" }
     val mapping = AutoViewProvider.getMapping(view)
     val param = if (params.isEmpty()) "" else params.map { URLEncoder.encode(it, "UTF-8") }.joinToString("/", "/")
     val navigator = UI.getCurrent().navigator ?: throw IllegalStateException("Navigator not set. Just add the following code to your UI.init() method: { navigator = Navigator(this, content as ViewDisplay); navigator.addProvider(autoViewProvider) }")
     navigator.navigateTo("$mapping$param")
+}
+
+internal fun <T: Annotation> Class<*>.findAnnotation(ac: Class<T>): T? {
+    // unfortunately, the class discovery algorithm of ServletContainerInitializer+@HandlesTypes is quite weak.
+    // if will not handle transitive annotations; for example it will not handle classes implementing interfaces annotated with @AutoView
+    // therefore, we'll just use the getAnnotation()
+    return getAnnotation(ac)
 }
 
 /**
@@ -135,10 +145,15 @@ val ViewChangeListener.ViewChangeEvent.parameterList: Map<Int, String>
     get() = parameters.trim().split('/').map { URLDecoder.decode(it, "UTF-8")!! } .filterNot(String::isEmpty).mapIndexed { i, param -> i to param }.toMap()
 
 /**
+ * Annotate your views with this annotation, and the [autoViewProvider] will auto-discover them and register them.
+ *
  * By default the view will be assigned a colon-separated name, derived from your view class name. The trailing View is dropped.
  * For example, UserListView will be mapped to user-list. You can attach this annotation to a view, to modify this behavior.
  * It is often a good practice to mark one particular view as the root view, by annotating the class with `AutoView("")`.
  * This view will be shown initially when the user enters your application.
+ *
+ * All views must directly be annotated with this annotation. This annotation does not apply to subclasses; this annotation does not apply to
+ * implementors of an annotated interface. This is an unfortunate limitation of ServletContainerInitializer.
  */
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
