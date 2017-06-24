@@ -11,8 +11,12 @@ import elemental.json.JsonValue
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-fun <T: Any> (@VaadinDsl HasComponents).grid(clazz: KClass<T>? = null, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
-        init(if (clazz == null) Grid<T>() else Grid<T>(clazz.java)) {
+/**
+ * Creates a grid.
+ * @param itemClass host items of this class. If not null, columns are created automatically for this class.
+ */
+fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
+        init(if (itemClass == null) Grid<T>() else Grid<T>(itemClass.java)) {
             this.caption = caption
             if (dataProvider != null) this.dataProvider = dataProvider
             block()
