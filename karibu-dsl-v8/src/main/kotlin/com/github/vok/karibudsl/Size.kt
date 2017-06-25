@@ -66,17 +66,17 @@ val Int.em: Size
     get() = toFloat().em
 val Float.em: Size
     get() = Size(this, Sizeable.Unit.EM)
-var (@VaadinDsl Component).w: Size
+var (@VaadinDsl Sizeable).w: Size
     get() = Size(width, widthUnits)
     set(value) {
         setWidth(value.size, value.units)
     }
-var (@VaadinDsl Component).h: Size
+var (@VaadinDsl Sizeable).h: Size
     get() = Size(height, heightUnits)
     set(value) = setHeight(value.size, value.units)
 
 /**
  * true if both the component width and height is set to 100%
  */
-val (@VaadinDsl Component).isSizeFull: Boolean
+val (@VaadinDsl Sizeable).isSizeFull: Boolean
     get() = w.isFillParent && h.isFillParent
