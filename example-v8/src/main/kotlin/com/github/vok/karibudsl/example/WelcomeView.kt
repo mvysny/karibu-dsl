@@ -31,10 +31,12 @@ class WelcomeView: VerticalLayout(), View {
         }
         label {
             w = fillParent
-            html("""<strong>Vaadin version:</strong> ${Version.getFullVersion()}<br/><strong>Kotlin version:</strong> ${KotlinVersion.CURRENT}""")
+            html("""<strong>Vaadin version:</strong> ${Version.getFullVersion()}<br/><strong>Kotlin version:</strong> ${KotlinVersion.CURRENT}<br/><strong>Java version:</strong> ${javaVersion}""")
         }
     }
 
     override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
     }
 }
+
+val javaVersion: String get() = System.getProperty("java.version")
