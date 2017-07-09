@@ -31,7 +31,7 @@ class WelcomeView: VerticalLayout(), View {
         }
         label {
             w = fillParent
-            html("""<strong>Vaadin version:</strong> ${Version.getFullVersion()}<br/><strong>Kotlin version:</strong> ${KotlinVersion.CURRENT}<br/><strong>Java version:</strong> ${javaVersion}""")
+            html("""<strong>Vaadin version:</strong> ${Version.getFullVersion()}<br/><strong>Kotlin version:</strong> ${KotlinVersion.CURRENT}<br/><strong>JVM version:</strong> $jvmVersion""")
         }
     }
 
@@ -39,4 +39,4 @@ class WelcomeView: VerticalLayout(), View {
     }
 }
 
-val javaVersion: String get() = System.getProperty("java.version")
+val jvmVersion: String get() = System.getProperty("java.version")
