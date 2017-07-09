@@ -6,3 +6,4 @@ local.properties
 styles.css
 styles.css.gz
 *.iml
+out
