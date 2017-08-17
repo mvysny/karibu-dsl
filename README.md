@@ -12,6 +12,10 @@ Supports:
 
 * Vaadin 8 (including support for v7 compatibility package)
 
+The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
+*Vaadin* (which is a Finnish word for a female reindeer). Also a nice connotation comes from Swahili where *Karibu*
+means *welcome*. 
+
 ## Why DSL?
 
 Just compare the Kotlin-based [CommonElementsView](example-v8/src/main/kotlin/com/github/vok/karibudsl/example/CommonElementsView.kt)
