@@ -16,6 +16,15 @@ class BinderUtilsTest {
     fun initVaadin() = MockVaadin.setup()
 
     @Test
+    fun testReadBeanWithNullFields() {
+        // https://github.com/vaadin/framework/issues/8664
+        val binder = Binder<Person>(Person::class.java)
+        val form = Form(binder)
+        binder.readBean(Person())
+        expect("") { form.fullName.value }
+    }
+
+    @Test
     fun testSimpleBindings() {
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
