@@ -1,7 +1,7 @@
 plugins {
     // need to use Gretty here because of https://github.com/johndevs/gradle-vaadin-plugin/issues/317
     id "org.akhikhl.gretty" version "2.0.0"
-    id 'com.devsoap.plugin.vaadin' version '1.2.1'
+    id 'com.devsoap.plugin.vaadin' version '1.2.3'
 }
 
 apply plugin: 'war'
@@ -14,12 +14,6 @@ ext.jettyVer = '9.4.2.v20170220'
 
 vaadin {
     version vaadin8_version
-    manageDependencies = false  // 'true' doesn't work with Gretty - Gretty won't pull in Vaadin dependencies on appRun and will crash because of missing widgetset
-    // have to use Gretty here, disable Vaadin Gradle Plugin jetty support for now
-//    logToConsole = true
-//    vaadinRun {
-//        server = 'jetty'
-//    }
 }
 
 gretty {
@@ -36,11 +30,9 @@ dependencies {
     // this will allow us to configure Vaadin to log to SLF4J
     compile 'org.slf4j:jul-to-slf4j:1.7.25'
 
-    // Vaadin
+    // Vaadin: workaround until https://youtrack.jetbrains.com/issue/IDEA-178071 is fixed
     compile "com.vaadin:vaadin-client-compiled:$vaadin8_version"
-    compile "com.vaadin:vaadin-server:$vaadin8_version"
     compile "com.vaadin:vaadin-themes:$vaadin8_version"
-    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // validation
     compile 'javax.validation:validation-api:1.0.0.GA'  // so that the BeanFieldGroup will perform JSR303 validations
