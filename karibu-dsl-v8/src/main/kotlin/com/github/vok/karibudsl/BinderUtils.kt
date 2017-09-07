@@ -3,7 +3,6 @@ package com.github.vok.karibudsl
 import com.vaadin.data.*
 import com.vaadin.data.converter.*
 import com.vaadin.server.Page
-import com.vaadin.ui.AbstractTextField
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate
@@ -26,7 +25,11 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
         withConverter(object : Converter<String?, String?> {
             override fun convertToModel(value: String?, context: ValueContext?): Result<String?> =
                     Result.ok(value?.trim())
-            override fun convertToPresentation(value: String?, context: ValueContext?): String? = value
+            override fun convertToPresentation(value: String?, context: ValueContext?): String? {
+                // must not return null here otherwise TextField will fail with NPE:
+                // // workaround for https://github.com/vaadin/framework/issues/8664
+                return value ?: ""
+            }
         })
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(StringToIntegerConverter("Can't convert to integer"))
@@ -57,13 +60,8 @@ inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = B
  * }
  * ```
  */
-fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
-    var builder = binder.forField(this)
-    // workaround for https://github.com/vaadin/framework/issues/8664
-    @Suppress("UNCHECKED_CAST")
-    if (this is AbstractTextField) builder = builder.withNullRepresentation("" as FIELDVALUE)
-    return builder
-}
+fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> =
+        binder.forField(this)
 
 /**
  * A type-safe binding which binds only to a property of given type, found on given bean.
