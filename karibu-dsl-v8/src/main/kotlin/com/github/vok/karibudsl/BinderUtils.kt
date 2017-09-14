@@ -3,6 +3,7 @@ package com.github.vok.karibudsl
 import com.vaadin.data.*
 import com.vaadin.data.converter.*
 import com.vaadin.server.Page
+import com.vaadin.ui.AbstractTextField
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate
@@ -60,8 +61,12 @@ inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = B
  * }
  * ```
  */
-fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> =
-        binder.forField(this)
+fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
+    var builder = binder.forField(this)
+    @Suppress("UNCHECKED_CAST")
+    if (this is AbstractTextField) builder = builder.withNullRepresentation("" as FIELDVALUE)
+    return builder
+}
 
 /**
  * A type-safe binding which binds only to a property of given type, found on given bean.

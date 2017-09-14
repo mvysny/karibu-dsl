@@ -1,11 +1,13 @@
 package com.github.vok.karibudsl
 
 import com.vaadin.data.Binder
-import com.vaadin.ui.TextField
-import com.vaadin.ui.VerticalLayout
+import com.vaadin.data.HasValue
+import com.vaadin.ui.*
 import org.junit.Before
 import org.junit.Test
 import java.io.Serializable
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.time.LocalDate
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
@@ -20,17 +22,44 @@ class BinderUtilsTest {
         // https://github.com/vaadin/framework/issues/8664
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
+        form.clear()
         binder.readBean(Person())
         expect("") { form.fullName.value }
+        expect(null) { form.dateOfBirth.value }
+        expect(false) { form.isAlive.value }
+        expect("") { form.comment.value }
+        expect("") { form.testDouble.value }
+        expect("") { form.testInt.value }
+        expect("") { form.testBD.value }
+        expect("") { form.testBI.value }
+        expect("") { form.testLong.value }
+    }
+
+    @Test
+    fun testWriteBeanWithNullFields() {
+        // https://github.com/vaadin/framework/issues/8664
+        val binder = Binder<Person>(Person::class.java)
+        val form = Form(binder)
+        form.clear()
+        val person = Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment",
+                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))
+        binder.writeBean(person)
+        expect(Person(alive = false)) { person }
     }
 
     @Test
     fun testSimpleBindings() {
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
+        form.testDouble.value = "25.5"
+        form.testInt.value = "5"
+        form.testLong.value = "555"
+        form.testBI.value = "123"
+        form.testBD.value = "77.11"
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
-        expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment")) { person }
+        expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment",
+                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))) { person }
     }
 
     @Test
@@ -55,6 +84,14 @@ class BinderUtilsTest {
 
 private class Form(binder: Binder<Person>): VerticalLayout() {
     val fullName: TextField
+    val dateOfBirth: DateField
+    val isAlive: CheckBox
+    val comment: TextArea
+    val testDouble: TextField
+    val testInt: TextField
+    val testLong: TextField
+    val testBD: TextField
+    val testBI: TextField
     init {
         fullName = textField("Full Name:") {
             // binding to a BeanValidationBinder will also validate the value automatically.
@@ -62,18 +99,39 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
             bind(binder).trimmingConverter().bind(Person::fullName)
             value = "Zaphod Beeblebrox"
         }
-        dateField("Date of Birth:") {
+        dateOfBirth = dateField("Date of Birth:") {
             bind(binder).bind(Person::dateOfBirth)
             value = LocalDate.of(2010, 1, 25)
         }
-        checkBox("Is Alive") {
+        isAlive = checkBox("Is Alive") {
             bind(binder).bind(Person::alive)
             value = false
         }
-        textArea("Comment:") {
+        comment = textArea("Comment:") {
             bind(binder).bind(Person::comment)
             value = "some comment"
         }
+        testDouble = textField("Test Double:") {
+            bind(binder).toDouble().bind(Person::testDouble)
+        }
+        testInt = textField("Test Int:") {
+            bind(binder).toInt().bind(Person::testInt)
+        }
+        testLong = textField("Test Long:") {
+            bind(binder).toLong().bind(Person::testLong)
+        }
+        testBD = textField("Test BigDecimal:") {
+            bind(binder).toBigDecimal().bind(Person::testBD)
+        }
+        testBI = textField("Test BigInteger:") {
+            bind(binder).toBigInteger().bind(Person::testBI)
+        }
+    }
+
+    fun clear() {
+        listOf<HasValue<*>>(fullName, comment, testDouble, testInt, testLong, testBD, testBI).forEach { it.value = "" }
+        dateOfBirth.value = null
+        isAlive.value = false
     }
 }
 
@@ -88,5 +146,15 @@ data class Person(@field:NotNull
                   @field:NotNull
                   var alive: Boolean? = null,
 
-                  var comment: String? = null
+                  var comment: String? = null,
+
+                  var testDouble: Double? = null,
+
+                  var testInt: Int? = null,
+
+                  var testLong: Long? = null,
+
+                  var testBD: BigDecimal? = null,
+
+                  var testBI: BigInteger? = null
 ) : Serializable
