@@ -16,8 +16,6 @@
 package com.github.vok.karibudsl.example
 
 import com.github.vok.karibudsl.AutoView
-import com.github.vok.karibudsl.addStyleNames
-import com.github.vok.karibudsl.label
 import com.github.vok.karibudsl.tree
 import com.vaadin.data.TreeData
 import com.vaadin.data.provider.HierarchicalDataProvider
@@ -27,9 +25,7 @@ import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.server.SerializablePredicate
 import com.vaadin.ui.Grid
-import com.vaadin.ui.Notification
 import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.themes.ValoTheme
 import java.util.*
 
 @AutoView
