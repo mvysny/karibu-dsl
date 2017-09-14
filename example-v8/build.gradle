@@ -40,8 +40,6 @@ dependencies {
     // http://stackoverflow.com/questions/24386771/javax-validation-validationexception-hv000183-unable-to-load-javax-el-express
     compile 'org.glassfish.web:javax.el:2.2.6'
 
-    // @todo mavi add Material Theme and Gradle Theme Compiler
-
     // easy development with Jetty
     testCompile "org.eclipse.jetty:jetty-webapp:$jettyVer"
     testCompile "org.eclipse.jetty:jetty-annotations:$jettyVer"
