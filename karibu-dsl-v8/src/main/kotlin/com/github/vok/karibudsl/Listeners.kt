@@ -16,7 +16,7 @@ private fun Component.hasListenersHandling(eventType: Class<*>) = !getListenersH
 private fun Component.hasClickListeners() = hasListenersHandling(MouseEvents.ClickEvent::class.java) || hasListenersHandling(Button.ClickEvent::class.java)
 
 private fun Component.getAscendantLayoutWithLayoutClickNotifier(): LayoutEvents.LayoutClickNotifier? {
-    var component = this
+    var component: Component? = this
     while (component != null) {
         if (component is LayoutEvents.LayoutClickNotifier && component.hasListenersHandling(LayoutEvents.LayoutClickEvent::class.java)) {
             return component

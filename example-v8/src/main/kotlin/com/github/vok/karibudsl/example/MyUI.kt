@@ -116,7 +116,7 @@ object StringGenerator: Sequence<String>, ItemCaptionGenerator<Int> {
 /**
  * An example of a DSL definition which simply wraps a label and adds styles necessary to display a nice [title].
  */
-inline fun HasComponents.title(title: String) = label(title) {
+fun HasComponents.title(title: String) = label(title) {
     w = fillParent
     addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_COLORED)
 }
