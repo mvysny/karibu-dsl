@@ -42,8 +42,10 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBu
         withConverter(StringToBigDecimalConverter("Can't convert to decimal number"))
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter("Can't convert to integer"))
+// @todo mavi this conversion does not take into account DST for historical dates. Modify accordingly when https://github.com/vaadin/framework/issues/7911 is fixed
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(ZoneOffset.ofTotalSeconds(Page.getCurrent().webBrowser.timezoneOffset / 1000)))
+// @todo mavi this conversion does not take into account DST for historical dates. Modify accordingly when https://github.com/vaadin/framework/issues/7911 is fixed
 @JvmName("localDateTimeToDate")
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateTimeToDateConverter(ZoneOffset.ofTotalSeconds(Page.getCurrent().webBrowser.timezoneOffset / 1000)))
