@@ -34,7 +34,7 @@ class MainView : VerticalLayout() {
                 template.setValue("Clicked!")
             }
         }
-        h2("The traditional Vaadin 8 hello-world")
+        h2("The traditional Vaadin 8 hello-world in Vaadin 10")
         val name = textField("Your name:") {
             placeholder = "Please enter your name:"
         }

@@ -22,7 +22,6 @@ import com.vaadin.flow.model.TemplateModel
 import com.vaadin.ui.Tag
 import com.vaadin.ui.common.HasComponents
 import com.vaadin.ui.common.HtmlImport
-import com.vaadin.ui.dialog.Dialog
 import com.vaadin.ui.polymertemplate.PolymerTemplate
 
 /**
