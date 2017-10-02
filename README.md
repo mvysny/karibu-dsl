@@ -11,6 +11,7 @@ Kotlin extensions and DSL for the [Vaadin](https://www.vaadin.com) framework:
 Supports:
 
 * Vaadin 8 (including support for v7 compatibility package)
+* Vaadin 10 aka [Flow](https://vaadin.com/flow)
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). Also a nice connotation comes from Swahili where *Karibu*
@@ -39,6 +40,21 @@ cd karibu-dsl
 The example app will be running at [http://localhost:8080](http://localhost:8080). You can check the online demo of the example application: [https://martin.app.fi/karibudsl](https://martin.app.fi/karibudsl).
 
 In case of questions you can always [browse the sample project sources here](example-v8).
+
+### QuickStart Vaadin 10 (Flow)
+
+Quickly run the bundled example application from the command-line:
+
+```bash
+git clone https://github.com/mvysny/karibu-dsl
+cd karibu-dsl
+./gradlew build
+./gradlew example-v10:appRun
+```
+
+The example app will be running at [http://localhost:8080](http://localhost:8080).
+
+In case of questions you can always [browse the sample project sources here](example-v10).
 
 ## Using in your projects
 
