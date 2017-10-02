@@ -1,0 +1,24 @@
+{
+  "name": "skeleton",
+  "homepage": "https://github.com/vaadin/skeleton-starter-flow",
+  "authors": [],
+  "description": "Skeleton Starter for Vaadin Flow",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:vaadin/skeleton-starter-flow.git"
+  },
+  "main": "",
+  "license": "Apache2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~2.0.2",
+    "vaadin-core": "2.0.0-alpha3"
+  }
+}

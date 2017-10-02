@@ -1,0 +1,21 @@
+{
+  "name": "skeleton",
+  "version": "1.0.0",
+  "main": "",
+  "description": "Flow Application Skeleton",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:vaadin/flow-application-skeleton.git"
+  },
+  "dependencies": {
+    "bower": "^1.8.2",
+    "polymer-cli": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "prodMode": "bower install && polymer build",
+    "devMode": "bower install"
+  },
+  "author": "",
+  "license": "Apache-2.0"
+}

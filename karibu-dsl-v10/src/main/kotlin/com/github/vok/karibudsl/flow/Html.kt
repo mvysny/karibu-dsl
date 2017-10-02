@@ -21,7 +21,7 @@ fun HasComponents.span(text: String? = null, block: (@VaadinDsl Span).() -> Unit
 fun HasComponents.anchor(href: String? = null, text: String? = href, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
 fun HasComponents.image(src: String? = null, alt: String? = src, block: (@VaadinDsl Image).() -> Unit = {}) = init(Image(src, alt), block)
 fun HasComponents.label(text: String? = null, `for`: Component? = null, block: (@VaadinDsl Label).() -> Unit = {}) = init(Label(text).apply {
-    setFor(`for`)
+    if (`for` != null) setFor(`for`)
 }, block)
 
 fun HasComponents.input(block: (@VaadinDsl Input).() -> Unit = {}) = init(Input(), block)
