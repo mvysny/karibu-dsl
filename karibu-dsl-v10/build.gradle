@@ -1,0 +1,74 @@
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin'
+
+repositories {
+     maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
+    // Vaadin
+    compile "com.vaadin:vaadin:$vaadin10_version"
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+
+    // IDEA language injections
+    compile 'com.intellij:annotations:12.0'
+
+    // always include support for bean validation
+    compile 'javax.validation:validation-api:1.0.0.GA'  // so that the BeanFieldGroup will perform JSR303 validations
+    compile 'org.hibernate:hibernate-validator:5.4.1.Final'
+    // http://stackoverflow.com/questions/24386771/javax-validation-validationexception-hv000183-unable-to-load-javax-el-express
+    compile 'org.glassfish.web:javax.el:2.2.6'
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId 'karibu-dsl-v10'
+            version project.version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Karibu-DSL, Kotlin extensions/DSL for Vaadin 10')
+                root.appendNode('name', 'Karibu-DSL v10')
+                root.appendNode('url', 'https://github.com/mvysny/karibu-dsl')
+            }
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+build.dependsOn publishToMavenLocal
+
+bintray {
+    user = local.getProperty('bintray.user')
+    key = local.getProperty('bintray.key')
+    pkg {
+        repo = 'vaadin-on-kotlin'
+        name = 'vaadin-on-kotlin'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/mvysny/karibu-dsl'
+        publish = true
+        publications = ['mavenJava']
+        version {
+            name = project.version
+            released = new Date()
+        }
+    }
+}
