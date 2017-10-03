@@ -1,15 +1,14 @@
-package com.github.vok.karibudsl
+package com.github.vok.karibudsl.flow
 
 import com.vaadin.data.*
 import com.vaadin.data.converter.*
-import com.vaadin.server.Page
-import com.vaadin.ui.AbstractTextField
+import com.vaadin.ui.common.HasValue
+import com.vaadin.ui.textfield.TextField
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.util.*
 import javax.validation.Constraint
 import javax.validation.ConstraintValidator
@@ -33,23 +32,31 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
                 return value ?: ""
             }
         })
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(StringToIntegerConverter("Can't convert to integer"))
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
         withConverter(StringToDoubleConverter("Can't convert to decimal number"))
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(StringToLongConverter("Can't convert to integer"))
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withConverter(StringToBigDecimalConverter("Can't convert to decimal number"))
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter("Can't convert to integer"))
-val browserTimeZone: ZoneId get() {
-    // @todo mavi this conversion does not take into account DST for historical dates. Modify accordingly when https://github.com/vaadin/framework/issues/7911 is fixed
-    return ZoneOffset.ofTotalSeconds(Page.getCurrent().webBrowser.timezoneOffset / 1000)
-}
+
+val browserTimeZone: ZoneId
+    get() {
+        // @todo mavi this conversion does not take into account DST for historical dates. Modify accordingly when https://github.com/vaadin/framework/issues/7911 is fixed
+        return ZoneId.systemDefault()
+    }
 
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(browserTimeZone))
+
 @JvmName("localDateTimeToDate")
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateTimeToDateConverter(browserTimeZone))
@@ -67,10 +74,10 @@ inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = B
  * }
  * ```
  */
-fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
+fun <BEAN, FIELDVALUE> HasValue<*, FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
     var builder = binder.forField(this)
     @Suppress("UNCHECKED_CAST")
-    if (this is AbstractTextField) builder = builder.withNullRepresentation("" as FIELDVALUE)
+    if (this is TextField) builder = builder.withNullRepresentation("" as FIELDVALUE)
     return builder
 }
 
@@ -91,6 +98,7 @@ fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KMutab
 @Constraint(validatedBy = arrayOf(PastDateValidator::class))
 @MustBeDocumented
 annotation class PastDate(val message: String = "Must be in the past", val groups: Array<KClass<*>> = arrayOf(), val payload: Array<KClass<out Payload>> = arrayOf())
+
 class PastDateValidator : ConstraintValidator<PastDate, LocalDate?> {
 
     override fun initialize(constraintAnnotation: PastDate) {}
