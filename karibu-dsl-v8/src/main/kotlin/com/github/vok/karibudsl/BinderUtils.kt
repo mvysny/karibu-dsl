@@ -55,7 +55,7 @@ fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingB
         withConverter(LocalDateTimeToDateConverter(browserTimeZone))
 
 /**
- * Allows you to create [BeanValidationBinder] like this: `BeanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
+ * Allows you to create [BeanValidationBinder] like this: `beanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
  */
 inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = BeanValidationBinder(T::class.java)
 
