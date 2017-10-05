@@ -1,12 +1,8 @@
 {
-  "name": "skeleton",
-  "homepage": "https://github.com/vaadin/skeleton-starter-flow",
+  "name": "free-starter-flow",
+  "homepage": "https://github.com/vaadin/free-starter-flow",
   "authors": [],
-  "description": "Skeleton Starter for Vaadin Flow",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:vaadin/skeleton-starter-flow.git"
-  },
+  "description": "",
   "main": "",
   "license": "Apache2",
   "private": true,
@@ -19,6 +15,8 @@
   ],
   "dependencies": {
     "polymer": "~2.0.2",
+    "paper-toast": "~2.0.0",
+    "paper-dialog": "~2.0.0",
     "vaadin-core": "2.0.0-alpha3"
   }
 }

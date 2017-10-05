@@ -13,18 +13,23 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.flow.demo.helloworld
+package com.vaadin.starter.beveragebuddy.ui.converters
 
-import com.vaadin.server.VaadinServlet
-import com.vaadin.server.VaadinServletConfiguration
 
-import javax.servlet.annotation.WebServlet
+import com.vaadin.flow.model.ModelConverter
 
 /**
- * The main servlet for the application.
- *
- * It is not mandatory to have the Servlet, since Flow will automatically register a Servlet to any app with at least one `@Route` to server root context.
+ * @author Vaadin Ltd
  */
-@WebServlet(urlPatterns = arrayOf("/*"), name = "UIServlet", asyncSupported = true)
-@VaadinServletConfiguration(usingNewRouting = true, productionMode = false)
-class Servlet : VaadinServlet()
+
+class LongToStringConverter : ModelConverter<Long, String> {
+
+    override fun toPresentation(modelValue: Long?): String? {
+        return modelValue?.toString()
+    }
+
+    override fun toModel(presentationValue: String?): Long? {
+        return if (presentationValue == null) null else java.lang.Long.parseLong(presentationValue)
+    }
+
+}
