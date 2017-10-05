@@ -8,12 +8,12 @@ import com.vaadin.ui.html.*
 
 fun (@VaadinDsl HasComponents).div(block: (@VaadinDsl Div).() -> Unit = {}) = init(Div(), block)
 
-fun (@VaadinDsl HasComponents).h1(text: String, block: (@VaadinDsl H1).() -> Unit = {}) = init(H1(text), block)
-fun (@VaadinDsl HasComponents).h2(text: String, block: (@VaadinDsl H2).() -> Unit = {}) = init(H2(text), block)
-fun (@VaadinDsl HasComponents).h3(text: String, block: (@VaadinDsl H3).() -> Unit = {}) = init(H3(text), block)
-fun (@VaadinDsl HasComponents).h4(text: String, block: (@VaadinDsl H4).() -> Unit = {}) = init(H4(text), block)
-fun (@VaadinDsl HasComponents).h5(text: String, block: (@VaadinDsl H5).() -> Unit = {}) = init(H5(text), block)
-fun (@VaadinDsl HasComponents).h6(text: String, block: (@VaadinDsl H6).() -> Unit = {}) = init(H6(text), block)
+fun (@VaadinDsl HasComponents).h1(text: String = "", block: (@VaadinDsl H1).() -> Unit = {}) = init(H1(text), block)
+fun (@VaadinDsl HasComponents).h2(text: String = "", block: (@VaadinDsl H2).() -> Unit = {}) = init(H2(text), block)
+fun (@VaadinDsl HasComponents).h3(text: String = "", block: (@VaadinDsl H3).() -> Unit = {}) = init(H3(text), block)
+fun (@VaadinDsl HasComponents).h4(text: String = "", block: (@VaadinDsl H4).() -> Unit = {}) = init(H4(text), block)
+fun (@VaadinDsl HasComponents).h5(text: String = "", block: (@VaadinDsl H5).() -> Unit = {}) = init(H5(text), block)
+fun (@VaadinDsl HasComponents).h6(text: String = "", block: (@VaadinDsl H6).() -> Unit = {}) = init(H6(text), block)
 fun (@VaadinDsl HasComponents).hr(block: (@VaadinDsl Hr).() -> Unit = {}) = init(Hr(), block)
 
 fun (@VaadinDsl HasComponents).em(text: String? = null, block: (@VaadinDsl Emphasis).() -> Unit = {}) = init(Emphasis(text), block)

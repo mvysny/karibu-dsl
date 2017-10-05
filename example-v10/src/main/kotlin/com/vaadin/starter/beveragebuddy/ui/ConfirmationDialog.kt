@@ -15,13 +15,17 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.vok.karibudsl.flow.button
+import com.github.vok.karibudsl.flow.div
+import com.github.vok.karibudsl.flow.h2
+import com.github.vok.karibudsl.flow.horizontalLayout
 import com.vaadin.shared.Registration
 import com.vaadin.ui.Composite
 import com.vaadin.ui.button.Button
+import com.vaadin.ui.common.HasStyle
 import com.vaadin.ui.common.HtmlImport
 import com.vaadin.ui.html.Div
 import com.vaadin.ui.html.H2
-import com.vaadin.ui.layout.HorizontalLayout
 import com.vaadin.ui.paper.dialog.GeneratedPaperDialog
 
 import java.io.Serializable
@@ -30,17 +34,16 @@ import java.util.function.Consumer
 /**
  * A generic dialog for confirming or cancelling an action.
  *
- * @param <T>
- * The type of the action's subject
-</T> */
+ * @param <T> The type of the action's subject
+ */
 @HtmlImport("frontend://bower_components/paper-dialog/paper-dialog.html")
-internal class ConfirmationDialog<T : Serializable> : Composite<GeneratedPaperDialog<*>>() {
+internal class ConfirmationDialog<T : Serializable> : Composite<GeneratedPaperDialog<*>>(), HasStyle {
 
-    private val titleField = H2()
-    private val messageLabel = Div()
-    private val extraMessageLabel = Div()
-    private val confirmButton = Button()
-    private val cancelButton = Button("Cancel")
+    private lateinit var titleField: H2
+    private lateinit var messageLabel: Div
+    private lateinit var extraMessageLabel: Div
+    private lateinit var confirmButton: Button
+    private lateinit var cancelButton: Button
     private var registrationForConfirm: Registration? = null
     private var registrationForCancel: Registration? = null
 
@@ -48,53 +51,47 @@ internal class ConfirmationDialog<T : Serializable> : Composite<GeneratedPaperDi
      * Constructor.
      */
     init {
-        content.setModal(true)
-        // Enabling modality disables cancel-on-esc (and cancel-on-outside-click)
-        // We want to cancel on esc
-        content.setNoCancelOnEscKey(false)
+        addClassName("confirm-dialog")
+        content.apply {
+            setModal(true)
+            // Enabling modality disables cancel-on-esc (and cancel-on-outside-click)
+            // We want to cancel on esc
+            setNoCancelOnEscKey(false)
 
-        element.classList.add("confirm-dialog")
-        confirmButton.element.setAttribute("dialog-confirm", true)
-        confirmButton.element.setAttribute("theme", "tertiary")
-        confirmButton.isAutofocus = true
-        cancelButton.element.setAttribute("dialog-dismiss", true)
-        cancelButton.element.setAttribute("theme", "tertiary")
-
-        val buttonBar = HorizontalLayout(confirmButton,
-                cancelButton)
-        buttonBar.className = "buttons"
-
-        val labels = Div(messageLabel, extraMessageLabel)
-        labels.className = "text"
-
-        content.add(titleField, labels, buttonBar)
+            titleField = h2()
+            div { // labels
+                className = "text"
+                messageLabel = div()
+                extraMessageLabel = div()
+            }
+            horizontalLayout { // button bar
+                className = "buttons"
+                confirmButton = button {
+                    element.setAttribute("dialog-confirm", true)
+                    element.setAttribute("theme", "tertiary")
+                    isAutofocus = true
+                }
+                cancelButton = button("Cancel") {
+                    element.setAttribute("dialog-dismiss", true)
+                    element.setAttribute("theme", "tertiary")
+                }
+            }
+        }
     }
 
     /**
-     * Opens the confirmation dialog.
+     * Opens the confirmation dialog with given [title].
      *
      * The dialog will display the given title and message(s), then call
-     * `confirmHandler` if the Confirm button is clicked, or
-     * `cancelHandler` if the Cancel button is clicked.
-     *
-     * @param title
-     * The title text
-     * @param message
-     * Detail message (optional, may be empty)
-     * @param additionalMessage
-     * Additional message (optional, may be empty)
-     * @param actionName
-     * The action name to be shown on the Confirm button
-     * @param isDisruptive
-     * True if the action is disruptive, such as deleting an item
-     * @param item
-     * The subject of the action
-     * @param confirmHandler
-     * The confirmation handler function
-     * @param cancelHandler
-     * The cancellation handler function
+     * [confirmHandler] if the Confirm button is clicked, or
+     * [cancelHandler] if the Cancel button is clicked.
+     * @param message Detail message (optional, may be empty)
+     * @param additionalMessage Additional message (optional, may be empty)
+     * @param actionName The action name to be shown on the Confirm button
+     * @param isDisruptive True if the action is disruptive, such as deleting an item
+     * @param item The subject of the action
      */
-    fun open(title: String, message: String, additionalMessage: String,
+    fun open(title: String, message: String = "", additionalMessage: String = "",
              actionName: String, isDisruptive: Boolean, item: T, confirmHandler: Consumer<T>,
              cancelHandler: Runnable) {
         titleField.text = title
@@ -105,13 +102,11 @@ internal class ConfirmationDialog<T : Serializable> : Composite<GeneratedPaperDi
         if (registrationForConfirm != null) {
             registrationForConfirm!!.remove()
         }
-        registrationForConfirm = confirmButton
-                .addClickListener { e -> confirmHandler.accept(item) }
+        registrationForConfirm = confirmButton.addClickListener { confirmHandler.accept(item) }
         if (registrationForCancel != null) {
             registrationForCancel!!.remove()
         }
-        registrationForCancel = cancelButton
-                .addClickListener { e -> cancelHandler.run() }
+        registrationForCancel = cancelButton.addClickListener { cancelHandler.run() }
         if (isDisruptive) {
             confirmButton.element.setAttribute("theme", "tertiary danger")
         }
