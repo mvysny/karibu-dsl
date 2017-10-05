@@ -20,14 +20,13 @@ import com.vaadin.router.Route
 import com.vaadin.router.Title
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
+import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.ui.grid.Grid
 import com.vaadin.ui.html.Div
 import com.vaadin.ui.icon.Icon
 import com.vaadin.ui.icon.VaadinIcons
 import com.vaadin.ui.textfield.TextField
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -87,13 +86,13 @@ class CategoriesList : Div() {
     }
 
     private fun Category.getReviewCount(): String {
-        val reviewsInCategory = ReviewService.findReviews(name)
-        val totalCount = reviewsInCategory.sumBy { it.count }
+        val reviewsInCategory: List<Review> = ReviewService.findReviews(name)
+        val totalCount: Int = reviewsInCategory.sumBy { it.count }
         return totalCount.toString()
     }
 
     private fun updateView() {
-        val categories = CategoryService.findCategories(searchField.value)
+        val categories: List<Category> = CategoryService.findCategories(searchField.value)
         grid.setItems(categories)
     }
 
