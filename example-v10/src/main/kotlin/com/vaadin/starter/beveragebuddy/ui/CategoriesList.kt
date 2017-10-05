@@ -15,10 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.button
-import com.github.vok.karibudsl.flow.div
-import com.github.vok.karibudsl.flow.setPrimary
-import com.github.vok.karibudsl.flow.textField
+import com.github.vok.karibudsl.flow.*
 import com.vaadin.router.Route
 import com.vaadin.router.Title
 import com.vaadin.starter.beveragebuddy.backend.Category
@@ -41,7 +38,7 @@ import java.util.function.Consumer
 class CategoriesList : Div() {
 
     private lateinit var searchField: TextField
-    private val grid = Grid<Category>()
+    private val grid: Grid<Category>
 
     private val form = CategoryEditorDialog(
             BiConsumer<Category, AbstractEditorDialog.Operation> { category, operation -> this.saveCategory(category, operation) }, Consumer<Category> { this.deleteCategory(it) })
@@ -67,32 +64,29 @@ class CategoriesList : Div() {
                 addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
             }
         }
-        addGrid()
-
-        updateView()
-    }
-
-    private fun addGrid() {
-        grid.addColumn("Category", { it.name })
-        grid.addColumn("Beverages", { getReviewCount(it) })
-        // Grid does not yet implement HasStyle
-        grid.element.classList.add("categories")
-        grid.element.setAttribute("theme", "row-dividers")
-        grid.asSingleSelect().addValueChangeListener {
-            if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
-                selectionChanged(it.value.id!!)
-                grid.selectionModel.deselect(it.value)
+        grid = grid {
+            addColumn("Category", { it.name })
+            addColumn("Beverages", { it.getReviewCount() })
+            // Grid does not yet implement HasStyle
+            element.classList.add("categories")
+            element.setAttribute("theme", "row-dividers")
+            asSingleSelect().addValueChangeListener {
+                if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
+                    selectionChanged(it.value.id!!)
+                    selectionModel.deselect(it.value)
+                }
             }
         }
-        add(grid)
+
+        updateView()
     }
 
     private fun selectionChanged(categoryId: Long) {
         form.open(CategoryService.getById(categoryId), AbstractEditorDialog.Operation.EDIT)
     }
 
-    private fun getReviewCount(category: Category): String {
-        val reviewsInCategory = ReviewService.findReviews(category.name)
+    private fun Category.getReviewCount(): String {
+        val reviewsInCategory = ReviewService.findReviews(name)
         val totalCount = reviewsInCategory.sumBy { it.count }
         return totalCount.toString()
     }

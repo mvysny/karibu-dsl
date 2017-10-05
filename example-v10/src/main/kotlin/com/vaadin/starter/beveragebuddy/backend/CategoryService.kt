@@ -65,7 +65,7 @@ object CategoryService {
      * @param id    the category id
      * @return      the category
      */
-    fun findCategoryById(id: Long?): Category? = categories[id]
+    fun findCategoryById(id: Long): Category? = categories[id]
     fun getById(id: Long): Category = categories[id] ?: throw IllegalStateException("Category with id $id does not exist")
 
     /**

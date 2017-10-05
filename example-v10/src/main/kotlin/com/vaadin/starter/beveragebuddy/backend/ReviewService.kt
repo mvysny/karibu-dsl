@@ -87,7 +87,7 @@ object ReviewService {
             // has null id) is not handled here, because it can't currently
             // occur via the UI.
             // Note that Category.UNDEFINED also gets mapped to null.
-            category = CategoryService.findCategoryById(category.id) ?: Category.UNDEFINED
+        category = (if (category.id == null) null else CategoryService.findCategoryById(category.id!!)) ?: Category.UNDEFINED
         if (entity == null) {
             // Make a copy to keep entities and DTOs separated
             entity = dto.copy()
