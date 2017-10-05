@@ -60,7 +60,8 @@ abstract class AbstractEditorDialog<T : Serializable>
  * Callback to delete the edited item
  */
 protected constructor(private val itemType: String,
-                      private val itemSaver: BiConsumer<T, Operation>, private val itemDeleter: Consumer<T>) : Composite<GeneratedPaperDialog<*>>() {
+                      private val itemSaver: BiConsumer<T, Operation>, private val itemDeleter: Consumer<T>,
+                      itemClass: Class<T>) : Composite<GeneratedPaperDialog<*>>() {
 
     private val titleField = H2()
     private val saveButton = Button("Save")
@@ -83,7 +84,7 @@ protected constructor(private val itemType: String,
      *
      * @return the binder
      */
-    protected val binder = Binder<T>()
+    protected val binder = Binder<T>(itemClass)
     /**
      * Gets the item currently being edited.
      *

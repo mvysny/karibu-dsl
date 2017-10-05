@@ -15,10 +15,11 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.vaadin.data.Setter
-import com.vaadin.data.ValueProvider
+import com.github.vok.karibudsl.flow.bind
+import com.github.vok.karibudsl.flow.bindN
+import com.github.vok.karibudsl.flow.textField
+import com.github.vok.karibudsl.flow.trimmingConverter
 import com.vaadin.data.validator.StringLengthValidator
-import com.vaadin.function.SerializableFunction
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
@@ -31,29 +32,27 @@ import java.util.function.Consumer
  * A dialog for editing [Category] objects.
  */
 class CategoryEditorDialog(itemSaver: BiConsumer<Category, AbstractEditorDialog.Operation>,
-                           itemDeleter: Consumer<Category>) : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter) {
+                           itemDeleter: Consumer<Category>) : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter,
+        Category::class.java) {
 
-    private val categoryNameField = TextField("Category Name")
+    private lateinit var categoryNameField: TextField
 
     init {
-
-        addNameField()
+        formLayout.apply {
+            categoryNameField = textField("Category Name") {
+                bind(binder)
+                        .trimmingConverter()
+                        .withValidator(StringLengthValidator(
+                                "Category name must contain at least 3 printable characters",
+                                3, null))
+                        .withValidator(
+                                { name -> CategoryService.findCategories(name ?: "").isEmpty() },
+                                "Category name must be unique")
+                        .bindN(Category::name)
+            }
+        }
         // Due to a bug, not currently focusing vaadin/flow#2548
         categoryNameField.focus()
-    }
-
-    private fun addNameField() {
-        formLayout.add(categoryNameField)
-
-        binder.forField(categoryNameField)
-                .withConverter<String>({ it.trim() }, { it.trim() })
-                .withValidator(StringLengthValidator(
-                        "Category name must contain at least 3 printable characters",
-                        3, null))
-                .withValidator(
-                        { name -> CategoryService.findCategories(name).isEmpty() },
-                        "Category name must be unique")
-                .bind(ValueProvider<Category, String> { it.name }, Setter<Category, String> { obj, s -> obj.name = s })
     }
 
     override fun confirmDelete() {
