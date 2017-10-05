@@ -1,7 +1,9 @@
 package com.github.vok.karibudsl.flow
 
 import com.vaadin.ui.Component
+import com.vaadin.ui.Text
 import com.vaadin.ui.common.HasClickListeners
+import com.vaadin.ui.common.HasComponents
 import com.vaadin.ui.event.ComponentEvent
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
@@ -16,3 +18,5 @@ fun Component.fireEvent(event: ComponentEvent<*>) {
 fun <R> R.serverClick() where R : Component, R : HasClickListeners<R> {
     fireEvent(HasClickListeners.ClickEvent<R>(this, true))
 }
+
+fun (@VaadinDsl HasComponents).text(text: String, block: (@VaadinDsl Text).() -> Unit = {}) = init(Text(text), block)
