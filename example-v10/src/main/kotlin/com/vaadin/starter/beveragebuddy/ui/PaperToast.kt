@@ -15,12 +15,18 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.vok.karibudsl.flow.VaadinDsl
+import com.github.vok.karibudsl.flow.init
 import com.vaadin.shared.Registration
 import com.vaadin.ui.Component
 import com.vaadin.ui.Tag
+import com.vaadin.ui.Text
+import com.vaadin.ui.common.HasComponents
 import com.vaadin.ui.common.HasStyle
 import com.vaadin.ui.common.HtmlImport
+import com.vaadin.ui.event.ComponentEvent
 import com.vaadin.ui.event.ComponentEventListener
+import com.vaadin.ui.event.DomEvent
 
 /**
  * Wrapper for the paper-toast element.
@@ -151,3 +157,8 @@ class PaperToast : Component(), HasStyle {
         return super.addListener(IronAnnounceEvent::class.java, ironAnnounceListener)
     }
 }
+
+fun (@VaadinDsl HasComponents).paperToast(block: (@VaadinDsl PaperToast).() -> Unit = {}) = init(PaperToast(), block)
+
+@DomEvent("iron-announce")
+class IronAnnounceEvent(source: PaperToast, fromClient: Boolean) : ComponentEvent<PaperToast>(source, fromClient)

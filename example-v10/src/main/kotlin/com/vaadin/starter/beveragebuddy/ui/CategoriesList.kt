@@ -15,12 +15,15 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.vok.karibudsl.flow.button
+import com.github.vok.karibudsl.flow.div
+import com.github.vok.karibudsl.flow.setPrimary
+import com.github.vok.karibudsl.flow.textField
 import com.vaadin.router.Route
 import com.vaadin.router.Title
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
-import com.vaadin.ui.button.Button
 import com.vaadin.ui.grid.Grid
 import com.vaadin.ui.html.Div
 import com.vaadin.ui.icon.Icon
@@ -37,48 +40,36 @@ import java.util.function.Consumer
 @Title("Categories List")
 class CategoriesList : Div() {
 
-    private val searchField = TextField("", "Search")
+    private lateinit var searchField: TextField
     private val grid = Grid<Category>()
 
     private val form = CategoryEditorDialog(
             BiConsumer<Category, AbstractEditorDialog.Operation> { category, operation -> this.saveCategory(category, operation) }, Consumer<Category> { this.deleteCategory(it) })
 
-    private val notification = PaperToast()
+    private val notification: PaperToast
 
     init {
-        initView()
-
-        addSearchBar()
+        addClassName("categories-list")
+        notification = paperToast {
+            addClassName("notification")
+        }
+        add(form)
+        div { // view toolbar
+            addClassName("view-toolbar")
+            searchField = textField {
+                addClassName("view-toolbar__search-field")
+                placeholder = "Search"
+                addValueChangeListener { updateView() }
+            }
+            button("New category", Icon(VaadinIcons.PLUS)) {
+                setPrimary()
+                addClassName("view-toolbar__button")
+                addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
+            }
+        }
         addGrid()
 
         updateView()
-    }
-
-    private fun initView() {
-        addClassName("categories-list")
-
-        notification.addClassName("notification")
-        add(notification, form)
-    }
-
-    private fun addSearchBar() {
-        val viewToolbar = Div()
-        viewToolbar.addClassName("view-toolbar")
-
-        searchField.addClassName("view-toolbar__search-field")
-        searchField.addValueChangeListener { e -> updateView() }
-
-        val newButton = Button("New category",
-                Icon(VaadinIcons.PLUS))
-        newButton.element.setAttribute("theme", "primary")
-        newButton.addClassName("view-toolbar__button")
-        newButton.addClickListener { e ->
-            form.open(Category(null, ""),
-                    AbstractEditorDialog.Operation.ADD)
-        }
-
-        viewToolbar.add(searchField, newButton)
-        add(viewToolbar)
     }
 
     private fun addGrid() {
