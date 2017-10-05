@@ -113,7 +113,7 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     @EventHandler
     private fun edit(@ModelItem review: Review) {
-        openForm(ReviewService.get(review.id), AbstractEditorDialog.Operation.EDIT)
+        openForm(ReviewService.get(review.id!!), AbstractEditorDialog.Operation.EDIT)
     }
 
     private fun openForm(review: Review,

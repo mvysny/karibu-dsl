@@ -65,9 +65,7 @@ object ReviewService {
      * @param review    the review to delete
      * @return  true if the operation was successful, otherwise false
      */
-    fun deleteReview(review: Review): Boolean {
-        return reviews.remove(review.id) != null
-    }
+    fun deleteReview(review: Review): Boolean = reviews.remove(review.id) != null
 
     /**
      * Persists the given review into the review store.
@@ -104,5 +102,5 @@ object ReviewService {
         entity.category = category
     }
 
-    fun get(id: Long?): Review = reviews[id!!] ?: throw IllegalArgumentException("No review with id $id")
+    fun get(id: Long): Review = reviews[id] ?: throw IllegalArgumentException("No review with id $id")
 }
