@@ -41,7 +41,8 @@ class CategoriesList : Div() {
     private val grid: Grid<Category>
 
     private val form = CategoryEditorDialog(
-            BiConsumer<Category, AbstractEditorDialog.Operation> { category, operation -> this.saveCategory(category, operation) }, Consumer<Category> { this.deleteCategory(it) })
+            { category, operation -> saveCategory(category, operation) },
+            { deleteCategory(it) })
 
     private val notification: PaperToast
 
@@ -96,8 +97,7 @@ class CategoriesList : Div() {
         grid.setItems(categories)
     }
 
-    private fun saveCategory(category: Category,
-                             operation: AbstractEditorDialog.Operation) {
+    private fun saveCategory(category: Category, operation: AbstractEditorDialog.Operation) {
         CategoryService.saveCategory(category)
         notification.show("Category successfully ${operation.nameInText}ed.")
         updateView()

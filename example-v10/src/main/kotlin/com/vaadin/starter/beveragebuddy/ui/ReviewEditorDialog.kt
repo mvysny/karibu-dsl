@@ -33,8 +33,8 @@ import com.vaadin.ui.textfield.TextField
 /**
  * A dialog for editing [Review] objects.
  */
-class ReviewEditorDialog(saveHandler: BiConsumer<Review, AbstractEditorDialog.Operation>,
-                         deleteHandler: Consumer<Review>) : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler,
+class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation)->Unit,
+                         deleteHandler: (Review)->Unit) : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler,
         Review::class.java) {
 
     @Transient private val categoryService = CategoryService

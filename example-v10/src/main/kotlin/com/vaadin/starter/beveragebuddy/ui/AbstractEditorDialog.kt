@@ -15,20 +15,17 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.vok.karibudsl.flow.*
 import com.vaadin.data.Binder
 import com.vaadin.shared.Registration
 import com.vaadin.ui.Composite
 import com.vaadin.ui.button.Button
 import com.vaadin.ui.common.HtmlImport
 import com.vaadin.ui.formlayout.FormLayout
-import com.vaadin.ui.html.Div
 import com.vaadin.ui.html.H2
-import com.vaadin.ui.layout.HorizontalLayout
 import com.vaadin.ui.paper.dialog.GeneratedPaperDialog
 
 import java.io.Serializable
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 /**
  * Abstract base class for dialogs adding, editing or deleting items.
@@ -39,61 +36,44 @@ import java.util.function.Consumer
  * [formLayout] and bind them using [binder], as well
  * as
  *  * override [confirmDelete] to open the confirmation dialog with
- * the desired message (by calling
- * [openConfirmationDialog].
- *
- *
- * @param <T>
- * the type of the item to be added, edited or deleted
-</T> */
-@HtmlImport("frontend://bower_components/paper-dialog/paper-dialog.html")
-abstract class AbstractEditorDialog<T : Serializable>
-/**
- * Constructs a new instance.
- *
- * @param itemType
- * The readable name of the item type
- * @param itemSaver
- * Callback to save the edited item
- * @param itemDeleter
- * Callback to delete the edited item
+ * the desired message (by calling [openConfirmationDialog]).
+ * @param T the type of the item to be added, edited or deleted
+ * @property itemType The readable name of the item type
+ * @property itemSaver Callback to save the edited item
+ * @property itemDeleter Callback to delete the edited item
+ * @param itemClass the class of item edited by this dialog
  */
-protected constructor(private val itemType: String,
-                      private val itemSaver: BiConsumer<T, Operation>, private val itemDeleter: Consumer<T>,
+@HtmlImport("frontend://bower_components/paper-dialog/paper-dialog.html")
+abstract class AbstractEditorDialog<T : Serializable> protected constructor(private val itemType: String,
+                      private val itemSaver: (T, Operation)->Unit, private val itemDeleter: (T)->Unit,
                       itemClass: Class<T>) : Composite<GeneratedPaperDialog<*>>() {
 
-    private val titleField = H2()
-    private val saveButton = Button("Save")
-    private val cancelButton = Button("Cancel")
-    private val deleteButton = Button("Delete")
+    private lateinit var titleField: H2
+    private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
+    private lateinit var deleteButton: Button
     private var registrationForSave: Registration? = null
 
     /**
      * Gets the form layout, where additional components can be added for
      * displaying or editing the item's properties.
-     *
      * @return the form layout
      */
-    protected val formLayout = FormLayout()
-    private val buttonBar = HorizontalLayout(saveButton,
-            cancelButton, deleteButton)
+    protected lateinit var formLayout: FormLayout
 
     /**
      * Gets the binder.
-     *
-     * @return the binder
      */
     protected val binder = Binder<T>(itemClass)
     /**
      * Gets the item currently being edited.
-     *
      * @return the item currently being edited
      */
     protected var currentItem: T? = null
         private set
 
     private val confirmationDialog = ConfirmationDialog<T>()
-    private val notification = PaperToast()
+    private lateinit var notification: PaperToast
 
     /**
      * The operations supported by this dialog. Delete is enabled when editing
@@ -106,53 +86,46 @@ protected constructor(private val itemType: String,
     }
 
     init {
+        content.apply {
+            content.setModal(true)
+            // Enabling modality disables cancel-on-esc (and cancel-on-outside-click)
+            // We want to cancel on esc
+            content.setNoCancelOnEscKey(false)
 
-        initTitle()
-        initFormLayout()
-        initButtonBar()
-        initNotification()
-        content.setModal(true)
-        // Enabling modality disables cancel-on-esc (and cancel-on-outside-click)
-        // We want to cancel on esc
-        content.setNoCancelOnEscKey(false)
-    }
-
-    private fun initTitle() {
-        content.add(titleField)
-    }
-
-    private fun initFormLayout() {
-        formLayout.setResponsiveSteps(FormLayout.ResponsiveStep("0", 1),
-                FormLayout.ResponsiveStep("50em", 2))
-        formLayout.addClassName("no-padding")
-        val div = Div(formLayout)
-        div.addClassName("has-padding")
-        content.add(div)
-    }
-
-    private fun initButtonBar() {
-        saveButton.isAutofocus = true
-        saveButton.element.setAttribute("theme", "primary")
-        cancelButton.element.setAttribute("dialog-dismiss", true)
-        deleteButton.addClickListener { deleteClicked() }
-        deleteButton.element.setAttribute("theme", "tertiary danger")
-        buttonBar.className = "buttons"
-        content.add(buttonBar)
-    }
-
-    private fun initNotification() {
-        content.add(notification)
-        notification.addClassName("notification")
+            titleField = h2()
+            div { // form layout wrapper
+                addClassName("has-padding")
+                formLayout = formLayout {
+                    setResponsiveSteps(FormLayout.ResponsiveStep("0", 1),
+                            FormLayout.ResponsiveStep("50em", 2))
+                    addClassName("no-padding")
+                }
+            }
+            horizontalLayout { // button bar
+                className = "buttons"
+                saveButton = button("Save") {
+                    isAutofocus = true
+                    setPrimary()
+                }
+                cancelButton = button("Cancel") {
+                    element.setAttribute("dialog-dismiss", true)
+                }
+                deleteButton = button("Delete") {
+                    element.setAttribute("theme", "tertiary danger")
+                    addClickListener { deleteClicked() }
+                }
+            }
+            notification = paperToast {
+                addClassName("notification")
+            }
+        }
     }
 
     /**
      * Opens the given item for editing in the dialog.
      *
-     * @param item
-     * The item to edit; it may be an existing or a newly created
-     * instance
-     * @param operation
-     * The operation being performed on the item
+     * @param item The item to edit; it may be an existing or a newly created instance
+     * @param operation The operation being performed on the item
      */
     fun open(item: T, operation: Operation) {
         currentItem = item
@@ -160,8 +133,7 @@ protected constructor(private val itemType: String,
         if (registrationForSave != null) {
             registrationForSave!!.remove()
         }
-        registrationForSave = saveButton
-                .addClickListener { saveClicked(operation) }
+        registrationForSave = saveButton.addClickListener { saveClicked(operation) }
         binder.readBean(currentItem)
 
         deleteButton.isDisabled = operation.isDeleteDisabled
@@ -169,16 +141,12 @@ protected constructor(private val itemType: String,
     }
 
     private fun saveClicked(operation: Operation) {
-        val isValid = binder.writeBeanIfValid(currentItem!!)
-
-        if (isValid) {
-            itemSaver.accept(currentItem!!, operation)
+        if (binder.writeBeanIfValid(currentItem!!)) {
+            itemSaver(currentItem!!, operation)
             content.close()
         } else {
             val status = binder.validate()
-            notification.show(status.validationErrors
-                    .map { it.errorMessage }
-                    .joinToString("; "))
+            notification.show(status.validationErrors.joinToString("; ") { it.errorMessage })
         }
     }
 
@@ -209,7 +177,7 @@ protected constructor(private val itemType: String,
     }
 
     private fun deleteConfirmed(item: T) {
-        itemDeleter.accept(item)
+        itemDeleter(item)
         content.close()
     }
 }

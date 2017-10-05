@@ -35,8 +35,6 @@ import com.vaadin.ui.polymertemplate.Id
 import com.vaadin.ui.polymertemplate.ModelItem
 import com.vaadin.ui.polymertemplate.PolymerTemplate
 import com.vaadin.ui.textfield.TextField
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -60,7 +58,8 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
     private lateinit var header: H1
 
     private val reviewForm = ReviewEditorDialog(
-            BiConsumer<Review, AbstractEditorDialog.Operation> { review, operation -> this.saveUpdate(review, operation) }, Consumer<Review> { this.deleteUpdate(it) })
+            { review, operation -> save(review, operation) },
+            { this.delete(it) })
 
     interface ReviewsModel : TemplateModel {
         // remove this when https://youtrack.jetbrains.com/issue/KT-12794 is fixed
@@ -86,14 +85,13 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     }
 
-    fun saveUpdate(review: Review,
-                   operation: AbstractEditorDialog.Operation) {
+    private fun save(review: Review, operation: AbstractEditorDialog.Operation) {
         ReviewService.saveReview(review)
         updateList()
         notification.show("Beverage successfully ${operation.nameInText}ed.")
     }
 
-    fun deleteUpdate(review: Review) {
+    private fun delete(review: Review) {
         ReviewService.deleteReview(review)
         updateList()
         notification.show("Beverage successfully deleted.")
@@ -127,5 +125,4 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
         }
         reviewForm.open(review, operation)
     }
-
 }
