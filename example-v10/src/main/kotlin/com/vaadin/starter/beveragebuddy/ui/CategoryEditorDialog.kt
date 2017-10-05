@@ -31,9 +31,8 @@ import java.util.function.Consumer
 /**
  * A dialog for editing [Category] objects.
  */
-class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)->Unit,
-                           itemDeleter: (Category)->Unit) : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter,
-        Category::class.java) {
+class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)->Unit, itemDeleter: (Category)->Unit)
+    : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter, Category::class.java) {
 
     private lateinit var categoryNameField: TextField
 

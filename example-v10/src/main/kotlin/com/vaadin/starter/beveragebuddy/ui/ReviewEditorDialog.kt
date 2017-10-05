@@ -17,8 +17,6 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.vok.karibudsl.flow.*
 import java.time.LocalDate
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 import com.vaadin.data.validator.DateRangeValidator
 import com.vaadin.data.validator.IntegerRangeValidator
@@ -33,11 +31,8 @@ import com.vaadin.ui.textfield.TextField
 /**
  * A dialog for editing [Review] objects.
  */
-class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation)->Unit,
-                         deleteHandler: (Review)->Unit) : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler,
-        Review::class.java) {
-
-    @Transient private val categoryService = CategoryService
+class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -> Unit, deleteHandler: (Review) -> Unit)
+    : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler, Review::class.java) {
 
     private lateinit var categoryBox: ComboBox<Category>
     private lateinit var scoreBox: ComboBox<String>
@@ -67,7 +62,7 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation)->
             categoryBox = comboBox("Choose a category") {
                 setItemLabelGenerator { it.name }
                 isAllowCustomValue = false
-                setItems(categoryService.findAll())
+                setItems(CategoryService.findAll())
                 bind(binder).bindN(Review::category)
             }
             lastTasted = datePicker("Choose the date") {
