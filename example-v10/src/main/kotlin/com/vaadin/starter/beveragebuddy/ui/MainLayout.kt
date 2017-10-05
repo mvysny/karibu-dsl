@@ -15,6 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.vok.karibudsl.flow.div
+import com.github.vok.karibudsl.flow.h2
+import com.github.vok.karibudsl.flow.routerLink
 import com.vaadin.router.RouterLayout
 import com.vaadin.router.RouterLink
 import com.vaadin.router.event.AfterNavigationEvent
@@ -32,29 +35,26 @@ import com.vaadin.ui.icon.VaadinIcons
  */
 @HtmlImport("frontend://styles.html")
 class MainLayout : Div(), RouterLayout, AfterNavigationListener {
-    private val categories: RouterLink
-    private val reviews: RouterLink
+    private lateinit var categories: RouterLink
+    private lateinit var reviews: RouterLink
 
     init {
-        val title = H2("Beverage Buddy")
-        title.addClassName("main-layout__title")
-
-        reviews = RouterLink(null, ReviewsList::class.java)
-        reviews.add(Icon(VaadinIcons.LIST), Text("Reviews"))
-        reviews.addClassName("main-layout__nav-item")
-
-        categories = RouterLink(null, CategoriesList::class.java)
-        categories.add(Icon(VaadinIcons.ARCHIVES), Text("Categories"))
-        categories.addClassName("main-layout__nav-item")
-
-        val navigation = Div(reviews, categories)
-        navigation.addClassName("main-layout__nav")
-
-        val header = Div(title, navigation)
-        header.addClassName("main-layout__header")
-        add(header)
-
         addClassName("main-layout")
+        div { // header
+            addClassName("main-layout__header")
+            h2("Beverage Buddy") {
+                addClassName("main-layout__title")
+            }
+            div { // navigation
+                addClassName("main-layout__nav")
+                reviews = routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class.java) {
+                    addClassName("main-layout__nav-item")
+                }
+                categories = routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class.java) {
+                    addClassName("main-layout__nav-item")
+                }
+            }
+        }
     }
 
     override fun afterNavigation(event: AfterNavigationEvent) {
@@ -69,7 +69,6 @@ class MainLayout : Div(), RouterLayout, AfterNavigationListener {
     }
 
     companion object {
-
         private val ACTIVE_ITEM_STYLE = "main-layout__nav-item--selected"
     }
 }
