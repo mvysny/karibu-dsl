@@ -27,7 +27,6 @@ import com.vaadin.ui.layout.HorizontalLayout
 import com.vaadin.ui.paper.dialog.GeneratedPaperDialog
 
 import java.io.Serializable
-import java.util.Objects
 import java.util.function.BiConsumer
 import java.util.function.Consumer
 
@@ -185,7 +184,7 @@ protected constructor(private val itemType: String,
 
     private fun deleteClicked() {
         if (confirmationDialog.element.parent == null) {
-            ui.ifPresent { ui -> ui.add(confirmationDialog) }
+            ui.orElse(null)?.add(confirmationDialog)
         }
         confirmDelete()
     }
@@ -198,19 +197,15 @@ protected constructor(private val itemType: String,
      * The dialog will display the given title and message(s), then call
      * [deleteConfirmed] if the Delete button is clicked.
      *
-     * @param title
-     * The title text
-     * @param message
-     * Detail message (optional, may be empty)
-     * @param additionalMessage
-     * Additional message (optional, may be empty)
+     * @param title The title text
+     * @param message Detail message (optional, may be empty)
+     * @param additionalMessage Additional message (optional, may be empty)
      */
-    protected fun openConfirmationDialog(title: String, message: String,
-                                         additionalMessage: String) {
+    protected fun openConfirmationDialog(title: String, message: String = "",
+                                         additionalMessage: String = "") {
         content.close()
         confirmationDialog.open(title, message, additionalMessage, "Delete",
-                true, currentItem!!, Consumer { this.deleteConfirmed(it) },
-                Runnable { content.open() })
+                true, { deleteConfirmed(currentItem!!) }, { content.open() })
     }
 
     private fun deleteConfirmed(item: T) {

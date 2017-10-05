@@ -89,11 +89,10 @@ internal class ConfirmationDialog<T : Serializable> : Composite<GeneratedPaperDi
      * @param additionalMessage Additional message (optional, may be empty)
      * @param actionName The action name to be shown on the Confirm button
      * @param isDisruptive True if the action is disruptive, such as deleting an item
-     * @param item The subject of the action
      */
     fun open(title: String, message: String = "", additionalMessage: String = "",
-             actionName: String, isDisruptive: Boolean, item: T, confirmHandler: Consumer<T>,
-             cancelHandler: Runnable) {
+             actionName: String, isDisruptive: Boolean, confirmHandler: ()->Unit,
+             cancelHandler: ()->Unit) {
         titleField.text = title
         messageLabel.text = message
         extraMessageLabel.text = additionalMessage
@@ -102,11 +101,11 @@ internal class ConfirmationDialog<T : Serializable> : Composite<GeneratedPaperDi
         if (registrationForConfirm != null) {
             registrationForConfirm!!.remove()
         }
-        registrationForConfirm = confirmButton.addClickListener { confirmHandler.accept(item) }
+        registrationForConfirm = confirmButton.addClickListener { confirmHandler() }
         if (registrationForCancel != null) {
             registrationForCancel!!.remove()
         }
-        registrationForCancel = cancelButton.addClickListener { cancelHandler.run() }
+        registrationForCancel = cancelButton.addClickListener { cancelHandler() }
         if (isDisruptive) {
             confirmButton.element.setAttribute("theme", "tertiary danger")
         }

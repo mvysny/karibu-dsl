@@ -60,7 +60,7 @@ class CategoryEditorDialog(itemSaver: BiConsumer<Category, AbstractEditorDialog.
         val additionalMessage = if (reviewCount == 0)
             ""
         else
-            "Deleting the category will mark the associated reviews as “undefined”." + "You may link the reviews to other categories on the edit page."
+            "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
         openConfirmationDialog(
                 "Delete Category “${currentItem!!.name}”?",
                 "There are $reviewCount reviews associated with this category.",

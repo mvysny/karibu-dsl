@@ -95,6 +95,6 @@ class ReviewEditorDialog(saveHandler: BiConsumer<Review, AbstractEditorDialog.Op
     }
 
     override fun confirmDelete() {
-        openConfirmationDialog("""Delete beverage "${currentItem!!.name}"?""", "","")
+        openConfirmationDialog("""Delete beverage "${currentItem!!.name}"?""")
     }
 }
