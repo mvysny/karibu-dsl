@@ -43,21 +43,13 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -
     init {
         formLayout.apply {
             beverageName = textField("Beverage name") {
-                bind(binder)
-                        .trimmingConverter()
-                        .withValidator(StringLengthValidator(
-                                "Beverage name must contain at least 3 printable characters",
-                                3, null))
-                        .bindN(Review::name)
+                // no need to have validators here: they are automatically picked up from the bean field.
+                bind(binder).trimmingConverter().bindN(Review::name)
             }
             timesTasted = textField("Times tasted") {
                 pattern = "[0-9]*"
                 isPreventInvalidInput = true
-                bind(binder)
-                        .toInt()
-                        .withValidator(IntegerRangeValidator(
-                                "The tasting count must be between 1 and 99.", 1, 99))
-                        .bindN(Review::count)
+                bind(binder).toInt().bindN(Review::count)
             }
             categoryBox = comboBox("Choose a category") {
                 setItemLabelGenerator { it.name }
@@ -69,22 +61,12 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -
                 max = LocalDate.now()
                 min = LocalDate.of(1, 1, 1)
                 value = LocalDate.now()
-                bind(binder)
-                        .withValidator({ it != null },
-                                "The date should be in MM/dd/yyyy format.")
-                        .withValidator(DateRangeValidator(
-                                "The date should be neither Before Christ nor in the future.",
-                                LocalDate.of(1, 1, 1), LocalDate.now()))
-                        .bindN(Review::date)
+                bind(binder).bindN(Review::date)
             }
             scoreBox = comboBox("Mark a score") {
                 isAllowCustomValue = false
                 setItems("1", "2", "3", "4", "5")
-                bind(binder)
-                        .toInt()
-                        .withValidator(IntegerRangeValidator(
-                                "The tasting count must be between 1 and 5.", 1, 5))
-                        .bindN(Review::score)
+                bind(binder).toInt().bindN(Review::score)
             }
         }
     }

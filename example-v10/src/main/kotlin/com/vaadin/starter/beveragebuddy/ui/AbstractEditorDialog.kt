@@ -16,6 +16,7 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.vok.karibudsl.flow.*
+import com.vaadin.data.BeanValidationBinder
 import com.vaadin.data.Binder
 import com.vaadin.shared.Registration
 import com.vaadin.ui.Composite
@@ -64,7 +65,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
     /**
      * Gets the binder.
      */
-    protected val binder = Binder<T>(itemClass)
+    protected val binder = BeanValidationBinder<T>(itemClass)
     /**
      * Gets the item currently being edited.
      * @return the item currently being edited
