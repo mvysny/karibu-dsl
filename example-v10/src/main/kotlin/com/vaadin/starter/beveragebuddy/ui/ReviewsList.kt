@@ -74,15 +74,9 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     init {
         search.placeholder = "Search"
-        search.addValueChangeListener { e -> updateList() }
-
-        addReview.addClickListener { e ->
-            openForm(Review(),
-                    AbstractEditorDialog.Operation.ADD)
-        }
-
+        search.addValueChangeListener { updateList() }
+        addReview.addClickListener { openForm(Review(), AbstractEditorDialog.Operation.ADD) }
         updateList()
-
     }
 
     private fun save(review: Review, operation: AbstractEditorDialog.Operation) {
