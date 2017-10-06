@@ -9,18 +9,23 @@ import javax.validation.constraints.*
  */
 // must be open - Flow requires it to create ModelProxy
 open class Review(open var id: Long? = null,
+                  
                   @field:NotNull
                   @field:Min(1)
                   @field:Max(5)
                   var score: Int = 1,
+
                   @field:NotBlank
                   @field:Size(min = 3)
                   var name: String = "",
+
                   @field:NotNull
                   @field:PastOrPresent
                   var date: LocalDate = LocalDate.now(),
+
                   @field:NotNull
                   var category: Category = Category.UNDEFINED,
+
                   @field:NotNull
                   @field:Min(1)
                   @field:Max(99)
