@@ -33,12 +33,6 @@ dependencies {
     compile "com.vaadin:vaadin-client-compiled:$vaadin8_version"
     compile "com.vaadin:vaadin-themes:$vaadin8_version"
 
-    // validation
-    compile 'javax.validation:validation-api:1.0.0.GA'  // so that the BeanFieldGroup will perform JSR303 validations
-    compile 'org.hibernate:hibernate-validator:5.4.1.Final'
-    // http://stackoverflow.com/questions/24386771/javax-validation-validationexception-hv000183-unable-to-load-javax-el-express
-    compile 'org.glassfish.web:javax.el:2.2.6'
-
     // easy development with Jetty
     testCompile "org.eclipse.jetty:jetty-webapp:$jettyVer"
     testCompile "org.eclipse.jetty:jetty-annotations:$jettyVer"
