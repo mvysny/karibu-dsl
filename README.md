@@ -62,7 +62,7 @@ You'll probably want to use [Vaadin On Kotlin](http://www.vaadinonkotlin.eu) whi
 support for database, REST and other niceties, and has good documentation. However, if you just want to try out the Vaadin
 DSL bindings without any database and other stuff, please read on.
 
-### Gradle Quickstart Application
+### Gradle Quickstart Application (Vaadin 8)
 
 A very simple Gradle-based application archetype is located here: https://github.com/mvysny/karibu-helloworld-application
 The project only shows a very simple Button, so it is an ideal quick start application for experimenting
@@ -80,6 +80,27 @@ cd karibu-helloworld-application
 The app will run on [http://localhost:8080](http://localhost:8080).
 
 Please see the [archetype github page](https://github.com/mvysny/karibu-helloworld-application) for further
+details on development.
+
+### Gradle Quickstart Application (Vaadin 10/Flow)
+
+A very simple Gradle-based application archetype is located here: https://github.com/mvysny/karibu10-helloworld-application
+The project only shows a very simple Button, so it is an ideal quick start application for experimenting
+and further development. And you can always consult the [example-v10](example-v10) project for interesting
+components or new ways how to use them.
+ 
+To generate the archetype and run the app:
+  
+```bash
+git clone https://github.com/mvysny/karibu10-helloworld-application
+cd karibu10-helloworld-application
+./gradlew build
+./gradlew appRun
+```
+
+The app will run on [http://localhost:8080](http://localhost:8080).
+
+Please see the [archetype github page](https://github.com/mvysny/karibu10-helloworld-application) for further
 details on development.
 
 ## Tutorials
