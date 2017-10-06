@@ -21,7 +21,7 @@ defaultTasks 'clean', 'build'
 
 allprojects {
     group 'com.github.vok.karibudsl'
-    version '0.2.12'
+    version '0.2.13-SNAPSHOT'
 }
 
 subprojects {
