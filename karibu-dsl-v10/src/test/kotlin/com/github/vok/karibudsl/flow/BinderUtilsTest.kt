@@ -13,6 +13,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Size
 import kotlin.test.expect
 
@@ -141,7 +142,7 @@ data class Person(@field:NotNull
                   var fullName: String? = null,
 
                   @field:NotNull
-                  @field:PastDate
+                  @field:PastOrPresent
                   var dateOfBirth: LocalDate? = null,
 
                   @field:NotNull

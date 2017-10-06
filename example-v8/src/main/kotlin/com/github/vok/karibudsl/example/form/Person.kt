@@ -1,11 +1,11 @@
 package com.github.vok.karibudsl.example.form
 
-import com.github.vok.karibudsl.PastDate
-import org.hibernate.validator.constraints.Email
 import java.io.Serializable
 import java.time.LocalDate
 import java.util.*
+import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Size
 
 /**
@@ -23,7 +23,7 @@ data class Person(
         var fullName: String? = null,
 
         @field:NotNull
-        @field:PastDate
+        @field:PastOrPresent
         var dateOfBirth: LocalDate? = null,
 
         @field:NotNull
