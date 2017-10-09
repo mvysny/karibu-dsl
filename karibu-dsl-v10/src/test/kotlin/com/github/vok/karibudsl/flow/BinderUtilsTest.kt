@@ -28,7 +28,7 @@ class BinderUtilsTest {
         binder.readBean(Person())
         expect("") { form.fullName.value }
         expect(null) { form.dateOfBirth.value }
-        expect(null) { form.isAlive.value }
+        expect(false) { form.isAlive.value }
         expect("") { form.comment.value }
         expect("") { form.testDouble.value }
         expect("") { form.testInt.value }
@@ -43,10 +43,10 @@ class BinderUtilsTest {
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
         form.clear()
-        val person = Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment",
+        val person = Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, null, "some comment",
                 25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))
         binder.writeBean(person)
-        expect(Person(alive = false)) { person }
+        expect(Person(testBoolean = false)) { person }
     }
 
     @Test
@@ -58,9 +58,10 @@ class BinderUtilsTest {
         form.testLong.value = "555"
         form.testBI.value = "123"
         form.testBD.value = "77.11"
+        form.testBoolean.value = true
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
-        expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment",
+        expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, true, "some comment",
                 25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))) { person }
     }
 
@@ -70,7 +71,7 @@ class BinderUtilsTest {
         val form = Form(binder)
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
-        expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, "some comment")) { person }
+        expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, false, "some comment")) { person }
     }
 
     @Test
@@ -88,6 +89,7 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
     val fullName: TextField
     val dateOfBirth: DatePicker
     val isAlive: Checkbox
+    val testBoolean: Checkbox
     val comment: TextField  // @todo use TextArea once it's available
     val testDouble: TextField
     val testInt: TextField
@@ -106,8 +108,10 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
             value = LocalDate.of(2010, 1, 25)
         }
         isAlive = checkBox("Is Alive") {
-            bind(binder).bind(Person::alive)
-            value = false
+            bind(binder).bindN(Person::alive)
+        }
+        testBoolean = checkBox("Test Boolean:") {
+            bind(binder).bindN(Person::testBoolean)
         }
         comment = textField("Comment:") {
             bind(binder).bind(Person::comment)
@@ -146,7 +150,9 @@ data class Person(@field:NotNull
                   var dateOfBirth: LocalDate? = null,
 
                   @field:NotNull
-                  var alive: Boolean? = null,
+                  var alive: Boolean = false,
+
+                  var testBoolean: Boolean? = null,
 
                   var comment: String? = null,
 
