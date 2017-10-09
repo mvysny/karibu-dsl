@@ -19,8 +19,8 @@ import com.vaadin.ui.passwordfield.PasswordField
 import com.vaadin.ui.splitlayout.SplitLayout
 import com.vaadin.ui.textfield.TextField
 
-fun (@VaadinDsl HasComponents).button(caption: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
-        = init(Button(caption, icon), block)
+fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
+        = init(Button(text, icon), block)
 fun (@VaadinDsl Button).setPrimary() {
     element.setAttribute("theme", "primary")
 }
