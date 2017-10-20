@@ -6,7 +6,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'kotlin'
 
 repositories {
-     maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
+    maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
+    maven { url 'https://dl.bintray.com/webjars/maven' }
 }
 
 dependencies {
@@ -17,7 +18,9 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
     // Vaadin
-    compile "com.vaadin:vaadin:$vaadin10_version"
+    compile("com.vaadin:vaadin:$vaadin10_version") {
+        exclude group: 'org.webjars.bower'
+    }
     compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // IDEA language injections

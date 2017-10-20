@@ -16,8 +16,8 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.vok.karibudsl.flow.*
+import com.vaadin.router.PageTitle
 import com.vaadin.router.Route
-import com.vaadin.router.Title
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.Review
@@ -33,7 +33,7 @@ import com.vaadin.ui.textfield.TextField
  * buttons to add a new category or edit existing ones.
  */
 @Route(value = "categories", layout = MainLayout::class)
-@Title("Categories List")
+@PageTitle("Categories List")
 class CategoriesList : Div() {
 
     private lateinit var searchField: TextField

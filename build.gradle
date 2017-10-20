@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.1.51'
     ext.vaadin8_version = '8.1.5'
-    ext.vaadin10_version = '10.0.0.alpha3'
+    ext.vaadin10_version = '10.0.0.alpha4'
     ext.local = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
         ext.local.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -31,14 +31,8 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven {
-            name 'vaadin-addons'
-            url 'http://maven.vaadin.com/vaadin-addons'
-        }
-        maven {
-            name 'vaadin-prereleases'
-            url 'https://maven.vaadin.com/vaadin-prereleases'
-        }
+        maven { url 'http://maven.vaadin.com/vaadin-addons' }
+        maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
     }
 
     // for Travis to record failures: http://stackoverflow.com/questions/28614865/how-to-read-test-result-reports-on-travis-ci/28617954#28617954
