@@ -54,7 +54,7 @@ inline fun <reified T: Any> ByteArray.deserialize(): T = ObjectInputStream(input
 inline fun <reified T: Any> T.serializeDeserialize() = serializeToBytes().deserialize<T>()
 
 /**
- * Auto-discovers views and register them to [autoViewProvider].
+ * Auto-discovers views and register them to [autoViewProvider]. Can be called multiple times.
  * @param packageName set the package name for the detector to be faster; or provide null to scan the whole classpath, but this is quite slow.
  */
 fun autoDiscoverViews(packageName: String? = null) {

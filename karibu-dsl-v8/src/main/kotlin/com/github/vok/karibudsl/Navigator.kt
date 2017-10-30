@@ -67,7 +67,7 @@ class AutoViewProvider : ServletContainerInitializer {
          */
         private val viewNameToClass: MutableBiMap<String, Class<out View>> = HashBiMap()
 
-        internal fun <T: View> getMapping(clazz: Class<T>): String =
+        fun <T: View> getMapping(clazz: Class<T>): String =
                 viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString(transform = { it.name })}")
     }
 
@@ -81,10 +81,10 @@ class AutoViewProvider : ServletContainerInitializer {
             // ignore annotations and interfaces
             if (!it.isInterface && !it.isAnnotation) {
                 val viewName = it.toViewName()
-                check(!viewNameToClass.containsKey(viewName)) {
-                    "Views $it and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name"
+                if (viewNameToClass.containsKey(viewName) && it != viewNameToClass[viewName]) {
+                    throw IllegalStateException("Views $it and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name")
                 }
-                viewNameToClass.put(viewName, it.asSubclass(View::class.java))
+                viewNameToClass.forcePut(viewName, it.asSubclass(View::class.java))
             }
         }
     }
