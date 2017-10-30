@@ -1,5 +1,6 @@
 package com.github.karibu.testing
 
+import com.github.vok.karibudsl.hasStyleName
 import com.vaadin.data.HasValue
 import com.vaadin.ui.Button
 import com.vaadin.ui.Component
@@ -60,7 +61,7 @@ fun <T: Component> Component._find(clazz: Class<T>, id: String? = null, caption:
     p.add({ component -> clazz.isInstance(component)} )
     if (id != null) p.add({ component -> component.id == id })
     if (caption != null) p.add({ component -> component.caption == caption })
-    if (!styles.isNullOrBlank()) p.add({ component -> component.styleName.split(' ').containsAll(styles!!.split(' ')) })
+    if (!styles.isNullOrBlank()) p.add({ component -> component.hasStyleName(styles!!) })
     p.addAll(predicates)
 
     val result = find(this, p.and())
