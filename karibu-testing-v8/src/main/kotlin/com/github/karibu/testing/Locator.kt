@@ -103,6 +103,17 @@ fun Component._click(id: String? = null, caption: String? = null, styles: String
     return button
 }
 
+/**
+ * Finds a VISIBLE button matching all of given predicates, and clicks it. If the button is read-only or disabled, throws an exception.
+ * @param id the required [Component.getId]; if null, no particular id is matched.
+ * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
+ * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
+ * @return the button if it was visible, enabled, not read-only and it was clicked
+ * @throws IllegalArgumentException if the button was not visible, not enabled, read-only or if no button (or too many buttons) matched.
+ */
+fun _click(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean): Button =
+        UI.getCurrent()._click(id, caption, styles, *predicates)
+
 private fun Component.isEffectivelyVisible(): Boolean = isVisible && (parent == null || parent.isEffectivelyVisible())
 
 private fun Component.find(predicate: (Component)->Boolean): List<Component> = walk().filter { predicate(it) }

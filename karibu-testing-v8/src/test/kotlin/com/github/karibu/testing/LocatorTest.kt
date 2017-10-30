@@ -1,10 +1,10 @@
 package com.github.karibu.testing
 
+import com.github.vok.karibudsl.button
+import com.github.vok.karibudsl.label
+import com.github.vok.karibudsl.textField
 import com.github.vok.karibudsl.verticalLayout
-import com.vaadin.ui.Button
-import com.vaadin.ui.Label
-import com.vaadin.ui.UI
-import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.*
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.expect
@@ -43,5 +43,25 @@ class LocatorTest {
     fun findMatchingId() {
         val button = Button().apply { id = "foo" }
         expect(listOf(button)) { VerticalLayout(button, Button())._find(Button::class.java, id = "foo") }
+    }
+
+    @Test
+    fun simpleUITest() {
+        var layout: VerticalLayout? = null
+        layout = UI.getCurrent().verticalLayout {
+            val name = textField {
+                caption = "Type your name here:"
+            }
+            button("Click Me", {
+                println("Thanks ${name.value}, it works!")
+                layout!!.label("Thanks ${name.value}, it works!")
+            })
+        }
+
+        _get<TextField>(caption = "Type your name here:").value = "Baron Vladimir Harkonnen"
+        _click(caption = "Click Me")
+        expect(3) { layout!!.componentCount }
+        expect("Thanks Baron Vladimir Harkonnen, it works!") { (layout!!.last() as Label).value }
+        expect("Thanks Baron Vladimir Harkonnen, it works!") { _get<Label>().value }
     }
 }
