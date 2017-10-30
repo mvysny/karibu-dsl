@@ -4,6 +4,7 @@ import com.vaadin.data.HasValue
 import com.vaadin.ui.Button
 import com.vaadin.ui.Component
 import com.vaadin.ui.HasComponents
+import com.vaadin.ui.UI
 
 /**
  * Finds a VISIBLE component which matches all of given predicates. This component and all of its descendants are searched.
@@ -36,6 +37,18 @@ fun <T: Component> Component._get(clazz: Class<T>, id: String? = null, caption: 
 }
 
 /**
+ * Finds a VISIBLE component in the current UI which matches all of given predicates. This component and all of its descendants are searched.
+ * @param id the required [Component.getId]; if null, no particular id is matched.
+ * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
+ * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
+ * @param styles if not null, the component must match all of these styles. Space-separated.
+ * @return the only matching component, never null.
+ * @throws IllegalArgumentException if no component matched, or if more than one component matches.
+ */
+inline fun <reified T: Component> _get(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean = arrayOf()): T =
+        UI.getCurrent()._get(T::class.java, id, caption, styles, *predicates)
+
+/**
  * Finds a list of VISIBLE components which matches all of given predicates. This component and all of its descendants are searched.
  * @param id the required [Component.getId]; if null, no particular id is matched.
  * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
@@ -53,6 +66,16 @@ fun <T: Component> Component._find(clazz: Class<T>, id: String? = null, caption:
     val result = find(this, p.and())
     return result.filterIsInstance(clazz)
 }
+
+/**
+ * Finds a list of VISIBLE components in the current UI which matches all of given predicates. This component and all of its descendants are searched.
+ * @param id the required [Component.getId]; if null, no particular id is matched.
+ * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
+ * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
+ * @return the list of matching components, may be empty.
+ */
+inline fun <reified T: Component> _find(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean = arrayOf()): List<T> =
+        UI.getCurrent()._find(T::class.java, id, caption, styles, *predicates)
 
 /**
  * Finds a VISIBLE button matching all of given predicates, and clicks it. If the button is read-only or disabled, throws an exception.
