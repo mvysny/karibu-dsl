@@ -1,6 +1,7 @@
 package com.github.karibu.testing
 
 import com.github.vok.karibudsl.hasStyleName
+import com.github.vok.karibudsl.walk
 import com.vaadin.data.HasValue
 import com.vaadin.ui.Button
 import com.vaadin.ui.Component
@@ -64,7 +65,7 @@ fun <T: Component> Component._find(clazz: Class<T>, id: String? = null, caption:
     if (!styles.isNullOrBlank()) p.add({ component -> component.hasStyleName(styles!!) })
     p.addAll(predicates)
 
-    val result = find(this, p.and())
+    val result = find(p.and())
     return result.filterIsInstance(clazz)
 }
 
@@ -104,15 +105,6 @@ fun Component._click(id: String? = null, caption: String? = null, styles: String
 
 private fun Component.isEffectivelyVisible(): Boolean = isVisible && (parent == null || parent.isEffectivelyVisible())
 
-private fun Component.find(component: Component, predicate: (Component)->Boolean): List<Component> {
-    val list = mutableListOf<Component>()
-    if (component.isEffectivelyVisible() && predicate(component)) list.add(component)
-    if (component is HasComponents) {
-        for (child in component) {
-            list.addAll(find(child, predicate))
-        }
-    }
-    return list
-}
+private fun Component.find(predicate: (Component)->Boolean): List<Component> = walk().filter { predicate(it) }
 
 private fun <T: Component> Iterable<(T)->Boolean>.and(): (T)->Boolean = { component -> all { it(component) } }
