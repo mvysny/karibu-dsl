@@ -80,39 +80,28 @@ inline fun <reified T: Component> _find(id: String? = null, caption: String? = n
         UI.getCurrent()._find(T::class.java, id, caption, styles, *predicates)
 
 /**
- * Finds a VISIBLE button matching all of given predicates, and clicks it. If the button is read-only or disabled, throws an exception.
+ * Clicks the button, but only if it is actually possible to do so by the user. If the button is read-only or disabled, throws an exception.
  * @param id the required [Component.getId]; if null, no particular id is matched.
  * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
  * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
  * @return the button if it was visible, enabled, not read-only and it was clicked
  * @throws IllegalArgumentException if the button was not visible, not enabled, read-only or if no button (or too many buttons) matched.
  */
-fun Component._click(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean): Button {
-    val button = _get(Button::class.java, id, caption, styles, *predicates)
-    // no need to check whether button is visible - $ only returns visible components.
-    if (!button.isEnabled) {
-        throw IllegalArgumentException("The button ${button.toPrettyString()} is not enabled")
+fun Button._click() {
+    if (!isEffectivelyVisible()) {
+        throw IllegalArgumentException("The button ${toPrettyString()} is not effectively visible - either it is hidden, or its ascendant is hidden")
     }
-    if (!button.isConnectorEnabled) {
-        throw IllegalArgumentException("The button ${button.toPrettyString()} is nested in a disabled component")
+    if (!isEnabled) {
+        throw IllegalArgumentException("The button ${toPrettyString()} is not enabled")
     }
-    if (button is HasValue<*> && button.isReadOnly) {
-        throw IllegalArgumentException("The button ${button.toPrettyString()} is read-only")
+    if (!isConnectorEnabled) {
+        throw IllegalArgumentException("The button ${toPrettyString()} is nested in a disabled component")
     }
-    button.click()
-    return button
+    if (this is HasValue<*> && this.isReadOnly) {
+        throw IllegalArgumentException("The button ${toPrettyString()} is read-only")
+    }
+    click()
 }
-
-/**
- * Finds a VISIBLE button matching all of given predicates, and clicks it. If the button is read-only or disabled, throws an exception.
- * @param id the required [Component.getId]; if null, no particular id is matched.
- * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
- * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
- * @return the button if it was visible, enabled, not read-only and it was clicked
- * @throws IllegalArgumentException if the button was not visible, not enabled, read-only or if no button (or too many buttons) matched.
- */
-fun _click(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean): Button =
-        UI.getCurrent()._click(id, caption, styles, *predicates)
 
 private fun Component.isEffectivelyVisible(): Boolean = isVisible && (parent == null || parent.isEffectivelyVisible())
 
