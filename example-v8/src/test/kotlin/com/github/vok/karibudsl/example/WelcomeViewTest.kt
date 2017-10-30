@@ -3,9 +3,7 @@ package com.github.vok.karibudsl.example
 import com.github.karibu.testing.MockVaadin
 import com.github.karibu.testing._get
 import com.github.karibu.testing.autoDiscoverViews
-import com.github.vok.karibudsl.autoViewProvider
 import com.github.vok.karibudsl.navigateToView
-import com.vaadin.navigator.Navigator
 import com.vaadin.ui.Label
 import com.vaadin.ui.UI
 import com.vaadin.ui.themes.ValoTheme
@@ -26,10 +24,7 @@ class WelcomeViewTest {
 
     @Before
     fun mockVaadin() {
-        MockVaadin.setup()
-        val ui = UI.getCurrent()
-        ui.navigator = Navigator(ui, ui)
-        ui.navigator.addProvider(autoViewProvider)
+        MockVaadin.setup({ MyUI() })
     }
 
     @Test

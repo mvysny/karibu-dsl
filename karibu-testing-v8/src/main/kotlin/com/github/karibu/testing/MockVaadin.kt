@@ -20,7 +20,7 @@ object MockVaadin {
     /**
      * Creates new mock session and UI for a test. Just call this in your @Before
      */
-    fun setup() {
+    fun setup(uiFactory: ()->UI = { MockUI() }) {
         val config = DefaultDeploymentConfiguration(MockVaadin::class.java, Properties())
         val service = object : VaadinServletService(VaadinServlet(), config) {
             override fun isAtmosphereAvailable() = false
@@ -35,10 +35,7 @@ object MockVaadin {
         }
         VaadinSession.setCurrent(session)
         strongRefSession.set(session)
-        val ui = object : UI() {
-            override fun init(request: VaadinRequest?) {
-            }
-        }
+        val ui = uiFactory()
         strongRefUI.set(ui)
         UI.setCurrent(ui)
         ui.session = session
@@ -46,6 +43,15 @@ object MockVaadin {
             isAccessible = true
             set(ui.page, URI("http://localhost:8080"))
         }
+        UI::class.java.getDeclaredMethod("init", VaadinRequest::class.java).apply {
+            isAccessible = true
+            invoke(ui, null)
+        }
+    }
+}
+
+internal class MockUI : UI() {
+    override fun init(request: VaadinRequest?) {
     }
 }
 

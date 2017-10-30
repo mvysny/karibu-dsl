@@ -110,7 +110,7 @@ fun navigateToView(view: Class<out View>, vararg params: String) {
     require(view.findAnnotation(AutoView::class.java) != null) { "$view is not annotated with @AutoView; unfortunately all views must be annotated directly, otherwise ServletContainerInitializer won't auto-discover it for us" }
     val mapping = AutoViewProvider.getMapping(view)
     val param = if (params.isEmpty()) "" else params.map { URLEncoder.encode(it, "UTF-8") }.joinToString("/", "/")
-    val navigator = UI.getCurrent().navigator ?: throw IllegalStateException("Navigator not set. Just add the following code to your UI.init() method: { navigator = Navigator(this, content as ViewDisplay); navigator.addProvider(autoViewProvider) }")
+    val navigator = UI.getCurrent().navigator ?: throw IllegalStateException("Navigator not set in your ${UI.getCurrent().javaClass.simpleName}. Just add the following code to your UI.init() method: { navigator = Navigator(this, content as ViewDisplay); navigator.addProvider(autoViewProvider) }")
     navigator.navigateTo("$mapping$param")
 }
 
