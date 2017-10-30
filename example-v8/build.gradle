@@ -49,4 +49,8 @@ dependencies {
 
     // Embedded Tomcat is currently unsupported since it always starts its own class loader which is only known on Tomcat start time
     // and we can't thus discover and preload JPA entities.
+
+    testCompile(project(":karibu-testing-v8"))
+    testCompile 'junit:junit:4.12'
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
