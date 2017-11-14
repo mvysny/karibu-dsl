@@ -15,8 +15,8 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.vaadin.annotations.InternalContainerAnnotationForConvert
 import com.vaadin.flow.model.Convert
+import com.vaadin.flow.model.InternalContainerAnnotationForConvert
 import com.vaadin.flow.model.TemplateModel
 import com.vaadin.router.PageTitle
 import com.vaadin.router.Route

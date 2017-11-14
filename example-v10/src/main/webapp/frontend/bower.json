@@ -17,6 +17,6 @@
     "polymer": "2.1.1",
     "paper-toast": "2.0.0",
     "paper-dialog": "2.0.0",
-    "vaadin-core": "2.0.0-alpha3"
+    "vaadin-core": "10.0.0-alpha6"
   }
 }
