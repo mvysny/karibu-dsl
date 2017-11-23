@@ -5,6 +5,7 @@ import com.github.vok.karibudsl.example.form.FormView
 import com.vaadin.annotations.*
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.Navigator
+import com.vaadin.navigator.PushStateNavigation
 import com.vaadin.navigator.ViewDisplay
 import com.vaadin.server.ClassResource
 import com.vaadin.server.Page
@@ -30,6 +31,7 @@ import javax.servlet.annotation.WebServlet
 @Title("Karibu-DSL Demo")
 @Viewport("width=device-width, initial-scale=1.0")
 @JavaScript("https://code.jquery.com/jquery-2.1.4.min.js", "https://code.responsivevoice.org/responsivevoice.js")
+@PushStateNavigation
 class MyUI : UI() {
 
     override fun init(request: VaadinRequest?) {

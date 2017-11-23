@@ -20,7 +20,6 @@ import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.ui.*
-import com.vaadin.ui.MenuBar.Command
 import com.vaadin.ui.MenuBar.MenuItem
 import com.vaadin.ui.themes.ValoTheme
 
@@ -104,7 +103,7 @@ class MenuBars : VerticalLayout(), View {
 }
 
 fun HasComponents.sampleMenuBar(block: MenuBar.()->Unit = {}) = menuBar {
-    val click = { selectedItem: MenuItem -> Notification.show("Clicked " + selectedItem.text) }
+    val click: (MenuItem) -> Unit = { selectedItem: MenuItem -> Notification.show("Clicked " + selectedItem.text) }
     w = fillParent
     item("File") {
         item("New") {
@@ -137,7 +136,7 @@ fun HasComponents.sampleMenuBar(block: MenuBar.()->Unit = {}) = menuBar {
         item("Find Next", click)
         item("Find Previous", click)
     }
-    val check = { selectedItem: MenuItem -> Notification.show(if (selectedItem.isChecked) "Checked" else "Unchecked") }
+    val check: (MenuItem) -> Unit = { selectedItem: MenuItem -> Notification.show(if (selectedItem.isChecked) "Checked" else "Unchecked") }
     item("View") {
         item("Show Status Bar", check).isCheckable = true
         item("Show Title Bar", check) {

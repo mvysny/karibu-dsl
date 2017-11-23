@@ -37,6 +37,14 @@ object MockVaadin {
             isAccessible = true
             set(ui.page, URI("http://localhost:8080"))
         }
+        try {
+            UI::class.java.getDeclaredField("uiRootPath").apply {
+                isAccessible = true
+                set(ui, "")
+            }
+        } catch (e: NoSuchFieldException) {
+            // Vaadin 8.1 and older doesn't have this field.
+        }
         UI::class.java.getDeclaredMethod("init", VaadinRequest::class.java).apply {
             isAccessible = true
             invoke(ui, null)

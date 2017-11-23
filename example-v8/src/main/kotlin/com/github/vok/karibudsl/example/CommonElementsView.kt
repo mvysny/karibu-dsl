@@ -6,10 +6,10 @@ import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.server.AbstractErrorMessage
-import com.vaadin.server.ErrorMessage
 import com.vaadin.server.Page
 import com.vaadin.server.UserError
 import com.vaadin.shared.Position
+import com.vaadin.shared.ui.ErrorLevel
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
@@ -205,7 +205,7 @@ class CommonElementsView : VerticalLayout(), View {
                         componentError = UserError(
                                 "<h2>Contra legem facit qui id facit quod lex prohibet <span>Tityre, tu patulae recubans sub tegmine fagi  dolor.</span> <span>Tityre, tu patulae recubans sub tegmine fagi  dolor.</span> <span>Prima luce, cum quibus mons aliud  consensu ab eo.</span> <span>Quid securi etiam tamquam eu fugiat nulla pariatur.</span> <span>Fabio vel iudice vincam, sunt in culpa qui officia.</span> <span>Nihil hic munitissimus habendi senatus locus, nihil horum?</span></p><p><span>Plura mihi bona sunt, inclinet, amari petere vellent.</span> <span>Integer legentibus erat a ante historiarum dapibus.</span> <span>Quam diu etiam furor iste tuus nos eludet?</span> <span>Nec dubitamus multa iter quae et nos invenerat.</span> <span>Quisque ut dolor gravida, placerat libero vel, euismod.</span> <span>Quae vero auctorem tractata ab fiducia dicuntur.</span></h2>",
                                 AbstractErrorMessage.ContentMode.HTML,
-                                ErrorMessage.ErrorLevel.CRITICAL)
+                                ErrorLevel.CRITICAL)
                     }
                     label("Error message only") {
                         styleName = ValoTheme.LABEL_BOLD
