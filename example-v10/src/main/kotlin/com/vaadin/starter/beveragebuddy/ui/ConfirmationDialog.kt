@@ -26,10 +26,8 @@ import com.vaadin.ui.common.HasStyle
 import com.vaadin.ui.common.HtmlImport
 import com.vaadin.ui.html.Div
 import com.vaadin.ui.html.H2
-import com.vaadin.ui.paper.dialog.GeneratedPaperDialog
 
 import java.io.Serializable
-import java.util.function.Consumer
 
 /**
  * A generic dialog for confirming or cancelling an action.
