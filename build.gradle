@@ -1,7 +1,9 @@
 buildscript {
     ext.kotlin_version = '1.2.0'
     ext.vaadin8_version = '8.2.0.rc1'
-      // when upgrading Vaadin 10 version, consult Bower/JS dependencies at https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/webapp/frontend/bower.json
+      // when upgrading Vaadin 10 version, make sure to update Bower dependencies, by reverse-engineering that webjar crap
+    // at https://github.com/vaadin/beverage-starter-flow/blob/master/pom.xml
+    // most easily by doing mvn package and then inspecting webjar versions in the WAR file
     ext.vaadin10_version = '10.0.0.alpha8'
     ext.local = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
