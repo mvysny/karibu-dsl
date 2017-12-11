@@ -1,3 +1,6 @@
+// The Beverage Buddy sample project ported to Kotlin.
+// Original project: https://github.com/vaadin/beverage-starter-flow
+
 plugins {
     id "com.github.ksoichiro.web.resource" version "1.7.3"
 }
@@ -35,7 +38,9 @@ webResource {
             install name: "polymer", version: "2.1.1"
             install name: "paper-toast", version: "2.0.0"
             install name: "paper-dialog", version: "2.0.0"
-            install name: "vaadin-core", version: "10.0.0-alpha6"
+            install name: "vaadin-core", version: "v10.0.0-alpha9"
+            install name: "vaadin-valo-theme", version: "v2.0.0-alpha5"
+            resolve name: "vaadin-valo-theme", version: "v2.0.0-alpha5"
             copyAll true
         }
     }

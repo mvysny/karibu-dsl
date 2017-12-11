@@ -17,6 +17,10 @@
     "polymer": "2.1.1",
     "paper-toast": "2.0.0",
     "paper-dialog": "2.0.0",
-    "vaadin-core": "10.0.0-alpha6"
+    "vaadin-core": "v10.0.0-alpha9",
+    "vaadin-valo-theme": "v2.0.0-alpha5"
+  },
+  "resolutions": {
+    "vaadin-valo-theme": "v2.0.0-alpha5"
   }
 }

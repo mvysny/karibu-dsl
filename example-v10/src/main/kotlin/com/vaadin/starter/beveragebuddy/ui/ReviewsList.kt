@@ -92,8 +92,8 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
     }
 
     private fun updateList() {
-        val reviews = ReviewService.findReviews(search.value)
-        if (search.isEmpty) {
+        val reviews = ReviewService.findReviews(search.value ?: "")
+        if (search.value.isNullOrBlank()) {
             header.text = "Reviews"
             header.add(Span("${reviews.size} in total"))
         } else {

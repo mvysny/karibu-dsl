@@ -65,8 +65,8 @@ class CategoriesList : Div() {
             }
         }
         grid = grid {
-            addColumn("Category", { it.name })
-            addColumn("Beverages", { it.getReviewCount() })
+            addColumn({ it.name }).setHeader("Category")
+            addColumn({ it.getReviewCount() }).setHeader("Beverages")
             // Grid does not yet implement HasStyle
             element.classList.add("categories")
             element.setAttribute("theme", "row-dividers")
@@ -92,7 +92,7 @@ class CategoriesList : Div() {
     }
 
     private fun updateView() {
-        val categories: List<Category> = CategoryService.findCategories(searchField.value)
+        val categories: List<Category> = CategoryService.findCategories(searchField.value ?: "")
         grid.setItems(categories)
     }
 

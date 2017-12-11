@@ -15,8 +15,8 @@ import com.vaadin.ui.icon.VaadinIcons
 import com.vaadin.ui.layout.FlexLayout
 import com.vaadin.ui.layout.HorizontalLayout
 import com.vaadin.ui.layout.VerticalLayout
-import com.vaadin.ui.passwordfield.PasswordField
 import com.vaadin.ui.splitlayout.SplitLayout
+import com.vaadin.ui.textfield.PasswordField
 import com.vaadin.ui.textfield.TextField
 
 fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
