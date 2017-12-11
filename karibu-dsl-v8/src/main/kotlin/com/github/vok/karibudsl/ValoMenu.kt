@@ -34,7 +34,7 @@ import com.vaadin.ui.themes.ValoTheme
  * }
  * ```
  */
-class ValoMenu: HorizontalLayout(), ViewDisplay {
+open class ValoMenu: HorizontalLayout(), ViewDisplay {
     /**
      * Tracks the registered menu items associated with view; when a view is shown, highlight appropriate menu item button.
      */
@@ -70,6 +70,10 @@ class ValoMenu: HorizontalLayout(), ViewDisplay {
 
     private lateinit var userMenu: MenuBar
 
+    /**
+     * The user menu is a popup menu, displayed when the user's photo/name is clicked. You can add typical user-related items here,
+     * like user details, change password, logout etc.
+     */
     fun userMenu(block: MenuBar.()->Unit) = userMenu.block()
 
     private lateinit var navigationButtonLayout: CssLayout
