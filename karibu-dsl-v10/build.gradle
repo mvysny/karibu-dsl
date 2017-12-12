@@ -1,5 +1,6 @@
 plugins {
     id "com.jfrog.bintray" version "1.7.3"
+    id "io.spring.dependency-management" version "1.0.4.RELEASE"
 }
 
 apply plugin: 'maven-publish'
@@ -10,6 +11,12 @@ repositories {
     maven { url 'https://dl.bintray.com/webjars/maven' }
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-webjars-bom:$flow_version"
+    }
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
@@ -18,9 +25,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
     // Vaadin
-    compile("com.vaadin:vaadin:$vaadin10_version") {
-        exclude group: 'org.webjars.bower'
-    }
+    compile "com.vaadin:vaadin:$vaadin10_version"
     compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // IDEA language injections
