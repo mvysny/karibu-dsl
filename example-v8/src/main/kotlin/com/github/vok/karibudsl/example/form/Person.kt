@@ -24,7 +24,7 @@ data class Person(
 
         @field:NotNull
         @field:PastOrPresent
-        var dateOfBirth: LocalDate? = null,
+        var dateTimeOfBirth: Date? = null,
 
         @field:NotNull
         var maritalStatus: MaritalStatus? = null,
@@ -55,7 +55,7 @@ data class Person(
         fun createRandom(): Person {
             val random = Random()
             return Person(fullName = "Random ${random.nextInt(100)}",
-                    dateOfBirth = LocalDate.now().minusYears(random.nextInt(100).toLong()).plusDays(random.nextInt(365).toLong()),
+                    dateTimeOfBirth = Date(),
                     maritalStatus = MaritalStatus.values().random,
                     sex = Sex.values().random,
                     email = "amet@consectetur.com",

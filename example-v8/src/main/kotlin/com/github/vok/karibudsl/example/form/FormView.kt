@@ -36,8 +36,9 @@ class FormView: VerticalLayout(), View {
                 // please read https://vaadin.com/docs/-/part/framework/datamodel/datamodel-forms.html for more information
                 bind(binder).trimmingConverter().bind(Person::fullName)
             }
-            dateField("Birthday") {
-                bind(binder).bind(Person::dateOfBirth)
+            dateTimeField("Birthday") {
+                // demonstrates the proper time zone detection and display
+                bind(binder).toDate().bind(Person::dateTimeOfBirth)
                 placeholder = "To break the validation, just specify a future date"
                 description = "To break the validation, just specify a future date"
             }
