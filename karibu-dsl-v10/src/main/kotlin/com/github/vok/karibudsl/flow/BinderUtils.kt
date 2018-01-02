@@ -1,9 +1,9 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.data.*
-import com.vaadin.data.converter.*
-import com.vaadin.ui.common.HasValue
-import com.vaadin.ui.textfield.TextField
+import com.vaadin.flow.data.binder.*
+import com.vaadin.flow.data.converter.*
+import com.vaadin.flow.component.HasValue
+import com.vaadin.flow.component.textfield.TextField
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate

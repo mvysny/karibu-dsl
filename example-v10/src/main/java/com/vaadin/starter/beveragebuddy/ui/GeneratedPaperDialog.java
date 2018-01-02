@@ -1,12 +1,12 @@
 /*
  * Copyright 2000-2017 Vaadin Ltd.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,20 +15,20 @@
  */
 package com.vaadin.starter.beveragebuddy.ui;
 
-import com.vaadin.shared.Registration;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Tag;
-import com.vaadin.ui.common.ComponentSupplier;
-import com.vaadin.ui.common.HasComponents;
-import com.vaadin.ui.common.HasStyle;
-import com.vaadin.ui.common.HtmlImport;
-import com.vaadin.ui.common.NotSupported;
-import com.vaadin.ui.event.ComponentEvent;
-import com.vaadin.ui.event.ComponentEventListener;
-import com.vaadin.ui.event.DomEvent;
-import com.vaadin.ui.event.Synchronize;
-
 import javax.annotation.Generated;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.ComponentSupplier;
+import com.vaadin.flow.component.DomEvent;
+import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.NotSupported;
+import com.vaadin.flow.component.Synchronize;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.shared.Registration;
 
 import elemental.json.JsonObject;
 
@@ -52,7 +52,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code sizingTarget} property from the webcomponent
      */
     protected JsonObject protectedGetSizingTarget() {
@@ -69,7 +69,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * element. This is useful, for example, for implementing a scrolling region
      * inside the element.
      * </p>
-     * 
+     *
      * @param sizingTarget
      *            the JsonObject value to set
      */
@@ -87,7 +87,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code fitInto} property from the webcomponent
      */
     protected JsonObject protectedGetFitInto() {
@@ -101,7 +101,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * The element to fit {@code this} into.
      * </p>
-     * 
+     *
      * @param fitInto
      *            the JsonObject value to set
      */
@@ -120,7 +120,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code noOverlap} property from the webcomponent
      */
     public boolean isNoOverlap() {
@@ -135,7 +135,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * Will position the element around the positionTarget without overlapping
      * it.
      * </p>
-     * 
+     *
      * @param noOverlap
      *            the boolean value to set
      */
@@ -154,7 +154,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code positionTarget} property from the webcomponent
      */
     protected JsonObject protectedGetPositionTarget() {
@@ -169,7 +169,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * The element that should be used to position the element. If not set, it
      * will default to the parent node.
      * </p>
-     * 
+     *
      * @param positionTarget
      *            the JsonObject value to set
      */
@@ -189,7 +189,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code horizontalAlign} property from the webcomponent
      */
     public String getHorizontalAlign() {
@@ -205,7 +205,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * to the {@code positionTarget}. Possible values are &quot;left&quot;,
      * &quot;right&quot;, &quot;center&quot;, &quot;auto&quot;.
      * </p>
-     * 
+     *
      * @param horizontalAlign
      *            the String value to set
      */
@@ -226,7 +226,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code verticalAlign} property from the webcomponent
      */
     public String getVerticalAlign() {
@@ -242,7 +242,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * the {@code positionTarget}. Possible values are &quot;top&quot;,
      * &quot;bottom&quot;, &quot;middle&quot;, &quot;auto&quot;.
      * </p>
-     * 
+     *
      * @param verticalAlign
      *            the String value to set
      */
@@ -263,7 +263,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code dynamicAlign} property from the webcomponent
      */
     public boolean isDynamicAlign() {
@@ -279,7 +279,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * values as preferred alignment and if there's not enough space, it will
      * pick the values which minimize the cropping.
      * </p>
-     * 
+     *
      * @param dynamicAlign
      *            the boolean value to set
      */
@@ -312,7 +312,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code horizontalOffset} property from the webcomponent
      */
     public double getHorizontalOffset() {
@@ -341,7 +341,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * negative offset will move the dropdown to the right; a positive one, to
      * the left.
      * </p>
-     * 
+     *
      * @param horizontalOffset
      *            the double value to set
      */
@@ -374,7 +374,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code verticalOffset} property from the webcomponent
      */
     public double getVerticalOffset() {
@@ -403,7 +403,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * a negative offset will move the dropdown downwards; a positive one,
      * upwards.
      * </p>
-     * 
+     *
      * @param verticalOffset
      *            the double value to set
      */
@@ -421,7 +421,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code autoFitOnAttach} property from the webcomponent
      */
     public boolean isAutoFitOnAttach() {
@@ -435,7 +435,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Set to true to auto-fit on attach.
      * </p>
-     * 
+     *
      * @param autoFitOnAttach
      *            the boolean value to set
      */
@@ -453,7 +453,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is synchronized automatically from client side when a
      * 'opened-changed' event happens.
      * </p>
-     * 
+     *
      * @return the {@code opened} property from the webcomponent
      */
     @Synchronize(property = "opened", value = "opened-changed")
@@ -468,7 +468,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * True if the overlay is currently displayed.
      * </p>
-     * 
+     *
      * @param opened
      *            the boolean value to set
      */
@@ -486,7 +486,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code canceled} property from the webcomponent
      */
     public boolean isCanceled() {
@@ -504,7 +504,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code withBackdrop} property from the webcomponent
      */
     public boolean isWithBackdrop() {
@@ -519,7 +519,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * Set to true to display a backdrop behind the overlay. It traps the focus
      * within the light DOM of the overlay.
      * </p>
-     * 
+     *
      * @param withBackdrop
      *            the boolean value to set
      */
@@ -538,7 +538,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code noAutoFocus} property from the webcomponent
      */
     public boolean isNoAutoFocus() {
@@ -553,7 +553,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * Set to true to disable auto-focusing the overlay or child nodes with the
      * {@code autofocus} attribute` when the overlay is opened.
      * </p>
-     * 
+     *
      * @param noAutoFocus
      *            the boolean value to set
      */
@@ -571,7 +571,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code noCancelOnEscKey} property from the webcomponent
      */
     public boolean isNoCancelOnEscKey() {
@@ -585,7 +585,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Set to true to disable canceling the overlay with the ESC key.
      * </p>
-     * 
+     *
      * @param noCancelOnEscKey
      *            the boolean value to set
      */
@@ -603,7 +603,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code noCancelOnOutsideClick} property from the webcomponent
      */
     public boolean isNoCancelOnOutsideClick() {
@@ -617,7 +617,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Set to true to disable canceling the overlay by clicking outside it.
      * </p>
-     * 
+     *
      * @param noCancelOnOutsideClick
      *            the boolean value to set
      */
@@ -639,7 +639,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code closingReason} property from the webcomponent
      */
     protected JsonObject protectedGetClosingReason() {
@@ -656,7 +656,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * {@code canceled} reason; implementers of the behavior can provide other
      * reasons in addition to {@code canceled}.
      * </p>
-     * 
+     *
      * @param closingReason
      *            the JsonObject value to set
      */
@@ -674,7 +674,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code restoreFocusOnClose} property from the webcomponent
      */
     public boolean isRestoreFocusOnClose() {
@@ -688,7 +688,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Set to true to enable restoring of focus when overlay is closed.
      * </p>
-     * 
+     *
      * @param restoreFocusOnClose
      *            the boolean value to set
      */
@@ -707,7 +707,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code allowClickThrough} property from the webcomponent
      */
     public boolean isAllowClickThrough() {
@@ -722,7 +722,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * Set to true to allow clicks to go through overlays. When the user clicks
      * outside this overlay, the click may close the overlay below.
      * </p>
-     * 
+     *
      * @param allowClickThrough
      *            the boolean value to set
      */
@@ -740,7 +740,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code alwaysOnTop} property from the webcomponent
      */
     public boolean isAlwaysOnTop() {
@@ -754,7 +754,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Set to true to keep overlay always on top.
      * </p>
-     * 
+     *
      * @param alwaysOnTop
      *            the boolean value to set
      */
@@ -775,7 +775,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code scrollAction} property from the webcomponent
      */
     public String getScrollAction() {
@@ -792,7 +792,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * computes the new position on the overlay cancel - causes the overlay to
      * close
      * </p>
-     * 
+     *
      * @param scrollAction
      *            the String value to set
      */
@@ -811,7 +811,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code modal} property from the webcomponent
      */
     public boolean isModal() {
@@ -825,7 +825,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * If {@code modal} is true, this implies {@code no-cancel-on-outside-click}, {@code no-cancel-on-esc-key} and {@code with-backdrop}.
      * </p>
-     * 
+     *
      * @param modal
      *            the boolean value to set
      */
@@ -843,7 +843,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code animationConfig} property from the webcomponent
      */
     protected JsonObject protectedGetAnimationConfig() {
@@ -857,7 +857,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Animation configuration. See README for more info.
      * </p>
-     * 
+     *
      * @param animationConfig
      *            the JsonObject value to set
      */
@@ -877,7 +877,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code entryAnimation} property from the webcomponent
      */
     public String getEntryAnimation() {
@@ -893,7 +893,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * {@code animationConfig.entry} manually if using this. The animated node
      * is set to {@code this} if using this property.
      * </p>
-     * 
+     *
      * @param entryAnimation
      *            the String value to set
      */
@@ -914,7 +914,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This property is not synchronized automatically from the client side, so
      * the returned value may not be the same as in client side.
      * </p>
-     * 
+     *
      * @return the {@code exitAnimation} property from the webcomponent
      */
     public String getExitAnimation() {
@@ -930,7 +930,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * {@code animationConfig.exit} manually if using this. The animated node is
      * set to {@code this} if using this property.
      * </p>
-     * 
+     *
      * @param exitAnimation
      *            the String value to set
      */
@@ -1040,7 +1040,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * Used to assign the closest resizable ancestor to this resizable if the
      * ancestor detects a request for notifications.
      * </p>
-     * 
+     *
      * @param parentResizable
      *            Missing documentation!
      */
@@ -1056,7 +1056,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * Used to remove a resizable descendant from the list of descendants that
      * should be notified of a resize change.
      * </p>
-     * 
+     *
      * @param target
      *            Missing documentation!
      */
@@ -1077,7 +1077,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * This function is not supported by Flow because it returns a
      * <code>boolean</code>. Functions with return types different than void are
      * not supported at this moment.
-     * 
+     *
      * @param element
      *            A candidate descendant element that implements
      *            `IronResizableBehavior`.
@@ -1141,7 +1141,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Cancels the overlay.
      * </p>
-     * 
+     *
      * @param event
      *            The original event
      */
@@ -1173,7 +1173,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * property {@code animationConfig}, which is either a configuration object
      * or a map of animation type to array of configuration objects.
      * </p>
-     * 
+     *
      * @param type
      *            Missing documentation!
      */
@@ -1188,7 +1188,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
      * <p>
      * Plays an animation with an optional {@code type}.
      * </p>
-     * 
+     *
      * @param type
      *            Missing documentation!
      * @param cookie
@@ -1221,7 +1221,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
     /**
      * Adds a listener for {@code horizontal-offset-changed} events fired by the
      * webcomponent.
-     * 
+     *
      * @param listener
      *            the listener
      * @return a {@link Registration} for removing the event listener
@@ -1244,7 +1244,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
     /**
      * Adds a listener for {@code vertical-offset-changed} events fired by the
      * webcomponent.
-     * 
+     *
      * @param listener
      *            the listener
      * @return a {@link Registration} for removing the event listener
@@ -1267,7 +1267,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
     /**
      * Adds a listener for {@code opened-changed} events fired by the
      * webcomponent.
-     * 
+     *
      * @param listener
      *            the listener
      * @return a {@link Registration} for removing the event listener
@@ -1290,7 +1290,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
     /**
      * Adds a listener for {@code iron-overlay-canceled} events fired by the
      * webcomponent.
-     * 
+     *
      * @param listener
      *            the listener
      * @return a {@link Registration} for removing the event listener
@@ -1313,7 +1313,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
     /**
      * Adds a listener for {@code iron-overlay-closed} events fired by the
      * webcomponent.
-     * 
+     *
      * @param listener
      *            the listener
      * @return a {@link Registration} for removing the event listener
@@ -1336,7 +1336,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
     /**
      * Adds a listener for {@code iron-overlay-opened} events fired by the
      * webcomponent.
-     * 
+     *
      * @param listener
      *            the listener
      * @return a {@link Registration} for removing the event listener
@@ -1350,7 +1350,7 @@ public class GeneratedPaperDialog<R extends GeneratedPaperDialog<R>> extends
 
     /**
      * Adds the given components as children of this component.
-     * 
+     *
      * @param components
      *            the components to add
      * @see HasComponents#add(Component...)

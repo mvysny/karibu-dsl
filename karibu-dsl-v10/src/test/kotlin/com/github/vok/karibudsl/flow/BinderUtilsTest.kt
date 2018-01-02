@@ -1,12 +1,11 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.data.Binder
-import com.vaadin.ui.checkbox.Checkbox
-import com.vaadin.ui.common.HasValue
-import com.vaadin.ui.datepicker.DatePicker
-import com.vaadin.ui.layout.VerticalLayout
-import com.vaadin.ui.textfield.TextField
-import org.junit.Before
+import com.vaadin.flow.data.binder.Binder
+import com.vaadin.flow.component.checkbox.Checkbox
+import com.vaadin.flow.component.HasValue
+import com.vaadin.flow.component.datepicker.DatePicker
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.TextField
 import org.junit.Test
 import java.io.Serializable
 import java.math.BigDecimal

@@ -19,11 +19,11 @@ import com.github.vok.karibudsl.flow.bind
 import com.github.vok.karibudsl.flow.bindN
 import com.github.vok.karibudsl.flow.textField
 import com.github.vok.karibudsl.flow.trimmingConverter
-import com.vaadin.data.validator.StringLengthValidator
+import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
-import com.vaadin.ui.textfield.TextField
+import com.vaadin.flow.component.textfield.TextField
 
 import java.util.function.BiConsumer
 import java.util.function.Consumer

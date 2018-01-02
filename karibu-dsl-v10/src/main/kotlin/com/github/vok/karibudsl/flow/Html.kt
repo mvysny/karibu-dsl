@@ -1,10 +1,10 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.ui.Component
-import com.vaadin.ui.common.HasComponents
-import com.vaadin.ui.event.ClickEvent
-import com.vaadin.ui.event.ClickNotifier
-import com.vaadin.ui.html.*
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.ClickEvent
+import com.vaadin.flow.component.ClickNotifier
+import com.vaadin.flow.component.html.*
 
 fun (@VaadinDsl HasComponents).div(block: (@VaadinDsl Div).() -> Unit = {}) = init(Div(), block)
 

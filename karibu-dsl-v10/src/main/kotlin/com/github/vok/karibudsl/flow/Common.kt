@@ -1,7 +1,7 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.ui.Component
-import com.vaadin.ui.common.HasComponents
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasComponents
 
 /**
  * When introducing extensions for your custom components, just call this in your method. For example:

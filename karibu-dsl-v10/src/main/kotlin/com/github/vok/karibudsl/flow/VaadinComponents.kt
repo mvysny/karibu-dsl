@@ -1,23 +1,23 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.ui.Component
-import com.vaadin.ui.button.Button
-import com.vaadin.ui.checkbox.Checkbox
-import com.vaadin.ui.combobox.ComboBox
-import com.vaadin.ui.common.HasClickListeners
-import com.vaadin.ui.common.HasComponents
-import com.vaadin.ui.datepicker.DatePicker
-import com.vaadin.ui.dialog.Dialog
-import com.vaadin.ui.formlayout.FormLayout
-import com.vaadin.ui.grid.Grid
-import com.vaadin.ui.icon.Icon
-import com.vaadin.ui.icon.VaadinIcons
-import com.vaadin.ui.layout.FlexLayout
-import com.vaadin.ui.layout.HorizontalLayout
-import com.vaadin.ui.layout.VerticalLayout
-import com.vaadin.ui.splitlayout.SplitLayout
-import com.vaadin.ui.textfield.PasswordField
-import com.vaadin.ui.textfield.TextField
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.checkbox.Checkbox
+import com.vaadin.flow.component.combobox.ComboBox
+import com.vaadin.flow.component.HasClickListeners
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.datepicker.DatePicker
+import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.formlayout.FormLayout
+import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.icon.Icon
+import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.orderedlayout.FlexLayout
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.splitlayout.SplitLayout
+import com.vaadin.flow.component.textfield.PasswordField
+import com.vaadin.flow.component.textfield.TextField
 
 fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
         = init(Button(text, icon), block)

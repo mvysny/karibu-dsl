@@ -1,11 +1,10 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.server.*
-import com.vaadin.ui.UI
+import com.vaadin.flow.server.*
+import com.vaadin.flow.component.UI
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
-import java.util.*
 
 object MockVaadin {
     // prevent GC on Vaadin Session and Vaadin UI as they are only soft-referenced from the Vaadin itself.
