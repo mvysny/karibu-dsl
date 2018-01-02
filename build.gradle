@@ -45,7 +45,7 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven { url 'http://maven.vaadin.com/vaadin-addons' }
+        maven { url 'https://maven.vaadin.com/vaadin-addons' }
         maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
     }
 
