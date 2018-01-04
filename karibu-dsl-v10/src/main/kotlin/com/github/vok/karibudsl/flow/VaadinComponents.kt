@@ -56,3 +56,10 @@ fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() ->
         = init(SplitLayout(), block)
 fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {})
         = init(TextField(label), block)
+
+var (@VaadinDsl Component).flexGrow: Double
+    get() = (parent.get() as FlexLayout).getFlexGrow(this)
+    set(value) { (parent.get() as FlexLayout).setFlexGrow(value, this) }
+var (@VaadinDsl Component).isExpand: Boolean
+    get() = flexGrow >= 1
+    set(value) { flexGrow = if (value) 1.0 else 0.0 }
