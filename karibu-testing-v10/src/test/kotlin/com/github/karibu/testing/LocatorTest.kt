@@ -1,7 +1,6 @@
 package com.github.karibu.testing
 
 import com.github.vok.karibudsl.flow.*
-import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
@@ -45,7 +44,7 @@ class LocatorTest {
     @Test
     fun findMatchingId() {
         val button = Button().apply { id_ = "foo" }
-        expect(listOf(button)) { VerticalLayout(button, Button())._find(Button::class.java, id = "foo") }
+        expect(listOf(button)) { VerticalLayout(button, Button())._find(Button::class.java) { id = "foo" } }
     }
 
     @Test
@@ -61,8 +60,8 @@ class LocatorTest {
             }
         }
 
-        _get<TextField>(caption = "Type your name here:").value = "Baron Vladimir Harkonnen"
-        _get<Button>(caption = "Click Me")._click()
+        _get<TextField> { caption = "Type your name here:" }.value = "Baron Vladimir Harkonnen"
+        _get<Button> { caption = "Click Me" }._click()
         expect("Thanks Baron Vladimir Harkonnen, it works!") { _get<Text>().text }
         expect("Thanks Baron Vladimir Harkonnen, it works!") { (layout.children.asSequence().last() as Text).text }
         expect(3) { layout.componentCount }

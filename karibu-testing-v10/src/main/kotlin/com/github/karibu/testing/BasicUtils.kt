@@ -18,7 +18,7 @@ inline fun <reified T: Any> T.serializeDeserialize() = serializeToBytes().deseri
  * Auto-discovers views and register them to [autoViewProvider]. Can be called multiple times.
  * @param packageName set the package name for the detector to be faster; or provide null to scan the whole classpath, but this is quite slow.
  */
-fun autoDiscoverViews(packageName: String? = null): Set<Class<*>> {
+fun autoDiscoverViews(packageName: String? = null): Set<Class<out Component>> {
     val entities = mutableListOf<Class<*>>()
     val detector = AnnotationDetector(object : AnnotationDetector.TypeReporter {
         override fun reportTypeAnnotation(annotation: Class<out Annotation>?, className: String?) {
@@ -34,7 +34,7 @@ fun autoDiscoverViews(packageName: String? = null): Set<Class<*>> {
     }
 
     println("Auto-discovered views: ${entities.joinToString { it.simpleName }}")
-    return entities.toSet()
+    return entities.map { it as Class<out Component> }.toSet()
 }
 
 /**

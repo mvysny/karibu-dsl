@@ -6,18 +6,18 @@ import org.junit.Test
 import kotlin.test.expect
 
 class BasicUtilsTest {
+    private val allViews = setOf(TestingView::class.java, HelloWorldView::class.java, WelcomeView::class.java)
     @Test
     fun testAutoViewDiscovery() {
-        expect(setOf(TestingView::class.java)) { autoDiscoverViews("com.github") }
+        expect(allViews) { autoDiscoverViews("com.github") }
     }
 
     @Test
     fun testCallingAutoViewDiscoveryMultipleTimesWontFail() {
-        expect(setOf(TestingView::class.java)) { autoDiscoverViews("com.github") }
-        expect(setOf(TestingView::class.java)) { autoDiscoverViews("com.github") }
+        expect(allViews) { autoDiscoverViews("com.github") }
+        expect(allViews) { autoDiscoverViews("com.github") }
     }
 }
 
 @Route("testing")
 class TestingView : Div()
-
