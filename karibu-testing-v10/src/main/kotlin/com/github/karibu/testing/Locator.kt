@@ -11,7 +11,7 @@ import com.vaadin.flow.router.InternalServerError
 /**
  * @property clazz the class of the component we are searching for
  * @property id the required [Component.getId]; if null, no particular id is matched.
- * @property caption the required [Component.getCaption]; if null, no particular caption is matched.
+ * @property caption the required [Component.caption]; if null, no particular caption is matched.
  * @property text the [com.vaadin.flow.dom.Element.getText]
  * @property predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
  */
@@ -25,7 +25,8 @@ class SearchSpec<T: Component>(val clazz: Class<T>,
         val list = mutableListOf<String>(if (clazz.simpleName.isBlank()) clazz.name else clazz.simpleName)
         if (id != null) list.add("id='$id'")
         if (caption != null) list.add("caption='$caption'")
-        if (!predicates.isEmpty()) list.addAll(predicates.map { it.toString() })
+        if (text != null) list.add("text='$text'")
+        list.addAll(predicates.map { it.toString() })
         return list.joinToString(" and ")
     }
 
