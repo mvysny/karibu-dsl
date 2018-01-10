@@ -1,12 +1,15 @@
 package com.github.karibu.testing
 
-import com.github.vok.karibudsl.button
-import com.github.vok.karibudsl.label
-import com.github.vok.karibudsl.textField
-import com.github.vok.karibudsl.verticalLayout
-import com.vaadin.ui.*
+import com.github.vok.karibudsl.flow.*
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.Text
+import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.TextField
 import org.junit.Before
 import org.junit.Test
+import kotlin.streams.asSequence
 import kotlin.test.expect
 
 class LocatorTest {
@@ -17,7 +20,7 @@ class LocatorTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun getFailsOnNoComponents() {
-        Button()._get(Label::class.java)
+        Button()._get(TextField::class.java)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -41,7 +44,7 @@ class LocatorTest {
 
     @Test
     fun findMatchingId() {
-        val button = Button().apply { id = "foo" }
+        val button = Button().apply { id_ = "foo" }
         expect(listOf(button)) { VerticalLayout(button, Button())._find(Button::class.java, id = "foo") }
     }
 
@@ -49,19 +52,19 @@ class LocatorTest {
     fun simpleUITest() {
         lateinit var layout: VerticalLayout
         layout = UI.getCurrent().verticalLayout {
-            val name = textField {
-                caption = "Type your name here:"
+            val name = textField("Type your name here:")
+            button("Click Me") {
+                onLeftClick {
+                    println("Thanks ${name.value}, it works!")
+                    layout.text("Thanks ${name.value}, it works!")
+                }
             }
-            button("Click Me", {
-                println("Thanks ${name.value}, it works!")
-                layout.label("Thanks ${name.value}, it works!")
-            })
         }
 
         _get<TextField>(caption = "Type your name here:").value = "Baron Vladimir Harkonnen"
         _get<Button>(caption = "Click Me")._click()
-        expect("Thanks Baron Vladimir Harkonnen, it works!") { _get<Label>().value }
-        expect("Thanks Baron Vladimir Harkonnen, it works!") { (layout.last() as Label).value }
+        expect("Thanks Baron Vladimir Harkonnen, it works!") { _get<Text>().text }
+        expect("Thanks Baron Vladimir Harkonnen, it works!") { (layout.children.asSequence().last() as Text).text }
         expect(3) { layout.componentCount }
     }
 }
