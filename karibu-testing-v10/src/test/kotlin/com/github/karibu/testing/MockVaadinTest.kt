@@ -36,7 +36,8 @@ class MockVaadinTest {
 
     @Test
     fun testNavigation() {
-        UI.getCurrent().navigateTo("")
+        // no need: when UI is initialized in MockVaadin.setup(), automatic navigation to "" is performed.
+//        UI.getCurrent().navigateTo("")
         _get<Text> { text = "Welcome!" }
         UI.getCurrent().navigateTo("helloworld")
         _get<Button> { caption = "Hello, World!" }

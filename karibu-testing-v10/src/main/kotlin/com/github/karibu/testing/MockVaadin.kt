@@ -13,6 +13,10 @@ import java.util.concurrent.locks.ReentrantLock
 import javax.servlet.http.Cookie
 
 object MockVaadin {
+    // prevent GC on Vaadin Session and Vaadin UI as they are only soft-referenced from the Vaadin itself.
+    private val strongRefSession = ThreadLocal<VaadinSession>()
+    private val strongRefUI = ThreadLocal<UI>()
+
     /**
      * Mocks Vaadin for the current test method.
      * @param routes all classes annotated with [com.vaadin.flow.router.Route]; use [autoDiscoverViews] to auto-discover all such classes.
@@ -37,10 +41,12 @@ object MockVaadin {
             override fun getLockInstance(): Lock = lock
         }
         VaadinSession.setCurrent(session)
+        strongRefSession.set(session)
         val ui = uiFactory()
         ui.internals.session = session
         ui.doInit(MockRequest(), -1)
         UI.setCurrent(ui)
+        strongRefUI.set(ui)
     }
 }
 
