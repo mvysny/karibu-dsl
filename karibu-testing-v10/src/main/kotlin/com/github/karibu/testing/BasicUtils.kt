@@ -34,6 +34,7 @@ fun autoDiscoverViews(packageName: String? = null): Set<Class<out Component>> {
     }
 
     println("Auto-discovered views: ${entities.joinToString { it.simpleName }}")
+    @Suppress("UNCHECKED_CAST")
     return entities.map { it as Class<out Component> }.toSet()
 }
 
@@ -49,12 +50,25 @@ fun Component._fireEvent(event: ComponentEvent<*>) {
     fireEvent.invoke(this, event)
 }
 
-val Component.label: String get() = element.getProperty("label") ?: ""
+/**
+ * Determines the component's `label` (it's the HTML element's `label` property actually). Intended to be used for fields such as [TextField].
+ */
+var Component.label: String
+    get() = element.getProperty("label") ?: ""
+    set(value) {
+        element.setProperty("label", if (value.isBlank()) null else value)
+    }
+
+/**
+ * The Component's caption: [text] for [Button], [label] for fields such as [TextField].
+ */
 val Component.caption: String get() = when(this) {
     is Button -> text
     else -> label
 }
-
+/**
+ * Workaround for https://github.com/vaadin/flow/issues/664
+ */
 var Component.id_: String?
     get() = id.orElse(null)
     set(value) { setId(value) }
