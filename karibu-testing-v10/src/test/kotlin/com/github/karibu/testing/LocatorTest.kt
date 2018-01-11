@@ -44,7 +44,7 @@ class LocatorTest {
     @Test
     fun findMatchingId() {
         val button = Button().apply { id_ = "foo" }
-        expect(listOf(button)) { VerticalLayout(button, Button())._find(Button::class.java) { id = "foo" } }
+        expect(listOf(button)) { VerticalLayout(button, Button())._find<Button> { id = "foo" } }
     }
 
     @Test

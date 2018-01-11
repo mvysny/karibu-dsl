@@ -8,82 +8,116 @@ import com.vaadin.ui.Component
 import com.vaadin.ui.UI
 
 /**
- * Finds a VISIBLE component which matches all of given predicates. This component and all of its descendants are searched.
- * @param id the required [Component.getId]; if null, no particular id is matched.
- * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
- * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
+ * A criterion for matching components. The component must match all of non-null fields.
+ * @property clazz the class of the component we are searching for.
+ * @property id the required [Component.getId]; if null, no particular id is matched.
+ * @property caption the required [Component.caption]; if null, no particular caption is matched.
  * @param styles if not null, the component must match all of these styles. Space-separated.
- * @return the only matching component, never null.
- * @throws IllegalArgumentException if no component matched, or if more than one component matches.
+ * @property predicates the predicates the component needs to match, not null. May be empty - in such case it is ignored.
  */
-fun <T: Component> Component._get(clazz: Class<T>, id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean = arrayOf()): T {
+class SearchSpec<T: Component>(val clazz: Class<T>,
+                               var id: String? = null,
+                               var caption: String? = null,
+                               var styles: String? = null,
+                               var predicates: List<(Component)->Boolean> = listOf()) {
 
-    fun getCriteria(): String {
+    override fun toString(): String {
         val list = mutableListOf<String>(if (clazz.simpleName.isBlank()) clazz.name else clazz.simpleName)
         if (id != null) list.add("id='$id'")
         if (caption != null) list.add("caption='$caption'")
         if (!styles.isNullOrBlank()) list.add("styles='$styles'")
-        if (!predicates.isEmpty()) list.addAll(predicates.map { it.toString() })
+        list.addAll(predicates.map { it.toString() })
         return list.joinToString(" and ")
     }
 
-    val result = _find(clazz, id, caption, styles, *predicates)
-    if (result.isEmpty()) {
-        throw IllegalArgumentException("No visible ${clazz.simpleName} in ${toPrettyString()} matching ${getCriteria()}. Component tree:\n${toPrettyTree()}")
+    fun toPredicate(): (Component) -> Boolean {
+        val p = mutableListOf<(Component)->Boolean>()
+        p.add({ component -> clazz.isInstance(component)} )
+        if (id != null) p.add({ component -> component.id == id })
+        if (caption != null) p.add({ component -> component.caption == caption })
+        if (!styles.isNullOrBlank()) p.add({ component -> component.hasStyleName(styles!!) })
+        p.addAll(predicates)
+        return p.and()
     }
-    if (result.size > 1) {
-        throw IllegalArgumentException("Too many components in ${toPrettyString()} matching ${getCriteria()}: ${result.joinToString { it.toPrettyString() }}. Component tree:\n${toPrettyTree()}")
-    }
-    return clazz.cast(result.get(0))
 }
 
 /**
- * Finds a VISIBLE component in the current UI which matches all of given predicates. This component and all of its descendants are searched.
- * @param id the required [Component.getId]; if null, no particular id is matched.
- * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
- * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
- * @param styles if not null, the component must match all of these styles. Space-separated.
+ * Finds a VISIBLE component of given type which matches given [block]. This component and all of its descendants are searched.
+ * @param block the search specification
  * @return the only matching component, never null.
  * @throws IllegalArgumentException if no component matched, or if more than one component matches.
  */
-inline fun <reified T: Component> _get(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean = arrayOf()): T =
-        UI.getCurrent()._get(T::class.java, id, caption, styles, *predicates)
+inline fun <reified T: Component> Component._get(noinline block: SearchSpec<T>.()->Unit = {}): T = this._get(T::class.java, block)
 
 /**
- * Finds a list of VISIBLE components which matches all of given predicates. This component and all of its descendants are searched.
- * @param id the required [Component.getId]; if null, no particular id is matched.
- * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
- * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
+ * Finds a VISIBLE component of given [clazz] which matches given [block]. This component and all of its descendants are searched.
+ * @param clazz the component must be of this class.
+ * @param block the search specification
+ * @return the only matching component, never null.
+ * @throws IllegalArgumentException if no component matched, or if more than one component matches.
+ */
+fun <T: Component> Component._get(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): T {
+    val spec = SearchSpec(clazz)
+    spec.block()
+    val result = find(spec.toPredicate()).filterIsInstance(clazz)
+    if (result.isEmpty()) {
+        throw IllegalArgumentException("No visible ${clazz.simpleName} in ${toPrettyString()} matching $spec. Component tree:\n${toPrettyTree()}")
+    }
+    if (result.size > 1) {
+        throw IllegalArgumentException("Too many components in ${toPrettyString()} matching $spec: ${result.joinToString { it.toPrettyString() }}. Component tree:\n${toPrettyTree()}")
+    }
+    return clazz.cast(result.single())
+}
+
+/**
+ * Finds a VISIBLE component in the current UI of given type which matches given [block]. The [UI.getCurrent] and all of its descendants are searched.
+ * @return the only matching component, never null.
+ * @throws IllegalArgumentException if no component matched, or if more than one component matches.
+ */
+inline fun <reified T: Component> _get(noinline block: SearchSpec<T>.()->Unit = {}): T = _get(T::class.java, block)
+
+/**
+ * Finds a VISIBLE component in the current UI of given [clazz] which matches given [block]. The [UI.getCurrent] and all of its descendants are searched.
+ * @param clazz the component must be of this class.
+ * @param block the search specification
+ * @return the only matching component, never null.
+ * @throws IllegalArgumentException if no component matched, or if more than one component matches.
+ */
+fun <T: Component> _get(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): T = UI.getCurrent()._get(clazz, block)
+
+/**
+ * Finds a list of VISIBLE components of given [clazz] which matches [block]. This component and all of its descendants are searched.
  * @return the list of matching components, may be empty.
  */
-fun <T: Component> Component._find(clazz: Class<T>, id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean = arrayOf()): List<T> {
-    val p = mutableListOf<(Component)->Boolean>()
-    p.add({ component -> clazz.isInstance(component)} )
-    if (id != null) p.add({ component -> component.id == id })
-    if (caption != null) p.add({ component -> component.caption == caption })
-    if (!styles.isNullOrBlank()) p.add({ component -> component.hasStyleName(styles!!) })
-    p.addAll(predicates)
-
-    val result = find(p.and())
+fun <T: Component> Component._find(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): List<T> {
+    val spec = SearchSpec(clazz)
+    spec.block()
+    val result = find(spec.toPredicate())
     return result.filterIsInstance(clazz)
 }
 
 /**
- * Finds a list of VISIBLE components in the current UI which matches all of given predicates. This component and all of its descendants are searched.
- * @param id the required [Component.getId]; if null, no particular id is matched.
- * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
- * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
+ * Finds a list of VISIBLE components of given type which matches [block]. This component and all of its descendants are searched.
  * @return the list of matching components, may be empty.
  */
-inline fun <reified T: Component> _find(id: String? = null, caption: String? = null, styles: String? = null, vararg predicates: (Component)->Boolean = arrayOf()): List<T> =
-        UI.getCurrent()._find(T::class.java, id, caption, styles, *predicates)
+inline fun <reified T: Component> Component._find(noinline block: SearchSpec<T>.()->Unit = {}): List<T> = this._find(T::class.java, block)
 
 /**
- * Clicks the button, but only if it is actually possible to do so by the user. If the button is read-only or disabled, throws an exception.
- * @param id the required [Component.getId]; if null, no particular id is matched.
- * @param caption the required [Component.getCaption]; if null, no particular caption is matched.
- * @param predicates the predicates the component needs to match, not null. May be empty - in such case all components will match.
- * @return the button if it was visible, enabled, not read-only and it was clicked
+ * Finds a list of VISIBLE components in the current UI of given type which matches given [block]. The [UI.getCurrent] and all of its descendants are searched.
+ * @param block the search specification
+ * @return the list of matching components, may be empty.
+ */
+inline fun <reified T: Component> _find(noinline block: SearchSpec<T>.()->Unit = {}): List<T> = _find(T::class.java, block)
+
+/**
+ * Finds a list of VISIBLE components of given [clazz] which matches [block]. The [UI.getCurrent] and all of its descendants are searched.
+ * @return the list of matching components, may be empty.
+ */
+fun <T: Component> _find(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): List<T> =
+        UI.getCurrent()._find(clazz, block)
+
+/**
+ * Clicks the button, but only if it is actually possible to do so by the user. If the button is read-only or disabled, it throws an exception.
  * @throws IllegalArgumentException if the button was not visible, not enabled, read-only or if no button (or too many buttons) matched.
  */
 fun Button._click() {

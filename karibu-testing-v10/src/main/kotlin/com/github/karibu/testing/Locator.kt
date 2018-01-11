@@ -98,6 +98,12 @@ fun <T: Component> Component._find(clazz: Class<T>, block: SearchSpec<T>.()->Uni
 }
 
 /**
+ * Finds a list of VISIBLE components of given type which matches [block]. This component and all of its descendants are searched.
+ * @return the list of matching components, may be empty.
+ */
+inline fun <reified T: Component> Component._find(noinline block: SearchSpec<T>.()->Unit = {}): List<T> = this._find(T::class.java, block)
+
+/**
  * Finds a list of VISIBLE components in the current UI of given type which matches given [block]. The [UI.getCurrent] and all of its descendants are searched.
  * @param block the search specification
  * @return the list of matching components, may be empty.

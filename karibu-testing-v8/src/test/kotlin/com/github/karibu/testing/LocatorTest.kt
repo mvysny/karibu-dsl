@@ -42,7 +42,7 @@ class LocatorTest {
     @Test
     fun findMatchingId() {
         val button = Button().apply { id = "foo" }
-        expect(listOf(button)) { VerticalLayout(button, Button())._find(Button::class.java, id = "foo") }
+        expect(listOf(button)) { VerticalLayout(button, Button())._find<Button> { id = "foo" } }
     }
 
     @Test
@@ -58,8 +58,8 @@ class LocatorTest {
             })
         }
 
-        _get<TextField>(caption = "Type your name here:").value = "Baron Vladimir Harkonnen"
-        _get<Button>(caption = "Click Me")._click()
+        _get<TextField> { caption = "Type your name here:" }.value = "Baron Vladimir Harkonnen"
+        _get<Button> { caption = "Click Me" }._click()
         expect("Thanks Baron Vladimir Harkonnen, it works!") { _get<Label>().value }
         expect("Thanks Baron Vladimir Harkonnen, it works!") { (layout.last() as Label).value }
         expect(3) { layout.componentCount }

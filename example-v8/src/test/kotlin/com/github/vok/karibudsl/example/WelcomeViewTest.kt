@@ -30,6 +30,6 @@ class WelcomeViewTest {
     @Test
     fun testWelcomeViewCaption() {
         navigateToView(WelcomeView::class.java)
-        expect("Welcome To The Karibu-DSL Demo") { _get<Label>(styles = ValoTheme.LABEL_H1).value }
+        expect("Welcome To The Karibu-DSL Demo") { _get<Label> { styles = ValoTheme.LABEL_H1 }.value }
     }
 }
