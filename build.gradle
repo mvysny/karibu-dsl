@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.20'
     ext.vaadin8_version = '8.2.1'
     // when upgrading Vaadin 10 version, make sure to update it accordingly to
     // at https://github.com/vaadin/beverage-starter-flow/blob/master/pom.xml
@@ -11,7 +11,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.10"
+    id "org.jetbrains.kotlin.jvm" version "1.2.20"
     id "org.akhikhl.gretty" version "2.0.0"
     id "com.jfrog.bintray" version "1.7.3"
 }
