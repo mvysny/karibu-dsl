@@ -7,11 +7,12 @@ import org.atmosphere.util.annotation.AnnotationDetector
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
+import java.io.Serializable
 import java.util.*
 
-fun Any.serializeToBytes(): ByteArray = ByteArrayOutputStream().use { it -> ObjectOutputStream(it).writeObject(this); it }.toByteArray()
-inline fun <reified T: Any> ByteArray.deserialize(): T = ObjectInputStream(inputStream()).readObject() as T
-inline fun <reified T: Any> T.serializeDeserialize() = serializeToBytes().deserialize<T>()
+fun Serializable.serializeToBytes(): ByteArray = ByteArrayOutputStream().use { it -> ObjectOutputStream(it).writeObject(this); it }.toByteArray()
+inline fun <reified T: Serializable> ByteArray.deserialize(): T = ObjectInputStream(inputStream()).readObject() as T
+inline fun <reified T: Serializable> T.serializeDeserialize() = serializeToBytes().deserialize<T>()
 
 /**
  * Auto-discovers views and register them to [autoViewProvider]. Can be called multiple times.
