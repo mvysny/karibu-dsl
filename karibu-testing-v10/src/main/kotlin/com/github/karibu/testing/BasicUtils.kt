@@ -76,3 +76,5 @@ var Component.id_: String?
 
 val Component.isAttached: Boolean
     get() = ui.orElse(null)?.session != null
+
+val IntRange.size: Int get() = (endInclusive + 1 - start).coerceAtLeast(0)
