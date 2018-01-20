@@ -12,20 +12,25 @@ import com.vaadin.ui.UI
  * @property clazz the class of the component we are searching for.
  * @property id the required [Component.getId]; if null, no particular id is matched.
  * @property caption the required [Component.caption]; if null, no particular caption is matched.
- * @param styles if not null, the component must match all of these styles. Space-separated.
+ * @property styles if not null, the component must match all of these styles. Space-separated.
+ * @property count expected count of matching components, defaults to `0..Int.MAX_VALUE`
  * @property predicates the predicates the component needs to match, not null. May be empty - in such case it is ignored.
  */
-class SearchSpec<T: Component>(val clazz: Class<T>,
-                               var id: String? = null,
-                               var caption: String? = null,
-                               var styles: String? = null,
-                               var predicates: List<(Component)->Boolean> = listOf()) {
+class SearchSpec<T : Component>(
+    val clazz: Class<T>,
+    var id: String? = null,
+    var caption: String? = null,
+    var styles: String? = null,
+    var count: IntRange = 0..Int.MAX_VALUE,
+    var predicates: List<(Component) -> Boolean> = listOf()
+) {
 
     override fun toString(): String {
         val list = mutableListOf<String>(if (clazz.simpleName.isBlank()) clazz.name else clazz.simpleName)
         if (id != null) list.add("id='$id'")
         if (caption != null) list.add("caption='$caption'")
         if (!styles.isNullOrBlank()) list.add("styles='$styles'")
+        if (count != (0..Int.MAX_VALUE)) list.add("count=$count")
         list.addAll(predicates.map { it.toString() })
         return list.joinToString(" and ")
     }
@@ -57,14 +62,9 @@ inline fun <reified T: Component> Component._get(noinline block: SearchSpec<T>.(
  * @throws IllegalArgumentException if no component matched, or if more than one component matches.
  */
 fun <T: Component> Component._get(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): T {
-    val spec = SearchSpec(clazz)
-    spec.block()
-    val result = find(spec.toPredicate()).filterIsInstance(clazz)
-    if (result.isEmpty()) {
-        throw IllegalArgumentException("No visible ${clazz.simpleName} in ${toPrettyString()} matching $spec. Component tree:\n${toPrettyTree()}")
-    }
-    if (result.size > 1) {
-        throw IllegalArgumentException("Too many components in ${toPrettyString()} matching $spec: ${result.joinToString { it.toPrettyString() }}. Component tree:\n${toPrettyTree()}")
+    val result = _find(clazz) {
+        count = 1..1
+        block()
     }
     return clazz.cast(result.single())
 }
@@ -93,6 +93,14 @@ fun <T: Component> Component._find(clazz: Class<T>, block: SearchSpec<T>.()->Uni
     val spec = SearchSpec(clazz)
     spec.block()
     val result = find(spec.toPredicate())
+    if (result.size !in spec.count) {
+        val message = when {
+            result.isEmpty() -> "No visible ${clazz.simpleName}"
+            result.size < spec.count.first -> "Too few (${result.size}) visible ${clazz.simpleName}s"
+            else -> "Too many visible ${clazz.simpleName}s (${result.size})"
+        }
+        throw IllegalArgumentException("$message in ${toPrettyString()} matching $spec: ${result.joinToString { it.toPrettyString() }}. Component tree:\n${toPrettyTree()}")
+    }
     return result.filterIsInstance(clazz)
 }
 
