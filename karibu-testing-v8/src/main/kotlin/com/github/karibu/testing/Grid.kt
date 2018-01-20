@@ -85,14 +85,30 @@ fun <T: Any, V> Grid.Column<T, V>.getPresentationValue(rowObject: T): Any? = pre
  * --and 198 more
  * ```
  */
-fun <T: Any >Grid<T>._dump(maxRows: Int = 10): String = buildString {
+fun <T: Any> Grid<T>._dump(rows: IntRange = 0..10): String = buildString {
     val visibleColumns: List<Grid.Column<T, *>> = columns.filterNot { it.isHidden }
     visibleColumns.map { "[${it.caption}]" } .joinTo(this, prefix = "--", separator = "-", postfix = "--\n")
-    for (i in 0 until dataProvider._size().coerceAtMost(maxRows)) {
+    val dsIndices: IntRange = 0 until dataProvider._size()
+    val displayIndices = rows.intersect(dsIndices)
+    for (i in displayIndices) {
         _getFormattedRow(i).joinTo(this, prefix = "$i: ", postfix = "\n")
     }
-    val andMore = dataProvider._size() - maxRows
+    val andMore = dsIndices.size - displayIndices.size
     if (andMore > 0) {
         append("--and $andMore more\n")
+    }
+}
+
+fun Grid<*>.expectRows(count: Int) {
+    if (dataProvider._size() != count) {
+        throw AssertionError("${this.toPrettyString()}: expected $count rows\n${_dump()}")
+    }
+}
+
+fun Grid<*>.expectRow(rowIndex: Int, vararg row: String) {
+    val expected = row.toList()
+    val actual = _getFormattedRow(rowIndex)
+    if (expected != actual) {
+        throw AssertionError("${this.toPrettyString()} at $rowIndex: expected $expected but got $actual\n${_dump()}")
     }
 }

@@ -19,6 +19,13 @@ class BasicUtilsTest {
         autoDiscoverViews("com.github")
         expect("testing") { AutoViewProvider.getMapping(TestingView::class.java) }
     }
+
+    @Test
+    fun testIntRangeSize() {
+        expect(0) { (0 until 0).size }
+        expect(1) { (0..0).size }
+        expect(1) { (0..0).toList().size }
+    }
 }
 
 @AutoView

@@ -48,3 +48,5 @@ fun AbstractClientConnector._fireEvent(event: EventObject) {
     fireEvent.isAccessible = true
     fireEvent.invoke(this, event)
 }
+
+val IntRange.size: Int get() = (endInclusive + 1 - start).coerceAtLeast(0)
