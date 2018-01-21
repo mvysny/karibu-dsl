@@ -43,7 +43,6 @@ dependencies {
     // in ClassNotFoundException: org.eclipse.jetty.websocket.WebSocketFactory$Acceptor
     // since the class is no longer there in Jetty 9.4
     testCompile "org.eclipse.jetty.websocket:javax-websocket-server-impl:$jettyVer"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     // Embedded Undertow is currently unsupported since it has no servlet/listener/... autodiscovery capabilities:
     // http://stackoverflow.com/questions/22307748/deploying-servlets-webapp-in-embedded-undertow
