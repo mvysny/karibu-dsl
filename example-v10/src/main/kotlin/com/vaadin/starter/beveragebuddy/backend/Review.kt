@@ -7,7 +7,7 @@ import javax.validation.constraints.*
 /**
  * Represents a beverage review.
  */
-// must be open - Flow requires it to create ModelProxy
+// must be open - Flow requires that to do some ModelProxy class enhancement dark magic
 // must have a zero-arg constructor: workaround for https://github.com/mvysny/karibu-dsl/issues/3
 open class Review : Serializable {
     open var id: Long? = null
@@ -15,23 +15,23 @@ open class Review : Serializable {
     @field:NotNull
     @field:Min(1)
     @field:Max(5)
-    var score: Int = 1
+    open var score: Int = 1
 
     @field:NotBlank
     @field:Size(min = 3)
-    var name: String = ""
+    open var name: String = ""
 
     @field:NotNull
     @field:PastOrPresent
-    var date: LocalDate = LocalDate.now()
+    open var date: LocalDate = LocalDate.now()
 
     @field:NotNull
-    var category: Category = Category.UNDEFINED
+    open var category: Category = Category.UNDEFINED
 
     @field:NotNull
     @field:Min(1)
     @field:Max(99)
-    var count: Int = 1
+    open var count: Int = 1
 
     override fun toString() = "Review(id=$id, score=$score, name='$name', date=$date, category=$category, count=$count)"
 

@@ -7,8 +7,8 @@ import java.io.Serializable
  * @property id
  * @property name the category name
  */
-// must be open - Flow requires it to create ModelProxy
-open class Category(open var id: Long? = null, var name: String = "") : Serializable {
+// must be open - Flow requires that to do some ModelProxy class enhancement dark magic
+open class Category(open var id: Long? = null, open var name: String = "") : Serializable {
 
     companion object {
         val UNDEFINED = Category(name = "(undefined)")
