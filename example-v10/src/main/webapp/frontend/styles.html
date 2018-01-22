@@ -174,7 +174,7 @@
         /* Dialog styles */
 
         html {
-            --paper-dialog-background-color: var(--valo-base-color);
+            --paper--background-color: var(--valo-base-color);
             --paper-dialog-color: var(--valo-body-text-color);
             --paper-dialog: {
                 font-family: var(--valo-font-family);
@@ -239,6 +239,28 @@
             justify-content: space-between;
         }
     </style>
+    <dom-module id="my-notification-styles" theme-for="vaadin-notification-card">
+        <template>
+            <style>
+                [part="overlay"] {
+                    background-color: black;
+                    border-radius: var(--valo-border-radius);
+                    box-shadow: var(--valo-box-shadow-m);
+                    padding: var(--valo-space-wide-m);
+                }
+                [part="content"]{
+                    color: white;
+                    font-family: var(--valo-font-family);
+                    font-size: var(--valo-font-size-m);
+                    font-weight: 400;
+                    line-height: var(--valo-line-height-m);
+                    letter-spacing: 0;
+                    text-transform: none;
+                    box-sizing: border-box;
+                }
+            </style>
+        </template>
+    </dom-module>
 </custom-style>
 
 <dom-module id="beverage-buddy-grids" theme-for="vaadin-grid">

@@ -73,5 +73,3 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -
         openConfirmationDialog("""Delete beverage "${currentItem!!.name}"?""")
     }
 }
-
-fun (@VaadinDsl HasComponents).paperToast(block: (@VaadinDsl PaperToast).() -> Unit = {}) = init(PaperToast(), block)

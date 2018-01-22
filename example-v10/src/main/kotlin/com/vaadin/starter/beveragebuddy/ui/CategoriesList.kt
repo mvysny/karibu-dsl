@@ -26,6 +26,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.textfield.TextField
 
 /**
@@ -43,13 +44,8 @@ class CategoriesList : Div() {
             { category, operation -> saveCategory(category, operation) },
             { deleteCategory(it) })
 
-    private val notification: PaperToast
-
     init {
         addClassName("categories-list")
-        notification = paperToast {
-            addClassName("notification")
-        }
         add(form)
         div { // view toolbar
             addClassName("view-toolbar")
@@ -98,7 +94,7 @@ class CategoriesList : Div() {
 
     private fun saveCategory(category: Category, operation: AbstractEditorDialog.Operation) {
         CategoryService.saveCategory(category)
-        notification.show("Category successfully ${operation.nameInText}ed.")
+        Notification.show("Category successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
 
@@ -109,7 +105,7 @@ class CategoriesList : Div() {
             ReviewService.saveReview(review)
         }
         CategoryService.deleteCategory(category)
-        notification.show("Category successfully deleted.")
+        Notification.show("Category successfully deleted.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
 }

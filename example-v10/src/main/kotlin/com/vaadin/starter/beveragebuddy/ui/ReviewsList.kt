@@ -29,6 +29,7 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.html.H1
 import com.vaadin.flow.component.html.Span
+import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.polymertemplate.EventHandler
 import com.vaadin.flow.component.polymertemplate.Id
 import com.vaadin.flow.component.polymertemplate.ModelItem
@@ -51,8 +52,6 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
     private lateinit var search: TextField
     @Id("newReview")
     private lateinit var addReview: Button
-    @Id("notification")
-    private lateinit var notification: PaperToast
     @Id("header")
     private lateinit var header: H1
 
@@ -81,13 +80,13 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
     private fun save(review: Review, operation: AbstractEditorDialog.Operation) {
         ReviewService.saveReview(review)
         updateList()
-        notification.show("Beverage successfully ${operation.nameInText}ed.")
+        Notification.show("Beverage successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
     }
 
     private fun delete(review: Review) {
         ReviewService.deleteReview(review)
         updateList()
-        notification.show("Beverage successfully deleted.")
+        Notification.show("Beverage successfully deleted.", 3000, Notification.Position.BOTTOM_START)
     }
 
     private fun updateList() {

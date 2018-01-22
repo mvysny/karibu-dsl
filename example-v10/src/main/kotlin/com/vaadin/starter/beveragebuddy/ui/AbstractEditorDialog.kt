@@ -23,6 +23,7 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.html.H2
+import com.vaadin.flow.component.notification.Notification
 
 import java.io.Serializable
 
@@ -72,7 +73,6 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
         private set
 
     private val confirmationDialog = ConfirmationDialog<T>()
-    private lateinit var notification: PaperToast
 
     /**
      * The operations supported by this dialog. Delete is enabled when editing
@@ -114,9 +114,6 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
                     addClickListener { deleteClicked() }
                 }
             }
-            notification = paperToast {
-                addClassName("notification")
-            }
         }
     }
 
@@ -145,7 +142,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
             content.close()
         } else {
             val status = binder.validate()
-            notification.show(status.validationErrors.joinToString("; ") { it.errorMessage })
+            Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
         }
     }
 
