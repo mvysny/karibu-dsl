@@ -16,7 +16,6 @@ open class Category(open var id: Long? = null, open var name: String = "") : Ser
 
     override fun toString() = "Category(id=$id, name='$name')"
 
-
     fun copy() = Category(id, name)
 
     override fun equals(other: Any?): Boolean {
