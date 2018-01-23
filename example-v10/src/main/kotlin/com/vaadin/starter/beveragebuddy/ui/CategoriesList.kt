@@ -16,18 +16,19 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.vok.karibudsl.flow.*
+import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.html.Div
+import com.vaadin.flow.component.icon.Icon
+import com.vaadin.flow.component.notification.Notification
+import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.renderer.ComponentTemplateRenderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
-import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.html.Div
-import com.vaadin.flow.component.icon.Icon
-import com.vaadin.flow.component.icon.VaadinIcons
-import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.textfield.TextField
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -50,11 +51,12 @@ class CategoriesList : Div() {
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
+                addToPrefix(Icon("lumo", "magnifier"))
                 addClassName("view-toolbar__search-field")
                 placeholder = "Search"
                 addValueChangeListener { updateView() }
             }
-            button("New category", Icon(VaadinIcons.PLUS)) {
+            button("New category", Icon("lumo", "plus")) {
                 setPrimary()
                 addClassName("view-toolbar__button")
                 addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
@@ -63,6 +65,7 @@ class CategoriesList : Div() {
         grid = grid {
             addColumn({ it.name }).setHeader("Category")
             addColumn({ it.getReviewCount() }).setHeader("Beverages")
+            addColumn(ComponentTemplateRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
             // Grid does not yet implement HasStyle
             element.classList.add("categories")
             element.setAttribute("theme", "row-dividers")
@@ -76,6 +79,13 @@ class CategoriesList : Div() {
 
         updateView()
     }
+
+    private fun createEditButton(category: Category): Button =
+        Button("Edit") { event -> form.open(category, AbstractEditorDialog.Operation.EDIT) } .apply {
+            icon = Icon("lumo", "edit")
+            addClassName("review__edit")
+            element.setAttribute("theme", "tertiary")
+        }
 
     private fun selectionChanged(categoryId: Long) {
         form.open(CategoryService.getById(categoryId), AbstractEditorDialog.Operation.EDIT)
