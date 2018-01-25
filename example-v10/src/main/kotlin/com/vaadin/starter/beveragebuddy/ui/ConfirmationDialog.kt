@@ -37,7 +37,7 @@ import java.io.Serializable
  */
 internal class ConfirmationDialog<T : Serializable> : Dialog(), HasStyle {
 
-    private lateinit var titleField: H2
+    private val titleField: H2
     private lateinit var messageLabel: Div
     private lateinit var extraMessageLabel: Div
     private lateinit var confirmButton: Button
