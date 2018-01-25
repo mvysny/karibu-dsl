@@ -161,92 +161,56 @@
             }
         }
 
-        /* Dialog styles */
-
-        html {
-            --paper--background-color: var(--lumo-base-color);
-            --paper-dialog-color: var(--lumo-body-text-color);
-            --paper-dialog: {
-                font-family: var(--lumo-font-family);
-                -webkit-tap-highlight-color: transparent;
-                min-width: 320px;
-                max-width: 100%;
-                margin: 8px 16px;
-                border-radius: var(--lumo-border-radius);
-                /* TODO use this once available */
-                /*box-shadow: var(--lumo-dialog-box-shadow);*/
-                box-shadow: 0 0 0 1px var(--lumo-contrast-5pct),
-                            0 1px 6px 0 var(--lumo-shade-30pct),
-                            0 24px 56px -6px var(--lumo-shade-40pct);
-
-            };
-            --paper-dialog-title: {
-                font-family: var(--lumo-font-family);
-            };
-            --iron-overlay-backdrop-background-color: var(--lumo-shade-30pct);
-            --iron-overlay-backdrop-opacity: 1;
-        }
-
-        /* TODO these should be encapsulated in a reusable component. Now these styles only work
-           inside the main style scope */
-        paper-dialog .buttons {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 16px;
-            margin-top: 16px;
-            border-top: 1px solid var(--lumo-contrast-10pct);
-        }
-
-        paper-dialog .buttons [theme~="danger"] {
-            margin-left: auto;
-        }
-
-        paper-dialog h2,
-        paper-dialog .has-padding {
-            padding: 0 16px;
-        }
-
-        paper-dialog.confirm-dialog h2 {
-            text-align: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--lumo-secondary-text-color);
-            margin-top: 16px;
-        }
-
-        paper-dialog.confirm-dialog .text div {
-            margin-bottom: 0.6em;
-            max-width: 40em;
-        }
-
-        paper-dialog.confirm-dialog .text div:first-child {
-            font-weight: 600;
-            color: var(--lumo-header-text-color);
-        }
-
-        paper-dialog.confirm-dialog .buttons {
-            padding: 8px;
-            justify-content: space-between;
-        }
     </style>
     <dom-module id="my-notification-styles" theme-for="vaadin-notification-card">
         <template>
             <style>
                 [part="overlay"] {
-                    background-color: black;
-                    border-radius: var(--lumo-border-radius);
-                    box-shadow: var(--lumo-box-shadow-m);
-                    padding: var(--lumo-space-wide-m);
+                    background-color: black !important;
                 }
                 [part="content"]{
-                    color: white;
-                    font-family: var(--lumo-font-family);
-                    font-size: var(--lumo-font-size-m);
-                    font-weight: 400;
-                    line-height: var(--lumo-line-height-m);
-                    letter-spacing: 0;
-                    text-transform: none;
+                    color: white !important;
+                }
+            </style>
+        </template>
+    </dom-module>
+    <dom-module id="my-dialog-styles" theme-for="vaadin-dialog-overlay">
+        <template>
+            <style>
+                .confirm-dialog-heading {
+                    text-align: center;
+                    font-size: 19px;
+                    font-weight: 500;
+                    color: var(--lumo-secondary-text-color);
+                    margin-top: 16px;
+                }
+                .confirm-dialog-buttons {
+                    padding: 8px;
+                    justify-content: space-between;
+                }
+                .buttons {
+                    width: 100%;
                     box-sizing: border-box;
+                    padding: 16px;
+                    margin-top: 16px;
+                    border-top: 1px solid var(--lumo-contrast-10pct);
+                }
+
+                .buttons [theme~="danger"] {
+                    margin-left: auto;
+                }
+
+                .has-padding {
+                    padding: 0 16px;
+                }
+
+                .confirm-text div {
+                    margin-bottom: 0.6em;
+                    max-width: 40em;
+                }
+                .confirm-text div:first-child {
+                    font-weight: 600;
+                    color: var(--lumo-header-text-color);
                 }
             </style>
         </template>

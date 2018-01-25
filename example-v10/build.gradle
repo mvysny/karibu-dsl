@@ -28,7 +28,6 @@ dependencies {
     compile "com.vaadin:vaadin-notification-flow:1.0.0.alpha4"
     compile "com.vaadin:vaadin-lumo-theme"
     compile "org.webjars.bower:polymer"
-    compile "org.webjars.bower:paper-dialog:2.0.0"
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // logging

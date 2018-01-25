@@ -47,7 +47,6 @@ class CategoriesList : Div() {
 
     init {
         addClassName("categories-list")
-        add(form)
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
