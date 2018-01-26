@@ -2,19 +2,23 @@
 
 [![Build Status](https://travis-ci.org/mvysny/karibu-dsl.svg?branch=master)](https://travis-ci.org/mvysny/karibu-dsl)
 
-Kotlin extensions and DSL for the [Vaadin](https://www.vaadin.com) framework:
+This is a Kotlin extensions and DSL library for the [Vaadin](https://www.vaadin.com) framework.
+Please visit [Vaadin-on-Kotlin](http://www.vaadinonkotlin.eu/) pages for the Getting Started guide.
 
-* Allows you to create Vaadin UI designs/component graphs in the DSL fashion
+This library:
+
+* Allows you to create Vaadin UI designs/component graphs in the structured code way; the idea behind
+  is explained in the [Writing Vaadin apps in Kotlin Part 4](http://mavi.logdown.com/posts/1493730) article.
 * Auto-discovery and auto-mapping of Views via a custom Navigator
 * Additional useful methods which Vaadin lacks
 
 Supports:
 
-* Vaadin 8 (including support for v7 compatibility package)
-* Vaadin 10 aka [Flow](https://vaadin.com/flow)
+* [Vaadin 8](https://vaadin.com/framework) (including support for v7 compatibility package)
+* [Vaadin 10 aka Flow](https://vaadin.com/flow)
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
-*Vaadin* (which is a Finnish word for a female reindeer). Also a nice connotation comes from Swahili where *Karibu*
+*Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
 means *welcome*. 
 
 ## Why DSL?
