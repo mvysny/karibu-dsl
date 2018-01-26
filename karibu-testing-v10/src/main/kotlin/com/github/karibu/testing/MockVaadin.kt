@@ -24,6 +24,7 @@ object MockVaadin {
     /**
      * Mocks Vaadin for the current test method.
      * @param routes all classes annotated with [com.vaadin.flow.router.Route]; use [autoDiscoverViews] to auto-discover all such classes.
+     * @param uiFactory produces [UI] instances and sets them as current, by default simply instantiates [UI] class.
      */
     fun setup(routes: Set<Class<out Component>> = setOf(), uiFactory: ()->UI = { UI() }) {
         val service = object : VaadinServletService(null, DefaultDeploymentConfiguration(MockVaadin::class.java, Properties(), { _, _ -> })) {
