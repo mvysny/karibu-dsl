@@ -1,9 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.2.21'
     ext.vaadin8_version = '8.3.0'
-    // when upgrading Vaadin 10 version, make sure to update it accordingly to
-    // at https://github.com/vaadin/beverage-starter-flow/blob/master/pom.xml
-    ext.vaadin10_version = '10.0.0.alpha14'
+    ext.vaadin10_version = '10.0.0.alpha15'
     ext.local = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
         ext.local.load(project.rootProject.file('local.properties').newDataInputStream())

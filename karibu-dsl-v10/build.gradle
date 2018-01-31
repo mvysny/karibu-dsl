@@ -24,7 +24,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
     // Vaadin
-    compile "com.vaadin:vaadin:$vaadin10_version"
+    compile "com.vaadin:vaadin-core:$vaadin10_version"
     compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // IDEA language injections
