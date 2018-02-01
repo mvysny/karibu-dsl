@@ -33,6 +33,8 @@ Both render the [Common UI Elements](https://martin.app.fi/karibudsl/#!common-el
 
 ## QuickStart
 
+[Karibu UITest Online Demo](https://karibu-uitest.herokuapp.com/) running on Heroku.
+
 Quickly run the bundled example application from the command-line:
 
 ```bash
@@ -46,8 +48,6 @@ The example app will be running at [http://localhost:8080](http://localhost:8080
 In case of questions you can always [browse the sample project sources here](example-v8).
 
 ### QuickStart Vaadin 10 (Flow)
-
-[Online Demo of this app](https://beverage-buddy-karibu.herokuapp.com) running on Heroku.
 
 Quickly run the bundled example application from the command-line:
 
