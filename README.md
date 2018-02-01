@@ -47,6 +47,8 @@ In case of questions you can always [browse the sample project sources here](exa
 
 ### QuickStart Vaadin 10 (Flow)
 
+[Online Demo of this app](https://beverage-buddy-karibu.herokuapp.com) running on Heroku.
+
 Quickly run the bundled example application from the command-line:
 
 ```bash
