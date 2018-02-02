@@ -25,15 +25,13 @@ means *welcome*.
 
 Just compare the Kotlin-based [CommonElementsView](example-v8/src/main/kotlin/com/github/vok/karibudsl/example/CommonElementsView.kt)
 with the original Java [CommonParts](https://github.com/vaadin/framework/blob/master/uitest/src/main/java/com/vaadin/tests/themes/valo/CommonParts.java).
-Both render the [Common UI Elements](https://martin.app.fi/karibudsl/#!common-elements) page, yet with Kotlin DSL:
+Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-elements) page, yet with Kotlin DSL:
 
 * The UI structure is immediately visible
 * The code is more readable and much shorter and concise
 * You can more easily copy parts of the UI and paste it into your project
 
 ## QuickStart
-
-[Karibu UITest Online Demo](https://karibu-uitest.herokuapp.com/) running on Heroku.
 
 Quickly run the bundled example application from the command-line:
 
@@ -43,7 +41,8 @@ cd karibu-dsl
 ./gradlew example-v8:appRun
 ```
 
-The example app will be running at [http://localhost:8080](http://localhost:8080). You can check the online demo of the example application: [https://martin.app.fi/karibudsl](https://martin.app.fi/karibudsl).
+The example app will be running at [http://localhost:8080](http://localhost:8080).
+You can check the [Karibu UITest Online Demo](https://karibu-uitest.herokuapp.com/) running on Heroku.
 
 In case of questions you can always [browse the sample project sources here](example-v8).
 
