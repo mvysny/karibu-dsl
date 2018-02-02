@@ -50,8 +50,6 @@ class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)
                         .bindN(Category::name)
             }
         }
-        // Due to a bug, not currently focusing vaadin/flow#2548
-        categoryNameField.focus()
     }
 
     override fun confirmDelete() {
