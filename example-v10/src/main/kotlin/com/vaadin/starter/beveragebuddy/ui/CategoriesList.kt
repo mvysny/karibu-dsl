@@ -50,7 +50,7 @@ class CategoriesList : Div() {
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
-                addToPrefix(Icon("lumo", "magnifier"))
+                prefixComponent = Icon("lumo", "magnifier")
                 addClassName("view-toolbar__search-field")
                 placeholder = "Search"
                 addValueChangeListener { updateView() }

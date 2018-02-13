@@ -79,9 +79,9 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
      * an already existing item.
      */
     enum class Operation(val nameInTitle: String, val nameInText: String,
-                                             val isDeleteDisabled: Boolean) {
-        ADD("Add New", "add", true),
-        EDIT("Edit", "edit", false)
+                                             val isDeleteEnabled: Boolean) {
+        ADD("Add New", "add", false),
+        EDIT("Edit", "edit", true)
     }
 
     init {
@@ -137,7 +137,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
         registrationForSave = saveButton.addClickListener { saveClicked(operation) }
         binder.readBean(currentItem)
 
-        deleteButton.isDisabled = operation.isDeleteDisabled
+        deleteButton.isEnabled = operation.isDeleteEnabled
         open()
     }
 
