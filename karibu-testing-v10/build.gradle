@@ -55,8 +55,8 @@ bintray {
     user = local.getProperty('bintray.user')
     key = local.getProperty('bintray.key')
     pkg {
-        repo = 'vaadin-on-kotlin'
-        name = 'vaadin-on-kotlin'
+        repo = 'github'
+        name = 'com.github.vok.karibudsl'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/mvysny/karibu-dsl'
         publish = true
