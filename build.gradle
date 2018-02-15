@@ -22,7 +22,7 @@ defaultTasks 'clean', 'build'
 
 allprojects {
     group 'com.github.vok.karibudsl'
-    version '0.2.22'
+    version '0.2.23-SNAPSHOT'
 
     // Heroku
     task stage(dependsOn: ['build'])
