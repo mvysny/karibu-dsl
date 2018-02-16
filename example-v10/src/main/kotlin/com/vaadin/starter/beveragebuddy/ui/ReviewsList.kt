@@ -35,6 +35,7 @@ import com.vaadin.flow.component.polymertemplate.Id
 import com.vaadin.flow.component.polymertemplate.ModelItem
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.value.ValueChangeMode
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -72,6 +73,7 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     init {
         search.placeholder = "Search"
+        search.valueChangeMode = ValueChangeMode.EAGER
         search.addValueChangeListener { updateList() }
         addReview.addClickListener { openForm(Review(), AbstractEditorDialog.Operation.ADD) }
         updateList()
