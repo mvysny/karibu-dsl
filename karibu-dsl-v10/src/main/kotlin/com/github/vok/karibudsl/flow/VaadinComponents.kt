@@ -12,6 +12,7 @@ import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -58,8 +59,8 @@ fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinD
         = init(TextField(label), block)
 
 var (@VaadinDsl Component).flexGrow: Double
-    get() = (parent.get() as FlexLayout).getFlexGrow(this)
-    set(value) { (parent.get() as FlexLayout).setFlexGrow(value, this) }
+    get() = (parent.get() as FlexComponent<*>).getFlexGrow(this)
+    set(value) { (parent.get() as FlexComponent<*>).setFlexGrow(value, this) }
 var (@VaadinDsl Component).isExpand: Boolean
     get() = flexGrow >= 1
     set(value) { flexGrow = if (value) 1.0 else 0.0 }

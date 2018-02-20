@@ -48,6 +48,7 @@ subprojects {
         jcenter()
         maven { url 'https://maven.vaadin.com/vaadin-addons' }
         maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
+        maven { url "https://dl.bintray.com/mvysny/github" }
     }
 
     // for Travis to record failures: http://stackoverflow.com/questions/28614865/how-to-read-test-result-reports-on-travis-ci/28617954#28617954
