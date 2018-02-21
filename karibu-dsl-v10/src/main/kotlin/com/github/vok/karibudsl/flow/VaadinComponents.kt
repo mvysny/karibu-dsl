@@ -40,8 +40,6 @@ fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}
         = init(Dialog(), block)
 fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).() -> Unit = {})
         = init(FormLayout(), block)
-fun <T: Any?> (@VaadinDsl HasComponents).grid(block: (@VaadinDsl Grid<T>).() -> Unit = {})
-        = init(Grid(), block)
 fun (@VaadinDsl HasComponents).icon(icon: VaadinIcons = VaadinIcons.VAADIN_H, block: (@VaadinDsl Icon).() -> Unit = {})
         = init(Icon(icon), block)
 
