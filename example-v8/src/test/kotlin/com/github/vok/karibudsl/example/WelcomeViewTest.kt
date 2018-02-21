@@ -11,10 +11,10 @@ import kotlin.test.expect
 
 class WelcomeViewTest : DynaTest({
 
-    beforeAll {
-            // auto-discover views and register them to autoViewProvider
-            autoDiscoverViews("com.github")
-        }
+    beforeGroup {
+        // auto-discover views and register them to autoViewProvider
+        autoDiscoverViews("com.github")
+    }
 
     beforeEach { MockVaadin.setup({ MyUI() }) }
 
