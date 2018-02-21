@@ -19,7 +19,6 @@ dependencies {
     compile(project(":karibu-dsl-v10"))
 
     testCompile("com.github.mvysny.dynatest:dynatest:${dynatest_version}")
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
     // to have class autodiscovery functionality
     compile "com.vaadin.external.atmosphere:atmosphere-runtime:2.4.5.vaadin2"
