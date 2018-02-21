@@ -26,11 +26,11 @@ fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>, sor
  * @return the newly created column
  */
 @JvmName("addColumnFor2")
-fun <T, V : Comparable<V>> Grid<T>.addColumnFor(prop: KProperty1<T, V>, sortable: Boolean = true, block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
-    addColumn(prop).apply {
-        key = prop.name
+fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V>, sortable: Boolean = true, block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
+    addColumn(property).apply {
+        key = property.name
         if (sortable) {
-            sortProperty = prop
+            sortProperty = property
         }
         block()
     }
