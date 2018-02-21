@@ -1,18 +1,15 @@
 package com.github.vok.karibudsl
 
+import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.ui.Component
 import com.vaadin.ui.VerticalLayout
-import org.junit.Before
-import org.junit.Test
 import kotlin.test.expect
 
-class TreeIteratorTest {
+class TreeIteratorTest : DynaTest({
 
-    @Before
-    fun setupMockVaadin() = MockVaadin.setup()
+    beforeEach { MockVaadin.setup() }
 
-    @Test
-    fun walkTest() {
+    test("walk") {
         val expected = mutableSetOf<Component>()
         val root = VerticalLayout().apply {
             expected.add(this)
@@ -32,4 +29,4 @@ class TreeIteratorTest {
         expect(expected) { root.walk().toSet() }
         expect(root) { root.walk().toList()[0] }
     }
-}
+})

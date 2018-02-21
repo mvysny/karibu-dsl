@@ -1,32 +1,29 @@
 package com.github.karibu.testing
 
+import com.github.mvysny.dynatest.DynaTest
 import com.github.vok.karibudsl.AutoView
 import com.github.vok.karibudsl.AutoViewProvider
 import com.vaadin.navigator.View
-import org.junit.Test
 import kotlin.test.expect
 
-class BasicUtilsTest {
-    @Test
-    fun testAutoViewDiscovery() {
+class BasicUtilsTest : DynaTest({
+    test("AutoViewDiscovery") {
         autoDiscoverViews("com.github")
         expect("testing") { AutoViewProvider.getMapping(TestingView::class.java) }
     }
 
-    @Test
-    fun testCallingAutoViewDiscoveryMultipleTimesWontFail() {
+    test("calling autoDiscoverViews() multiple times won't fail") {
         autoDiscoverViews("com.github")
         autoDiscoverViews("com.github")
         expect("testing") { AutoViewProvider.getMapping(TestingView::class.java) }
     }
 
-    @Test
-    fun testIntRangeSize() {
+    test("IntRangeSize") {
         expect(0) { (0 until 0).size }
         expect(1) { (0..0).size }
         expect(1) { (0..0).toList().size }
     }
-}
+})
 
 @AutoView
 class TestingView : View

@@ -1,34 +1,27 @@
 package com.github.vok.karibudsl
 
+import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
-import org.junit.Before
-import org.junit.Test
 import kotlin.test.expect
 
-/**
- * @author mavi
- */
-class AutoViewProviderTest {
-    @Before
-    fun setupVaadin() = MockVaadin.setup()
+class AutoViewProviderTest : DynaTest({
+    beforeEach { MockVaadin.setup() }
 
-    @Test
-    fun testParseViewName() {
+    test("ParseViewName") {
         expect("foo") { AutoViewProvider.parseViewName("!foo/25") }
         expect("foo") { AutoViewProvider.parseViewName("foo") }
         expect("foo") { AutoViewProvider.parseViewName("foo/") }
     }
 
-    @Test
-    fun findAnnotationTest() {
+    test("findAnnotation") {
         expect("interface") { MyView::class.java.findAnnotation(AutoView::class.java)!!.value }
         expect("abstractclass") { AbstractView::class.java.findAnnotation(AutoView::class.java)!!.value }
         // see findAnnotation for explanation why this is null
         expect(null) { MyViewInheritingAnnotationFromSuperClass::class.java.findAnnotation(AutoView::class.java)?.value }
         expect(null) { MyViewInheritingAnnotationFromInterface::class.java.findAnnotation(AutoView::class.java)?.value }
     }
-}
+})
 
 @AutoView("interface")
 interface MyView : View

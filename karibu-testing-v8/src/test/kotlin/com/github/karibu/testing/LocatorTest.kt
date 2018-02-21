@@ -1,52 +1,48 @@
 package com.github.karibu.testing
 
+import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.expectThrows
 import com.github.vok.karibudsl.button
 import com.github.vok.karibudsl.label
 import com.github.vok.karibudsl.textField
 import com.github.vok.karibudsl.verticalLayout
 import com.vaadin.ui.*
-import org.junit.Before
-import org.junit.Test
 import kotlin.test.expect
 
-class LocatorTest {
-    @Before
-    fun mockVaadin() {
-        MockVaadin.setup()
+class LocatorTest : DynaTest({
+
+    beforeEach { MockVaadin.setup() }
+
+    test("FailsOnNoComponents") {
+        expectThrows(IllegalArgumentException::class) {
+            Button()._get(Label::class.java)
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun getFailsOnNoComponents() {
-        Button()._get(Label::class.java)
+    test("fails when multiple components match") {
+        expectThrows(IllegalArgumentException::class) {
+            UI.getCurrent().verticalLayout {
+                verticalLayout { }
+            }._get(VerticalLayout::class.java)
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun getFailsOnMoreComponents() {
-        UI.getCurrent().verticalLayout {
-            verticalLayout {  }
-        }._get(VerticalLayout::class.java)
-    }
-
-    @Test
-    fun getReturnsSelf() {
+    test("selects self") {
         val button = Button()
         expect(button) { button._get(Button::class.java) }
     }
 
-    @Test
-    fun getReturnsNested() {
+    test("ReturnsNested") {
         val button = Button()
         expect(button) { VerticalLayout(button)._get(Button::class.java) }
     }
 
-    @Test
-    fun findMatchingId() {
+    test("findMatchingId") {
         val button = Button().apply { id = "foo" }
         expect(listOf(button)) { VerticalLayout(button, Button())._find<Button> { id = "foo" } }
     }
 
-    @Test
-    fun simpleUITest() {
+    test("simpleUITest") {
         lateinit var layout: VerticalLayout
         layout = UI.getCurrent().verticalLayout {
             val name = textField {
@@ -64,4 +60,4 @@ class LocatorTest {
         expect("Thanks Baron Vladimir Harkonnen, it works!") { (layout.last() as Label).value }
         expect(3) { layout.componentCount }
     }
-}
+})

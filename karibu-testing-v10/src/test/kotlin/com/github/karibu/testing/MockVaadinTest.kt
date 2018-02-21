@@ -1,5 +1,6 @@
 package com.github.karibu.testing
 
+import com.github.mvysny.dynatest.DynaTest
 import com.github.vok.karibudsl.flow.button
 import com.github.vok.karibudsl.flow.text
 import com.vaadin.flow.component.AttachEvent
@@ -8,19 +9,14 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.router.Route
-import org.junit.Before
-import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.expect
 
-class MockVaadinTest {
-    @Before
-    fun testSetup() {
-        MockVaadin.setup(autoDiscoverViews("com.github"))
-    }
+class MockVaadinTest : DynaTest({
 
-    @Test
-    fun verifyAttachCalled() {
+    beforeEach { MockVaadin.setup(autoDiscoverViews("com.github")) }
+
+    test("verifyAttachCalled") {
         val attachCalled = AtomicInteger()
         val vl = object : VerticalLayout() {
             override fun onAttach(attachEvent: AttachEvent?) {
@@ -34,15 +30,14 @@ class MockVaadinTest {
         expect(true) { vl.isAttached }
     }
 
-    @Test
-    fun testNavigation() {
+    test("Navigation") {
         // no need: when UI is initialized in MockVaadin.setup(), automatic navigation to "" is performed.
 //        UI.getCurrent().navigateTo("")
         _get<Text> { text = "Welcome!" }
         UI.getCurrent().navigateTo("helloworld")
         _get<Button> { caption = "Hello, World!" }
     }
-}
+})
 
 @Route("helloworld")
 class HelloWorldView : VerticalLayout() {

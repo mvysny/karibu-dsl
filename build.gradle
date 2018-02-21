@@ -2,9 +2,18 @@ buildscript {
     ext.kotlin_version = '1.2.21'
     ext.vaadin8_version = '8.3.0'
     ext.vaadin10_version = '10.0.0.alpha19'
+    ext.dynatest_version = "0.5"
+
     ext.local = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
         ext.local.load(project.rootProject.file('local.properties').newDataInputStream())
+    }
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
     }
 }
 
@@ -50,13 +59,4 @@ subprojects {
         maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
         maven { url "https://dl.bintray.com/mvysny/github" }
     }
-
-    // for Travis to record failures: http://stackoverflow.com/questions/28614865/how-to-read-test-result-reports-on-travis-ci/28617954#28617954
-    test {
-        testLogging {
-            events "failed"
-            exceptionFormat "full"
-        }
-    }
 }
-

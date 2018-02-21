@@ -1,10 +1,9 @@
 package com.github.vok.karibudsl
 
+import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.data.Binder
 import com.vaadin.data.HasValue
 import com.vaadin.ui.*
-import org.junit.Before
-import org.junit.Test
 import java.io.Serializable
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -14,12 +13,10 @@ import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Size
 import kotlin.test.expect
 
-class BinderUtilsTest {
-    @Before
-    fun initVaadin() = MockVaadin.setup()
+class BinderUtilsTest : DynaTest({
+    beforeEach { MockVaadin.setup() }
 
-    @Test
-    fun testReadBeanWithNullFields() {
+    test("ReadBeanWithNullFields") {
         // https://github.com/vaadin/framework/issues/8664
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
@@ -37,8 +34,7 @@ class BinderUtilsTest {
         expect("") { form.testLong.value }
     }
 
-    @Test
-    fun testWriteBeanWithNullFields() {
+    test("WriteBeanWithNullFields") {
         // https://github.com/vaadin/framework/issues/8664
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
@@ -49,8 +45,7 @@ class BinderUtilsTest {
         expect(Person(testBoolean = false)) { person }
     }
 
-    @Test
-    fun testSimpleBindings() {
+    test("SimpleBindings") {
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
         form.testDouble.value = "25.5"
@@ -64,8 +59,7 @@ class BinderUtilsTest {
                 25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))) { person }
     }
 
-    @Test
-    fun testValidatingBindings() {
+    test("ValidatingBindings") {
         val binder = beanValidationBinder<Person>()
         val form = Form(binder)
         val person = Person()
@@ -73,8 +67,7 @@ class BinderUtilsTest {
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, false,"some comment")) { person }
     }
 
-    @Test
-    fun `test validation errors`() {
+    test("test validation errors") {
         val binder = beanValidationBinder<Person>()
         val form = Form(binder)
         form.fullName.value = ""
@@ -82,7 +75,7 @@ class BinderUtilsTest {
         expect(false) { binder.writeBeanIfValid(person) }
         expect(Person()) { person }  // make sure that no value has been written
     }
-}
+})
 
 private class Form(binder: Binder<Person>): VerticalLayout() {
     val fullName: TextField

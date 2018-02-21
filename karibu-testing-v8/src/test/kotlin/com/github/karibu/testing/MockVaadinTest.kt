@@ -1,20 +1,15 @@
 package com.github.karibu.testing
 
+import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
-import org.junit.Before
-import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.expect
 
-class MockVaadinTest {
-    @Before
-    fun testSetup() {
-        MockVaadin.setup()
-    }
+class MockVaadinTest : DynaTest({
+    beforeEach { MockVaadin.setup() }
 
-    @Test
-    fun verifyAttachCalled() {
+    test("verifyAttachCalled") {
         val attachCalled = AtomicInteger()
         val vl = object : VerticalLayout() {
             override fun attach() {
@@ -27,4 +22,4 @@ class MockVaadinTest {
         expect(2) { attachCalled.get() }
         expect(true) { vl.isAttached }
     }
-}
+})
