@@ -9,9 +9,7 @@ import kotlin.streams.toList
 class GridTest : DynaTest({
     test("grid column sort property") {
         val grid = Grid<Person>().apply {
-            addColumn(Person::fullName).apply {
-                sortProperty = Person::fullName
-            }
+            addColumnFor(Person::fullName)
         }
         expectList("fullName") {
             grid.getColumnByKey(Person::fullName.name).getSortOrder(SortDirection.ASCENDING).toList().map { it.sorted }
