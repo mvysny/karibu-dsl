@@ -1,11 +1,11 @@
 package com.github.karibu.testing
 
-import com.github.vok.karibudsl.hasStyleName
-import com.github.vok.karibudsl.walk
 import com.vaadin.data.HasValue
 import com.vaadin.ui.Button
 import com.vaadin.ui.Component
+import com.vaadin.ui.HasComponents
 import com.vaadin.ui.UI
+import java.util.*
 
 /**
  * A criterion for matching components. The component must match all of non-null fields.
@@ -44,6 +44,14 @@ class SearchSpec<T : Component>(
         p.addAll(predicates)
         return p.and()
     }
+}
+
+fun Iterable<String?>.filterNotBlank(): List<String> = filterNotNull().filter { it.isNotBlank() }
+
+private val Component.styleNames: Set<String> get() = styleName.split(' ').filterNotBlank().toSet()
+private fun Component.hasStyleName(style: String): Boolean {
+    if (style.contains(' ')) return style.split(' ').filterNotBlank().all { hasStyleName(style) }
+    return styleNames.contains(style)
 }
 
 /**
@@ -149,3 +157,18 @@ private fun Component.isEffectivelyVisible(): Boolean = isVisible && (parent == 
 private fun Component.find(predicate: (Component)->Boolean): List<Component> = walk().filter { predicate(it) }
 
 private fun <T: Component> Iterable<(T)->Boolean>.and(): (T)->Boolean = { component -> all { it(component) } }
+
+private class TreeIterator<out T>(root: T, private val children: (T) -> Iterable<T>) : Iterator<T> {
+    private val queue: Queue<T> = LinkedList<T>(listOf(root))
+    override fun hasNext() = !queue.isEmpty()
+    override fun next(): T {
+        if (!hasNext()) throw NoSuchElementException()
+        val result = queue.remove()
+        queue.addAll(children(result))
+        return result
+    }
+}
+
+private fun Component.walk(): Iterable<Component> = Iterable {
+    TreeIterator(this, { component -> component as? HasComponents ?: listOf() })
+}

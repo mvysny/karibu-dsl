@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl
 
+import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
@@ -20,6 +21,17 @@ class AutoViewProviderTest : DynaTest({
         // see findAnnotation for explanation why this is null
         expect(null) { MyViewInheritingAnnotationFromSuperClass::class.java.findAnnotation(AutoView::class.java)?.value }
         expect(null) { MyViewInheritingAnnotationFromInterface::class.java.findAnnotation(AutoView::class.java)?.value }
+    }
+
+    test("AutoViewDiscovery") {
+        autoDiscoverViews("com.github")
+        expect("abstractclass") { AutoViewProvider.getMapping(AbstractView::class.java) }
+    }
+
+    test("calling autoDiscoverViews() multiple times won't fail") {
+        autoDiscoverViews("com.github")
+        autoDiscoverViews("com.github")
+        expect("abstractclass") { AutoViewProvider.getMapping(AbstractView::class.java) }
     }
 })
 

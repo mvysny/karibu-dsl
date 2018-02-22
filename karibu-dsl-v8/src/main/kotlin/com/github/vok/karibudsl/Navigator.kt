@@ -6,6 +6,7 @@ import com.vaadin.navigator.ViewProvider
 import com.vaadin.ui.UI
 import io.michaelrocks.bimap.HashBiMap
 import io.michaelrocks.bimap.MutableBiMap
+import org.atmosphere.util.annotation.AnnotationDetector
 import java.net.URLDecoder
 import java.net.URLEncoder
 import javax.servlet.ServletContainerInitializer
@@ -158,3 +159,29 @@ val ViewChangeListener.ViewChangeEvent.parameterList: Map<Int, String>
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
 annotation class AutoView(val value: String = VIEW_NAME_USE_DEFAULT)
+
+/**
+ * Auto-discovers views and register them to [autoViewProvider]. Can be called multiple times.
+ *
+ * DON'T CALL THIS in Servlet environment - Servlet container is responsible to discover views.
+ * This function is intended to be used in tests only.
+ * @param packageName set the package name for the detector to be faster; or provide null to scan the whole classpath, but this is quite slow.
+ */
+fun autoDiscoverViews(packageName: String? = null) {
+    val entities = mutableListOf<Class<*>>()
+    val detector = AnnotationDetector(object : AnnotationDetector.TypeReporter {
+        override fun reportTypeAnnotation(annotation: Class<out Annotation>?, className: String?) {
+            entities.add(Class.forName(className))
+        }
+
+        override fun annotations(): Array<out Class<out Annotation>> = arrayOf(AutoView::class.java)
+    })
+    if (packageName == null) {
+        detector.detect()
+    } else {
+        detector.detect(packageName)
+    }
+
+    println("Auto-discovered views: ${entities.joinToString { it.simpleName }}")
+    AutoViewProvider().onStartup(entities.toMutableSet(), null)
+}

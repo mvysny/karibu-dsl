@@ -2,10 +2,6 @@ package com.github.karibu.testing
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectThrows
-import com.github.vok.karibudsl.button
-import com.github.vok.karibudsl.label
-import com.github.vok.karibudsl.textField
-import com.github.vok.karibudsl.verticalLayout
 import com.vaadin.ui.*
 import kotlin.test.expect
 
@@ -48,10 +44,12 @@ class LocatorTest : DynaTest({
             val name = textField {
                 caption = "Type your name here:"
             }
-            button("Click Me", {
-                println("Thanks ${name.value}, it works!")
-                layout.label("Thanks ${name.value}, it works!")
-            })
+            button("Click Me") {
+                addClickListener {
+                    println("Thanks ${name.value}, it works!")
+                    layout.label("Thanks ${name.value}, it works!")
+                }
+            }
         }
 
         _get<TextField> { caption = "Type your name here:" }.value = "Baron Vladimir Harkonnen"

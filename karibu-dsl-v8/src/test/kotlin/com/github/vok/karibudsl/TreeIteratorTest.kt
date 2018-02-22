@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl
 
+import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.ui.Component
 import com.vaadin.ui.VerticalLayout

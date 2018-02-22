@@ -7,11 +7,12 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testCompile("com.github.mvysny.dynatest:dynatest:${dynatest_version}")
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile(project(":karibu-testing-v8"))
     compile 'io.michaelrocks:bimap:1.0.2'
 
     // Vaadin
     compile "com.vaadin:vaadin-server:$vaadin8_version"
+    compile "com.vaadin:vaadin-push:$vaadin8_version" // to include atmosphere and have support for class auto-discovery
     compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // IDEA language injections

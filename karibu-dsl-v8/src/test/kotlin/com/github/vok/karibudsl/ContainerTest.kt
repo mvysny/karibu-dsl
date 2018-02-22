@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl
 
+import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList

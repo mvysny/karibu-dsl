@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl
 
+import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.data.Binder
 import com.vaadin.data.HasValue
@@ -7,7 +8,9 @@ import com.vaadin.ui.*
 import java.io.Serializable
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Size
@@ -53,10 +56,12 @@ class BinderUtilsTest : DynaTest({
         form.testLong.value = "555"
         form.testBI.value = "123"
         form.testBD.value = "77.11"
+        form.testInstant.value = LocalDate.of(2015, 1, 25)
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
+        val instant = LocalDate.of(2015, 1, 25).atStartOfDay(ZoneId.of("UTC")).toInstant()
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, false, "some comment",
-                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))) { person }
+                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"), instant)) { person }
     }
 
     test("ValidatingBindings") {
@@ -88,6 +93,7 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
     val testLong: TextField
     val testBD: TextField
     val testBI: TextField
+    val testInstant: DateField
     init {
         fullName = textField("Full Name:") {
             // binding to a BeanValidationBinder will also validate the value automatically.
@@ -124,6 +130,9 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
         testBI = textField("Test BigInteger:") {
             bind(binder).toBigInteger().bind(Person::testBI)
         }
+        testInstant = dateField("Created:") {
+            bind(binder).toInstant().bind(Person::created)
+        }
     }
 
     fun clear() {
@@ -156,5 +165,7 @@ data class Person(@field:NotNull
 
                   var testBD: BigDecimal? = null,
 
-                  var testBI: BigInteger? = null
+                  var testBI: BigInteger? = null,
+
+                  var created: Instant? = null
 ) : Serializable

@@ -6,10 +6,7 @@ import com.vaadin.server.Page
 import com.vaadin.ui.AbstractTextField
 import java.math.BigDecimal
 import java.math.BigInteger
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
+import java.time.*
 import java.util.*
 import kotlin.reflect.KMutableProperty1
 
@@ -55,6 +52,12 @@ fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuild
 @JvmName("localDateTimeToDate")
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateTimeToDateConverter(browserTimeZone))
+fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
+    withConverter(LocalDateToInstantConverter(browserTimeZone))
+
+@JvmName("localDateTimeToInstant")
+fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
+    withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
 
 /**
  * Allows you to create [BeanValidationBinder] like this: `beanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
@@ -90,3 +93,27 @@ fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE?>.bindN(prop: KMut
 // we need to use bind(String) even though that will use undebuggable crappy Java 8 lambdas :-(
 //        bind({ bean -> prop.get(bean) }, { bean, value -> prop.set(bean, value) })
         bind(prop.name)
+
+/**
+ * A converter that converts between [LocalDate] and [Instant].
+ * @property zoneId the time zone id to use.
+ */
+class LocalDateToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Converter<LocalDate?, Instant?> {
+    override fun convertToModel(localDate: LocalDate?, context: ValueContext): Result<Instant?> =
+        Result.ok(localDate?.atStartOfDay(zoneId)?.toInstant())
+
+    override fun convertToPresentation(date: Instant?, context: ValueContext): LocalDate? =
+        date?.atZone(zoneId)?.toLocalDate()
+}
+
+/**
+ * A converter that converts between [LocalDateTime] and [Instant].
+ * @property zoneId the time zone to use
+ */
+class LocalDateTimeToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
+    override fun convertToModel(localDate: LocalDateTime?, context: ValueContext): Result<Instant?> =
+        Result.ok(localDate?.atZone(zoneId)?.toInstant())
+
+    override fun convertToPresentation(date: Instant?, context: ValueContext): LocalDateTime? =
+        date?.atZone(zoneId)?.toLocalDateTime()
+}
