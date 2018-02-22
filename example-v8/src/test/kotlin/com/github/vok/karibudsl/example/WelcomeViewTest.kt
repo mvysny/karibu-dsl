@@ -2,8 +2,8 @@ package com.github.vok.karibudsl.example
 
 import com.github.karibu.testing.MockVaadin
 import com.github.karibu.testing._get
-import com.github.karibu.testing.autoDiscoverViews
 import com.github.mvysny.dynatest.DynaTest
+import com.github.vok.karibudsl.autoDiscoverViews
 import com.github.vok.karibudsl.navigateToView
 import com.vaadin.ui.Label
 import com.vaadin.ui.themes.ValoTheme
