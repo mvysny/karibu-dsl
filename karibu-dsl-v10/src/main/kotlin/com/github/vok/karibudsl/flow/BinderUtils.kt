@@ -3,12 +3,16 @@ package com.github.vok.karibudsl.flow
 import com.vaadin.flow.data.binder.*
 import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
+import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.page.Page
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.server.VaadinSession
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.util.*
 import kotlin.reflect.KMutableProperty1
 
@@ -44,9 +48,15 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBu
         withConverter(StringToBigIntegerConverter("Can't convert to integer"))
 
 val browserTimeZone: ZoneId
-    get() {
-        // @todo mavi this conversion does not take into account DST for historical dates. Modify accordingly when https://github.com/vaadin/framework/issues/7911 is fixed
-        return ZoneId.systemDefault()
+    get() = VaadinSession.getCurrent().browser.let { browser ->
+        val timeZoneId: String? = null  // should be browser.timeZoneId: https://github.com/vaadin/flow/issues/2592
+        if (!timeZoneId.isNullOrBlank()) {
+            // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
+            ZoneId.of(timeZoneId)
+        } else {
+            // fallback to time zone offset
+            ZoneOffset.ofTotalSeconds(browser.timezoneOffset / 1000)
+        }
     }
 
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
