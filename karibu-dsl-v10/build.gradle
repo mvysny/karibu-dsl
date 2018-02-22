@@ -20,6 +20,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testCompile("com.github.mvysny.dynatest:dynatest:${dynatest_version}")
+    testCompile(project(":karibu-testing-v10"))
+    testCompile('org.slf4j:slf4j-simple:1.7.25')
 
     // Vaadin
     compile "com.vaadin:vaadin-core:$vaadin10_version"

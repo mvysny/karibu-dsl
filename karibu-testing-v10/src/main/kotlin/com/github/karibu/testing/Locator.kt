@@ -1,12 +1,12 @@
 package com.github.karibu.testing
 
-import com.github.vok.karibudsl.flow.walk
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasClickListeners
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.router.InternalServerError
+import java.util.*
 
 /**
  * A criterion for matching components. The component must match all of non-null fields.
@@ -150,3 +150,17 @@ private fun Component.find(predicate: (Component)->Boolean): List<Component> {
 }
 
 private fun <T: Component> Iterable<(T)->Boolean>.and(): (T)->Boolean = { component -> all { it(component) } }
+
+private class TreeIterator<out T>(root: T, private val children: (T) -> Iterator<T>) : Iterator<T> {
+    private val queue: Queue<T> = LinkedList<T>(listOf(root))
+    override fun hasNext() = !queue.isEmpty()
+    override fun next(): T {
+        if (!hasNext()) throw NoSuchElementException()
+        val result = queue.remove()
+        children(result).forEach { queue.add(it) }
+        return result
+    }
+}
+private fun Component.walk(): Iterable<Component> = Iterable {
+    TreeIterator(this, { component -> component.children.iterator() })
+}

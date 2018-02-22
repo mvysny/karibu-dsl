@@ -1,22 +1,28 @@
 package com.github.vok.karibudsl.flow
 
+import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import java.io.Serializable
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Size
 import kotlin.test.expect
 
 class BinderUtilsTest : DynaTest({
+
+    beforeEach { MockVaadin.setup(setOf()) }
 
     test("ReadBeanWithNullFields") {
         // https://github.com/vaadin/framework/issues/8664
@@ -43,7 +49,7 @@ class BinderUtilsTest : DynaTest({
         val person = Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, null, "some comment",
                 25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))
         binder.writeBean(person)
-        expect(Person(testBoolean = false)) { person }
+        expect(Person(testBoolean = false, comment = "")) { person }
     }
 
     test("SimpleBindings") {
@@ -55,10 +61,12 @@ class BinderUtilsTest : DynaTest({
         form.testBI.value = "123"
         form.testBD.value = "77.11"
         form.testBoolean.value = true
+        form.testInstant.value = LocalDate.of(2015, 1, 25)
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
+        val instant = LocalDate.of(2015, 1, 25).atStartOfDay(ZoneId.of("UTC")).toInstant()
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, true, "some comment",
-                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))) { person }
+                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"), instant)) { person }
     }
 
     test("ValidatingBindings") {
@@ -84,12 +92,13 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
     val dateOfBirth: DatePicker
     val isAlive: Checkbox
     val testBoolean: Checkbox
-    val comment: TextField  // @todo use TextArea once it's available
+    val comment: TextArea
     val testDouble: TextField
     val testInt: TextField
     val testLong: TextField
     val testBD: TextField
     val testBI: TextField
+    val testInstant: DatePicker
     init {
         fullName = textField("Full Name:") {
             // binding to a BeanValidationBinder will also validate the value automatically.
@@ -107,7 +116,7 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
         testBoolean = checkBox("Test Boolean:") {
             bind(binder).bindN(Person::testBoolean)
         }
-        comment = textField("Comment:") {
+        comment = textArea("Comment:") {
             bind(binder).bind(Person::comment)
             value = "some comment"
         }
@@ -125,6 +134,9 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
         }
         testBI = textField("Test BigInteger:") {
             bind(binder).toBigInteger().bind(Person::testBI)
+        }
+        testInstant = datePicker("Created:") {
+            bind(binder).toInstant().bind(Person::created)
         }
     }
 
@@ -158,5 +170,7 @@ data class Person(@field:NotNull
 
                   var testBD: BigDecimal? = null,
 
-                  var testBI: BigInteger? = null
+                  var testBI: BigInteger? = null,
+
+                  var created: Instant? = null
 ) : Serializable

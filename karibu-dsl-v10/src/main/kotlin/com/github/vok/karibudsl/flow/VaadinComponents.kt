@@ -18,6 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.textfield.PasswordField
+import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 
 fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
@@ -55,6 +56,8 @@ fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() ->
         = init(SplitLayout(), block)
 fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {})
         = init(TextField(label), block)
+fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {})
+        = init(TextArea(label), block)
 
 var (@VaadinDsl Component).flexGrow: Double
     get() = (parent.get() as FlexComponent<*>).getFlexGrow(this)

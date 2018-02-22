@@ -9,6 +9,7 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 repositories {
     maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
     maven { url 'https://dl.bintray.com/webjars/maven' }
+    mavenCentral()
 }
 
 dependencyManagement {
@@ -16,12 +17,15 @@ dependencyManagement {
 }
 
 dependencies {
-    compile(project(":karibu-dsl-v10"))
+    compile "com.vaadin:vaadin-core:$vaadin10_version"
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     testCompile("com.github.mvysny.dynatest:dynatest:${dynatest_version}")
+    testCompile('org.slf4j:slf4j-simple:1.7.25')
 
     // to have class autodiscovery functionality
     compile "com.vaadin.external.atmosphere:atmosphere-runtime:2.4.5.vaadin2"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 task sourceJar(type: Jar, dependsOn: classes) {
