@@ -6,6 +6,12 @@ import com.vaadin.flow.component.HasValue
 import java.util.ArrayList
 import kotlin.streams.toList
 
+/**
+ * Utility class to create a pretty-printed ASCII tree of arbitrary nodes that can be printed to the console.
+ * You can build the tree out of any tree structure, just fill in this node [name] and its [children].
+ *
+ * To create a pretty tree dump of a Vaadin component, just use [ofVaadin].
+ */
 class PrettyPrintTree(val name: String, val children: MutableList<PrettyPrintTree>) {
 
     fun print(): String {
@@ -39,12 +45,22 @@ class PrettyPrintTree(val name: String, val children: MutableList<PrettyPrintTre
 
 fun Component.toPrettyTree(): String = PrettyPrintTree.ofVaadin(this).print()
 
+/**
+ * Returns the most basic properties of the component, formatted as a concise string:
+ * * The component class
+ * * The [Component.getId]
+ * * Whether the component is [Component.isVisible]
+ * * Whether it is a [HasValue] that is read-only
+ * * the styles
+ * * The [Component.label] and text
+ * * The [HasValue.getValue]
+ */
 fun Component.toPrettyString(): String {
     val list = ArrayList<String>()
     if (id.isPresent) {
         list.add("#${id.get()}")
     }
-    if (!isVisible) {
+    if (!_isVisible) {
         list.add("INVIS")
     }
     if (this is HasValue<*, *> && this.isReadOnly) {
@@ -56,8 +72,8 @@ fun Component.toPrettyString(): String {
     if (label.isNotBlank()) {
         list.add("label='$label'")
     }
-    if (this is HasText && !text.isNullOrBlank()) {
-        list.add("text='$text'")
+    if (!_text.isNullOrBlank()) {
+        list.add("text='$_text'")
     }
     if (this is HasValue<*, *>) {
         list.add("value='${this.value}'")

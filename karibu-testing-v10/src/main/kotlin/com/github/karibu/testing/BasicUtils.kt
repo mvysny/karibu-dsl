@@ -2,6 +2,8 @@ package com.github.karibu.testing
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.ComponentEvent
+import com.vaadin.flow.component.HasText
+import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.router.Route
@@ -78,3 +80,14 @@ val Component.isAttached: Boolean
     get() = ui.orElse(null)?.session != null
 
 val IntRange.size: Int get() = (endInclusive + 1 - start).coerceAtLeast(0)
+
+val Component._isVisible: Boolean get() = when (this) {
+    is Text -> !text.isNullOrBlank()   // workaround for https://github.com/vaadin/flow/issues/3201
+    else -> isVisible
+}
+
+val Component._text: String? get() = when (this) {
+    is HasText -> text
+    is Text -> text   // workaround for https://github.com/vaadin/flow/issues/3606
+    else -> null
+}
