@@ -1,6 +1,7 @@
 package com.github.karibu.testing
 
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.data.provider.ListDataProvider
 import kotlin.test.expect
@@ -31,6 +32,13 @@ class GridTest : DynaTest({
         grid.dataProvider = ListDataProvider<TestPerson>((0 until 7).map { TestPerson("name $it", it) })
         grid.expectRows(7)
         grid.expectRow(0, "name 0", "0")
+    }
+
+    test("header2") {
+        val grid = Grid<TestPerson>(TestPerson::class.java)
+        expect("") { grid.addColumn({ it }).header2 }
+        expect("Foo") { grid.addColumn({ it }).apply { setHeader("Foo") }.header2 }
+        expect("") { grid.addColumn({ it }).apply { setHeader(Text("Foo")) }.header2 }
     }
 })
 

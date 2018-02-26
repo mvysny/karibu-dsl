@@ -80,9 +80,9 @@ var <T> Grid.Column<T>.header2: String
     get() {
         val e = AbstractColumn::class.java.getDeclaredField("headerTemplate").run {
             isAccessible = true
-            get(this@header2) as Element
+            get(this@header2) as? Element
         }
-        return e.getPropertyRaw("innerHTML")?.toString() ?: ""
+        return e?.getPropertyRaw("innerHTML")?.toString() ?: ""
     }
     set(value) {
         setHeader(value)
