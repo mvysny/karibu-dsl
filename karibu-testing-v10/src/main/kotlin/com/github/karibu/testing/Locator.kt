@@ -5,8 +5,10 @@ import com.vaadin.flow.component.HasClickListeners
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.router.InternalServerError
 import java.util.*
+import java.util.stream.Collectors
 
 /**
  * A criterion for matching components. The component must match all of non-null fields.
@@ -66,6 +68,7 @@ fun <T: Component> Component._get(clazz: Class<T>, block: SearchSpec<T>.()->Unit
     val result = _find(clazz) {
         count = 1..1
         block()
+        check(count == 1..1) { "You're calling _get which is supposed to return exactly 1 component, yet you tried to specify the count of $count" }
     }
     return clazz.cast(result.single())
 }
@@ -143,10 +146,18 @@ fun Button._click() {
 private fun Component.isEffectivelyVisible(): Boolean = isVisible && (!parent.isPresent || parent.get().isEffectivelyVisible())
 
 private fun Component.find(predicate: (Component)->Boolean): List<Component> {
+    cleanupDialogs()
     val descendants = walk()
     val error: InternalServerError? = descendants.filterIsInstance<InternalServerError>().firstOrNull()
     if (error != null) throw AssertionError("An internal server error occurred; check log for the actual stack-trace. Error text: ${error.element.text}\n${UI.getCurrent().toPrettyTree()}")
     return descendants.filter { predicate(it) }
+}
+
+fun cleanupDialogs() {
+    // @todo mavi remove when Flow will properly fire Dialog close listeners. See MockedUI for more details
+    UI.getCurrent().children.collect(Collectors.toList()).forEach {
+        if (it is Dialog && !it.isOpened) it.element.removeFromParent()
+    }
 }
 
 private fun <T: Component> Iterable<(T)->Boolean>.and(): (T)->Boolean = { component -> all { it(component) } }

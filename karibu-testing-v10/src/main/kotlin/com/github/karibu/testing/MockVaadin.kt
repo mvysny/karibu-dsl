@@ -2,6 +2,10 @@ package com.github.karibu.testing
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.dialog.GeneratedVaadinDialog
+import com.vaadin.flow.dom.PropertyChangeEvent
+import com.vaadin.flow.dom.PropertyChangeListener
 import com.vaadin.flow.internal.CurrentInstance
 import com.vaadin.flow.internal.StateTree
 import com.vaadin.flow.server.*
@@ -66,6 +70,14 @@ object MockVaadin {
  */
 class MockedUI : UI() {
     override fun beforeClientResponse(component: Component, execution: Runnable): StateTree.ExecutionRegistration {
+        if (component is Dialog && component.isOpened) {
+            component.addOpenedChangeListener {
+                // not currently fired by Flow.
+                if (!component.isOpened) {
+                    component.element.removeFromParent()  // cleanup closed dialogs from the UI
+                }
+            }
+        }
         execution.run()
         return object : StateTree.ExecutionRegistration {
             override fun remove() {

@@ -6,6 +6,7 @@ import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.router.Route
 import java.util.concurrent.atomic.AtomicInteger
@@ -38,8 +39,29 @@ class MockVaadinTest : DynaTest({
     }
 
     test("open dialog") {
-        Dialog().open()
-        _get<Dialog>()  // should be in the UI
+        // there should be no dialogs in the UI
+        _find<Dialog> { count = 0..0 }
+        _find<Div> { text = "Dialog Text"; count = 0..0 }
+        val dialog = Dialog(Div().apply { text("Dialog Text") })
+        dialog.open()
+        _get<Dialog>()  // should be in the UI, along with its contents
+        _get<Div> { text = "Dialog Text" }
+        dialog.close()
+        // there should be no dialogs in the UI
+        _find<Dialog> { count = 0..0 }
+        _find<Div> { text = "Dialog Text"; count = 0..0 }
+    }
+
+    test("the dialogs must be cleared up from the component tree on close") {
+        val dialog = Dialog(Div().apply { text("Dialog Text") })
+        dialog.open()
+        dialog.close()
+        cleanupDialogs()
+        expect("""
+└── MockedUI[]
+    └── WelcomeView[]
+        └── Text[text='Welcome!']
+""".trim()) { UI.getCurrent().toPrettyTree().trim() }
     }
 })
 
@@ -56,4 +78,3 @@ class WelcomeView : VerticalLayout() {
         text("Welcome!")
     }
 }
-
