@@ -76,13 +76,17 @@ private val <T> Grid.Column<T>.internalId2: String get() = javaClass.getDeclared
     invoke(this@internalId2) as String
 }
 
-val <T> Grid.Column<T>.header2: String get() {
-    val e = AbstractColumn::class.java.getDeclaredField("headerTemplate").run {
-        isAccessible = true
-        get(this@header2) as Element
+var <T> Grid.Column<T>.header2: String
+    get() {
+        val e = AbstractColumn::class.java.getDeclaredField("headerTemplate").run {
+            isAccessible = true
+            get(this@header2) as Element
+        }
+        return e.getPropertyRaw("innerHTML")?.toString() ?: ""
     }
-    return e.getPropertyRaw("innerHTML")?.toString() ?: ""
-}
+    set(value) {
+        setHeader(value)
+    }
 
 /**
  * Dumps the first [maxRows] rows of the Grid, formatting the values using the [_getFormatted] function. The output example:

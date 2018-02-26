@@ -3,6 +3,7 @@ package com.github.karibu.testing
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasText
 import com.vaadin.flow.component.HasValue
+import com.vaadin.flow.component.grid.Grid
 import java.util.ArrayList
 import kotlin.streams.toList
 
@@ -77,6 +78,9 @@ fun Component.toPrettyString(): String {
     }
     if (this is HasValue<*, *>) {
         list.add("value='${this.value}'")
+    }
+    if (this is Grid.Column<*> && this.header2.isNotBlank()) {
+        list.add("header='${this.header2}'")
     }
     var name = javaClass.simpleName
     if (name.isEmpty()) {
