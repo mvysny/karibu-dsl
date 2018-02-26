@@ -3,17 +3,13 @@ package com.github.karibu.testing
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.internal.CurrentInstance
+import com.vaadin.flow.internal.StateTree
 import com.vaadin.flow.server.*
 import com.vaadin.flow.server.startup.RouteRegistry
 import com.vaadin.flow.shared.VaadinUriResolver
-import org.atmosphere.util.FakeHttpSession
-import java.io.BufferedReader
-import java.security.Principal
 import java.util.*
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
-import javax.servlet.*
-import javax.servlet.http.*
 
 object MockVaadin {
     // prevent GC on Vaadin Session and Vaadin UI as they are only soft-referenced from the Vaadin itself.
@@ -24,9 +20,10 @@ object MockVaadin {
     /**
      * Mocks Vaadin for the current test method.
      * @param routes all classes annotated with [com.vaadin.flow.router.Route]; use [autoDiscoverViews] to auto-discover all such classes.
-     * @param uiFactory produces [UI] instances and sets them as current, by default simply instantiates [UI] class.
+     * @param uiFactory produces [UI] instances and sets them as current, by default simply instantiates [MockedUI] class. If you decide to
+     * provide a different value, override [UI.beforeClientResponse] so that your dialogs are opened properly with this mocked testing.
      */
-    fun setup(routes: Set<Class<out Component>> = setOf(), uiFactory: ()->UI = { UI() }) {
+    fun setup(routes: Set<Class<out Component>> = setOf(), uiFactory: ()->UI = { MockedUI() }) {
         val service = object : VaadinServletService(null, DefaultDeploymentConfiguration(MockVaadin::class.java, Properties(), { _, _ -> })) {
             private val registry = object : RouteRegistry() {
                 init {
@@ -61,6 +58,20 @@ object MockVaadin {
         UI.setCurrent(ui)
         ui.doInit(request, -1)
         strongRefUI.set(ui)
+    }
+}
+
+/**
+ * We need to use a MockedUI, with [beforeClientResponse] overridden, otherwise opened dialogs will never appear in the UI.
+ */
+class MockedUI : UI() {
+    override fun beforeClientResponse(component: Component, execution: Runnable): StateTree.ExecutionRegistration {
+        execution.run()
+        return object : StateTree.ExecutionRegistration {
+            override fun remove() {
+                // no-op, cannot be canceled since it already ran
+            }
+        }
     }
 }
 

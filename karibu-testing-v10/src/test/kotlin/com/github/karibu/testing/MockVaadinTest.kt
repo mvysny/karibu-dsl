@@ -5,6 +5,7 @@ import com.vaadin.flow.component.AttachEvent
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.router.Route
 import java.util.concurrent.atomic.AtomicInteger
@@ -34,6 +35,11 @@ class MockVaadinTest : DynaTest({
         _get<Text> { text = "Welcome!" }
         UI.getCurrent().navigateTo("helloworld")
         _get<Button> { caption = "Hello, World!" }
+    }
+
+    test("open dialog") {
+        Dialog().open()
+        _get<Dialog>()  // should be in the UI
     }
 })
 
