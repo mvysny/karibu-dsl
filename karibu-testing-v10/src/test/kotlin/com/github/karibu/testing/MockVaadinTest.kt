@@ -40,16 +40,16 @@ class MockVaadinTest : DynaTest({
 
     test("open dialog") {
         // there should be no dialogs in the UI
-        _find<Dialog> { count = 0..0 }
-        _find<Div> { text = "Dialog Text"; count = 0..0 }
+        _expectNone<Dialog>()
+        _expectNone<Div> { text = "Dialog Text" }
         val dialog = Dialog(Div().apply { text("Dialog Text") })
         dialog.open()
         _get<Dialog>()  // should be in the UI, along with its contents
         _get<Div> { text = "Dialog Text" }
         dialog.close()
         // there should be no dialogs in the UI
-        _find<Dialog> { count = 0..0 }
-        _find<Div> { text = "Dialog Text"; count = 0..0 }
+        _expectNone<Div> { text = "Dialog Text" }
+        _expectNone<Dialog>()
     }
 
     test("the dialogs must be cleared up from the component tree on close") {

@@ -73,6 +73,7 @@ fun <T: Component> Component._get(clazz: Class<T>, block: SearchSpec<T>.()->Unit
     val result = _find(clazz) {
         count = 1..1
         block()
+        check(count == 1..1) { "You're calling _get which is supposed to return exactly 1 component, yet you tried to specify the count of $count" }
     }
     return clazz.cast(result.single())
 }
@@ -172,3 +173,33 @@ private class TreeIterator<out T>(root: T, private val children: (T) -> Iterable
 private fun Component.walk(): Iterable<Component> = Iterable {
     TreeIterator(this, { component -> component as? HasComponents ?: listOf() })
 }
+
+/**
+ * Expects that there are no VISIBLE components of given type which matches [block]. This component and all of its descendants are searched.
+ * @throws IllegalArgumentException if one or more components matched.
+ */
+inline fun <reified T: Component> Component._expectNone(noinline block: SearchSpec<T>.()->Unit = {}): Unit = this._expectNone(T::class.java, block)
+
+/**
+ * Expects that there are no VISIBLE components of given [clazz] which matches [block]. This component and all of its descendants are searched.
+ * @throws IllegalArgumentException if one or more components matched.
+ */
+fun <T: Component> Component._expectNone(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): Unit {
+    val result = _find(clazz) {
+        count = 0..0
+        block()
+        check(count == 0..0) { "You're calling _expectNone which expects 0 component, yet you tried to specify the count of $count" }
+    }
+}
+
+/**
+ * Expects that there are no VISIBLE components in the current UI of given type which matches [block]. The [UI.getCurrent] and all of its descendants are searched.
+ * @throws IllegalArgumentException if one or more components matched.
+ */
+inline fun <reified T: Component> _expectNone(noinline block: SearchSpec<T>.()->Unit = {}): Unit = _expectNone(T::class.java, block)
+
+/**
+ * Expects that there are no VISIBLE components in the current UI of given [clazz] which matches [block]. The [UI.getCurrent] and all of its descendants are searched.
+ * @throws IllegalArgumentException if one or more components matched.
+ */
+fun <T: Component> _expectNone(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): Unit = UI.getCurrent()._expectNone(clazz, block)

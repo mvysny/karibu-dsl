@@ -9,33 +9,59 @@ class LocatorTest : DynaTest({
 
     beforeEach { MockVaadin.setup() }
 
-    test("FailsOnNoComponents") {
-        expectThrows(IllegalArgumentException::class) {
-            Button()._get(Label::class.java)
+    group("_get") {
+        test("FailsOnNoComponents") {
+            expectThrows(IllegalArgumentException::class) {
+                Button()._get(Label::class.java)
+            }
+        }
+
+        test("fails when multiple components match") {
+            expectThrows(IllegalArgumentException::class) {
+                UI.getCurrent().verticalLayout {
+                    verticalLayout { }
+                }._get(VerticalLayout::class.java)
+            }
+        }
+
+        test("selects self") {
+            val button = Button()
+            expect(button) { button._get(Button::class.java) }
+        }
+
+        test("ReturnsNested") {
+            val button = Button()
+            expect(button) { VerticalLayout(button)._get(Button::class.java) }
         }
     }
 
-    test("fails when multiple components match") {
-        expectThrows(IllegalArgumentException::class) {
-            UI.getCurrent().verticalLayout {
-                verticalLayout { }
-            }._get(VerticalLayout::class.java)
+    group("_find") {
+        test("findMatchingId") {
+            val button = Button().apply { id = "foo" }
+            expect(listOf(button)) { VerticalLayout(button, Button())._find<Button> { id = "foo" } }
         }
     }
 
-    test("selects self") {
-        val button = Button()
-        expect(button) { button._get(Button::class.java) }
-    }
+    group("_expectNone") {
+        test("succeeds on no matched components") {
+            Button()._expectNone(Label::class.java)
+        }
 
-    test("ReturnsNested") {
-        val button = Button()
-        expect(button) { VerticalLayout(button)._get(Button::class.java) }
-    }
+        test("fails when multiple components match") {
+            expectThrows(IllegalArgumentException::class) {
+                UI.getCurrent().verticalLayout {
+                    verticalLayout { }
+                }._expectNone(VerticalLayout::class.java)
+            }
+        }
 
-    test("findMatchingId") {
-        val button = Button().apply { id = "foo" }
-        expect(listOf(button)) { VerticalLayout(button, Button())._find<Button> { id = "foo" } }
+        test("selects self") {
+            expectThrows(IllegalArgumentException::class) { Button()._expectNone(Button::class.java) }
+        }
+
+        test("ReturnsNested") {
+            expectThrows(IllegalArgumentException::class) { VerticalLayout(Button())._expectNone(Button::class.java) }
+        }
     }
 
     test("simpleUITest") {
