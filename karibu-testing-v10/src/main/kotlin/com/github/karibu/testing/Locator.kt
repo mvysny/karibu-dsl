@@ -1,10 +1,7 @@
 package com.github.karibu.testing
 
 import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.HasClickListeners
-import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.UI
-import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.router.InternalServerError
 import java.util.*
@@ -127,23 +124,6 @@ inline fun <reified T: Component> _find(noinline block: SearchSpec<T>.()->Unit =
  */
 fun <T: Component> _find(clazz: Class<T>, block: SearchSpec<T>.()->Unit = {}): List<T> =
         UI.getCurrent()._find(clazz, block)
-
-/**
- * Clicks the button, but only if it is actually possible to do so by the user. If the button is read-only or disabled, it throws an exception.
- * @throws IllegalArgumentException if the button was not visible, not enabled, read-only or if no button (or too many buttons) matched.
- */
-fun Button._click() {
-    if (!isEffectivelyVisible()) {
-        throw IllegalArgumentException("The button ${toPrettyString()} is not effectively visible - either it is hidden, or its ascendant is hidden")
-    }
-    if (this is HasValue<*, *> && this.isReadOnly) {
-        throw IllegalArgumentException("The button ${toPrettyString()} is read-only")
-    }
-    // click()  // can't call this since this calls JS method on the browser... but we're server-testing and there is no browser and this call would do nothing.
-    _fireEvent(HasClickListeners.ClickEvent(this, false))
-}
-
-private fun Component.isEffectivelyVisible(): Boolean = isVisible && (!parent.isPresent || parent.get().isEffectivelyVisible())
 
 private fun Component.find(predicate: (Component)->Boolean): List<Component> {
     cleanupDialogs()
