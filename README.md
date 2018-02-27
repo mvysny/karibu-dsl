@@ -300,4 +300,5 @@ Then:
 
 ## Testing
 
-Head to [Testing](docs/testing.md) to learn more about how to test Karibu-DSL apps.
+Please see the [Karibu-Testing](https://github.com/mvysny/karibu-testing) library, to learn more about how to test Karibu-DSL apps.
+

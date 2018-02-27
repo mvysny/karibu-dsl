@@ -7,7 +7,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testCompile("com.github.mvysny.dynatest:dynatest:${dynatest_version}")
-    testCompile(project(":karibu-testing-v8"))
+    testCompile "com.github.kaributesting:karibu-testing-v8:$kaributesting_version"
     compile 'io.michaelrocks:bimap:1.0.2'
 
     // Vaadin
