@@ -38,12 +38,17 @@ class MyUITest : DynaTest({
 Nothing special here - we have just instantiated the label as any other object, and then asserted that the value is updated properly.
 
 With this approach you can test even larger components; since views are components as well you can test individual views with this approach as well.
-However, soon you will hit the limit: your components will probably start to fail because `UI.getCurrent()` or `VaadinSession.getCurrent()`
-returns null; they can't navigate because the Navigator has not been configured, etc. We need to mock the Vaadin environment.
+However, soon you will hit the limit:
+
+* Your components will probably start to fail because `UI.getCurrent()` or `VaadinSession.getCurrent()`
+returns `null`;
+* Your views can't navigate because the Navigator has not been configured, etc.
+
+We need to mock the Vaadin environment properly.
 
 ## Testing an actual application
 
-This is where the `karibu-testing` library comes handy - it provides you with means of mocking the Vaadin environment properly.
+This is where the `karibu-testing` library comes handy - it provides you with means of mocking the Vaadin environment.
 
 Let's look at the [Karibu-DSL Helloworld Application](https://github.com/mvysny/karibu-helloworld-application) - a very sample application
 consisting of just the UI - no views. Because of its simplicity it is an excellent testing grounds for your experiments -
@@ -74,7 +79,7 @@ It will produce the following app:
 
 ![Karibu-DSL Helloworld App](images/karibu_helloworld_app.png)
 
-In order to test this app, we need to instantiate `MyUI`. But it's not THAT simple: in order to create an instance of an UI, a proper Vaadin
+In order to test this app, we need to initialize `MyUI`. But it's not THAT simple: in order to properly initialize the `UI` class, a proper Vaadin
 environment needs to be prepared:
 
 * We need to prepare the `VaadinSession` in a way that `VaadinSession.getCurrent()` returns a proper session
