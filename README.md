@@ -297,3 +297,7 @@ Then:
 
 * Open this whole project in Intellij IDEA Ultimate, simply by File / Open... and clicking [build.gradle](build.gradle).
 * Navigate to the `example-v8` project and launch it as an exploded WAR in Tomcat
+
+## Testing
+
+Head to [Testing](docs/testing.md) to learn more about how to test Karibu-DSL apps.
