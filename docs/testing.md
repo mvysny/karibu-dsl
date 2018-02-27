@@ -22,30 +22,5 @@ You can just plug this library in into your Java+Vaadin-based project as a test 
 
 ## Getting started
 
-To start, just add the following lines into your Gradle `build.gradle` file:
-
-For Vaadin 10:
-
-```groovy
-repositories {
-    maven { url "https://dl.bintray.com/mvysny/github" }
-}
-dependencies {
-    testCompile "com.github.vok.karibudsl:karibu-testing-v10:0.3.3"
-}
-```
-
-For Vaadin 8:
-
-```groovy
-repositories {
-    maven { url "https://dl.bintray.com/mvysny/github" }
-}
-dependencies {
-    testCompile "com.github.vok.karibudsl:karibu-testing-v8:0.3.3"
-}
-```
-
-You will also need to add Kotlin support to your project, even if it will compile the testing classes only: [Using Gradle](https://kotlinlang.org/docs/reference/using-gradle.html).
-
-todo
+* If you are using Vaadin 8, head to [Getting Started with Vaadin 8](testing-v8.md).
+* If you are using Vaadin 10, head to [Getting Started with Vaadin 10](testing-v10.md).
