@@ -9,13 +9,6 @@ buildscript {
     if (project.rootProject.file('local.properties').exists()) {
         ext.local.load(project.rootProject.file('local.properties').newDataInputStream())
     }
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
-    }
 }
 
 plugins {
@@ -59,5 +52,9 @@ subprojects {
         maven { url 'https://maven.vaadin.com/vaadin-addons' }
         maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
         maven { url "https://dl.bintray.com/mvysny/github" }
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
