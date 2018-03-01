@@ -19,14 +19,11 @@ import com.github.vok.karibudsl.flow.bind
 import com.github.vok.karibudsl.flow.bindN
 import com.github.vok.karibudsl.flow.textField
 import com.github.vok.karibudsl.flow.trimmingConverter
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
-import com.vaadin.flow.component.textfield.TextField
-
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 
 /**
  * A dialog for editing [Category] objects.
@@ -54,13 +51,14 @@ class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)
 
     override fun confirmDelete() {
         val reviewCount = ReviewService.findReviews(currentItem!!.name).size
-        val additionalMessage = if (reviewCount == 0)
-            ""
-        else
-            "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
-        openConfirmationDialog(
+        if (reviewCount == 0) {
+            deleteConfirmed(currentItem!!)
+        } else {
+            val additionalMessage = "Deleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page."
+            openConfirmationDialog(
                 "Delete Category “${currentItem!!.name}”?",
                 "There are $reviewCount reviews associated with this category.",
                 additionalMessage)
+        }
     }
 }

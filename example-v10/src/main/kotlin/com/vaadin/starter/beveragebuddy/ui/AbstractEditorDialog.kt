@@ -177,7 +177,7 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
                 true, { deleteConfirmed(currentItem!!) }, { open() })
     }
 
-    private fun deleteConfirmed(item: T) {
+    protected fun deleteConfirmed(item: T) {
         itemDeleter(item)
         close()
     }
