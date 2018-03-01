@@ -21,6 +21,14 @@ import com.vaadin.flow.component.textfield.PasswordField
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 
+/**
+ * Creates a Vaadin button with an optional [text] and an [icon], and adds it to the parent.
+ *
+ * See [vaadin-button](https://vaadin.com/elements/vaadin-button/html-examples/button-lumo-theme-demos) for a list
+ * of possible alternative styles for the button.
+ * @param icon the icon, to use icons provided by Lumo just use `Icon("lumo", "plus")` or `Icon(VaadinIcons.
+ * @param block runs the block with the button as a receiver.
+ */
 fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
         = init(Button(text, icon), block)
 fun (@VaadinDsl Button).setPrimary() {
