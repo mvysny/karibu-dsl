@@ -14,7 +14,7 @@ class CategoriesListTest : DynaTest({
     beforeEach { MockVaadin.setup(autoDiscoverViews("com.vaadin.starter")) }
 
     test("grid has 9 rows") {
-        UI.getCurrent().navigateTo("categories")
+        UI.getCurrent().navigate("categories")
         val grid = _get<Grid<*>>()
         expect(9) { grid.dataProvider._size() }
     }

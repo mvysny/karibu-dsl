@@ -15,6 +15,8 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.ComponentUtil
 import com.vaadin.flow.templatemodel.Convert
 import com.vaadin.flow.templatemodel.TemplateModel
 import com.vaadin.flow.router.PageTitle
@@ -52,7 +54,7 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
     @Id("search")
     private lateinit var search: TextField
     @Id("newReview")
-    private lateinit var addReview: Button
+    internal lateinit var addReview: Button
     @Id("header")
     private lateinit var header: H1
 

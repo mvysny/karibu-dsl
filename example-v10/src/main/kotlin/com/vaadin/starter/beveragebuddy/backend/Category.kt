@@ -10,10 +10,6 @@ import java.io.Serializable
 // must be open - Flow requires that to do some ModelProxy class enhancement dark magic
 open class Category(open var id: Long? = null, open var name: String = "") : Serializable {
 
-    companion object {
-        val UNDEFINED = Category(name = "(undefined)")
-    }
-
     override fun toString() = "Category(id=$id, name='$name')"
 
     fun copy() = Category(id, name)

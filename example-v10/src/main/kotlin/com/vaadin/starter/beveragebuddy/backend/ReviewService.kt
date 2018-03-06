@@ -54,7 +54,7 @@ object ReviewService {
     private fun filterTextOf(review: Review): List<String> {
         val dateConverter = LocalDateToStringConverter()
         return setOf(review.name,
-                review.category.name,
+                review.category?.name,
                 review.score.toString(),
                 review.count.toString(),
                 dateConverter.toPresentation(review.date)).filterNotNull()
@@ -79,13 +79,13 @@ object ReviewService {
      */
     fun saveReview(dto: Review) {
         var entity: Review? = if (dto.id == null) null else reviews[dto.id!!]
-        var category: Category = dto.category
+        var category: Category? = dto.category
 
             // The case when the category is new (not persisted yet, thus
             // has null id) is not handled here, because it can't currently
             // occur via the UI.
             // Note that Category.UNDEFINED also gets mapped to null.
-        category = (if (category.id == null) null else CategoryService.findCategoryById(category.id!!)) ?: Category.UNDEFINED
+        category = if (category == null) null else CategoryService.findCategoryById(category.id!!)
         if (entity == null) {
             // Make a copy to keep entities and DTOs separated
             entity = dto.copy()

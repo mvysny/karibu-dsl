@@ -26,7 +26,7 @@ open class Review : Serializable {
     open var date: LocalDate = LocalDate.now()
 
     @field:NotNull
-    open var category: Category = Category.UNDEFINED
+    open var category: Category? = null
 
     @field:NotNull
     @field:Min(1)
@@ -40,7 +40,7 @@ open class Review : Serializable {
         it.score = score
         it.name = name
         it.date = date
-        it.category = category.copy()
+        it.category = category?.copy()
         it.count = count
     }
 }

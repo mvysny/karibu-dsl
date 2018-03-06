@@ -113,7 +113,7 @@ class CategoriesList : Div() {
     private fun deleteCategory(category: Category) {
         val reviewsInCategory = ReviewService.findReviews(category.name)
         reviewsInCategory.forEach { review ->
-            review.category = Category.UNDEFINED
+            review.category = null
             ReviewService.saveReview(review)
         }
         CategoryService.deleteCategory(category)
