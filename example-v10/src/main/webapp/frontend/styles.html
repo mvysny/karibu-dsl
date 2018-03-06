@@ -16,7 +16,9 @@
 
 <custom-style>
     <style>
+
         html {
+            height: auto;
             background-color: var(--lumo-contrast-5pct);
             --main-layout-header-height: 64px;
         }
@@ -174,6 +176,7 @@
             </style>
         </template>
     </dom-module>
+
     <dom-module id="my-dialog-styles" theme-for="vaadin-dialog-overlay">
         <template>
             <style>
@@ -216,26 +219,3 @@
         </template>
     </dom-module>
 </custom-style>
-
-<dom-module id="beverage-buddy-grids" theme-for="vaadin-grid">
-    <template>
-        <!-- Extend the lumo grid theme -->
-        <style include="lumo-grid">
-            @media (pointer: coarse) {
-                :host(.categories) [part~="body-cell"]:last-child::after {
-                    content: "Edit";
-                    color: var(--lumo-primary-text-color);
-                }
-            }
-
-            :host(.categories) [part~="row"]:hover [part~="body-cell"] {
-                cursor: pointer;
-                background: var(--lumo-shade-5pct);
-            }
-
-            :host(.categories) [part~="cell"]:not([part~="details-cell"]) ::slotted(vaadin-grid-cell-content) {
-                cursor: inherit;
-            }
-        </style>
-    </template>
-</dom-module>

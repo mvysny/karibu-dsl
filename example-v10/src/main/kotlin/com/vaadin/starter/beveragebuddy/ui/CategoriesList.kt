@@ -21,6 +21,8 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.notification.Notification
+import com.vaadin.flow.component.orderedlayout.FlexComponent
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -37,7 +39,7 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
  */
 @Route(value = "categories", layout = MainLayout::class)
 @PageTitle("Categories List")
-class CategoriesList : Div() {
+class CategoriesList : VerticalLayout() {
 
     private lateinit var searchField: TextField
     private val grid: Grid<Category>
@@ -48,6 +50,7 @@ class CategoriesList : Div() {
 
     init {
         addClassName("categories-list")
+        defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
