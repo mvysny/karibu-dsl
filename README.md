@@ -33,7 +33,9 @@ Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-
 
 ## QuickStart
 
-Quickly run the bundled example application from the command-line:
+The `example-v8` app bundles a "Component Palette" app which demonstrates Vaadin components,
+a responsive navigation menu and a navigator.
+Quickly run the application from the command-line:
 
 ```bash
 git clone https://github.com/mvysny/karibu-dsl
