@@ -9,7 +9,7 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
 import java.time.LocalDate
-import kotlin.test.expect
+import kotlin.test.*
 
 class DateRangePopupTest : DynaTest({
     beforeEach { MockVaadin.setup(setOf()) }
@@ -28,7 +28,7 @@ class DateRangePopupTest : DynaTest({
     group("value change listener tests") {
         test("Setting to the same value does nothing") {
             component.addValueChangeListener {
-                kotlin.test.fail("should not be fired")
+                fail("should not be fired")
             }
             component.value = null
         }
@@ -46,7 +46,7 @@ class DateRangePopupTest : DynaTest({
 
         test("value change won't trigger unregistered change listeners") {
             component.addValueChangeListener {
-                kotlin.test.fail("should not be fired")
+                fail("should not be fired")
             } .remove()
             component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
         }
@@ -61,7 +61,7 @@ class DateRangePopupTest : DynaTest({
 
         test("Clear does nothing when the value is already null") {
             component.addValueChangeListener {
-                kotlin.test.fail("No listener must be fired")
+                fail("No listener must be fired")
             }
             _get<Button> { caption = "Clear" } ._click()
             expect(null) { component.value }
