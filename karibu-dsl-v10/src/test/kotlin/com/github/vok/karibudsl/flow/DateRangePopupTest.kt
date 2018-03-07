@@ -101,7 +101,22 @@ class DateRangePopupTest : DynaTest({
             _get<Button> { caption = "Set" } ._click()
             expect(true) { wasCalled }
             expect(null) { component.value }
-            _expectNone<Dialog>()  // the Clear button must close the dialog
+            _expectNone<Dialog>()  // the Set button must close the dialog
+        }
+
+        test("Set properly sets the value in") {
+            var wasCalled = false
+            component.addValueChangeListener {
+                expect(true) { it.isFromClient }
+                expect(LocalDate.of(2010, 11, 1)..LocalDate.of(2012, 1, 1)) { it.value }
+                wasCalled = true
+            }
+            _get<DatePicker> { caption = "From:" } .value = LocalDate.of(2010, 11, 1)
+            _get<DatePicker> { caption = "To:" } .value = LocalDate.of(2012, 1, 1)
+            _get<Button> { caption = "Set" } ._click()
+            expect(true) { wasCalled }
+            expect(LocalDate.of(2010, 11, 1)..LocalDate.of(2012, 1, 1)) { component.value }
+            _expectNone<Dialog>()  // the Set button must close the dialog
         }
     }
 })
