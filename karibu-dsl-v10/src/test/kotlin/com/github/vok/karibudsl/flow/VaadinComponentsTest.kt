@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl.flow
 
+import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -7,6 +8,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import kotlin.test.expect
 
 class VaadinComponentsTest : DynaTest({
+    beforeEach { MockVaadin.setup(setOf()) }
+
     group("flex") {
         test("setting flexGrow on component sets it to the parent VerticalLayout correctly") {
             val vl = VerticalLayout().apply {
