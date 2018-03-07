@@ -50,12 +50,12 @@ In case of questions you can always [browse the sample project sources here](exa
 
 ### QuickStart Vaadin 10 (Flow)
 
+The `example-v10` bundles a Beverage Buddy app backed by a dummy data (no database).
 Quickly run the bundled example application from the command-line:
 
 ```bash
 git clone https://github.com/mvysny/karibu-dsl
 cd karibu-dsl
-./gradlew build
 ./gradlew example-v10:appRun
 ```
 
