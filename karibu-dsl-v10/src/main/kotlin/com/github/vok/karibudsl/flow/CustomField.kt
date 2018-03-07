@@ -3,15 +3,7 @@ package com.github.vok.karibudsl.flow
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasValue
-import com.vaadin.flow.component.UI
-import com.vaadin.flow.component.button.Button
-import com.vaadin.flow.component.datepicker.DatePicker
-import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.shared.Registration
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
 
 /**
  * A custom field backed by a complex hierarchy of components, perhaps editing different parts of the value. As an example, a [DateRangePopup]
@@ -96,97 +88,3 @@ abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), Ha
     abstract override fun isRequiredIndicatorVisible(): Boolean
 }
 
-/**
- * A button which opens a dialog on click and allows the user to specify a range of dates. When the user sets the values, the dialog is
- * hidden and the date range is set as the value of the popup.
- */
-class DateRangePopup: CustomField<DateRangePopup, ClosedRange<LocalDate>>() {
-    private val formatter get() = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(UI.getCurrent().locale ?: Locale.getDefault())
-    private lateinit var fromField: DatePicker
-    private lateinit var toField: DatePicker
-    private lateinit var set: Button
-    private lateinit var clear: Button
-    private val dialog = Dialog()
-    private val content = Button()
-
-    init {
-        dialog.apply {
-            isCloseOnEsc = true
-            isCloseOnOutsideClick = false
-            addOpenedChangeListener({
-                if (!isOpened) {
-                    element.removeFromParent();
-                }
-            })
-            verticalLayout {
-                fromField = datePicker("From:")
-                toField = datePicker("To:")
-                horizontalLayout {
-                    set = button("Set") {
-                        onLeftClick {
-                            val from: LocalDate? = fromField.value
-                            val to: LocalDate? = toField.value
-                            if (from == null || to == null) {
-                                propagateValueOutwards(null)
-                            } else {
-                                propagateValueOutwards(from..to)
-                            }
-                            updateCaption()
-                            dialog.close()
-                        }
-                    }
-                    clear = button("Clear") {
-                        onLeftClick {
-                            fromField.value = null
-                            toField.value = null
-                            propagateValueOutwards(null)
-                            updateCaption()
-                            dialog.close()
-                        }
-                    }
-                }
-            }
-        }
-        content.apply {
-            onLeftClick {
-                dialog.isOpened = !dialog.isOpened
-            }
-        }
-        updateCaption()
-    }
-
-    override fun propagateValueInwards(value: ClosedRange<LocalDate>?) {
-        fromField.value = value?.start
-        toField.value = value?.endInclusive
-        updateCaption()
-    }
-
-    private fun format(date: LocalDate?) = if (date == null) "" else formatter.format(date)
-
-    private fun updateCaption() {
-        val value = value
-        if (value == null) {
-            content.text = "All"
-        } else {
-            content.text = "${format(fromField.value)} - ${format(toField.value)}"
-        }
-    }
-
-    override fun setReadOnly(readOnly: Boolean) {
-        set.isEnabled = !readOnly
-        clear.isEnabled = !readOnly
-        fromField.isEnabled = !readOnly
-        toField.isEnabled = !readOnly
-    }
-
-    override fun initContent(): Component = content
-
-    override fun isReadOnly(): Boolean = !fromField.isEnabled
-
-    override fun setRequiredIndicatorVisible(requiredIndicatorVisible: Boolean) {
-        fromField.isRequiredIndicatorVisible = requiredIndicatorVisible
-        toField.isRequiredIndicatorVisible = requiredIndicatorVisible
-    }
-
-    override fun isRequiredIndicatorVisible(): Boolean = fromField.isRequiredIndicatorVisible
-}

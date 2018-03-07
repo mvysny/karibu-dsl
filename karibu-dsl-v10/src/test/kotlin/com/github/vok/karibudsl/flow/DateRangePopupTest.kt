@@ -21,8 +21,8 @@ class DateRangePopupTest : DynaTest({
     }
 
     test("setting the value preserves the value") {
-        component.value = LocalDate.of(2010, 1, 1)..LocalDate.of(2012, 1, 1)
-        expect(LocalDate.of(2010, 1, 1)..LocalDate.of(2012, 1, 1)) { component.value!! }
+        component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
+        expect(DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))) { component.value!! }
     }
 
     group("value change listener tests") {
@@ -34,21 +34,21 @@ class DateRangePopupTest : DynaTest({
         }
 
         test("Setting the value programatically triggers value change listeners") {
-            lateinit var newValue: ClosedRange<LocalDate>
+            lateinit var newValue: DateInterval
             component.addValueChangeListener {
                 expect(false) { it.isFromClient }
                 expect(null) { it.oldValue }
                 newValue = it.value
             }
-            component.value = LocalDate.of(2010, 1, 1)..LocalDate.of(2012, 1, 1)
-            expect(LocalDate.of(2010, 1, 1)..LocalDate.of(2012, 1, 1)) { newValue }
+            component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
+            expect(DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))) { newValue }
         }
 
-        test("unregistering the value change listener will not fire it") {
+        test("value change won't trigger unregistered change listeners") {
             component.addValueChangeListener {
                 kotlin.test.fail("should not be fired")
             } .remove()
-            component.value = LocalDate.of(2010, 1, 1)..LocalDate.of(2012, 1, 1)
+            component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
         }
     }
 
@@ -69,13 +69,13 @@ class DateRangePopupTest : DynaTest({
         }
 
         test("setting the value while the dialog is opened propagates the values to date fields") {
-            component.value = LocalDate.of(2010, 1, 1)..LocalDate.of(2012, 1, 1)
+            component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
             expect(LocalDate.of(2010, 1, 1)) { _get<DatePicker> { caption = "From:" } .value }
             expect(LocalDate.of(2012, 1, 1)) { _get<DatePicker> { caption = "To:" } .value }
         }
 
         test("Clear properly sets the value to null") {
-            component.value = LocalDate.now()..LocalDate.now()
+            component.value = DateInterval.now()
             var wasCalled = false
             component.addValueChangeListener {
                 expect(true) { it.isFromClient }
@@ -89,7 +89,7 @@ class DateRangePopupTest : DynaTest({
         }
 
         test("Set properly sets the value to null if nothing is filled in") {
-            component.value = LocalDate.now()..LocalDate.now()
+            component.value = DateInterval.now()
             var wasCalled = false
             component.addValueChangeListener {
                 expect(true) { it.isFromClient }
@@ -108,14 +108,14 @@ class DateRangePopupTest : DynaTest({
             var wasCalled = false
             component.addValueChangeListener {
                 expect(true) { it.isFromClient }
-                expect(LocalDate.of(2010, 11, 1)..LocalDate.of(2012, 1, 1)) { it.value }
+                expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { it.value }
                 wasCalled = true
             }
             _get<DatePicker> { caption = "From:" } .value = LocalDate.of(2010, 11, 1)
             _get<DatePicker> { caption = "To:" } .value = LocalDate.of(2012, 1, 1)
             _get<Button> { caption = "Set" } ._click()
             expect(true) { wasCalled }
-            expect(LocalDate.of(2010, 11, 1)..LocalDate.of(2012, 1, 1)) { component.value }
+            expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { component.value }
             _expectNone<Dialog>()  // the Set button must close the dialog
         }
     }
