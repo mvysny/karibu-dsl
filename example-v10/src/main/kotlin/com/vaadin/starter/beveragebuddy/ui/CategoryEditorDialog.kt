@@ -15,10 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.bind
-import com.github.vok.karibudsl.flow.bindN
-import com.github.vok.karibudsl.flow.textField
-import com.github.vok.karibudsl.flow.trimmingConverter
+import com.github.vok.karibudsl.flow.*
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
@@ -44,7 +41,7 @@ class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)
                         .withValidator(
                                 { name -> CategoryService.findCategories(name ?: "").isEmpty() },
                                 "Category name must be unique")
-                        .bindN(Category::name)
+                        .bind(Category::name)
             }
         }
     }

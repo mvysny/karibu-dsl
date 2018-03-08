@@ -85,6 +85,13 @@ class BinderUtilsTest : DynaTest({
         expect(false) { binder.writeBeanIfValid(person) }
         expect(Person()) { person }  // make sure that no value has been written
     }
+
+    test("test that bind() supports both non-nullable and nullable properties") {
+        data class TestingPerson(var foo: String?, var baz: String)
+        val binder = beanValidationBinder<TestingPerson>()
+        TextField().bind(binder).bind(TestingPerson::foo)
+        TextField().bind(binder).bind(TestingPerson::baz)
+    }
 })
 
 private class Form(binder: Binder<Person>): VerticalLayout() {
@@ -111,10 +118,10 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
             value = LocalDate.of(2010, 1, 25)
         }
         isAlive = checkBox("Is Alive") {
-            bind(binder).bindN(Person::alive)
+            bind(binder).bind(Person::alive)
         }
         testBoolean = checkBox("Test Boolean:") {
-            bind(binder).bindN(Person::testBoolean)
+            bind(binder).bind(Person::testBoolean)
         }
         comment = textArea("Comment:") {
             bind(binder).bind(Person::comment)

@@ -42,29 +42,29 @@ class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -
         formLayout.apply {
             beverageName = textField("Beverage name") {
                 // no need to have validators here: they are automatically picked up from the bean field.
-                bind(binder).trimmingConverter().bindN(Review::name)
+                bind(binder).trimmingConverter().bind(Review::name)
             }
             timesTasted = textField("Times tasted") {
                 pattern = "[0-9]*"
                 isPreventInvalidInput = true
-                bind(binder).toInt().bindN(Review::count)
+                bind(binder).toInt().bind(Review::count)
             }
             categoryBox = comboBox("Choose a category") {
                 setItemLabelGenerator { it.name }
                 isAllowCustomValue = false
                 setItems(CategoryService.findAll())
-                bind(binder).bindN(Review::category)
+                bind(binder).bind(Review::category)
             }
             lastTasted = datePicker("Choose the date") {
                 max = LocalDate.now()
                 min = LocalDate.of(1, 1, 1)
                 value = LocalDate.now()
-                bind(binder).bindN(Review::date)
+                bind(binder).bind(Review::date)
             }
             scoreBox = comboBox("Mark a score") {
                 isAllowCustomValue = false
                 setItems("1", "2", "3", "4", "5")
-                bind(binder).toInt().bindN(Review::score)
+                bind(binder).toInt().bind(Review::score)
             }
         }
     }
