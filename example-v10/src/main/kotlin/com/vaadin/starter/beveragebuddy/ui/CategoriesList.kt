@@ -20,6 +20,7 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
+import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -54,7 +55,7 @@ class CategoriesList : VerticalLayout() {
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
-                prefixComponent = Icon("lumo", "magnifier")
+                prefixComponent = Icon(VaadinIcons.SEARCH)
                 addClassName("view-toolbar__search-field")
                 placeholder = "Search"
                 addValueChangeListener { updateView() }
