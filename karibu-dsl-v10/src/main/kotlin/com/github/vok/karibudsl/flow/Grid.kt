@@ -2,6 +2,8 @@ package com.github.vok.karibudsl.flow
 
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.data.renderer.Renderer
+import com.vaadin.flow.shared.util.SharedUtil
 import kotlin.reflect.KProperty1
 
 fun <T : Any?> (@VaadinDsl HasComponents).grid(block: (@VaadinDsl Grid<T>).() -> Unit = {}) = init(Grid(), block)
@@ -9,33 +11,42 @@ fun <T : Any?> (@VaadinDsl HasComponents).grid(block: (@VaadinDsl Grid<T>).() ->
 /**
  * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
  * using [getColumnBy]. The column is also by default set to sortable
- * unless the [sortable] parameter is set otherwise.
+ * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
+ * @param converter optionally converts the property value [V] to something else, typically to a String. Use this for formatting of the value.
  * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>, sortable: Boolean = true, block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
-    addColumn(property).apply {
+fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>,
+                                                sortable: Boolean = true,
+                                                converter: (V?)->Any? = { it },
+                                                block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
+    addColumn({ it: T -> converter(property.get(it)) }).apply {
         key = property.name
-        if (sortable) {
-            sortProperty = property
-        }
+        if (sortable) sortProperty = property
+        setHeader(SharedUtil.camelCaseToHumanFriendly(property.name))
         block()
     }
 
 /**
- * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
+ * Adds a column for given [property], using given [renderer]. The column key is set to the property name, so that you can look up the column
  * using [getColumnBy]. The column is also by default set to sortable
- * unless the [sortable] parameter is set otherwise.
+ * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
+ * @param renderer
  * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-@JvmName("addColumnFor2")
-fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V>, sortable: Boolean = true, block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
-    addColumn(property).apply {
+fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>,
+                                                renderer: Renderer<T>,
+                                                sortable: Boolean = true,
+                                                block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
+    addColumn(renderer).apply {
         key = property.name
-        if (sortable) {
-            sortProperty = property
-        }
+        if (sortable) sortProperty = property
+        setHeader(SharedUtil.camelCaseToHumanFriendly(property.name))
         block()
     }
 

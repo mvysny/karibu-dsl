@@ -67,9 +67,12 @@ class CategoriesList : VerticalLayout() {
             }
         }
         grid = grid {
-            addColumn({ it.name }).setHeader("Category")
+            addColumnFor(Category::name) {
+                setHeader("Category")
+            }
             addColumn({ it.getReviewCount() }).setHeader("Beverages")
             addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
+
             // Grid does not yet implement HasStyle
             element.classList.add("categories")
             element.setAttribute("theme", "row-dividers")
