@@ -30,8 +30,11 @@ data class DateInterval(var from: LocalDate?, var to: LocalDate?) : Serializable
 }
 
 /**
- * A button which opens a dialog on click and allows the user to specify a range of dates. When the user sets the values, the dialog is
+ * Only shows a single button as its contents. When the button is clicked, it opens a dialog on click and allows the user to specify a range
+ * of dates. When the user sets the values, the dialog is
  * hidden and the date range is set as the value of the popup.
+ *
+ * The current value is also displayed as the caption of the button.
  */
 class DateRangePopup: CustomField<DateRangePopup, DateInterval>() {
     private val formatter get() = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(UI.getCurrent().locale ?: Locale.getDefault())

@@ -7,10 +7,10 @@ import com.vaadin.flow.shared.Registration
 
 /**
  * A custom field backed by a complex hierarchy of components, perhaps editing different parts of the value. As an example, a [DateRangePopup]
- * component is implemented, which allows the user to specify a date range and holds the value as a `ClosedRange<LocalDate>`.
+ * component is implemented, which allows the user to specify a date range and holds the value as a [DateInterval].
  *
  * This component should initialize the hierarchy eagerly and return the root of the hierarchy via [initContent]. The component returned from
- * [initContent] is then displayed as the field.
+ * [initContent] is then displayed as the contents of the field.
  *
  * This component should propagate calls to [setReadOnly] and [setRequiredIndicatorVisible] to all children fields.
  *
@@ -35,6 +35,7 @@ abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), Ha
         if (internalValue != value) {
             val oldValue = internalValue
             internalValue = value
+            @Suppress("UNCHECKED_CAST")
             val event = HasValue.ValueChangeEvent(this as T, this, oldValue, false)
             dontFireListeners = true
             propagateValueInwards(value)
@@ -59,6 +60,7 @@ abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), Ha
         if (!dontFireListeners && internalValue != value) {
             val oldValue = internalValue
             internalValue = value
+            @Suppress("UNCHECKED_CAST")
             val event = HasValue.ValueChangeEvent(this as T, this, oldValue, true)
             fireListeners(event)
         }
