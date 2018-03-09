@@ -15,9 +15,11 @@ repositories {
 }
 
 dependencies {
-    compile("com.github.vok.karibudsl:karibu-dsl-v8:0.3.6")
+    compile("com.github.vok.karibudsl:karibu-dsl-v8:x.y.z")
 }
 ```
+
+> Note: obtain the newest version from the release name, and the tag name as well: [https://github.com/mvysny/karibu-dsl/releases](https://github.com/mvysny/karibu-dsl/releases)
 
 However, to quickly test out Karibu DSL you can simply start with one
 of the example applications below.

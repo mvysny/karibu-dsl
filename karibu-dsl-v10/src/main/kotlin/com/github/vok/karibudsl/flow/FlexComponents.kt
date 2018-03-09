@@ -178,17 +178,17 @@ var (@VaadinDsl HorizontalLayout).horizontalComponentAlignment: FlexComponent.Ju
     get() = justifyContentMode
     set(value) { justifyContentMode = value }
 
-class HorizontalLayoutContentAlign(private val owner: HorizontalLayout) {
+class HorizontalLayoutContent(private val owner: HorizontalLayout) {
     /**
      * This aligns the container's components within when there is extra space. See [justify-content](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#article-header-id-6)
      * for more details.
      *
-     * Note: contrary to [v] this setting can not be overridden by individual children. This is a limitation of
+     * Note: contrary to [verticalAlignment] this setting can not be overridden by individual children. This is a limitation of
      * the flex layout. Calling [horizontalAlignSelf] on children will throw an exception.
      *
      * Note: This is just an alias for [horizontalComponentAlignment].
      */
-    var h: FlexComponent.JustifyContentMode
+    var horizontalAlignment: FlexComponent.JustifyContentMode
         get() = owner.horizontalComponentAlignment
         set(value) { owner.horizontalComponentAlignment = value }
 
@@ -199,73 +199,81 @@ class HorizontalLayoutContentAlign(private val owner: HorizontalLayout) {
      *
      * It effectively sets the `"alignItems"` style value.
      *
-     * The default alignment is [vStart].
+     * The default alignment is [top].
      *
      * It's the same as the [HorizontalLayout.getDefaultVerticalComponentAlignment] method.
      */
-    var v: FlexComponent.Alignment
+    var verticalAlignment: FlexComponent.Alignment
         get() = owner.defaultVerticalComponentAlignment
         set(value) { owner.defaultVerticalComponentAlignment = value }
 
     /**
-     * Items are positioned at the beginning of the container.
+     * Items are positioned to the top of the available space.
      */
-    val vStart = FlexComponent.Alignment.START
+    val top = FlexComponent.Alignment.START
 
     /**
-     * Items are positioned at the end of the container.
+     * Children are positioned to the bottom of the available space.
      */
-    val vEnd = FlexComponent.Alignment.END
+    val bottom = FlexComponent.Alignment.END
 
     /**
-     * Items are positioned at the center of the container.
+     * Children are positioned vertically in the middle of the available space.
      */
-    val vCenter = FlexComponent.Alignment.CENTER
+    val middle = FlexComponent.Alignment.CENTER
 
     /**
-     * Items are stretched to fit the container.
+     * Children are stretched to fit the container's height.
      */
-    val vStretch = FlexComponent.Alignment.STRETCH
+    val stretch = FlexComponent.Alignment.STRETCH
 
     /**
-     * Items are positioned at the baseline of the container.
+     * Children are positioned at the baseline of the container.
      */
-    val vBaseline = FlexComponent.Alignment.BASELINE
+    val baseline = FlexComponent.Alignment.BASELINE
 
     /**
-     * Items are positioned at the beginning of the container.
+     * Children are positioned to the left of the available space.
      */
-    val hStart = FlexComponent.JustifyContentMode.START
+    val left = FlexComponent.JustifyContentMode.START
 
     /**
-     * Items are positioned at the end of the container.
+     * Children are positioned at the end of the container.
      */
-    val hEnd = FlexComponent.JustifyContentMode.END
+    val right = FlexComponent.JustifyContentMode.END
 
     /**
-     * Items are positioned at the center of the container.
+     * Children are positioned at the horizontal center of the container.
      */
-    val hCenter = FlexComponent.JustifyContentMode.CENTER
+    val center = FlexComponent.JustifyContentMode.CENTER
 
     /**
-     * Items are positioned with space between the lines.
+     * Children are positioned with space between the lines.
      */
-    val hBetween = FlexComponent.JustifyContentMode.BETWEEN
+    val between = FlexComponent.JustifyContentMode.BETWEEN
 
     /**
-     * Items are positioned with space before, between, and after the lines.
+     * Children are positioned with space before, between, and after the lines.
      */
-    val hAround = FlexComponent.JustifyContentMode.AROUND
+    val around = FlexComponent.JustifyContentMode.AROUND
 
     /**
-     * Items have equal space around them.
+     * Children have equal space around them.
      */
-    val hEvenly = FlexComponent.JustifyContentMode.EVENLY
+    val evenly = FlexComponent.JustifyContentMode.EVENLY
 
     /**
-     * Centers all children inside of the layout. Equal to setting [vCenter] and [hCenter].
+     * Centers all children inside of the layout. Equal to setting [middle] and [center].
      */
-    fun center() { v = vCenter; h = hCenter }
+    fun center() { align(center, middle) }
+
+    /**
+     * Align the children as specified by the [horizontalAlignment] and [verticalAlignment].
+     */
+    fun align(horizontalAlignment: FlexComponent.JustifyContentMode, verticalAlignment: FlexComponent.Alignment) {
+        this.horizontalAlignment = horizontalAlignment
+        this.verticalAlignment = verticalAlignment
+    }
 }
 
 /**
@@ -274,7 +282,7 @@ class HorizontalLayoutContentAlign(private val owner: HorizontalLayout) {
  * Example of usage:
  * ```
  * horizontalLayout {
- *   contentAlign { h = hEnd; v = vCenter }
+ *   content { align(right, middle) }
  * }
  * ```
  * Important notes:
@@ -292,8 +300,8 @@ class HorizontalLayoutContentAlign(private val owner: HorizontalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
-fun (@VaadinDsl HorizontalLayout).contentAlign(block: HorizontalLayoutContentAlign.()->Unit) {
-    HorizontalLayoutContentAlign(this).block()
+fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.()->Unit) {
+    HorizontalLayoutContent(this).block()
 }
 
 class VerticalLayoutContentAlign(private val owner: VerticalLayout) {
@@ -387,7 +395,7 @@ class VerticalLayoutContentAlign(private val owner: VerticalLayout) {
  * Example of usage:
  * ```
  * verticalLayout {
- *   contentAlign { h = hEnd; v = vCenter }
+ *   content { horizontalAlignment = right; verticalAlignment = middle }
  * }
  * ```
  * Important notes:
