@@ -102,15 +102,23 @@ fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> U
 /**
  * Creates a [Vertical Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
+ *
+ * The default content align is set to `contentAlign { h = hStart; v = vStart }`.
  */
-fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {})
-        = init(VerticalLayout(), block)
+fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {}) = init(VerticalLayout(), {
+    contentAlign { h = hStart; v = vStart }
+    block()
+})
 /**
  * Creates a [Horizontal Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
+ *
+ * The default content align is set to `contentAlign { h = hStart; v = vBaseline }`.
  */
-fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).() -> Unit = {})
-        = init(HorizontalLayout(), block)
+fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).() -> Unit = {}) = init(HorizontalLayout(), {
+    contentAlign { h = hStart; v = vBaseline }
+    block()
+})
 
 /**
  * Creates a [Password Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list

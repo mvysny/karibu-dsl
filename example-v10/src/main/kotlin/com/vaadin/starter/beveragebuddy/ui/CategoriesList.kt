@@ -50,8 +50,9 @@ class CategoriesList : VerticalLayout() {
             { deleteCategory(it) })
 
     init {
+        contentAlign { h = hStretch }
         addClassName("categories-list")
-        defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
+
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
