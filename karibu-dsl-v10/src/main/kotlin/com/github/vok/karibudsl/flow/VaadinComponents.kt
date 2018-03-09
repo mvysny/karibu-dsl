@@ -12,7 +12,6 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcons
-import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -134,16 +133,3 @@ fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinD
         = init(TextField(label), block)
 fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {})
         = init(TextArea(label), block)
-
-/**
- * Sets the component's [FlexComponent.getFlexGrow]. Only works when the component is nested in a [FlexComponent].
- */
-var (@VaadinDsl Component).flexGrow: Double
-    get() = (parent.get() as FlexComponent<*>).getFlexGrow(this)
-    set(value) { (parent.get() as FlexComponent<*>).setFlexGrow(value, this) }
-/**
- * Checks if the component expands when nested in [FlexComponent].
- */
-var (@VaadinDsl Component).isExpand: Boolean
-    get() = flexGrow > 0
-    set(value) { flexGrow = if (value) 1.0 else 0.0 }
