@@ -106,7 +106,7 @@ fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> U
  * The default content align is set to `content { horizontalAlignment = left; verticalAlignment = top }`.
  */
 fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {}) = init(VerticalLayout(), {
-    contentAlign { h = hStart; v = vStart }
+    content { align(left, top) }
     block()
 })
 /**
