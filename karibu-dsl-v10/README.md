@@ -108,7 +108,8 @@ not work as you expect. With Vaadin 8 the child would fill the slot allocated by
 there are no slots; setting the width to `100%` would make the component match the width of parent - it would set it to be as wide as
 the HorizontalLayout is.
 
-Instead of setting the width of the child to `100%`, set the width to some ideal width, say, `100px`. The child will initially be exactly
+Instead of setting the width of the child to `100%`, set the width to some ideal width, say, `100px` (or `null` to wrap its contents).
+The child will initially be exactly
 as wide as you tell it to be; if you use `flexGrow` the component will enlarge itself automatically.
 
 To alter the layout further, call the following properties on children:
@@ -117,6 +118,9 @@ is automatically enlarged.
 * `verticalAlignSelf` to align child vertically; it is not possible to align particular child horizontally
 * `flexShrink` - when there is not enough room for all children then they are shrank
 * `flexBasis`
+
+Please read the [Vaadin 10 server-side layouting for Vaadin 8 and Android developers](http://mavi.logdown.com/posts/6855605) for a tutorial on how to
+use `VerticalLayout`/`HorizontalLayout`.
 
 ### Writing your own components
 
