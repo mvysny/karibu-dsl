@@ -118,7 +118,7 @@ enum class AlignContent(val flexValue: String) {
 }
 
 /**
- * Gets or sets a vertical alignment for individual components inside the [HorizontalLayout].
+ * Only to be used with children of [HorizontalLayout]: Gets or sets a vertical alignment for individual components inside the [HorizontalLayout].
  * This individual alignment for the component overrides any alignment set
  * at the [HorizontalLayout.setDefaultVerticalComponentAlignment].
  *
@@ -136,7 +136,7 @@ var (@VaadinDsl Component).verticalAlignSelf: FlexComponent.Alignment
     set(value) { (parent.get() as HorizontalLayout).setVerticalComponentAlignment(value, this) }
 
 /**
- * Gets or sets a horizontal alignment for individual components inside the [VerticalLayout].
+ * Only to be used with children of [VerticalLayout]: gets or sets a horizontal alignment for individual components inside the [VerticalLayout].
  * This individual alignment for the component overrides any alignment set
  * at the [VerticalLayout.setDefaultHorizontalComponentAlignment].
  *
@@ -150,34 +150,6 @@ var (@VaadinDsl Component).horizontalAlignSelf: FlexComponent.Alignment
     get() = (parent.get() as VerticalLayout).getHorizontalComponentAlignment(this)
     set(value) { (parent.get() as VerticalLayout).setHorizontalComponentAlignment(value, this) }
 
-/**
- * This aligns the container's components within when there is extra space. See [justify-content](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#article-header-id-6)
- * for more details but rotate the sample image 90 degrees clockwise :-D
- *
- * Note: contrary to [VerticalLayout.setDefaultHorizontalComponentAlignment] this setting can not be overridden by individual children. This is a limitation of
- * the flex layout. That's why this property does not have the `default` prefix. Calling [verticalAlignSelf] on children will throw an exception.
- *
- * Note: This is just an alias for [FlexComponent.justifyContentMode] but the naming
- * of this property is more consistent with [horizontalAlignSelf] and [VerticalLayout.setDefaultHorizontalComponentAlignment].
- */
-var (@VaadinDsl VerticalLayout).verticalContentAlignment: FlexComponent.JustifyContentMode
-    get() = justifyContentMode
-    set(value) { justifyContentMode = value }
-
-/**
- * This aligns the container's components within when there is extra space. See [justify-content](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#article-header-id-6)
- * for more details.
- *
- * Note: contrary to [HorizontalLayout.setDefaultVerticalComponentAlignment] this setting can not be overridden by individual children. This is a limitation of
- * the flex layout. That's why this property does not have the `default` prefix. Calling [horizontalAlignSelf] on children will throw an exception.
- *
- * Note: This is just an alias for [FlexComponent.justifyContentMode] but the naming
- * of this property is more consistent with [verticalAlignSelf] and [HorizontalLayout.setDefaultVerticalComponentAlignment].
- */
-var (@VaadinDsl HorizontalLayout).horizontalComponentAlignment: FlexComponent.JustifyContentMode
-    get() = justifyContentMode
-    set(value) { justifyContentMode = value }
-
 class HorizontalLayoutContent(private val owner: HorizontalLayout) {
     /**
      * This aligns the container's components within when there is extra space. See [justify-content](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#article-header-id-6)
@@ -185,12 +157,10 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
      *
      * Note: contrary to [verticalAlignment] this setting can not be overridden by individual children. This is a limitation of
      * the flex layout. Calling [horizontalAlignSelf] on children will throw an exception.
-     *
-     * Note: This is just an alias for [horizontalComponentAlignment].
      */
     var horizontalAlignment: FlexComponent.JustifyContentMode
-        get() = owner.horizontalComponentAlignment
-        set(value) { owner.horizontalComponentAlignment = value }
+        get() = owner.justifyContentMode
+        set(value) { owner.justifyContentMode = value }
 
     /**
      * The default vertical alignment to be used by all components without
@@ -328,12 +298,10 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
      *
      * Note: contrary to [horizontalAlignment] this setting can not be overridden by individual children. This is a limitation of
      * the flex layout. Calling [verticalAlignSelf] on children will throw an exception.
-     *
-     * Note: This is just an alias for [verticalContentAlignment].
      */
     var verticalAlignment: FlexComponent.JustifyContentMode
-        get() = owner.verticalContentAlignment
-        set(value) { owner.verticalContentAlignment = value }
+        get() = owner.justifyContentMode
+        set(value) { owner.justifyContentMode = value }
 
     /**
      * Children are positioned to the left of the available space.
