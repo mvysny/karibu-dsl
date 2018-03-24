@@ -103,7 +103,7 @@ fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> U
  * Creates a [Vertical Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  *
- * The default content align is set to `content { horizontalAlignment = left; verticalAlignment = top }`.
+ * The default content align is set to `content { align(left, top) }`.
  */
 fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {}) = init(VerticalLayout(), {
     content { align(left, top) }
@@ -113,7 +113,7 @@ fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout)
  * Creates a [Horizontal Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  *
- * The default content align is set to `content { horizontalAlignment = left; verticalAlignment = baseline }`.
+ * The default content align is set to `content { align(left, baseline) }`.
  */
 fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).() -> Unit = {}) = init(HorizontalLayout(), {
     content { align(left, baseline) }
