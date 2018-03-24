@@ -4,6 +4,10 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.shared.util.SharedUtil
+import java.beans.Introspector
+import java.beans.PropertyDescriptor
+import java.lang.reflect.Method
+import java.util.Comparator
 import kotlin.reflect.KProperty1
 
 fun <T : Any?> (@VaadinDsl HasComponents).grid(block: (@VaadinDsl Grid<T>).() -> Unit = {}) = init(Grid(), block)
@@ -69,6 +73,8 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
     get() = throw UnsupportedOperationException("Unsupported")
     set(value) {
         setSortProperty(value.name)
+        // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
+        setComparator(compareBy { value.get(it) as Comparable<*> })
     }
 
 /**
@@ -77,3 +83,80 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
  */
 fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
     getColumnByKey(property.name) ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.key } .filterNotNull()}")
+
+/**
+ * Returns the getter method for given property name; fails if there is no such getter.
+ */
+fun Class<*>.getGetter(propertyName: String): Method {
+    val descriptors: Array<out PropertyDescriptor> = Introspector.getBeanInfo(this).propertyDescriptors
+    val descriptor: PropertyDescriptor? = descriptors.firstOrNull { it.name == propertyName }
+    requireNotNull(descriptor) { "No such field '$propertyName' in $this; available properties: ${descriptors.joinToString { it.name }}" }
+    val getter: Method = requireNotNull(descriptor!!.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
+    return getter
+}
+
+/**
+ * Returns a [Comparator] which compares values of given property name.
+ */
+fun <T> Class<T>.getPropertyComparator(propertyName: String): Comparator<T> {
+    val getter = getGetter(propertyName)
+    return compareBy { it: T? -> if (it == null) null else getter.invoke(it) as Comparable<*> }
+}
+
+/**
+ * Adds a column for given [propertyName]. The column key is set to the property name, so that you can look up the column
+ * using [getColumnBy]. The column is also by default set to sortable
+ * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
+ *
+ * This method should only be used when you have a Grid backed by a Java class which does not have properties exposed as [KProperty1]; for Kotlin
+ * class-backed Grids you should use `addColumnFor(KProperty1)`
+ * @param converter optionally converts the property value [V] to something else, typically to a String. Use this for formatting of the value.
+ * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @param V the value that the column will display.
+ * @return the newly created column
+ */
+inline fun <reified T, reified V> Grid<T>.addColumnFor(propertyName: String,
+                                                       sortable: Boolean = true,
+                                                       noinline converter: (V?)->Any? = { it },
+                                                       block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> {
+    val getter: Method = T::class.java.getGetter(propertyName)
+    return addColumn({ it: T -> converter(V::class.java.cast(getter.invoke(it))) }).apply {
+        key = propertyName
+        if (sortable) {
+            setSortProperty(propertyName)
+            // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
+            setComparator(T::class.java.getPropertyComparator(propertyName))
+        }
+        setHeader(SharedUtil.camelCaseToHumanFriendly(propertyName))
+        block()
+    }
+}
+
+/**
+ * Adds a column for given [propertyName], using given [renderer]. The column key is set to the property name, so that you can look up the column
+ * using [getColumnBy]. The column is also by default set to sortable
+ * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
+ *
+ * This method should only be used when you have a Grid backed by a Java class which does not have properties exposed as [KProperty1]; for Kotlin
+ * class-backed Grids you should use `addColumnFor(KProperty1)`
+ * @param renderer
+ * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @param V the value that the column will display, deduced from the type of the [property].
+ * @return the newly created column
+ */
+inline fun <reified T, reified V> Grid<T>.addColumnFor(propertyName: String,
+                                                       renderer: Renderer<T>,
+                                                       sortable: Boolean = true,
+                                                       block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
+    addColumn(renderer).apply {
+        key = propertyName
+        if (sortable) {
+            setSortProperty(propertyName)
+            // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
+            setComparator(T::class.java.getPropertyComparator(propertyName))
+        }
+        setHeader(SharedUtil.camelCaseToHumanFriendly(propertyName))
+        block()
+    }
