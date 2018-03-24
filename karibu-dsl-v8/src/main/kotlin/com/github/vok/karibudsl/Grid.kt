@@ -3,6 +3,7 @@ package com.github.vok.karibudsl
 import com.vaadin.data.SelectionModel
 import com.vaadin.data.provider.DataProvider
 import com.vaadin.event.selection.SelectionEvent
+import com.vaadin.shared.util.SharedUtil
 import com.vaadin.ui.Grid
 import com.vaadin.ui.HasComponents
 import com.vaadin.ui.renderers.TextRenderer
@@ -13,10 +14,11 @@ import kotlin.reflect.KProperty1
 
 /**
  * Creates a grid.
- * @param itemClass host items of this class. If not null, columns are created automatically for this class.
+ * @param itemClass host items of this class. If not null, columns are created automatically for this class. This is not recommended:
+ * https://github.com/mvysny/karibu-dsl/issues/4
  */
 fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
-        init(if (itemClass == null) Grid<T>() else Grid<T>(itemClass.java)) {
+        init(if (itemClass == null) Grid() else Grid<T>(itemClass.java)) {
             this.caption = caption
             if (dataProvider != null) this.dataProvider = dataProvider
             block()
@@ -29,7 +31,7 @@ fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, capti
 fun <T> (@VaadinDsl Grid<T>).showColumns(vararg ids: KProperty1<T, *>) = setColumns(*ids.map { it.name }.toTypedArray())
 
 /**
- * Allows you to configure a particular column in a Grid. E.g.:
+ * Allows you to re-configure a particular column in a Grid. E.g.:
  * ```
  * grid(...) {
  *   showColumns(Person::name, Person::age)
@@ -43,31 +45,10 @@ fun <T> (@VaadinDsl Grid<T>).showColumns(vararg ids: KProperty1<T, *>) = setColu
 fun <T, V> (@VaadinDsl Grid<T>).column(prop: KProperty1<T, V>, block: (@VaadinDsl Grid.Column<T, V>).() -> Unit = {}): Grid.Column<T, V> =
         (getColumn(prop.name) as Grid.Column<T, V>).apply { block() }
 
-@Suppress("UNCHECKED_CAST")
-class ConvertingRenderer<V>(private val converter: (V)->String) : TextRenderer() {
-    override fun encode(value: Any?): JsonValue {
-        return if (value == null) super.encode(value) else Json.create(converter(value as V))
-    }
-}
-
 /**
  * Removes column showing given [property].
  */
 fun <T, V> (@VaadinDsl Grid<T>).removeColumn(property: KProperty1<T, V>) = removeColumn(property.name)
-
-/**
- * Utility method which adds a column showing given [property]; important difference is that
- * instead of a [Renderer] the value is converted to String using [converter]. Example of use:
- *
- * ```
- * grid.addColumn(Person::dateOfBirth, { it -> SimpleDateFormat("yyyy-MM-dd").format(it) }) {
- *     caption = "Date of Birth"
- * }
- * ```
- */
-@Suppress("UNCHECKED_CAST")
-fun <T, V> (@VaadinDsl Grid<T>).addColumn(property: KProperty1<T, V>, converter: (V)->String, block: Grid.Column<T, V>.() -> Unit = {}): Grid.Column<T, V> =
-        (addColumn(property.name, ConvertingRenderer(converter)) as Grid.Column<T, V>).apply { block() }
 
 /**
  * Refreshes the Grid and re-polls for data.
@@ -77,3 +58,23 @@ fun (@VaadinDsl Grid<*>).refresh() = dataProvider.refreshAll()
 val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*>
 val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*>
 val SelectionEvent<*>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
+
+/**
+ * Adds a new column for given [property] which is by default sortable. The [Grid.Column.setId]
+ * is set to property name, the column caption is set by converting camelCase to Human Friendly.
+ */
+fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V>, block: Grid.Column<T, V>.() -> Unit = {}): Grid.Column<T, V> =
+        addColumn(property).apply {
+            id = property.name
+            caption = SharedUtil.propertyIdToHumanFriendly(property.name)
+            block()
+        }
+
+/**
+ * Retrieves the column for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
+ * @throws IllegalArgumentException if no such column exists.
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T, V> Grid<T>.getColumnBy(property: KProperty1<T, V>): Grid.Column<T, V> =
+        getColumn(property.name) as Grid.Column<T, V>?
+                ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.id }.filterNotNull()}")
