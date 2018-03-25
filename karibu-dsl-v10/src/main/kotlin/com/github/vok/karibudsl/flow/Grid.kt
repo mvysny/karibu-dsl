@@ -2,6 +2,7 @@ package com.github.vok.karibudsl.flow
 
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
@@ -12,7 +13,10 @@ import java.lang.reflect.Method
 import java.util.Comparator
 import kotlin.reflect.KProperty1
 
-fun <T : Any?> (@VaadinDsl HasComponents).grid(block: (@VaadinDsl Grid<T>).() -> Unit = {}) = init(Grid(), block)
+fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) = init(Grid<T>()) {
+    if (dataProvider != null) this.dataProvider = dataProvider
+    block()
+}
 
 /**
  * Refreshes the Grid and re-polls for data.
