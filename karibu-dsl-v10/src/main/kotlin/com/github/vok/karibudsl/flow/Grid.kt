@@ -3,6 +3,8 @@ package com.github.vok.karibudsl.flow
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.data.renderer.Renderer
+import com.vaadin.flow.data.selection.SelectionEvent
+import com.vaadin.flow.data.selection.SelectionModel
 import com.vaadin.flow.shared.util.SharedUtil
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
@@ -11,6 +13,15 @@ import java.util.Comparator
 import kotlin.reflect.KProperty1
 
 fun <T : Any?> (@VaadinDsl HasComponents).grid(block: (@VaadinDsl Grid<T>).() -> Unit = {}) = init(Grid(), block)
+
+/**
+ * Refreshes the Grid and re-polls for data.
+ */
+fun (@VaadinDsl Grid<*>).refresh() = dataProvider.refreshAll()
+
+val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*>
+val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*>
+val SelectionEvent<*>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
 
 /**
  * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
