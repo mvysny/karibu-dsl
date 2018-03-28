@@ -23,9 +23,9 @@ fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>?
  */
 fun (@VaadinDsl Grid<*>).refresh() = dataProvider.refreshAll()
 
-val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*>
-val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*>
-val SelectionEvent<*>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
+val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*, *>
+val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*, *>
+val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
 
 /**
  * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column

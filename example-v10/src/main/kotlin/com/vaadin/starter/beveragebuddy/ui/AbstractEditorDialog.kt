@@ -87,11 +87,6 @@ abstract class AbstractEditorDialog<T : Serializable> protected constructor(priv
     init {
         isCloseOnEsc = true
         isCloseOnOutsideClick = false
-        addOpenedChangeListener({
-            if (!isOpened) {
-                element.removeFromParent();
-            }
-        })
 
         titleField = h2()
         div {
