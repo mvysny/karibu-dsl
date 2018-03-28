@@ -49,7 +49,6 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven { url 'https://maven.vaadin.com/vaadin-addons' }
         maven { url 'https://maven.vaadin.com/vaadin-prereleases' }
         maven { url "https://dl.bintray.com/mvysny/github" }
     }
