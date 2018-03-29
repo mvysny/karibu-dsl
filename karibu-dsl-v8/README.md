@@ -85,6 +85,8 @@ See [Example MyUI.kt](../example-v8/src/main/kotlin/com/github/vok/karibudsl/exa
 
 3. To navigate to given view, just call `navigateToView<YourView>()`.
 
+Please read more in the Vaadin-on-Kotlin [Navigating in your app](http://www.vaadinonkotlin.eu/navigating.html) documentation.
+
 #### Background on this
 
 The mapping is generally done by converting the CamelCaseView Kotlin
