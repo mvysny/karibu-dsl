@@ -65,7 +65,7 @@ In case of questions you can always [browse the sample project sources here](../
 
 ### Navigator examples
 
-The navigator resolves http paths to views, in order to show different parts of the app to the user. For example,
+The Vaadin `Navigator` resolves http paths to views, in order to show different parts of the app to the user. For example,
 when the user navigates to `http://localhost:8080/invoices` the Navigator makes sure that the `InvoicesView` UI component is shown. 
 See [Vaadin Book on Navigator](https://vaadin.com/docs/-/part/framework/advanced/advanced-navigator.html) for more details.
 
