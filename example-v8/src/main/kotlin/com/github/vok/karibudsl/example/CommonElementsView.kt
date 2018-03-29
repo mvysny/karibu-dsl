@@ -28,9 +28,14 @@ class CommonElementsView : VerticalLayout(), View {
                     cssLayout {
                         caption = "Show the loading indicator for…"
                         styleName = ValoTheme.LAYOUT_COMPONENT_GROUP
-                        button("0.8", { Thread.sleep(800) })
-                        button("3", { Thread.sleep(3000) })
-                        button("15", { Thread.sleep(15000) }) {
+                        button("0.8") {
+                            onLeftClick { Thread.sleep(800) }
+                        }
+                        button("3") {
+                            onLeftClick { Thread.sleep(3000) }
+                        }
+                        button("15") {
+                            onLeftClick { Thread.sleep(15000) }
                             styleName = "last"
                         }
                         label {

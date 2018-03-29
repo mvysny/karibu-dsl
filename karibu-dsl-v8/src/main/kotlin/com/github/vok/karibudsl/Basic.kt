@@ -9,10 +9,8 @@ import com.vaadin.ui.themes.ValoTheme
 @DslMarker
 annotation class VaadinDsl
 
-fun (@VaadinDsl HasComponents).button(caption: String? = null, leftClickListener: ((Button.ClickEvent)->Unit)? = null, block: (@VaadinDsl Button).() -> Unit = {})
-        = init(Button(caption), block).apply {
-    if (leftClickListener != null) onLeftClick(leftClickListener)
-}
+fun (@VaadinDsl HasComponents).button(caption: String? = null, block: (@VaadinDsl Button).() -> Unit = {})
+        = init(Button(caption), block)
 
 fun (@VaadinDsl HasComponents).image(caption: String? = null, resource: Resource? = null, block: (@VaadinDsl Image).()->Unit = {}) = init(Image(caption, resource), block)
 
