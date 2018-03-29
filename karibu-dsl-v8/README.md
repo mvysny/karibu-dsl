@@ -63,54 +63,6 @@ In case of questions you can always [browse the sample project sources here](../
 
 ## Tutorials
 
-### Navigator examples
-
-The Vaadin `Navigator` resolves http paths to views, in order to show different parts of the app to the user. For example,
-when the user navigates to `http://localhost:8080/invoices` the Navigator makes sure that the `InvoicesView` UI component is shown. 
-See [Vaadin Book on Navigator](https://vaadin.com/docs/-/part/framework/advanced/advanced-navigator.html) for more details.
-
-Karibu-DSL adds additional support for View auto-discovery:
-
-1. You need to register the Karibu's `autoViewProvider`, in your `UI.init()` as follows:
-```kotlin
-    fun init() {
-        navigator = Navigator(this, content as ViewDisplay)
-        navigator.addProvider(autoViewProvider)
-    }
-```
-See [Example MyUI.kt](../example-v8/src/main/kotlin/com/github/vok/karibudsl/example/MyUI.kt) for a working code example.
-
-2. Then annotate your Views with `@AutoView` annotation and that's it - `autoViewProvider` will
-   discover your view and register it to the navigator.
-
-3. To navigate to given view, just call `navigateToView<YourView>()`.
-
-Please read more in the Vaadin-on-Kotlin [Navigating in your app](http://www.vaadinonkotlin.eu/navigating.html) documentation.
-
-#### Background on this
-
-The mapping is generally done by converting the CamelCaseView Kotlin
-class naming convention to hyphen-separated string `camel-case-view` and drops the trailing `-view`.
-You can always override the name in the `@AutoView` annotation, e.g. you can make one view
-'primary' by mapping it to an empty view `@AutoView("")` - this view will be shown initially when the user
-browses your app.
-
-For example, URL [http://localhost:8080/my-form](http://localhost:8080/my-form) 
-will navigate towards the class named `MyFormView` (which must be of course annotated with `@AutoView`). The mapping is done by
-the `autoViewProvider` and the `@AutoView` annotation, just check out the Kotlin documentation on those two guys.
-
-> Historical reason for the shebang `#!` URL part: When the URL changes, 
-the browser reloads the whole page. This we want to avoid with Vaadin, since Vaadin is used in so-called
-*single-page web app*: on navigation, the page is not reloaded completely, instead only the page contents are mutated with the new View.
-The only way to achieve this
-is to change the 'fragment' portion of the URL only - only then the browser won't reload the page. That explain
-the hash # part. The bang part is used for indexing: Google indexer usually ignores fragment since it points
-into the same document, just to a different part. However, that's not the case with single-page self-modifying
-apps, so we tell Google by using `#!` that the fragment differ and Google need to index that as well.
-
-However, Vaadin 8 now supports HTML 5 history API which allows us to use simple plain URLs. Just make sure that your
-UI is annotated with `@PushStateNavigation`.
-
 ### How to write DSLs for Vaadin 8 and Vaadin8-v7-compat
 
 The following example shows a really simple form with two fields and one "Save" button (todo screenshot).
@@ -157,10 +109,63 @@ verticalLayout7 {
 }
 ```
 
+Read more at the [Creating UIs](http://www.vaadinonkotlin.eu/creating_ui.html) Vaadin-on-Kotlin guide.
+
+For technical explanation on how this works, please read the [Using DSL to write structured UI code](http://mavi.logdown.com/posts/7073786)
+article.
+
 #### More complex examples:
 
 * More complex form: see the example [FormView](../example-v8/src/main/kotlin/com/github/vok/karibudsl/example/form/FormView.kt) for details
 * A Grid example: see the example project for details @todo link for v8 and v7-compat forms
+
+### Navigator examples
+
+The Vaadin `Navigator` resolves http paths to views, in order to show different parts of the app to the user. For example,
+when the user navigates to `http://localhost:8080/invoices` the Navigator makes sure that the `InvoicesView` UI component is shown.
+See [Vaadin Book on Navigator](https://vaadin.com/docs/-/part/framework/advanced/advanced-navigator.html) for more details.
+
+Karibu-DSL adds additional support for View auto-discovery:
+
+1. You need to register the Karibu's `autoViewProvider`, in your `UI.init()` as follows:
+```kotlin
+    fun init() {
+        navigator = Navigator(this, content as ViewDisplay)
+        navigator.addProvider(autoViewProvider)
+    }
+```
+See [Example MyUI.kt](../example-v8/src/main/kotlin/com/github/vok/karibudsl/example/MyUI.kt) for a working code example.
+
+2. Then annotate your Views with `@AutoView` annotation and that's it - `autoViewProvider` will
+   discover your view and register it to the navigator.
+
+3. To navigate to given view, just call `navigateToView<YourView>()`.
+
+Please read more in the Vaadin-on-Kotlin [Navigating in your app](http://www.vaadinonkotlin.eu/navigating.html) documentation.
+
+#### Background on this
+
+The mapping is generally done by converting the CamelCaseView Kotlin
+class naming convention to hyphen-separated string `camel-case-view` and drops the trailing `-view`.
+You can always override the name in the `@AutoView` annotation, e.g. you can make one view
+'primary' by mapping it to an empty view `@AutoView("")` - this view will be shown initially when the user
+browses your app.
+
+For example, URL [http://localhost:8080/my-form](http://localhost:8080/my-form)
+will navigate towards the class named `MyFormView` (which must be of course annotated with `@AutoView`). The mapping is done by
+the `autoViewProvider` and the `@AutoView` annotation, just check out the Kotlin documentation on those two guys.
+
+> Historical reason for the shebang `#!` URL part: When the URL changes,
+the browser reloads the whole page. This we want to avoid with Vaadin, since Vaadin is used in so-called
+*single-page web app*: on navigation, the page is not reloaded completely, instead only the page contents are mutated with the new View.
+The only way to achieve this
+is to change the 'fragment' portion of the URL only - only then the browser won't reload the page. That explain
+the hash # part. The bang part is used for indexing: Google indexer usually ignores fragment since it points
+into the same document, just to a different part. However, that's not the case with single-page self-modifying
+apps, so we tell Google by using `#!` that the fragment differ and Google need to index that as well.
+
+However, Vaadin 8 now supports HTML 5 history API which allows us to use simple plain URLs. Just make sure that your
+UI is annotated with `@PushStateNavigation`.
 
 #### Simple popups
 
