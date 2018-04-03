@@ -1,3 +1,5 @@
+[![GitHub tag](https://img.shields.io/github/tag/mvysny/karibu-dsl.svg)](https://github.com/mvysny/karibu-dsl/tags)
+
 # Vaadin 8 DSL
 
 ## Using in your projects
@@ -19,7 +21,7 @@ dependencies {
 }
 ```
 
-> Note: obtain the newest version from the release name, and the tag name as well: [https://github.com/mvysny/karibu-dsl/releases](https://github.com/mvysny/karibu-dsl/releases)
+> Note: obtain the newest version from the latest tag name above
 
 However, to quickly test out Karibu DSL you can simply start with one
 of the example applications below.
