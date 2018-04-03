@@ -41,8 +41,8 @@ cd karibu-helloworld-application
 
 The app will run on [http://localhost:8080](http://localhost:8080).
 
-Please see the [archetype github page](https://github.com/mvysny/karibu-helloworld-application) for further
-details on development.
+Please see the [Karibu Helloworld Application Archetype Github Page](https://github.com/mvysny/karibu-helloworld-application) for further
+details on development. A Maven-based archetype is also available: [Karibu Helloworld Application Maven](https://github.com/mvysny/karibu-helloworld-application-maven).
 
 ### "Component Palette" App
 
