@@ -16,20 +16,12 @@
 package com.vaadin.starter.beveragebuddy.ui.converters
 
 
-import com.vaadin.flow.templatemodel.ModelConverter
+import com.vaadin.flow.templatemodel.ModelEncoder
 
 /**
  * @author Vaadin Ltd
  */
-
-class LongToStringConverter : ModelConverter<Long, String> {
-
-    override fun toPresentation(modelValue: Long?): String? {
-        return modelValue?.toString()
-    }
-
-    override fun toModel(presentationValue: String?): Long? {
-        return if (presentationValue == null) null else java.lang.Long.parseLong(presentationValue)
-    }
-
+class LongToStringConverter : ModelEncoder<Long, String> {
+    override fun encode(value: Long?) = value?.toString()
+    override fun decode(value: String?): Long? = value?.toLong()
 }

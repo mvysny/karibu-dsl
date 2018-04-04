@@ -57,7 +57,7 @@ object ReviewService {
                 review.category?.name,
                 review.score.toString(),
                 review.count.toString(),
-                dateConverter.toPresentation(review.date)).filterNotNull()
+                dateConverter.encode(review.date)).filterNotNull()
     }
 
     /**

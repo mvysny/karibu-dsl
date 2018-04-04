@@ -15,9 +15,6 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.ComponentUtil
-import com.vaadin.flow.templatemodel.Convert
 import com.vaadin.flow.templatemodel.TemplateModel
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -38,6 +35,7 @@ import com.vaadin.flow.component.polymertemplate.ModelItem
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.value.ValueChangeMode
+import com.vaadin.flow.templatemodel.Encode
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -64,10 +62,10 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
 
     interface ReviewsModel : TemplateModel {
         // remove this when https://youtrack.jetbrains.com/issue/KT-12794 is fixed
-        @Convert.Container(
-        Convert(value = LongToStringConverter::class, path = "id"),
-        Convert(value = LocalDateToStringConverter::class, path = "date"),
-        Convert(value = LongToStringConverter::class, path = "category.id")
+        @com.vaadin.flow.templatemodel.Encode.Container(
+        Encode(value = LongToStringConverter::class, path = "id"),
+            Encode(value = LocalDateToStringConverter::class, path = "date"),
+            Encode(value = LongToStringConverter::class, path = "category.id")
         )
         // suppress wildcards: Kotlin generates List<? extends Review> which Flow doesn't like much and will fail with an exception.
         fun setReviews(reviews: @JvmSuppressWildcards List<Review>)
