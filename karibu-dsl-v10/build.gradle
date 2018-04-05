@@ -24,10 +24,6 @@ dependencies {
 
     // Vaadin
     compile "com.vaadin:vaadin-core:$vaadin10_version"
-    // fixes incompatibility of vaadin-dialog with vaadin beta5. Remove this dep on upgrade to vaadin beta6 and above.
-    compile "com.vaadin:vaadin-dialog-flow:1.0.0.beta3"
-    compile "com.vaadin:vaadin-notification-flow:1.0.0.beta4"
-
     compile 'javax.servlet:javax.servlet-api:3.1.0'
 
     // IDEA language injections
