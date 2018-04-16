@@ -24,9 +24,9 @@ import com.vaadin.ui.themes.ValoTheme
  *           item("Sign Out")
  *         }
  *       }
- *       menuButton(VaadinIcons.WALLET, "Shoes")
- *       menuButton(VaadinIcons.GLASS, "Liquer", badge = "3")
- *       separator("Other")
+ *       menuButton("Shoes", VaadinIcons.WALLET)
+ *       menuButton("Liquer", VaadinIcons.GLASS, badge = "3")
+ *       section("Other")
  *     }
  *     navigator = Navigator(this, content as ViewDisplay)
  *     ...
