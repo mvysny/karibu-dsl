@@ -1,10 +1,11 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.ClickEvent
-import com.vaadin.flow.component.ClickNotifier
+import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.*
+import org.intellij.lang.annotations.Language
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+import org.jsoup.nodes.TextNode
 
 fun (@VaadinDsl HasComponents).div(block: (@VaadinDsl Div).() -> Unit = {}) = init(Div(), block)
 
@@ -33,4 +34,14 @@ set(value) { setPlaceholder(value) }
 fun (@VaadinDsl HasComponents).nativeButton(block: (@VaadinDsl NativeButton).() -> Unit = {}) = init(NativeButton(), block)
 fun (@VaadinDsl ClickNotifier).onLeftClick(leftClickListener: (ClickEvent)->Unit) {
     addClickListener(leftClickListener)
+}
+
+fun (@VaadinDsl HasComponents).html(@Language("html") html: String) {
+    val doc: Element = Jsoup.parse(html).body()
+    for (childNode in doc.childNodes()) {
+        when(childNode) {
+            is TextNode -> text(childNode.text())
+            is Element -> add(Html(childNode.outerHtml()))
+        }
+    }
 }
