@@ -36,6 +36,15 @@ fun (@VaadinDsl ClickNotifier).onLeftClick(leftClickListener: (ClickEvent)->Unit
     addClickListener(leftClickListener)
 }
 
+/**
+ * Adds given html snippet into the current element. Way better than [Html] since:
+ * * It doesn't ignore root text nodes
+ * * It supports multiple elements.
+ * Example of use:
+ * ```
+ * div { html("I <strong>strongly</strong> believe in <i>openness</i>") }
+ * ```
+ */
 fun (@VaadinDsl HasComponents).html(@Language("html") html: String) {
     val doc: Element = Jsoup.parse(html).body()
     for (childNode in doc.childNodes()) {
