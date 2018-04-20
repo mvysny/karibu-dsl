@@ -30,18 +30,18 @@ fun <R> R.serverClick() where R : Component, R : HasClickListeners<R> {
 fun (@VaadinDsl HasComponents).text(text: String, block: (@VaadinDsl Text).() -> Unit = {}) = init(Text(text), block)
 
 /**
- * Navigates to given view: `navigateTo<AdminView>()`
+ * Navigates to given view: `navigateToView<AdminView>()`
  */
-inline fun <reified T: Component> navigateTo() {
+inline fun <reified T: Component> navigateToView() {
     UI.getCurrent().apply {
         navigate(router.getUrl(T::class.java))
     }
 }
 
 /**
- * Navigates to given view with parameters: `navigateTo<DocumentView>(25L)`
+ * Navigates to given view with parameters: `navigateToView<DocumentView>(25L)`
  */
-inline fun <C, reified T> navigateTo(vararg params: C) where T: Component, T: HasUrlParameter<C> {
+inline fun <C, reified T> navigateToView(vararg params: C) where T: Component, T: HasUrlParameter<C> {
     require(params.isNotEmpty()) { "No parameters passed in" }
     UI.getCurrent().apply {
         val url: String = if (params.size == 1) router.getUrl(T::class.java, params[0]) else router.getUrl(T::class.java, params.toList())
