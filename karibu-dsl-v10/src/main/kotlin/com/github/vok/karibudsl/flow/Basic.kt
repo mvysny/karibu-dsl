@@ -48,3 +48,10 @@ inline fun <C, reified T> navigateToView(vararg params: C) where T: Component, T
         navigate(url)
     }
 }
+
+/**
+ * Sets the alignment of the text in the component. One of `center`, `left`, `right`, `justify`.
+ */
+var Component.textAlign: String?
+    get() = element.style.get("textAlign")
+    set(value) { element.style.set("textAlign", value) }
