@@ -12,7 +12,7 @@ import java.time.LocalDate
 import kotlin.test.*
 
 class DateRangePopupTest : DynaTest({
-    beforeEach { MockVaadin.setup(setOf()) }
+    beforeEach { MockVaadin.setup() }
     lateinit var component: DateRangePopup
     beforeEach { component = DateRangePopup() }
 

@@ -13,7 +13,7 @@ import kotlin.test.expect
 
 class CategoriesListTest : DynaTest({
 
-    beforeEach { MockVaadin.setup(autoDiscoverViews("com.vaadin.starter")) }
+    beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
 
     test("grid has 9 rows") {
         UI.getCurrent().navigate("categories")

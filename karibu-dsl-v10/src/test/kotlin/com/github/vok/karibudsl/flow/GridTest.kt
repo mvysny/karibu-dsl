@@ -15,7 +15,7 @@ import kotlin.streams.toList
 import kotlin.test.expect
 
 class GridTest : DynaTest({
-    beforeEach { MockVaadin.setup(setOf()) }
+    beforeEach { MockVaadin.setup() }
 
     group("addColumnFor tests") {
         test("grid addColumnFor works both for nullable and non-null properties") {

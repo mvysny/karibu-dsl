@@ -7,7 +7,7 @@ import com.vaadin.flow.component.button.Button
 import kotlin.test.expect
 
 class FlexComponentsTest : DynaTest({
-    beforeEach { MockVaadin.setup(setOf()) }
+    beforeEach { MockVaadin.setup() }
 
     group("flexGrow") {
         test("flexGrow works even when the component is not yet attached to parent") {
