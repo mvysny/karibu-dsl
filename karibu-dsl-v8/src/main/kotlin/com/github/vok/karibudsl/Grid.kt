@@ -78,3 +78,19 @@ fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V>, block: 
 fun <T, V> Grid<T>.getColumnBy(property: KProperty1<T, V>): Grid.Column<T, V> =
         getColumn(property.name) as Grid.Column<T, V>?
                 ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.id }.filterNotNull()}")
+
+enum class VAlign { Left, Middle, Right }
+
+/**
+ * Aligns the text in the columns, by using [setStyleGenerator] to set either `v-align-center` or `v-align-right` style.
+ */
+var Grid.Column<*, *>.align: VAlign
+    @Deprecated("Cannot read this property", level = DeprecationLevel.ERROR)
+    get() = throw UnsupportedOperationException("Cannot read this property")
+    set(value) {
+        when (value) {
+            VAlign.Left -> setStyleGenerator(null)
+            VAlign.Middle -> setStyleGenerator { "v-align-center" }
+            VAlign.Right -> setStyleGenerator { "v-align-right" }
+        }
+    }
