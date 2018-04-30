@@ -16,6 +16,7 @@ fun (@VaadinDsl HasComponents).h4(text: String = "", block: (@VaadinDsl H4).() -
 fun (@VaadinDsl HasComponents).h5(text: String = "", block: (@VaadinDsl H5).() -> Unit = {}) = init(H5(text), block)
 fun (@VaadinDsl HasComponents).h6(text: String = "", block: (@VaadinDsl H6).() -> Unit = {}) = init(H6(text), block)
 fun (@VaadinDsl HasComponents).hr(block: (@VaadinDsl Hr).() -> Unit = {}) = init(Hr(), block)
+fun (@VaadinDsl HasComponents).p(text: String = "", block: (@VaadinDsl Paragraph).() -> Unit = {}) = init(Paragraph(text), block)
 
 fun (@VaadinDsl HasComponents).em(text: String? = null, block: (@VaadinDsl Emphasis).() -> Unit = {}) = init(Emphasis(text), block)
 fun (@VaadinDsl HasComponents).span(text: String? = null, block: (@VaadinDsl Span).() -> Unit = {}) = init(Span(text), block)
