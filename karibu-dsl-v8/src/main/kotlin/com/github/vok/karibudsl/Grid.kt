@@ -2,10 +2,12 @@ package com.github.vok.karibudsl
 
 import com.vaadin.data.SelectionModel
 import com.vaadin.data.provider.DataProvider
+import com.vaadin.data.provider.HierarchicalDataProvider
 import com.vaadin.event.selection.SelectionEvent
 import com.vaadin.shared.util.SharedUtil
 import com.vaadin.ui.Grid
 import com.vaadin.ui.HasComponents
+import com.vaadin.ui.TreeGrid
 import com.vaadin.ui.renderers.TextRenderer
 import elemental.json.Json
 import elemental.json.JsonValue
@@ -23,6 +25,13 @@ fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, capti
             if (dataProvider != null) this.dataProvider = dataProvider
             block()
         }
+
+fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}) = init(
+    TreeGrid<T>()
+) {
+    if (dataProvider != null) this.dataProvider = dataProvider
+    block()
+}
 
 /**
  * Causes the Grid to only show given set of columns, and in given order.
