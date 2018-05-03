@@ -1,9 +1,9 @@
 buildscript {
     ext.kotlin_version = '1.2.41'
     ext.vaadin8_version = '8.4.0'
-    ext.vaadin10_version = '10.0.0.beta8'
+    ext.vaadin10_version = '10.0.0.beta9'
     ext.dynatest_version = "0.8"
-    ext.kaributesting_version = "0.4.10"
+    ext.kaributesting_version = "0.4.11"
 
     ext.local = new Properties()
     if (project.rootProject.file('local.properties').exists()) {

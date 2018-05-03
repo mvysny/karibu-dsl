@@ -1,9 +1,6 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.HasClickListeners
-import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.HasElement
+import com.vaadin.flow.component.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.combobox.ComboBox
@@ -48,7 +45,7 @@ val (@VaadinDsl HasElement).themes: ThemeList get() = element.themeList
 /**
  * Adds a [leftClickListener].
  */
-fun <T: Component> (@VaadinDsl HasClickListeners<T>).onLeftClick(leftClickListener: ((HasClickListeners.ClickEvent<T>)->Unit)): Registration =
+fun <T: Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener: ((ClickEvent<T>)->Unit)): Registration =
     addClickListener(leftClickListener)
 
 /**

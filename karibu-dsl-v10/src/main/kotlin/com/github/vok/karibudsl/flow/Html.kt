@@ -33,9 +33,6 @@ get() = placeholder.orElse(null)
 set(value) { setPlaceholder(value) }
 
 fun (@VaadinDsl HasComponents).nativeButton(block: (@VaadinDsl NativeButton).() -> Unit = {}) = init(NativeButton(), block)
-fun (@VaadinDsl ClickNotifier).onLeftClick(leftClickListener: (ClickEvent)->Unit) {
-    addClickListener(leftClickListener)
-}
 
 /**
  * Adds given html snippet into the current element. Way better than [Html] since:

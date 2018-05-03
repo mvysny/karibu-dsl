@@ -1,5 +1,6 @@
 package com.github.vok.karibudsl.flow
 
+import com.vaadin.flow.component.AbstractField
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasValue
@@ -22,8 +23,8 @@ import com.vaadin.flow.shared.Registration
  * @param V the value being edited. Should be immutable, to avoid nasty surprises when somebody changes the fields of the value, since this change
  * does not trigger the value change listeners.
  */
-abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), HasValue<T, V> {
-    private val listeners = mutableListOf<HasValue.ValueChangeListener<T, V>>()
+abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), HasValue<AbstractField.ComponentValueChangeEvent<T, V>, V> {
+    private val listeners = mutableListOf<HasValue.ValueChangeListener<in AbstractField.ComponentValueChangeEvent<T, V>>>()
     private var internalValue: V? = null
     /**
      * If this is true, then we are currently calling [propagateValueInwards] and we want to ignore any calls to
@@ -36,7 +37,7 @@ abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), Ha
             val oldValue = internalValue
             internalValue = value
             @Suppress("UNCHECKED_CAST")
-            val event = HasValue.ValueChangeEvent(this as T, this, oldValue, false)
+            val event = AbstractField.ComponentValueChangeEvent(this as T, this, oldValue, false)
             dontFireListeners = true
             propagateValueInwards(value)
             dontFireListeners = false
@@ -61,18 +62,18 @@ abstract class CustomField<T: CustomField<T, V>, V> : Composite<Component>(), Ha
             val oldValue = internalValue
             internalValue = value
             @Suppress("UNCHECKED_CAST")
-            val event = HasValue.ValueChangeEvent(this as T, this, oldValue, true)
+            val event = AbstractField.ComponentValueChangeEvent(this as T, this, oldValue, true)
             fireListeners(event)
         }
     }
 
     override fun getValue(): V? = internalValue
 
-    private fun fireListeners(value: HasValue.ValueChangeEvent<T, V>) {
-        listeners.forEach { it.onComponentEvent(value) }
+    private fun fireListeners(value: AbstractField.ComponentValueChangeEvent<T, V>) {
+        listeners.forEach { it.valueChanged(value) }
     }
 
-    override fun addValueChangeListener(listener: HasValue.ValueChangeListener<T, V>): Registration {
+    override fun addValueChangeListener(listener: HasValue.ValueChangeListener<in AbstractField.ComponentValueChangeEvent<T, V>>): Registration {
         listeners.add(listener)
         return Registration { listeners.remove(listener) }
     }

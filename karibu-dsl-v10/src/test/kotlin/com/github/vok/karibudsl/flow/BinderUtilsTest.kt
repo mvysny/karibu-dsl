@@ -2,6 +2,8 @@ package com.github.vok.karibudsl.flow
 
 import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.flow.component.AbstractField
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue
@@ -148,7 +150,8 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
     }
 
     fun clear() {
-        listOf<HasValue<*, *>>(fullName, comment, testDouble, testInt, testLong, testBD, testBI).forEach { it.value = "" }
+        listOf<HasValue<AbstractField.ComponentValueChangeEvent<TextField, String>, String>>(fullName, testDouble, testInt, testLong, testBD, testBI).forEach { it.value = "" }
+        comment.value = ""
         dateOfBirth.value = null
         isAlive.value = false
     }
