@@ -19,6 +19,20 @@ class ContainerTest : DynaTest({
     containerBattery(CssLayout::class.java)
     containerBattery(AbsoluteLayout::class.java)
     containerBattery(VerticalLayout::class.java)
+
+    group("expanded") {
+        lateinit var container: VerticalLayout
+        beforeEach { container = VerticalLayout() }
+        test("not expanded by default") {
+            expect(false) { container.label().isExpanded }
+            expect(0f) { container.label().expandRatio }
+        }
+        test("set expanded") {
+            val l = container.label { isExpanded = true }
+            expect(true) { l.isExpanded }
+            expect(1f) { l.expandRatio }
+        }
+    }
 })
 
 fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>) {

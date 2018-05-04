@@ -91,7 +91,7 @@ class NumberFilterPopup : CustomField<NumberInterval<Double>?>() {
                 val buttons = HorizontalLayout().apply {
                     w = fillParent
                     ok = button("Ok") {
-                        expandRatio = 1f
+                        isExpanded = true
                         alignment = Alignment.MIDDLE_RIGHT
                         onLeftClick {
                             try {

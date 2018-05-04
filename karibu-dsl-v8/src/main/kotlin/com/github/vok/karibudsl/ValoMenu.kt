@@ -92,7 +92,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
                     styleName = ValoTheme.MENU_TITLE
                     titleLabel = label {
                         w = wrapContent
-                        expandRatio = 1f
+                        isExpanded = true
                     }
                 }
                 button("Menu") { // only visible when the top bar is shown
@@ -113,7 +113,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
         }
 
         viewPlaceholder = cssLayout {
-            primaryStyleName = "valo-content"; setSizeFull(); expandRatio = 1f
+            primaryStyleName = "valo-content"; setSizeFull(); isExpanded = true
             addStyleName("v-scrollable")
         }
     }

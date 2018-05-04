@@ -299,7 +299,7 @@ private class DemoDialog {
             if (!footerToolbar) {
                 horizontalLayout {
                     w = fillParent; isSpacing = true; styleName = ValoTheme.WINDOW_BOTTOM_TOOLBAR
-                    label("Footer text") { w = wrapContent; expandRatio = 1f }
+                    label("Footer text") { w = wrapContent; isExpanded = true }
                     button("OK") { setPrimary() }
                     button("Cancel")
                 }

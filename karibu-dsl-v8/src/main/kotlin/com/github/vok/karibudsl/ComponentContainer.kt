@@ -74,6 +74,15 @@ var (@VaadinDsl Component).expandRatio: Float
     set(value) = (parent as AbstractOrderedLayout).setExpandRatio(this, value)
 
 /**
+ * Sets the expand ratio of this component with respect to its parent layout. See [AbstractOrderedLayout.setExpandRatio] for more details.
+ *
+ * Fails if this component is not nested inside [AbstractOrderedLayout].
+ */
+var (@VaadinDsl Component).isExpanded: Boolean
+    get() = expandRatio > 0f
+    set(value) { expandRatio = if (value) 1f else 0f }
+
+/**
  * Sets or gets alignment for this component with respect to its parent layout. Use
  * predefined alignments from Alignment class. Fails if the component is not nested inside [AbstractOrderedLayout]
  */

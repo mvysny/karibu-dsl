@@ -84,7 +84,7 @@ class Panels : VerticalLayout(), View {
                     addStyleName("v-panel-caption")
                     w = fillParent
                     label("Panel style layout") {
-                        expandRatio = 1f
+                        isExpanded = true
                     }
                     button {
                         icon = VaadinIcons.PENCIL
