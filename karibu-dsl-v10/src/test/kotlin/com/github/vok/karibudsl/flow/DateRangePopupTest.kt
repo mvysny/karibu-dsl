@@ -1,9 +1,6 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.MockVaadin
-import com.github.karibu.testing._click
-import com.github.karibu.testing._expectNone
-import com.github.karibu.testing._get
+import com.github.karibu.testing.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker

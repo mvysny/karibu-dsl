@@ -1,6 +1,6 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.MockVaadin
+import com.github.karibu.testing.v10.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectThrows
 import com.vaadin.flow.component.button.Button

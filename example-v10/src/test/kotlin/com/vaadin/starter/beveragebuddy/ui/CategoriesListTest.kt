@@ -1,6 +1,6 @@
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.karibu.testing.*
+import com.github.karibu.testing.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
 import com.vaadin.flow.component.UI
