@@ -1,6 +1,6 @@
 package com.github.vok.karibudsl.flow
 
-import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.AbstractCompositeField
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
@@ -36,7 +36,7 @@ data class DateInterval(var from: LocalDate?, var to: LocalDate?) : Serializable
  *
  * The current date range is also displayed as the caption of the button.
  */
-class DateRangePopup: CustomField<DateRangePopup, DateInterval>() {
+class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterval>(null) {
     private val formatter get() = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(UI.getCurrent().locale ?: Locale.getDefault())
     private lateinit var fromField: DatePicker
     private lateinit var toField: DatePicker
@@ -63,9 +63,9 @@ class DateRangePopup: CustomField<DateRangePopup, DateInterval>() {
                             val from: LocalDate? = fromField.value
                             val to: LocalDate? = toField.value
                             if (from == null && to == null) {
-                                propagateValueOutwards(null)
+                                setModelValue(null, true)
                             } else {
-                                propagateValueOutwards(DateInterval(from, to))
+                                setModelValue(DateInterval(from, to), true)
                             }
                             updateCaption()
                             dialog.close()
@@ -75,7 +75,7 @@ class DateRangePopup: CustomField<DateRangePopup, DateInterval>() {
                         onLeftClick {
                             fromField.value = null
                             toField.value = null
-                            propagateValueOutwards(null)
+                            setModelValue(null, true)
                             updateCaption()
                             dialog.close()
                         }
@@ -91,9 +91,9 @@ class DateRangePopup: CustomField<DateRangePopup, DateInterval>() {
         updateCaption()
     }
 
-    override fun propagateValueInwards(value: DateInterval?) {
-        fromField.value = value?.from
-        toField.value = value?.to
+    override fun setPresentationValue(newPresentationValue: DateInterval?) {
+        fromField.value = newPresentationValue?.from
+        toField.value = newPresentationValue?.to
         updateCaption()
     }
 
@@ -115,7 +115,7 @@ class DateRangePopup: CustomField<DateRangePopup, DateInterval>() {
         toField.isEnabled = !readOnly
     }
 
-    override fun initContent(): Component = content
+    override fun initContent(): Button = content
 
     override fun isReadOnly(): Boolean = !fromField.isEnabled
 
