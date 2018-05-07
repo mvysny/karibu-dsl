@@ -57,7 +57,7 @@ bintray {
     pkg {
         repo = 'github'
         name = 'com.github.vok.karibudsl'
-        licenses = ['Apache-2.0']
+        licenses = ['MIT']
         vcsUrl = 'https://github.com/mvysny/karibu-dsl'
         publish = true
         publications = ['mavenJava']
