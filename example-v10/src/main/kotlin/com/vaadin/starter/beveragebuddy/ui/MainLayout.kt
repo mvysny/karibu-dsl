@@ -55,10 +55,10 @@ class MainLayout : VerticalLayout(), RouterLayout, AfterNavigationObserver, Page
             }
             div { // navigation
                 addClassName("main-layout__nav")
-                reviews = routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class.java) {
+                reviews = routerLink(VaadinIcons.LIST, "Reviews", ReviewsList::class) {
                     addClassName("main-layout__nav-item")
                 }
-                categories = routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class.java) {
+                categories = routerLink(VaadinIcons.ARCHIVES, "Categories", CategoriesList::class) {
                     addClassName("main-layout__nav-item")
                 }
             }
