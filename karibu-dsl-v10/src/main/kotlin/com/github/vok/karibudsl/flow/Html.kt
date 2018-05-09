@@ -52,3 +52,7 @@ fun (@VaadinDsl HasComponents).html(@Language("html") html: String) {
         }
     }
 }
+
+@Tag(Tag.STRONG)
+class Strong : HtmlContainer(), HasText
+fun (@VaadinDsl HasComponents).strong(text: String = "", block: (@VaadinDsl Strong).() -> Unit = {}) = init(Strong().apply { this.text = text }, block)
