@@ -55,3 +55,17 @@ inline fun <C, reified T> navigateToView(vararg params: C) where T: Component, T
 var Component.textAlign: String?
     get() = element.style.get("textAlign")
     set(value) { element.style.set("textAlign", value) }
+
+/**
+ * Sets the "min-width" style, or removes it.
+ */
+var HasSize.minWidth: String?
+    get() = element.style.get("minWidth")
+    set(value) { element.style.set("minWidth", value) }
+
+/**
+ * Sets the "max-width" style, or removes it.
+ */
+var HasSize.maxWidth: String?
+    get() = element.style.get("maxWidth")
+    set(value) { element.style.set("maxWidth", value) }
