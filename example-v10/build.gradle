@@ -10,7 +10,6 @@ apply plugin: "org.gretty"
 
 repositories {
     maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
-    maven { url 'https://dl.bintray.com/webjars/maven' }
 }
 
 gretty {
