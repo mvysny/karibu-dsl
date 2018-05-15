@@ -8,10 +8,6 @@ apply plugin: 'kotlin'
 apply plugin: 'war'
 apply plugin: "org.gretty"
 
-repositories {
-    maven { url "https://repo.vaadin.com/nexus/content/repositories/flow" }
-}
-
 gretty {
     contextPath = ''
 }
