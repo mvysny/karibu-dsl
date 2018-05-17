@@ -77,13 +77,6 @@ fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}
         = init(Dialog(), block)
 
 /**
- * Creates a [Form Layout](https://vaadin.com/elements/vaadin-form-layout). See the HTML Examples link for a list
- * of possible alternative themes for the button; use [themes] to add more themes.
- */
-fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).() -> Unit = {})
-        = init(FormLayout(), block)
-
-/**
  * Creates a [Iron Icon](https://vaadin.com/elements/vaadin-icons/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
