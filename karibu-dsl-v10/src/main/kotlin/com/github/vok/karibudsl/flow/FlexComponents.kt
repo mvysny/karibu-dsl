@@ -1,10 +1,39 @@
 package com.github.vok.karibudsl.flow
 
 import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+
+/**
+ * Creates a [Flex Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
+ * of possible alternative themes for the button; use [themes] to add more themes.
+ */
+fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> Unit = {})
+        = init(FlexLayout(), block)
+
+/**
+ * Creates a [Vertical Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
+ * of possible alternative themes for the button; use [themes] to add more themes.
+ *
+ * The default content align is set to `content { align(left, top) }`.
+ */
+fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {}) = init(VerticalLayout(), {
+    content { align(left, top) }
+    block()
+})
+/**
+ * Creates a [Horizontal Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
+ * of possible alternative themes for the button; use [themes] to add more themes.
+ *
+ * The default content align is set to `content { align(left, baseline) }`.
+ */
+fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).() -> Unit = {}) = init(HorizontalLayout(), {
+    content { align(left, baseline) }
+    block()
+})
 
 /**
  * Sets the component's [FlexComponent.getFlexGrow]. Only works when the component is nested in a [FlexComponent].
