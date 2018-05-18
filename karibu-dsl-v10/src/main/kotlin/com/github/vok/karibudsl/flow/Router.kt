@@ -3,12 +3,41 @@ package com.github.vok.karibudsl.flow
 import com.vaadin.flow.router.RouterLink
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.icon.VaadinIcons
 import com.vaadin.flow.internal.StateTree
 import com.vaadin.flow.router.HasUrlParameter
 import com.vaadin.flow.router.Router
 import com.vaadin.flow.server.VaadinService
 import kotlin.reflect.KClass
+
+/**
+ * Navigates to given view: `navigateToView<AdminView>()`
+ */
+inline fun <reified T: Component> navigateToView() = navigateToView(T::class)
+
+/**
+ * Navigates to given view: `navigateToView(AdminView::class)`
+ */
+fun navigateToView(viewType: KClass<out Component>) {
+    UI.getCurrent().apply {
+        navigate(router.getUrl(viewType.java))
+    }
+}
+
+/**
+ * Navigates to given view with parameters: `navigateToView(DocumentView::class, 25L)`.
+ * @param params typically one parameter, but may be empty in case of view's optional parameter.
+ */
+fun <C, T> navigateToView(viewType: KClass<out T>, vararg params: C) where T: Component, T: HasUrlParameter<C> {
+    // don't use this fun with reified C - when there is a parameter T, that would require the user to write something like this:
+    // navigateToView<Long, EditArticleView>(article.id!!)   // note the Long
+    require(params.isNotEmpty()) { "No parameters passed in" }
+    UI.getCurrent().apply {
+        val url: String = if (params.size == 1) router.getUrl(viewType.java, params[0]) else router.getUrl(viewType.java, params.toList())
+        navigate(url)
+    }
+}
 
 fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcons? = null, text: String? = null, viewType: KClass<out Component>,
                                           block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
