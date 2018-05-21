@@ -18,8 +18,8 @@ dependencies {
     compile 'com.intellij:annotations:12.0'
 
     // always include support for bean validation
-    compile 'javax.validation:validation-api:2.0.0.Final'  // so that the BeanFieldGroup will perform JSR303 validations
-    compile 'org.hibernate.validator:hibernate-validator:6.0.2.Final'
+    compile 'javax.validation:validation-api:2.0.1.Final'  // so that the BeanFieldGroup will perform JSR303 validations
+    compile 'org.hibernate.validator:hibernate-validator:6.0.10.Final'
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
     compile 'org.glassfish:javax.el:3.0.1-b08'
 }
