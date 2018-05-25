@@ -7,10 +7,8 @@ import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
 import com.vaadin.flow.shared.util.SharedUtil
-import java.beans.Introspector
-import java.beans.PropertyDescriptor
 import java.lang.reflect.Method
-import java.util.Comparator
+import java.util.*
 import kotlin.reflect.KProperty1
 
 fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) = init(Grid<T>()) {
@@ -37,10 +35,10 @@ val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.is
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>,
+fun <T, V : Comparable<V>> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V?>,
                                                 sortable: Boolean = true,
                                                 converter: (V?)->Any? = { it },
-                                                block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
+                                                block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> =
     addColumn({ it: T -> converter(property.get(it)) }).apply {
         key = property.name
         if (sortable) sortProperty = property
@@ -58,10 +56,10 @@ fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>,
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V : Comparable<V>> Grid<T>.addColumnFor(property: KProperty1<T, V?>,
+fun <T, V : Comparable<V>> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V?>,
                                                 renderer: Renderer<T>,
                                                 sortable: Boolean = true,
-                                                block: Grid.Column<T>.() -> Unit = {}): Grid.Column<T> =
+                                                block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}): Grid.Column<T> =
     addColumn(renderer).apply {
         key = property.name
         if (sortable) sortProperty = property
@@ -98,17 +96,6 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
  */
 fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
     getColumnByKey(property.name) ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.key } .filterNotNull()}")
-
-/**
- * Returns the getter method for given property name; fails if there is no such getter.
- */
-fun Class<*>.getGetter(propertyName: String): Method {
-    val descriptors: Array<out PropertyDescriptor> = Introspector.getBeanInfo(this).propertyDescriptors
-    val descriptor: PropertyDescriptor? = descriptors.firstOrNull { it.name == propertyName }
-    requireNotNull(descriptor) { "No such field '$propertyName' in $this; available properties: ${descriptors.joinToString { it.name }}" }
-    val getter: Method = requireNotNull(descriptor!!.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
-    return getter
-}
 
 /**
  * Returns a [Comparator] which compares values of given property name.

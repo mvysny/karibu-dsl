@@ -2,6 +2,9 @@ package com.github.vok.karibudsl.flow
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
+import java.beans.Introspector
+import java.beans.PropertyDescriptor
+import java.lang.reflect.Method
 
 /**
  * When introducing extensions for your custom components, just call this in your method. For example:
@@ -17,4 +20,15 @@ fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.()->U
     add(component)
     component.block()
     return component
+}
+
+/**
+ * Returns the getter method for given property name; fails if there is no such getter.
+ */
+fun Class<*>.getGetter(propertyName: String): Method {
+    val descriptors: Array<out PropertyDescriptor> = Introspector.getBeanInfo(this).propertyDescriptors
+    val descriptor: PropertyDescriptor? = descriptors.firstOrNull { it.name == propertyName }
+    requireNotNull(descriptor) { "No such field '$propertyName' in $this; available properties: ${descriptors.joinToString { it.name }}" }
+    val getter: Method = requireNotNull(descriptor!!.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
+    return getter
 }

@@ -65,6 +65,16 @@ class GridTest : DynaTest({
             expect((9 downTo 0).map { it.toString() }) { grid.fetchItems().map { it.fullName } }
         }
     }
+
+
+    test("column isExpand") {
+        val grid = Grid<Person>()
+        val col = grid.addColumnFor(Person::alive)
+        expect(1) { col.flexGrow }  // by default the flexGrow is 1
+        val col2 = grid.addColumnFor(Person::fullName) { isExpand = false }
+        expect(0) { col2.flexGrow }
+    }
+
 })
 
 /**

@@ -2,6 +2,7 @@ package com.github.vok.karibudsl.flow
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -45,14 +46,18 @@ fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLay
  * Negative numbers are invalid.
  *
  * Get more information at [Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+ *
+ * Warning: in case of [Grid.Column] it returns/sets the value of [Grid.Column.setFlexGrow].
  */
 var (@VaadinDsl Component).flexGrow: Double
     get() {
+        if (this is Grid.Column<*>) return this.flexGrow.toDouble()
         val value = element.style.get("flexGrow")
         return if (value.isNullOrBlank()) 0.0 else value!!.toDouble()
     }
     set(value) {
         when {
+            this is Grid.Column<*> -> this.flexGrow = value.toInt()
             value == 0.0 -> element.style.remove("flexGrow")
             value > 0.0 -> element.style.set("flexGrow", value.toString())
             else -> throw IllegalArgumentException("Flex grow property cannot be negative: $flexGrow")

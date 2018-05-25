@@ -72,7 +72,7 @@ val SelectionEvent<*>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPre
  * Adds a new column for given [property] which is by default sortable. The [Grid.Column.setId]
  * is set to property name, the column caption is set by converting camelCase to Human Friendly.
  */
-fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V>, block: Grid.Column<T, V>.() -> Unit = {}): Grid.Column<T, V> =
+fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V>, block: (@VaadinDsl Grid.Column<T, V>).() -> Unit = {}): Grid.Column<T, V> =
         addColumn(property).apply {
             id = property.name
             caption = SharedUtil.propertyIdToHumanFriendly(property.name)
