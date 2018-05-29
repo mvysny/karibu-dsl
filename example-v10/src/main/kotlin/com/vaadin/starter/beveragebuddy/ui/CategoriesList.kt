@@ -19,7 +19,7 @@ import com.github.vok.karibudsl.flow.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
-import com.vaadin.flow.component.icon.VaadinIcons
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
@@ -54,7 +54,7 @@ class CategoriesList : VerticalLayout() {
         div { // view toolbar
             addClassName("view-toolbar")
             searchField = textField {
-                prefixComponent = Icon(VaadinIcons.SEARCH)
+                prefixComponent = Icon(VaadinIcon.SEARCH)
                 addClassName("view-toolbar__search-field")
                 placeholder = "Search"
                 addValueChangeListener { updateView() }
