@@ -20,23 +20,19 @@ inline fun <reified T: Component> navigateToView() = navigateToView(T::class)
  * Navigates to given view: `navigateToView(AdminView::class)`
  */
 fun navigateToView(viewType: KClass<out Component>) {
-    UI.getCurrent().apply {
-        navigate(router.getUrl(viewType.java))
-    }
+    // @todo mavi now that there is UI.navigate(Class) this function has lost its usefulness?
+    UI.getCurrent().navigate(viewType.java)
 }
 
 /**
  * Navigates to given view with parameters: `navigateToView(DocumentView::class, 25L)`.
- * @param params typically one parameter, but may be empty in case of view's optional parameter.
+ * @param params typically a non-null parameter, but may be null in case of view's optional parameter.
  */
-fun <C, T> navigateToView(viewType: KClass<out T>, vararg params: C) where T: Component, T: HasUrlParameter<C> {
+fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Component, T: HasUrlParameter<C> {
     // don't use this fun with reified C - when there is a parameter T, that would require the user to write something like this:
     // navigateToView<Long, EditArticleView>(article.id!!)   // note the Long
-    require(params.isNotEmpty()) { "No parameters passed in" }
-    UI.getCurrent().apply {
-        val url: String = if (params.size == 1) router.getUrl(viewType.java, params[0]) else router.getUrl(viewType.java, params.toList())
-        navigate(url)
-    }
+    // @todo mavi now that there is UI.navigate(Class) this function has lost its usefulness?
+    UI.getCurrent().navigate(viewType.java, param)
 }
 
 fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
