@@ -20,7 +20,6 @@ inline fun <reified T: Component> navigateToView() = navigateToView(T::class)
  * Navigates to given view: `navigateToView(AdminView::class)`
  */
 fun navigateToView(viewType: KClass<out Component>) {
-    // @todo mavi now that there is UI.navigate(Class) this function has lost its usefulness?
     UI.getCurrent().navigate(viewType.java)
 }
 
@@ -31,7 +30,6 @@ fun navigateToView(viewType: KClass<out Component>) {
 fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Component, T: HasUrlParameter<C> {
     // don't use this fun with reified C - when there is a parameter T, that would require the user to write something like this:
     // navigateToView<Long, EditArticleView>(article.id!!)   // note the Long
-    // @todo mavi now that there is UI.navigate(Class) this function has lost its usefulness?
     UI.getCurrent().navigate(viewType.java, param)
 }
 
