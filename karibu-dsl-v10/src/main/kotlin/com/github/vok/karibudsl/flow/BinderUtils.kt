@@ -44,9 +44,12 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBu
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter("Can't convert to integer"))
 
+/**
+ * The time zone as reported by the browser.
+ */
 val browserTimeZone: ZoneId
     get() = VaadinSession.getCurrent().browser.let { browser ->
-        val timeZoneId: String? = null  // should be browser.timeZoneId: https://github.com/vaadin/flow/issues/2592
+        val timeZoneId: String? = browser.timeZoneId
         if (!timeZoneId.isNullOrBlank()) {
             // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
             ZoneId.of(timeZoneId)
