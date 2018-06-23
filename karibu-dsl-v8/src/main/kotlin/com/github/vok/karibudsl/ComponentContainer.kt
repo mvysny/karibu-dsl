@@ -84,11 +84,11 @@ var (@VaadinDsl Component).isExpanded: Boolean
 
 /**
  * Sets or gets alignment for this component with respect to its parent layout. Use
- * predefined alignments from Alignment class. Fails if the component is not nested inside [AbstractOrderedLayout]
+ * predefined alignments from Alignment class. Fails if the component is not nested inside Layout, that implement [Layout.AlignmentHandler]
  */
 var (@VaadinDsl Component).alignment: Alignment
-    get() = (parent as AbstractOrderedLayout).getComponentAlignment(this)
-    set(value) = (parent as AbstractOrderedLayout).setComponentAlignment(this, value)
+    get() = (parent as Layout.AlignmentHandler).getComponentAlignment(this)
+    set(value) = (parent as Layout.AlignmentHandler).setComponentAlignment(this, value)
 
 /**
  * Sets [AbsoluteLayout.ComponentPosition.zIndex]. Fails if this component is not nested inside [AbsoluteLayout]
