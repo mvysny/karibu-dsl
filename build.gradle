@@ -1,6 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.2.50'
-    ext.vaadin8_version = '8.4.3'
+    ext.vaadin8_version = '8.4.4'
     ext.vaadin10_version = '10.0.0.rc5'
     ext.dynatest_version = "0.8"
     ext.kaributesting_version = "0.4.14"
