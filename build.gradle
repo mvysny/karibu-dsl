@@ -14,7 +14,7 @@ buildscript {
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.2.50"
     id "org.gretty" version "2.1.0"
-    id "com.jfrog.bintray" version "1.7.3"
+    id "com.jfrog.bintray" version "1.8.1"
 }
 
 repositories {
@@ -25,7 +25,7 @@ defaultTasks 'clean', 'build'
 
 allprojects {
     group 'com.github.vok.karibudsl'
-    version '0.4.6-SNAPSHOT'
+    version '0.4.6'
 
     // Heroku
     task stage(dependsOn: ['build'])
