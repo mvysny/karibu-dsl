@@ -33,4 +33,9 @@ class NavigatorTest : DynaTest({
         navigateToView<SimpleView>("a", "b", "c")
         expect(mapOf(0 to "a", 1 to "b", 2 to "c")) { _get<SimpleView>().params }
     }
+
+    test("parameters are properly urlencoded") {
+        navigateToView<SimpleView>(" ", "http://foo")
+        expect(mapOf(0 to " ", 1 to "http://foo")) { _get<SimpleView>().params }
+    }
 })
