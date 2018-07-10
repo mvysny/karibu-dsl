@@ -1,52 +1,36 @@
 package com.github.vok.karibudsl
 
 import com.github.karibu.testing.MockVaadin
+import com.github.karibu.testing._get
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.navigator.Navigator
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
+import com.vaadin.navigator.ViewDisplay
+import com.vaadin.ui.UI
+import com.vaadin.ui.VerticalLayout
 import kotlin.test.expect
 
-class AutoViewProviderTest : DynaTest({
-    beforeEach { MockVaadin.setup() }
+@AutoView
+class SimpleView : View, VerticalLayout() {
+    val params: MutableMap<Int, String> = mutableMapOf()
+    override fun enter(event: ViewChangeListener.ViewChangeEvent) {
+        params.putAll(event.parameterList)
+    }
+}
 
-    test("ParseViewName") {
-        expect("foo") { AutoViewProvider.parseViewName("!foo/25") }
-        expect("foo") { AutoViewProvider.parseViewName("foo") }
-        expect("foo") { AutoViewProvider.parseViewName("foo/") }
+class NavigatorTest : DynaTest({
+    beforeEach {
+        MockVaadin.setup()
+        autoDiscoverViews("com.github.vok.karibudsl")
+        UI.getCurrent().apply {
+            navigator = Navigator(this, this)
+            navigator.addProvider(autoViewProvider)
+        }
     }
 
-    test("findAnnotation") {
-        expect("interface") { MyView::class.java.findAnnotation(AutoView::class.java)!!.value }
-        expect("abstractclass") { AbstractView::class.java.findAnnotation(AutoView::class.java)!!.value }
-        // see findAnnotation for explanation why this is null
-        expect(null) { MyViewInheritingAnnotationFromSuperClass::class.java.findAnnotation(AutoView::class.java)?.value }
-        expect(null) { MyViewInheritingAnnotationFromInterface::class.java.findAnnotation(AutoView::class.java)?.value }
-    }
-
-    test("AutoViewDiscovery") {
-        autoDiscoverViews("com.github")
-        expect("abstractclass") { AutoViewProvider.getMapping(AbstractView::class.java) }
-    }
-
-    test("calling autoDiscoverViews() multiple times won't fail") {
-        autoDiscoverViews("com.github")
-        autoDiscoverViews("com.github")
-        expect("abstractclass") { AutoViewProvider.getMapping(AbstractView::class.java) }
+    test("parameters are passed properly") {
+        navigateToView<SimpleView>("a", "b", "c")
+        expect(mapOf(0 to "a", 1 to "b", 2 to "c")) { _get<SimpleView>().params }
     }
 })
-
-@AutoView("interface")
-interface MyView : View
-
-@AutoView("abstractclass")
-open class AbstractView : View {
-    override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
-    }
-}
-
-class MyViewInheritingAnnotationFromInterface : MyView {
-    override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
-    }
-}
-
-class MyViewInheritingAnnotationFromSuperClass: AbstractView()
