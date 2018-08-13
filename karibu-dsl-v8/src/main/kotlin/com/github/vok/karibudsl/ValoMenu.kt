@@ -76,7 +76,11 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
      */
     fun userMenu(block: MenuBar.()->Unit) = userMenu.block()
 
-    private lateinit var navigationButtonLayout: CssLayout
+    /**
+     * All [menu buttons][menuButton] and [sections][section] are nested in this layout.
+     */
+    lateinit var navigationButtonLayout: CssLayout
+        private set
     init {
         setSizeFull(); isSpacing = false; styleName = "valo-menu-responsive"
         Responsive.makeResponsive(this)
@@ -120,6 +124,8 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
 
     /**
      * Creates a separator between menu items, with given [caption] and an optional [badge]. Returns the separator component.
+     *
+     * All sections are nested in [navigationButtonLayout].
      */
     fun section(caption: String, badge: String? = null, block: Label.()->Unit = {}): Label = navigationButtonLayout.label {
         if (badge == null) {
@@ -135,6 +141,8 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
 
     /**
      * Registers a button to a menu with given [icon] and [caption], which optionally launches given [view].
+     *
+     * All menu buttons are nested in [navigationButtonLayout].
      * @param badge optional badge which is displayed in the button's top-right corner. Usually this is a number, showing number of notifications or such.
      * @param view optional view; if not null, clicking this menu button will launch this view with no parameters; also the button will be marked selected
      * when the view is shown.
