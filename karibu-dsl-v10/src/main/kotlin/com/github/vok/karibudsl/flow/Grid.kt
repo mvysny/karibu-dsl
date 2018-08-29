@@ -269,8 +269,3 @@ var HeaderRow.HeaderCell.component: Component?
     set(value) {
         setComponent(value)
     }
-
-/**
- * Get rid of retarded Optional
- */
-val Grid.Column<*>._id: String? get() = id.orElse(null)
