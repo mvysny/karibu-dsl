@@ -77,25 +77,51 @@ class GridTest : DynaTest({
     }
 
 
-    test("header cell retrieval test") {
-        val grid = Grid<Person>().apply {
-            addColumnFor(Person::fullName)
-            appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
+    group("header cell retrieval test") {
+        test("one component") {
+            val grid = Grid<Person>().apply {
+                addColumnFor(Person::fullName)
+                appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
+            }
+            expect("Foo!") {
+                val tf = grid.headerRows.last().getCell(Person::fullName).component
+                (tf as TextField).caption
+            }
         }
-        expect("Foo!") {
-            val tf = grid.headerRows.last().getCell(Person::fullName).component
-            (tf as TextField).caption
+        test("two components") {
+            val grid = Grid<Person>().apply {
+                addColumnFor(Person::fullName)
+                appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
+                appendHeaderRow().getCell(Person::fullName).component = TextField("Bar!")
+            }
+            expect("Bar!") {
+                val tf = grid.headerRows.last().getCell(Person::fullName).component
+                (tf as TextField).caption
+            }
         }
     }
 
-    test("footer cell retrieval test") {
-        val grid = Grid<Person>().apply {
-            addColumnFor(Person::fullName)
-            appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
+    group("footer cell retrieval test") {
+        test("one component") {
+            val grid = Grid<Person>().apply {
+                addColumnFor(Person::fullName)
+                appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
+            }
+            expect("Foo!") {
+                val tf = grid.footerRows.last().getCell(Person::fullName).component
+                (tf as TextField).caption
+            }
         }
-        expect("Foo!") {
-            val tf = grid.footerRows.last().getCell(Person::fullName).component
-            (tf as TextField).caption
+        test("two components") {
+            val grid = Grid<Person>().apply {
+                addColumnFor(Person::fullName)
+                appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
+                appendFooterRow().getCell(Person::fullName).component = TextField("Bar!")
+            }
+            expect("Bar!") {
+                val tf = grid.footerRows.last().getCell(Person::fullName).component
+                (tf as TextField).caption
+            }
         }
     }
 })

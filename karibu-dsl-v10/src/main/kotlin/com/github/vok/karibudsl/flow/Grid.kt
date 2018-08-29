@@ -193,7 +193,7 @@ private val abstractColumnClass = Class.forName("com.vaadin.flow.component.grid.
 /**
  * Returns `com.vaadin.flow.component.grid.AbstractColumn`
  */
-internal val FooterRow.FooterCell.column: Any
+private val FooterRow.FooterCell.column: Any
     get() {
         val getColumn = abstractCellClass.getDeclaredMethod("getColumn")
         getColumn.isAccessible = true
@@ -211,13 +211,22 @@ fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
     return cell!!
 }
 
+private val Any.columnKey: String?
+get() {
+    abstractColumnClass.cast(this)
+    val method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
+    method.isAccessible = true
+    val gridColumn = method.invoke(this) as Grid.Column<*>
+    return gridColumn.key
+}
+
 /**
  * Retrieves the cell for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
  * @return the corresponding cell
  * @throws IllegalArgumentException if no such column exists.
  */
 fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
-    val cell = cells.firstOrNull { (it.column as Grid.Column<*>).key == property.name }
+    val cell = cells.firstOrNull { it.column.columnKey == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
     return cell!!
 }
