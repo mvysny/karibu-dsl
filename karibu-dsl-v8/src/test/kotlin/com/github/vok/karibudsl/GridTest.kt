@@ -5,6 +5,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.data.provider.ListDataProvider
 import com.vaadin.shared.data.sort.SortDirection
 import com.vaadin.ui.Grid
+import com.vaadin.ui.TextField
 import kotlin.test.expect
 
 class GridTest : DynaTest({
@@ -45,6 +46,28 @@ class GridTest : DynaTest({
             expect<Class<*>>(ListDataProvider::class.java) { grid.dataProvider.javaClass }
             grid.sort("fullName", SortDirection.DESCENDING)
             expect((9 downTo 0).map { it.toString() }) { grid.fetchItems().map { it.fullName } }
+        }
+    }
+
+    test("header cell retrieval test") {
+        val grid = Grid<Person>().apply {
+            addColumnFor(Person::fullName)
+            addHeaderRowAt(0).getCell(Person::fullName).component = TextField("Foo!")
+        }
+        expect("Foo!") {
+            val tf = grid.getHeaderRow(0).getCell(Person::fullName).component
+            (tf as TextField).caption
+        }
+    }
+
+    test("footer cell retrieval test") {
+        val grid = Grid<Person>().apply {
+            addColumnFor(Person::fullName)
+            addFooterRowAt(0).getCell(Person::fullName).component = TextField("Foo!")
+        }
+        expect("Foo!") {
+            val tf = grid.getFooterRow(0).getCell(Person::fullName).component
+            (tf as TextField).caption
         }
     }
 })

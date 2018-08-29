@@ -6,8 +6,13 @@ import com.vaadin.data.provider.HierarchicalDataProvider
 import com.vaadin.event.selection.SelectionEvent
 import com.vaadin.shared.util.SharedUtil
 import com.vaadin.ui.Grid
+import com.vaadin.ui.Grid.Column
 import com.vaadin.ui.HasComponents
 import com.vaadin.ui.TreeGrid
+import com.vaadin.ui.components.grid.FooterCell
+import com.vaadin.ui.components.grid.FooterRow
+import com.vaadin.ui.components.grid.HeaderCell
+import com.vaadin.ui.components.grid.HeaderRow
 import com.vaadin.ui.renderers.TextRenderer
 import elemental.json.Json
 import elemental.json.JsonValue
@@ -103,3 +108,19 @@ var Grid.Column<*, *>.align: VAlign
             VAlign.Right -> setStyleGenerator { "v-align-right" }
         }
     }
+
+/**
+ * Returns the cell on this row corresponding to the given property.
+ * @param property the id of the column whose header cell to get, not null
+ * @return the header cell
+ * @throws IllegalArgumentException if there is no such column in the grid
+ */
+fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderCell = getCell(property.name)
+
+/**
+ * Returns the cell on this row corresponding to the given property.
+ * @param property the id of the column whose footer cell to get, not null
+ * @return the footer cell
+ * @throws IllegalArgumentException if there is no such column in the grid
+ */
+fun FooterRow.getCell(property: KProperty1<*, *>): FooterCell = getCell(property.name)
