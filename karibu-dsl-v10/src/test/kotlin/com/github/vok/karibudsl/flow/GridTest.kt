@@ -5,6 +5,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
+import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.DataCommunicator
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.QuerySortOrder
@@ -75,6 +76,28 @@ class GridTest : DynaTest({
         expect(0) { col2.flexGrow }
     }
 
+
+    test("header cell retrieval test") {
+        val grid = Grid<Person>().apply {
+            addColumnFor(Person::fullName)
+            appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
+        }
+        expect("Foo!") {
+            val tf = grid.headerRows.last().getCell(Person::fullName).component
+            (tf as TextField).caption
+        }
+    }
+
+    test("footer cell retrieval test") {
+        val grid = Grid<Person>().apply {
+            addColumnFor(Person::fullName)
+            appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
+        }
+        expect("Foo!") {
+            val tf = grid.footerRows.last().getCell(Person::fullName).component
+            (tf as TextField).caption
+        }
+    }
 })
 
 /**
