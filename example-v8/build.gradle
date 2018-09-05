@@ -57,7 +57,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test"
 
     // heroku app runner
-    testRuntime 'com.github.jsimone:webapp-runner:8.5.30.0'
+    testRuntime 'com.github.jsimone:webapp-runner:9.0.11.0'
 }
 
 // heroku
