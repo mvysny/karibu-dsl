@@ -96,14 +96,15 @@ fun <T, V> Grid<T>.getColumnBy(property: KProperty1<T, V>): Grid.Column<T, V> =
 enum class VAlign { Left, Middle, Right }
 
 /**
- * Aligns the text in the columns, by using [setStyleGenerator] to set either `v-align-center` or `v-align-right` style.
+ * Aligns the text in the columns, by using [Column.setStyleGenerator] to set either `v-align-center` or `v-align-right` style.
  */
 var Grid.Column<*, *>.align: VAlign
     @Deprecated("Cannot read this property", level = DeprecationLevel.ERROR)
     get() = throw UnsupportedOperationException("Cannot read this property")
     set(value) {
         when (value) {
-            VAlign.Left -> setStyleGenerator(null)
+            VAlign.Left -> setStyleGenerator { null }
+            // these styles are provided by the Vaadin Valo theme out-of-the-box, no need to add then to the app's stylesheet
             VAlign.Middle -> setStyleGenerator { "v-align-center" }
             VAlign.Right -> setStyleGenerator { "v-align-right" }
         }

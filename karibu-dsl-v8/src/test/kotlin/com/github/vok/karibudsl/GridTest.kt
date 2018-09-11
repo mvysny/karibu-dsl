@@ -70,6 +70,27 @@ class GridTest : DynaTest({
             (tf as TextField).caption
         }
     }
+
+    group("align tests") {
+        test("center/right aligns") {
+            Grid<Person>().apply {
+                addColumnFor(Person::fullName) {
+                    align = VAlign.Middle
+                    expect("v-align-center") { styleGenerator.apply(Person())}
+                    align = VAlign.Right
+                    expect("v-align-right") { styleGenerator.apply(Person())}
+                }
+            }
+        }
+        test("Setting left align should remove the style generator") {
+            Grid<Person>().apply {
+                addColumnFor(Person::fullName) {
+                    align = VAlign.Left
+                    expect(null) { styleGenerator.apply(Person())}
+                }
+            }
+        }
+    }
 })
 
 /**
