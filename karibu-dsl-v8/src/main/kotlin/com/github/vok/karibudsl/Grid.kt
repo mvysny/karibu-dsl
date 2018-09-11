@@ -57,7 +57,7 @@ fun <T> (@VaadinDsl Grid<T>).showColumns(vararg ids: KProperty1<T, *>) = setColu
  */
 @Suppress("UNCHECKED_CAST")
 fun <T, V> (@VaadinDsl Grid<T>).column(prop: KProperty1<T, V>, block: (@VaadinDsl Grid.Column<T, V>).() -> Unit = {}): Grid.Column<T, V> =
-        (getColumn(prop.name) as Grid.Column<T, V>).apply { block() }
+        getColumnBy(prop).apply { block() }
 
 /**
  * Removes column showing given [property].
