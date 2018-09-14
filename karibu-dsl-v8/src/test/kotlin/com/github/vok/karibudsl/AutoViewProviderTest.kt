@@ -35,11 +35,19 @@ class AutoViewProviderTest : DynaTest({
     }
 })
 
+// should be ignored by the auto-discovery mechanism
 @AutoView("interface")
 interface MyView : View
+
+// should be ignored by the auto-discovery mechanism
+@AutoView("interface")
+annotation class Foo
 
 @AutoView("abstractclass")
 open class AbstractView : View
 
 class MyViewInheritingAnnotationFromInterface : MyView
 class MyViewInheritingAnnotationFromSuperClass: AbstractView()
+
+@Foo
+class MyViewWithTransitiveAnnotation : MyView

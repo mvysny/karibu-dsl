@@ -7,6 +7,7 @@ import com.vaadin.ui.UI
 import io.michaelrocks.bimap.HashBiMap
 import io.michaelrocks.bimap.MutableBiMap
 import org.atmosphere.util.annotation.AnnotationDetector
+import org.slf4j.LoggerFactory
 import java.net.URLDecoder
 import java.net.URLEncoder
 import javax.servlet.ServletContainerInitializer
@@ -70,22 +71,32 @@ class AutoViewProvider : ServletContainerInitializer {
 
         fun <T: View> getMapping(clazz: Class<T>): String =
                 viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString(transform = { it.name })}")
+
+        @JvmStatic
+        private val log = LoggerFactory.getLogger(AutoViewProvider::class.java)
     }
 
     private fun Class<*>.toViewName(): String {
-        val name = findAnnotation(AutoView::class.java)!!.value
+        val annotation = requireNotNull(findAnnotation(AutoView::class.java)) { "Missing @AutoView annotation on $this" }
+        val name = annotation.value
         return if (name == VIEW_NAME_USE_DEFAULT) simpleName.removeSuffix("View").upperCamelToLowerHyphen() else name
     }
 
     override fun onStartup(c: MutableSet<Class<*>>?, ctx: ServletContext?) {
-        c?.forEach {
-            // ignore annotations and interfaces
-            if (!it.isInterface && !it.isAnnotation) {
-                val viewName = it.toViewName()
-                if (viewNameToClass.containsKey(viewName) && it != viewNameToClass[viewName]) {
-                    throw IllegalStateException("Views $it and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name")
+        c?.forEach { viewClass ->
+            if (viewClass.isInterface) {
+                // the auto-discovery mechanism doesn't support classes implementing interfaces annotated with @AutoView
+                log.error("@AutoView-annotated classes must not be interfaces: $viewClass is an interface")
+            } else if (viewClass.isAnnotation) {
+                // the auto-discovery mechanism doesn't support transitive annotations
+                log.error("@AutoView-annotated classes must not be annotations: $viewClass is an annotation")
+            } else {
+                val viewName = viewClass.toViewName()
+                if (viewNameToClass.containsKey(viewName) && viewClass != viewNameToClass[viewName]) {
+                    throw IllegalStateException("Views $viewClass and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name")
                 }
-                viewNameToClass.forcePut(viewName, it.asSubclass(View::class.java))
+                check(View::class.java.isAssignableFrom(viewClass)) { "$viewClass is annotated with @AutoView yet it does not implement Vaadin ${View::class.java.name}" }
+                viewNameToClass.forcePut(viewName, viewClass.asSubclass(View::class.java))
             }
         }
     }
@@ -117,7 +128,7 @@ fun navigateToView(view: Class<out View>, vararg params: String) {
 
 internal fun <T: Annotation> Class<*>.findAnnotation(ac: Class<T>): T? {
     // unfortunately, the class discovery algorithm of ServletContainerInitializer+@HandlesTypes is quite weak.
-    // if will not handle transitive annotations; for example it will not handle classes implementing interfaces annotated with @AutoView
+    // it will not handle transitive annotations; for example it will not handle classes implementing interfaces annotated with @AutoView
     // therefore, we'll just use the getAnnotation()
     return getAnnotation(ac)
 }
