@@ -4,7 +4,9 @@ import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
+import com.github.mvysny.dynatest.expectThrows
 import com.vaadin.ui.*
+import java.lang.IllegalStateException
 import kotlin.test.expect
 
 class ContainerTest : DynaTest({
@@ -31,6 +33,11 @@ class ContainerTest : DynaTest({
             val l = container.label { isExpanded = true }
             expect(true) { l.isExpanded }
             expect(1f) { l.expandRatio }
+        }
+        test("isExpanded fails to be set in a FormLayout") {
+            expectThrows(IllegalStateException::class, "Setting expandRatio of a component nested inside of a FormLayout does nothing") {
+                FormLayout().apply { label { isExpanded = true } }
+            }
         }
     }
 })

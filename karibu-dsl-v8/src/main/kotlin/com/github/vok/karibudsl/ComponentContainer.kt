@@ -70,8 +70,15 @@ fun (@VaadinDsl HasComponents).removeAllComponents() {
  * Fails if this component is not nested inside [AbstractOrderedLayout].
  */
 var (@VaadinDsl Component).expandRatio: Float
-    get() = (parent as AbstractOrderedLayout).getExpandRatio(this)
-    set(value) = (parent as AbstractOrderedLayout).setExpandRatio(this, value)
+    get() = parent.asAbstractOrderedLayout().getExpandRatio(this)
+    set(value) = parent.asAbstractOrderedLayout().setExpandRatio(this, value)
+
+private fun HasComponents?.asAbstractOrderedLayout(): AbstractOrderedLayout {
+    check(this != null) { "Setting expandRatio of a component only works when the component is already nested in the parent layout" }
+    check(this !is FormLayout) { "Setting expandRatio of a component nested inside of a FormLayout does nothing (see the FormLayout class for more details), and it is therefore discouraged." }
+    check(this is AbstractOrderedLayout) { "You're attempting to set expandRatio of a component but that's only supported when the component is nested inside VerticalLayout and HorizontalLayout, not for ${this!!.javaClass.simpleName}."}
+    return this as AbstractOrderedLayout
+}
 
 /**
  * Sets the expand ratio of this component with respect to its parent layout. See [AbstractOrderedLayout.setExpandRatio] for more details.
@@ -99,11 +106,17 @@ var (@VaadinDsl Component).zIndex: Int
         absolutePosition.zIndex = value
     }
 
+private fun HasComponents?.asAbsoluteLayout(): AbsoluteLayout {
+    check(this != null) { "Setting absolutePosition of a component only works when the component is already nested in the parent layout" }
+    check(this is AbsoluteLayout) { "You're attempting to set absolutePosition of a component but that's only supported when the component is nested inside VerticalLayout and HorizontalLayout, not for ${this!!.javaClass.simpleName}."}
+    return this as AbsoluteLayout
+}
+
 /**
  * Returns the [AbsoluteLayout.ComponentPosition] of this component. Fails if this component is not nested inside [AbsoluteLayout]
  */
 val (@VaadinDsl Component).absolutePosition: AbsoluteLayout.ComponentPosition
-    get() = (parent as AbsoluteLayout).getPosition(this)
+    get() = parent.asAbsoluteLayout().getPosition(this)
 var (@VaadinDsl AbsoluteLayout.ComponentPosition).top: Size
     get() = Size(topValue, topUnits)
     set(value) {
