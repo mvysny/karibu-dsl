@@ -33,6 +33,7 @@ fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Component
     UI.getCurrent().navigate(viewType.java, param)
 }
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
                                           block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
     val link = RouterLink(null, viewType.java)
@@ -43,6 +44,7 @@ fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String
 }
 
 @JvmName("routerLinkWithParam")
+@VaadinDsl
 fun <T, C> (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out C>,
                                           parameter: T, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink where C: Component, C: HasUrlParameter<T> {
     val link = RouterLink(null, viewType.java, parameter)
@@ -59,6 +61,7 @@ fun <T, C> (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text:
 // routerLink(null, "Edit", EditArticleView::class, article.id)    // no need for Long, compiler will infer it.
 
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
     // a RouterLink for which the navigation target is not yet known and is set lazily, perhaps in HasUrlParameter.setParameter()
     val link = RouterLink()

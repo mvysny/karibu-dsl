@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
  * Creates a [Flex Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> Unit = {})
         = init(FlexLayout(), block)
 
@@ -21,6 +22,7 @@ fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> U
  *
  * The default content align is set to `content { align(left, top) }`.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {}) = init(VerticalLayout(), {
     content { align(left, top) }
     block()
@@ -31,6 +33,7 @@ fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout)
  *
  * The default content align is set to `content { align(left, baseline) }`.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).() -> Unit = {}) = init(HorizontalLayout(), {
     content { align(left, baseline) }
     block()
@@ -304,12 +307,14 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
+@VaadinDsl
 inline fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.()->Unit) {
     // the only reason why this is done as a builder, is that the HorizontalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
     HorizontalLayoutContent(this).block()
 }
 
+@VaadinDsl
 class VerticalLayoutContent(private val owner: VerticalLayout) {
     /**
      * The default horizontal alignment to be used by all components without
@@ -425,6 +430,7 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
+@VaadinDsl
 inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.()->Unit) {
     // the only reason why this is done as a builder, is that the VerticalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.

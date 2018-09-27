@@ -24,6 +24,7 @@ import kotlin.reflect.KProperty1
  * @param itemClass host items of this class. If not null, columns are created automatically for this class. This is not recommended:
  * https://github.com/mvysny/karibu-dsl/issues/4
  */
+@VaadinDsl
 fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, caption: String? = null, dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
         init(if (itemClass == null) Grid() else Grid<T>(itemClass.java)) {
             this.caption = caption
@@ -31,6 +32,7 @@ fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, capti
             block()
         }
 
+@VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}) = init(
     TreeGrid<T>()
 ) {
@@ -56,6 +58,7 @@ fun <T> (@VaadinDsl Grid<T>).showColumns(vararg ids: KProperty1<T, *>) = setColu
  * @param block run this block with the column as a receiver
  */
 @Suppress("UNCHECKED_CAST")
+@VaadinDsl
 fun <T, V> (@VaadinDsl Grid<T>).column(prop: KProperty1<T, V>, block: (@VaadinDsl Grid.Column<T, V>).() -> Unit = {}): Grid.Column<T, V> =
         getColumnBy(prop).apply { block() }
 

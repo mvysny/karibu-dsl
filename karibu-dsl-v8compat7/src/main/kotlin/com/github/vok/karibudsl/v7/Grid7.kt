@@ -17,6 +17,7 @@ import java.util.*
 import kotlin.reflect.KProperty
 
 @Deprecated("Use Grid from Vaadin 8")
+@VaadinDsl
 fun HasComponents.grid7(caption: String? = null, dataSource: Container.Indexed? = null, block: Grid.() -> Unit = {}) = init(Grid(caption, dataSource), block)
 
 private val gridColumnGrid: Field = Grid.Column::class.java.getDeclaredField("grid").apply { isAccessible = true }

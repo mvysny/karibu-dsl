@@ -2,19 +2,25 @@ package com.github.vok.karibudsl
 
 import com.vaadin.ui.*
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).()->Unit = {}) = init(VerticalLayout(), block)
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).()->Unit = {}) = init(HorizontalLayout(), block)
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).()->Unit = {}) = init(FormLayout(), block)
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}) = init(AbsoluteLayout(), block)
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).cssLayout(caption: String? = null, block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout()) {
     this.caption = caption
     block()
 }
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}) = init(GridLayout(columns, rows), block)
 
 /**

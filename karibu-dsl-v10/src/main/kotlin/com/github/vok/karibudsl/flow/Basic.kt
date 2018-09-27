@@ -3,7 +3,9 @@ package com.github.vok.karibudsl.flow
 import com.vaadin.flow.component.*
 import com.vaadin.flow.router.HasUrlParameter
 
-@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
+// annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
+// which makes them stand out apart from the common functions, which is very nice.
+@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE, AnnotationTarget.FUNCTION)
 @DslMarker
 annotation class VaadinDsl
 
@@ -27,6 +29,7 @@ fun <R> R.serverClick() where R : Component, R : ClickNotifier<R> {
 /**
  * Appends a text node with given [text] to the component.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).text(text: String, block: (@VaadinDsl Text).() -> Unit = {}) = init(Text(text), block)
 
 /**

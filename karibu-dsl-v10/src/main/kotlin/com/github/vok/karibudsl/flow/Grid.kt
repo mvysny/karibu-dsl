@@ -15,6 +15,7 @@ import java.lang.reflect.Method
 import java.util.*
 import kotlin.reflect.KProperty1
 
+@VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
     init(Grid<T>()) {
         if (dataProvider != null) this.dataProvider = dataProvider

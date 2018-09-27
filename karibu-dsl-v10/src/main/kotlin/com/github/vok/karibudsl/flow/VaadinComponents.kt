@@ -23,6 +23,7 @@ import com.vaadin.flow.shared.Registration
  * @param icon the icon, to use icons provided by Lumo just use `Icon("lumo", "plus")` or `Icon(VaadinIcons.TRASH)`
  * @param block runs the block with the button as a receiver.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {})
         = init(Button(text, icon), block)
 
@@ -48,6 +49,7 @@ fun <T: Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener: 
  * Creates a [Vaadin Checkbox](https://vaadin.com/elements/vaadin-checkbox/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDsl Checkbox).() -> Unit = {})
         = init(Checkbox(label), block)
 
@@ -55,6 +57,7 @@ fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDs
  * Creates a [Vaadin Combo Box](https://vaadin.com/elements/vaadin-combo-box). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun <T: Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block: (@VaadinDsl ComboBox<T>).() -> Unit = {})
         = init(ComboBox(label), block)
 
@@ -62,6 +65,7 @@ fun <T: Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block: 
  * Creates a [Vaadin Date Picker](https://vaadin.com/elements/vaadin-date-picker). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@VaadinDsl DatePicker).() -> Unit = {})
         = init(DatePicker(label), block)
 
@@ -69,6 +73,7 @@ fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@Vaadin
  * Creates a [Vaadin Dialog](https://vaadin.com/elements/vaadin-dialog). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {})
         = init(Dialog(), block)
 
@@ -76,6 +81,7 @@ fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}
  * Creates a [Iron Icon](https://vaadin.com/elements/vaadin-icons/). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {})
         = init(Icon(icon), block)
 
@@ -83,6 +89,7 @@ fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).(
  * Creates a [Password Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@VaadinDsl PasswordField).() -> Unit = {})
         = init(PasswordField(label), block)
 
@@ -90,13 +97,16 @@ fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@Vaa
  * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() -> Unit = {})
         = init(SplitLayout(), block)
 /**
  * Creates a [Text Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {})
         = init(TextField(label), block)
+@VaadinDsl
 fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {})
         = init(TextArea(label), block)

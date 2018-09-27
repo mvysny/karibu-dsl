@@ -19,6 +19,7 @@ import org.intellij.lang.annotations.Language
  * @param component the component to attach
  * @param block optional block to run over the component, allowing you to add children to the [component]
  */
+@VaadinDsl
 fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.()->Unit = {}): T {
     addChild(component)
     component.block()

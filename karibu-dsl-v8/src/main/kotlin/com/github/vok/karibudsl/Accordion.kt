@@ -21,5 +21,5 @@ class _Accordion : Accordion() {
     val (@VaadinDsl Component).tab: Tab get() = this@_Accordion.getTab(ttab@this) ?: throw IllegalStateException("${ttab@this} is not child of ${this@_Accordion}")
 }
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).accordion(block: _Accordion.()->Unit = {}) = init(_Accordion(), block)
-

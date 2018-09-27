@@ -5,6 +5,7 @@ import com.vaadin.ui.HasComponents
 import com.vaadin.ui.Label
 import com.vaadin.ui.PopupView
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).popupView(small: String? = null, block: (@VaadinDsl PopupView).()->Unit = {}): PopupView {
     val result = init(PopupView(SimpleContent.EMPTY), block)
     if (small != null) result.minimizedValueAsHTML = small

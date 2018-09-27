@@ -87,7 +87,7 @@ class Tabsheets : VerticalLayout(), View {
                     if (icons.value!!) {
                         tab.icon = VaadinIcons.values()[i % VaadinIcons.values().size]
                     }
-                    label("Content for tab " + i)
+                    label("Content for tab $i")
                     if (i == 2) {
                         label("Excepteur sint obcaecat cupiditat non proident culpa. Magna pars studiorum, prodita quaerimus.")
                     }

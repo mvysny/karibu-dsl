@@ -21,6 +21,7 @@ class _TabSheet : TabSheet() {
     val (@VaadinDsl Component).tab: Tab get() = this@_TabSheet.getTab(ttab@this) ?: throw IllegalStateException("${ttab@this} is not child of ${this@_TabSheet}")
 }
 
+@VaadinDsl
 fun (@VaadinDsl HasComponents).tabSheet(block: _TabSheet.()->Unit = {}) = init(_TabSheet(), block)
 // lastTab is intended to be called from a child of TabSheet; don't annotate with @VaadinDsl
 val TabSheet.lastTab: TabSheet.Tab get() = getTab(componentCount - 1)

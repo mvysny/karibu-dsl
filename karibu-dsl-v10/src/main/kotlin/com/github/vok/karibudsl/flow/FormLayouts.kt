@@ -9,6 +9,7 @@ import com.vaadin.flow.component.html.Label
  * Creates a [Form Layout](https://vaadin.com/elements/vaadin-form-layout). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
+@VaadinDsl
 fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).() -> Unit = {})
         = init(FormLayout(), block)
 
@@ -25,6 +26,7 @@ internal class KFormItem : FormLayout.FormItem() {
  * Creates a form item inside of the [FormLayout], with an optional [label]. See [Form Layout](https://vaadin.com/elements/vaadin-form-layout)
  * documentation for more details.
  */
+@VaadinDsl
 fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {})
         = init<FormLayout.FormItem>(KFormItem()) {
     if (label != null) {
@@ -37,6 +39,7 @@ fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDs
  * Creates a form item inside of the [FormLayout], with an optional [label]. See [Form Layout](https://vaadin.com/elements/vaadin-form-layout)
  * documentation for more details.
  */
+@VaadinDsl
 fun (@VaadinDsl FormLayout).formItem(label: String, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}) =
         formItem(Label(label), block)
 
