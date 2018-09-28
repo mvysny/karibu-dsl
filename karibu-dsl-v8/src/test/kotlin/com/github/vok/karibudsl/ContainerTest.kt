@@ -40,6 +40,38 @@ class ContainerTest : DynaTest({
             }
         }
     }
+
+    group("removeChild") {
+        test("from Window") {
+            val w = Window("foo", Label("bar"))
+            w.removeChild(Label("other"))
+            expect("bar") { (w.content as Label).value }
+            w.removeChild(w.content)
+            expect(null) { w.content }
+        }
+        test("from VerticalSplitPanel") {
+            val p = VerticalSplitPanel().apply { label("first"); label("second") }
+            p.removeChild(Label("third"))
+            expect(2) { p.componentCount }
+            p.removeChild(p.secondComponent)
+            expect(1) { p.componentCount }
+            p.removeChild(p.firstComponent)
+            expect(0) { p.componentCount }
+        }
+    }
+
+    group("removeFromParent") {
+        test("with null parent") {
+            val l = Label("foo")
+            l.removeFromParent()
+            expect(null) {l.parent}
+        }
+        test("from window") {
+            val w = Window("foo", Label("bar"))
+            w.content.removeFromParent()
+            expect(null) { w.content }
+        }
+    }
 })
 
 fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>) {
@@ -83,7 +115,22 @@ fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>
                     }.join()
                 }
             }
-
+            test("remove middle via removeChild") {
+                expect("0134") {
+                    container.dummyContent(5).apply {
+                        removeChild(getComponentAt(2))
+                    }.join()
+                }
+            }
+            test("remove of a component nested in another layout does nothing") {
+                val l = VerticalLayout().run { label("2") }
+                expect(true) { l.parent != null }
+                expect("01234") {
+                    container.dummyContent(5).apply {
+                        removeChild(l)
+                    }.join()
+                }
+            }
             test("remove last") {
                 expect("0123") {
                     container.dummyContent(5).apply {

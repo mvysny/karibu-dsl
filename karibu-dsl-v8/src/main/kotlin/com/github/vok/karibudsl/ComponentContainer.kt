@@ -55,15 +55,44 @@ fun (@VaadinDsl HasComponents).addChild(child: Component) {
     }
 }
 
+fun (@VaadinDsl HasComponents).removeChild(child: Component) {
+    when (this) {
+        is ComponentContainer -> removeComponent(child)
+        is SpecialContainer -> removeComponent(child)
+        is SingleComponentContainer -> {
+            if (content == child) {
+                content = null
+            }
+        }
+        is PopupView -> if (popupComponent == child) popupComponent = Label("")
+        is AbstractSplitPanel -> when {
+            firstComponent == child -> firstComponent = null
+            secondComponent == child -> secondComponent = null
+        }
+        else -> throw IllegalArgumentException("Unsupported component container $this")
+    }
+}
+
+/**
+ * Removes the component from its parent. Does nothing if the component is not currently nested inside of a parent.
+ */
+fun Component.removeFromParent() {
+    parent?.removeChild(this)
+}
+
 /**
  * Removes all components from given container.
  */
 fun (@VaadinDsl HasComponents).removeAllComponents() {
     when (this) {
         is ComponentContainer -> removeAllComponents()
-//        is SpecialContainer ->    // unsupported
+        is SpecialContainer -> removeAllComponents()
         is SingleComponentContainer -> {
             content = null
+        }
+        is AbstractSplitPanel -> {
+            firstComponent = null
+            secondComponent = null
         }
         is PopupView -> popupComponent = Label("")
         else -> throw IllegalArgumentException("Unsupported component container $this")

@@ -33,3 +33,10 @@ fun Class<*>.getGetter(propertyName: String): Method {
     val getter: Method = requireNotNull(descriptor!!.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
     return getter
 }
+
+/**
+ * Removes the component from its parent. Does nothing if the component does not have a parent.
+ */
+fun Component.removeFromParent() {
+    (parent.orElse(null) as? HasComponents)?.remove(this)
+}

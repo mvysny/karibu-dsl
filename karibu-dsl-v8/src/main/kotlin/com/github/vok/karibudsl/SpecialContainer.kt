@@ -24,4 +24,10 @@ interface SpecialContainer : HasComponents {
      * @param component the component to be added.
      */
     fun addComponent(component: Component)
+
+    fun removeComponent(component: Component)
+
+    fun removeAllComponents() {
+        toList().forEach { removeComponent(it) }
+    }
 }
