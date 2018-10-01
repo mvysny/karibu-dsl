@@ -55,6 +55,9 @@ fun (@VaadinDsl HasComponents).addChild(child: Component) {
     }
 }
 
+/**
+ * Removes [child] from this container. Does nothing if child has no parent or it is nested in some other container.
+ */
 fun (@VaadinDsl HasComponents).removeChild(child: Component) {
     when (this) {
         is ComponentContainer -> removeComponent(child)
@@ -97,6 +100,16 @@ fun (@VaadinDsl HasComponents).removeAllComponents() {
         is PopupView -> popupComponent = Label("")
         else -> throw IllegalArgumentException("Unsupported component container $this")
     }
+}
+
+/**
+ * Returns the child component count for this container. Optimized for [ComponentContainer] and [SingleComponentContainer]; falls back to
+ * counting items in [HasComponents.iterator] otherwise.
+ */
+fun HasComponents.getComponentCount() = when (this) {
+    is ComponentContainer -> componentCount
+    is SingleComponentContainer -> componentCount
+    else -> this.count()
 }
 
 /**
@@ -203,7 +216,7 @@ fun (@VaadinDsl ComponentContainer).removeComponentAt(index: Int) {
 /**
  * Returns an [IntRange] of the valid component indices for this container.
  */
-val (@VaadinDsl ComponentContainer).indices: IntRange get() = 0..componentCount - 1
+val (@VaadinDsl ComponentContainer).indices: IntRange get() = 0 until componentCount
 
 /**
  * Removes components with given indices.

@@ -60,16 +60,44 @@ class ContainerTest : DynaTest({
         }
     }
 
+    group("removeAllComponents()") {
+        test("from Window") {
+            val w = Window("foo", Label("bar"))
+            w.removeAllComponents()
+            expect(null) { w.content }
+        }
+        test("from VerticalSplitPanel") {
+            val p = VerticalSplitPanel().apply { label("first"); label("second") }
+            p.removeAllComponents()
+            expect(0) { p.componentCount }
+        }
+    }
+
     group("removeFromParent") {
         test("with null parent") {
             val l = Label("foo")
             l.removeFromParent()
-            expect(null) {l.parent}
+            expect(null) { l.parent }
         }
         test("from window") {
             val w = Window("foo", Label("bar"))
             w.content.removeFromParent()
             expect(null) { w.content }
+        }
+    }
+
+    group("getComponentCount()") {
+        test("window") {
+            val w = Window("foo", Label("bar"))
+            expect(1) { (w as HasComponents).getComponentCount() }
+            w.removeAllComponents()
+            expect(0) { (w as HasComponents).getComponentCount() }
+        }
+        test("composite") {
+            var w = Composite(Label("bar"))
+            expect(1) { (w as HasComponents).getComponentCount() }
+            w = Composite()
+            expect(0) { (w as HasComponents).getComponentCount() }
         }
     }
 })
@@ -185,6 +213,35 @@ fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>
                     }.join()
                 }
             }
+        }
+
+        group("removeAllComponents()") {
+            fun ComponentContainer.join() = filterIsInstance<Label>().joinToString("", transform = { it.value })
+
+            test("remove all on already empty does nothing") {
+                expect("") {
+                    container.apply {
+                        removeAllComponents()
+                    }.join()
+                }
+            }
+            test("remove all") {
+                expect("") {
+                    container.dummyContent(5).apply {
+                        removeAllComponents()
+                    }.join()
+                }
+            }
+        }
+
+        group("getComponentCount()") {
+            lateinit var l: HasComponents
+            beforeEach { l = container }
+
+            test("empty") { expect(0) { l.getComponentCount() } }
+            test("100 children") { expect(100) { l.dummyContent(100).getComponentCount() } }
+            test("10 children") { expect(10) { l.dummyContent(10).getComponentCount() } }
+            test("20 children") { expect(20) { l.dummyContent(20).getComponentCount() } }
         }
     }
 }
