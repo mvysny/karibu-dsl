@@ -16,10 +16,10 @@ This library:
 * Auto-discovery and auto-mapping of Views via a custom Navigator
 * Additional useful methods which Vaadin lacks
 
-Supports:
+The documentation differs for Vaadin 8 and for Vaadin 10:
 
-* [Vaadin 8](https://vaadin.com/framework) (including support for v7 compatibility package)
-* [Vaadin 10 aka Flow](https://vaadin.com/flow)
+* [Karibu-DSL Vaadin 8 tutorial](karibu-dsl-v8)
+* [Karibu-DSL Vaadin 10 tutorial](karibu-dsl-v10)
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
@@ -35,12 +35,10 @@ Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-
 * The code is more readable and much shorter and concise
 * You can more easily copy parts of the UI and paste it into your project
 
-## Further Steps
+Supports:
 
-The documentation differs for Vaadin 8 and for Vaadin 10:
-
-* [Vaadin 8 tutorial](karibu-dsl-v8)
-* [Vaadin 10 tutorial](karibu-dsl-v10)
+* [Vaadin 8](https://vaadin.com/framework) (including support for v7 compatibility package)
+* [Vaadin 10 aka Flow](https://vaadin.com/flow)
 
 # License
 
