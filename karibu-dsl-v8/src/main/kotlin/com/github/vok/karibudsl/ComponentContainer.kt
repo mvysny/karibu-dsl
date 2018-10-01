@@ -103,14 +103,28 @@ fun (@VaadinDsl HasComponents).removeAllComponents() {
 }
 
 /**
- * Returns the child component count for this container. Optimized for [ComponentContainer] and [SingleComponentContainer]; falls back to
- * counting items in [HasComponents.iterator] otherwise.
+ * Returns the child component count for this container. O(1) for [ComponentContainer] and [SingleComponentContainer]; falls back to
+ * counting items in [HasComponents.iterator] otherwise - O(n).
  */
 fun HasComponents.getComponentCount() = when (this) {
     is ComponentContainer -> componentCount
     is SingleComponentContainer -> componentCount
-    else -> this.count()
+    else -> count()
 }
+
+/**
+ * Returns true if this container hosts no child components. Optimized for [ComponentContainer] and [SingleComponentContainer]. O(1).
+ */
+val HasComponents.isEmpty: Boolean get() = when (this) {
+    is ComponentContainer -> componentCount == 0
+    is SingleComponentContainer -> componentCount == 0
+    else -> !iterator().hasNext()
+}
+
+/**
+ * Returns true if this container contains any components. Optimized for [ComponentContainer] and [SingleComponentContainer]. O(1).
+ */
+val HasComponents.isNotEmpty: Boolean get() = !isEmpty
 
 /**
  * Sets the expand ratio of this component with respect to its parent layout. See [AbstractOrderedLayout.setExpandRatio] for more details.
@@ -219,7 +233,7 @@ fun (@VaadinDsl ComponentContainer).removeComponentAt(index: Int) {
 val (@VaadinDsl ComponentContainer).indices: IntRange get() = 0 until componentCount
 
 /**
- * Removes components with given indices.
+ * Removes components with given indices from the container.
  */
 fun (@VaadinDsl ComponentContainer).removeComponentsAt(indexRange: IntRange) {
     if (indexRange.isEmpty()) {
@@ -232,4 +246,7 @@ fun (@VaadinDsl ComponentContainer).removeComponentsAt(indexRange: IntRange) {
     }
 }
 
+/**
+ * Removes [components] from the container.
+ */
 fun (@VaadinDsl ComponentContainer).removeAll(components: Iterable<Component>) = components.forEach { removeComponent(it) }

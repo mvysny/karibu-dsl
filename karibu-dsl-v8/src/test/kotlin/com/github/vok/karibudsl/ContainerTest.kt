@@ -100,6 +100,21 @@ class ContainerTest : DynaTest({
             expect(0) { (w as HasComponents).getComponentCount() }
         }
     }
+
+    group("isEmpty") {
+        test("window") {
+            val w = Window("foo", Label("bar"))
+            expect(false) { (w as HasComponents).isEmpty }
+            w.removeAllComponents()
+            expect(true) { (w as HasComponents).isEmpty }
+        }
+        test("composite") {
+            var w = Composite(Label("bar"))
+            expect(false) { (w as HasComponents).isEmpty }
+            w = Composite()
+            expect(true) { (w as HasComponents).isEmpty }
+        }
+    }
 })
 
 fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>) {
@@ -242,6 +257,16 @@ fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>
             test("100 children") { expect(100) { l.dummyContent(100).getComponentCount() } }
             test("10 children") { expect(10) { l.dummyContent(10).getComponentCount() } }
             test("20 children") { expect(20) { l.dummyContent(20).getComponentCount() } }
+        }
+
+        group("isEmpty") {
+            lateinit var l: HasComponents
+            beforeEach { l = container }
+
+            test("empty") { expect(true) { l.isEmpty } }
+            test("100 children") { expect(false) { l.dummyContent(100).isEmpty } }
+            test("10 children") { expect(false) { l.dummyContent(10).isEmpty } }
+            test("20 children") { expect(false) { l.dummyContent(1).isEmpty } }
         }
     }
 }
