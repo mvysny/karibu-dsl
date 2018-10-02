@@ -3,6 +3,7 @@ buildscript {
     ext.vaadin10_version = '11.0.0'
     ext.dynatest_version = "0.9"
     ext.kaributesting_version = "0.4.16"
+    ext.hibernate_validator_version = "6.0.13.Final"
 
     ext.local = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
