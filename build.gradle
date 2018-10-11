@@ -2,7 +2,7 @@ buildscript {
     ext.vaadin8_version = '8.5.2'
     ext.vaadin10_version = '11.0.0'
     ext.dynatest_version = "0.9"
-    ext.kaributesting_version = "0.4.16"
+    ext.kaributesting_version = "0.4.17"
     ext.hibernate_validator_version = "6.0.13.Final"
 
     ext.local = new Properties()
