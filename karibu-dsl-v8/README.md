@@ -13,7 +13,7 @@ simply by including appropriate Gradle dependency:
 
 ```groovy
 repositories {
-    maven { url "https://dl.bintray.com/mvysny/github" }
+    jcenter()
 }
 
 dependencies {
@@ -22,6 +22,25 @@ dependencies {
 ```
 
 > Note: obtain the newest version from the latest tag name above
+
+Maven:
+```xml
+<project>
+	<repositories>
+		<repository>
+			<id>jcenter</id>
+			<url>https://jcenter.bintray.com/</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>com.github.vok.karibudsl</groupId>
+			<artifactId>karibu-dsl-v8</artifactId>
+			<version>x.y.z</version>
+		</dependency>
+    </dependencies>
+</project>
+```
 
 However, to quickly test out Karibu DSL you can simply start with one
 of the example applications below.
