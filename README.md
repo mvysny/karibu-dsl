@@ -11,7 +11,8 @@ Please visit [Vaadin-on-Kotlin](http://www.vaadinonkotlin.eu/) pages for the Get
 This library:
 
 * Allows you to create Vaadin UI designs/component graphs in the structured code way; the idea behind
-  is explained in the [Writing Vaadin apps in Kotlin Part 4](http://mavi.logdown.com/posts/1493730) article.
+  is explained in the [DSLs: Explained for Vaadin 8](http://www.vaadinonkotlin.eu/dsl_explained.html) article /
+  [DSLs: Explained for Vaadin 10](http://www.vaadinonkotlin.eu/dsl_explained-v10.html) article.
   The general DSL idea is explained in [Kotlin Type-Safe Builders](https://kotlinlang.org/docs/reference/type-safe-builders.html).
 * Auto-discovery and auto-mapping of Views via a custom Navigator
 * Additional useful methods which Vaadin lacks
