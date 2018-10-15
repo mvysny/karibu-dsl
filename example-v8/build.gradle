@@ -20,6 +20,7 @@ vaadin {
 
 gretty {
     contextPath = '/'
+    servletContainer = 'jetty9.4'
 }
 
 dependencies {
