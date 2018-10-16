@@ -54,7 +54,7 @@ dependencies {
     // and we can't thus discover and preload JPA entities.
 
     testCompile "com.github.kaributesting:karibu-testing-v8:$kaributesting_version"
-    testCompile("com.github.mvysny.dynatest:dynatest:${dynatest_version}")
+    testCompile("com.github.mvysny.dynatest:dynatest-engine:${dynatest_version}")
     testCompile "org.jetbrains.kotlin:kotlin-test"
 
     // heroku app runner

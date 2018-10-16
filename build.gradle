@@ -1,7 +1,7 @@
 buildscript {
     ext.vaadin8_version = '8.5.2'
     ext.vaadin10_version = '11.0.1'
-    ext.dynatest_version = "0.9"
+    ext.dynatest_version = "0.11"
     ext.kaributesting_version = "0.4.17"
     ext.hibernate_validator_version = "6.0.13.Final"
 
@@ -17,15 +17,16 @@ plugins {
     id "com.jfrog.bintray" version "1.8.1"
 }
 
-repositories {
-    mavenCentral()
-}
-
 defaultTasks 'clean', 'build'
 
 allprojects {
     group 'com.github.vok.karibudsl'
     version '0.4.11-SNAPSHOT'
+
+    repositories {
+        jcenter()
+        maven { url "https://dl.bintray.com/mvysny/github" }
+    }
 
     // Heroku
     task stage(dependsOn: ['build'])
@@ -44,10 +45,6 @@ subprojects {
         kotlinOptions {
             jvmTarget = "1.8"
         }
-    }
-
-    repositories {
-        jcenter()
     }
 
     test {
