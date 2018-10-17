@@ -8,6 +8,7 @@ import kotlin.test.expect
 
 class FlexComponentsTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     group("flexGrow") {
         test("flexGrow works even when the component is not yet attached to parent") {

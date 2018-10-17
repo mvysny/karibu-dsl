@@ -9,6 +9,7 @@ import kotlin.test.expect
 
 class VaadinComponentsTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     group("flex") {
         test("setting flexGrow on component sets it to the parent VerticalLayout correctly") {

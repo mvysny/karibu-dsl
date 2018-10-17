@@ -12,6 +12,7 @@ import kotlin.test.expect
 class ContainerTest : DynaTest({
 
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     test("prerequisites") {
         expect(false) { AbsoluteLayout() is AbstractOrderedLayout }

@@ -10,6 +10,7 @@ import java.io.Serializable
 
 class ListenersTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     test("buttonListenerSerializable") {
         ({ println("foo") } as Serializable).cloneBySerialization()

@@ -25,6 +25,7 @@ import kotlin.test.expect
 class BinderUtilsTest : DynaTest({
 
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     test("ReadBeanWithNullFields") {
         // https://github.com/vaadin/framework/issues/8664

@@ -10,6 +10,7 @@ import kotlin.test.*
 
 class DateRangePopupTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
     lateinit var component: DateRangePopup
     beforeEach { component = DateRangePopup() }
 

@@ -9,6 +9,7 @@ import kotlin.test.expect
 class TreeIteratorTest : DynaTest({
 
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     test("walk") {
         val expected = mutableSetOf<Component>()

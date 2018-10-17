@@ -9,6 +9,8 @@ import kotlin.test.expect
 
 class FormLayoutsTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
+
     test("responsive steps") {
         val layout = FormLayout().apply {
             responsiveSteps { "0px"(1); "30em"(2, top) }

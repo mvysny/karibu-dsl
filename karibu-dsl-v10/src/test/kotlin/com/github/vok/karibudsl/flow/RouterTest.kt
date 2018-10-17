@@ -28,6 +28,7 @@ class RouterTest : DynaTest({
         _expectNone<TestingView>()
         _expectNone<TestingParametrizedView>()
     }
+    afterEach { MockVaadin.tearDown() }
 
     group("navigateToView") {
         test("reified") {

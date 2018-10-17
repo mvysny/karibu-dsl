@@ -8,6 +8,7 @@ import kotlin.test.expect
 
 class AutoViewProviderTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
 
     test("ParseViewName") {
         expect("foo") { AutoViewProvider.parseViewName("!foo/25") }

@@ -10,6 +10,8 @@ import kotlin.test.expect
 
 class CommonTest : DynaTest({
     beforeEach { MockVaadin.setup() }
+    afterEach { MockVaadin.tearDown() }
+
     group("removeFromParent()") {
         test("component with no parent") {
             val t = Text("foo")

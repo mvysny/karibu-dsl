@@ -28,6 +28,7 @@ class NavigatorTest : DynaTest({
             navigator.addProvider(autoViewProvider)
         }
     }
+    afterEach { MockVaadin.tearDown() }
 
     test("parameters are passed properly") {
         navigateToView<SimpleView>("a", "b", "c")
