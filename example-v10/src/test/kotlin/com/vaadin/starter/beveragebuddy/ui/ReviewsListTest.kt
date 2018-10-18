@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.Button
 class ReviewsListTest : DynaTest({
 
     beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
+    afterEach { MockVaadin.tearDown() }
 
     test("'new review' smoke test") {
         UI.getCurrent().navigate("")

@@ -17,6 +17,7 @@ class WelcomeViewTest : DynaTest({
     }
 
     beforeEach { MockVaadin.setup({ MyUI() }) }
+    afterEach { MockVaadin.tearDown() }
 
     test("verify the welcome view caption") {
         navigateToView(WelcomeView::class.java)

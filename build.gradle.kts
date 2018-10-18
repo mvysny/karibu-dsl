@@ -13,12 +13,6 @@ plugins {
 defaultTasks("clean", "build")
 
 allprojects {
-    ext["vaadin8_version"] = "8.5.2"
-    ext["vaadin10_version"] = "11.0.1"
-    ext["dynatest_version"] = "0.11"
-    ext["kaributesting_version"] = "0.5.0"
-    ext["hibernate_validator_version"] = "6.0.13.Final"
-
     group = "com.github.vok.karibudsl"
     version = "0.4.12-SNAPSHOT"
 

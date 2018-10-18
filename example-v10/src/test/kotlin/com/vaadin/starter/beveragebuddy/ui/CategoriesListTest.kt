@@ -14,6 +14,7 @@ import kotlin.test.expect
 class CategoriesListTest : DynaTest({
 
     beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
+    afterEach { MockVaadin.tearDown() }
 
     test("grid has 9 rows") {
         UI.getCurrent().navigate("categories")

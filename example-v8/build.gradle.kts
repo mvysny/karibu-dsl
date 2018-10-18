@@ -13,7 +13,7 @@ plugins {
 val jettyVer = "9.4.2.v20170220"
 
 vaadin {
-    version = "8.5.2"
+    version = properties["vaadin8_version"] as String
 }
 
 gretty {
