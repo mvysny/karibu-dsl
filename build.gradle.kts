@@ -18,12 +18,6 @@ allprojects {
     ext["dynatest_version"] = "0.11"
     ext["kaributesting_version"] = "0.5.0"
     ext["hibernate_validator_version"] = "6.0.13.Final"
-    val local = Properties()
-    val localProperties: File = rootProject.file("local.properties")
-    if (localProperties.exists()) {
-        localProperties.inputStream().use { local.load(it) }
-    }
-    ext["local"] = local
 
     group = "com.github.vok.karibudsl"
     version = "0.4.12-SNAPSHOT"
