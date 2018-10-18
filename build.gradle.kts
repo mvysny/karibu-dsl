@@ -1,3 +1,4 @@
+import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
@@ -6,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.2.61"
     id("org.gretty") version "2.2.0"
     id("com.jfrog.bintray") version "1.8.1"
+    `maven-publish`
 }
 
 defaultTasks("clean", "build")
@@ -42,7 +44,9 @@ allprojects {
 subprojects {
 
     apply {
+        plugin("maven-publish")
         plugin("kotlin")
+        plugin("com.jfrog.bintray")
     }
 
     tasks.withType<KotlinCompile> {
@@ -54,6 +58,61 @@ subprojects {
         testLogging {
             // to see the exceptions of failed tests in Travis-CI console.
             exceptionFormat = TestExceptionFormat.FULL
+        }
+    }
+
+    // creates a reusable function which configures proper deployment to Bintray
+    ext["configureBintray"] = { artifactId: String ->
+
+        val local = Properties()
+        val localProperties: File = rootProject.file("local.properties")
+        if (localProperties.exists()) {
+            localProperties.inputStream().use { local.load(it) }
+        }
+
+        val java: JavaPluginConvention = convention.getPluginByName("java")
+
+        val sourceJar = task("sourceJar", Jar::class) {
+            dependsOn(tasks.findByName("classes"))
+            classifier = "sources"
+            from(java.sourceSets["main"].allSource)
+        }
+
+        publishing {
+            publications {
+                create("mavenJava", MavenPublication::class.java).apply {
+                    groupId = project.group.toString()
+                    this.artifactId = artifactId
+                    version = project.version.toString()
+                    pom.withXml {
+                        val root = asNode()
+                        root.appendNode("description", "Karibu-DSL, Kotlin extensions/DSL for Vaadin")
+                        root.appendNode("name", artifactId)
+                        root.appendNode("url", "https://github.com/mvysny/karibu-dsl")
+                    }
+                    from(components.findByName("java")!!)
+                    artifact(sourceJar) {
+                        classifier = "sources"
+                    }
+                }
+            }
+        }
+
+        bintray {
+            user = local.getProperty("bintray.user")
+            key = local.getProperty("bintray.key")
+            pkg(closureOf<BintrayExtension.PackageConfig> {
+                repo = "github"
+                name = "com.github.vok.karibudsl"
+                setLicenses("MIT")
+                vcsUrl = "https://github.com/mvysny/karibu-dsl"
+                publish = true
+                setPublications("mavenJava")
+                version(closureOf<BintrayExtension.VersionConfig> {
+                    this.name = project.version.toString()
+                    released = Date().toString()
+                })
+            })
         }
     }
 }
