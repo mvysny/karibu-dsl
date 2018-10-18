@@ -21,6 +21,8 @@ gretty {
     servletContainer = "jetty9.4"
 }
 
+val staging by configurations.creating
+
 dependencies {
     compile(project(":karibu-dsl-v8"))
 
@@ -56,14 +58,14 @@ dependencies {
     testCompile("org.jetbrains.kotlin:kotlin-test")
 
     // heroku app runner
-    testRuntime("com.github.jsimone:webapp-runner:9.0.11.0")
+    staging("com.github.jsimone:webapp-runner:9.0.11.0")
 }
 
 // Heroku
 tasks {
     val copyToLib by registering(Copy::class) {
         into("$buildDir/server")
-        from(configurations.testRuntime) {
+        from(staging) {
             include("webapp-runner*")
         }
     }
