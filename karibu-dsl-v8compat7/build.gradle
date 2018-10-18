@@ -1,6 +1,6 @@
 dependencies {
-    compile(project(':karibu-dsl-v8'))
-    compile "com.vaadin:vaadin-compatibility-server:$vaadin8_version"
+    compile(project(":karibu-dsl-v8"))
+    compile("com.vaadin:vaadin-compatibility-server:$vaadin8_version")
 }
 
 task sourceJar(type: Jar, dependsOn: classes) {
