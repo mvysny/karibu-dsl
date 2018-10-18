@@ -3,19 +3,17 @@
 
 plugins {
     id("com.devsoap.plugin.vaadin") version "1.4.1"
+    war
+    id("org.gretty")
 }
-
-apply plugin: "war"
-apply plugin: "kotlin"
-apply plugin: "org.gretty"
 
 // don't update Jetty carelessly, it tends to break Atmosphere and Push support!
 // test before commit :-)
 // see https://github.com/vaadin/framework/issues/8134 for details
-ext.jettyVer = "9.4.2.v20170220"
+val jettyVer = "9.4.2.v20170220"
 
 vaadin {
-    version vaadin8_version
+    version = "8.5.2"
 }
 
 gretty {
@@ -34,8 +32,8 @@ dependencies {
     compile("org.slf4j:jul-to-slf4j:1.7.25")
 
     // Vaadin: workaround until https://youtrack.jetbrains.com/issue/IDEA-178071 is fixed
-    compile("com.vaadin:vaadin-client-compiled:$vaadin8_version")
-    compile("com.vaadin:vaadin-themes:$vaadin8_version")
+    compile("com.vaadin:vaadin-client-compiled:${ext["vaadin8_version"]}")
+    compile("com.vaadin:vaadin-themes:${ext["vaadin8_version"]}")
 
     // easy development with Jetty
     testCompile("org.eclipse.jetty:jetty-webapp:$jettyVer")
@@ -53,20 +51,23 @@ dependencies {
     // Embedded Tomcat is currently unsupported since it always starts its own class loader which is only known on Tomcat start time
     // and we can't thus discover and preload JPA entities.
 
-    testCompile("com.github.kaributesting:karibu-testing-v8:$kaributesting_version")
-    testCompile("com.github.mvysny.dynatest:dynatest-engine:${dynatest_version}")
+    testCompile("com.github.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
+    testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
     testCompile("org.jetbrains.kotlin:kotlin-test")
 
     // heroku app runner
     testRuntime("com.github.jsimone:webapp-runner:9.0.11.0")
 }
 
-// heroku
-task copyToLib(type: Copy) {
-    into "$buildDir/server"
-    from(configurations.testRuntime) {
-        include "webapp-runner*"
+// Heroku
+tasks {
+    val copyToLib by registering(Copy::class) {
+        into("$buildDir/server")
+        from(configurations.testRuntime) {
+            include("webapp-runner*")
+        }
+    }
+    "stage" {
+        dependsOn("build", copyToLib)
     }
 }
-stage.dependsOn(copyToLib)
-
