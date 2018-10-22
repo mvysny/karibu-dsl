@@ -7,7 +7,7 @@ dependencyManagement {
 }
 
 dependencies {
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile(kotlin("stdlib-jdk8"))
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
     testCompile("com.github.kaributesting:karibu-testing-v10:${ext["kaributesting_version"]}")
