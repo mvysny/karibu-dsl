@@ -1,4 +1,4 @@
-package com.github.vok.karibudsl.flow
+package com.github.vok.karibudsl.flow.cssstyledsl
 
 import com.vaadin.flow.component.HasStyle
 import com.vaadin.flow.dom.Style
@@ -22,7 +22,7 @@ val cssBlueColorStyle: KCssStyleBlock = {
 
 cssStyleBlock {
     cssBlueColorStyle()
-    marginLeft = "0px"
+    margin.left = "0px"
 }
 */
 

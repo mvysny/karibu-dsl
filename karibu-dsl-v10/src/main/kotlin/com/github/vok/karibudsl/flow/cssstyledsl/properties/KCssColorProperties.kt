@@ -1,4 +1,6 @@
-package com.github.vok.karibudsl.flow
+package com.github.vok.karibudsl.flow.properties
+
+import com.github.vok.karibudsl.flow.cssstyledsl.KCssStyle
 
 var KCssStyle.background: String?
     get() = style["background"]
@@ -12,8 +14,3 @@ var KCssStyle.color: String?
         style["color"] = value
     }
 
-var KCssStyle.marginLeft: String?
-    get() = style["margin-left"]
-    set(value) {
-        style["margin-left"] = value
-    }
