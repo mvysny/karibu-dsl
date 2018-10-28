@@ -1,4 +1,4 @@
-package com.github.vok.karibudsl.flow.properties
+package com.github.vok.karibudsl.flow.cssstyledsl.properties
 
 import com.github.vok.karibudsl.flow.cssstyledsl.KCssStyle
 
