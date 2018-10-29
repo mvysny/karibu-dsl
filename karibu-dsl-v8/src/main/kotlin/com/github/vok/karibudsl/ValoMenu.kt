@@ -170,6 +170,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
 
         // make the appropriate menu button selected, to show the current view
         views.values.forEach { it.isSelected = false }
+        @Suppress("USELESS_CAST")  // removing this cast will make Kotlin compiler fail...
         views[view.javaClass as Class<*>]?.isSelected = true
     }
 }
