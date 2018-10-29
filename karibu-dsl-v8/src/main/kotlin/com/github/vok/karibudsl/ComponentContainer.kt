@@ -138,8 +138,8 @@ var (@VaadinDsl Component).expandRatio: Float
 private fun HasComponents?.asAbstractOrderedLayout(): AbstractOrderedLayout {
     check(this != null) { "Setting expandRatio of a component only works when the component is already nested in the parent layout" }
     check(this !is FormLayout) { "Setting expandRatio of a component nested inside of a FormLayout does nothing (see the FormLayout class for more details), and it is therefore discouraged." }
-    check(this is AbstractOrderedLayout) { "You're attempting to set expandRatio of a component but that's only supported when the component is nested inside VerticalLayout and HorizontalLayout, not for ${this!!.javaClass.simpleName}."}
-    return this as AbstractOrderedLayout
+    check(this is AbstractOrderedLayout) { "You're attempting to set expandRatio of a component but that's only supported when the component is nested inside VerticalLayout and HorizontalLayout, not for ${this.javaClass.simpleName}."}
+    return this
 }
 
 /**
@@ -170,8 +170,8 @@ var (@VaadinDsl Component).zIndex: Int
 
 private fun HasComponents?.asAbsoluteLayout(): AbsoluteLayout {
     check(this != null) { "Setting absolutePosition of a component only works when the component is already nested in the parent layout" }
-    check(this is AbsoluteLayout) { "You're attempting to set absolutePosition of a component but that's only supported when the component is nested inside VerticalLayout and HorizontalLayout, not for ${this!!.javaClass.simpleName}."}
-    return this as AbsoluteLayout
+    check(this is AbsoluteLayout) { "You're attempting to set absolutePosition of a component but that's only supported when the component is nested inside VerticalLayout and HorizontalLayout, not for ${this.javaClass.simpleName}."}
+    return this
 }
 
 /**

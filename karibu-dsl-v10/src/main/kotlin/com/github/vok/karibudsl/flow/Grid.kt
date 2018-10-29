@@ -209,7 +209,7 @@ private val FooterRow.FooterCell.column: Any
 fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
     val cell = cells.firstOrNull { (it.column as Grid.Column<*>).key == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
-    return cell!!
+    return cell
 }
 
 private val Any.columnKey: String?
@@ -229,7 +229,7 @@ get() {
 fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
     val cell = cells.firstOrNull { it.column.columnKey == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
-    return cell!!
+    return cell
 }
 
 val HeaderRow.HeaderCell.renderer: Renderer<*>?

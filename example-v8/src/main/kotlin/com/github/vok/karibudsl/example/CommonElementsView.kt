@@ -231,7 +231,7 @@ private class DemoDialog {
         h = 300.px
         isClosable = false
         isResizable = false
-        setCloseShortcut(ShortcutAction.KeyCode.ESCAPE)
+        addCloseShortcut(ShortcutAction.KeyCode.ESCAPE)
     }
     var footerVisible: Boolean = false
         set(value) { field = value; updateContent() }

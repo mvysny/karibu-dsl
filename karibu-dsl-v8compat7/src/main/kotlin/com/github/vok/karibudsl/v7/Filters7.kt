@@ -25,10 +25,6 @@ import com.vaadin.v7.ui.Field
 import com.vaadin.v7.ui.Grid
 import com.vaadin.v7.ui.TextField
 import java.io.Serializable
-import java.lang.Byte
-import java.lang.Float
-import java.lang.Long
-import java.lang.Short
 import java.sql.Timestamp
 import java.text.DateFormat
 import java.util.*
@@ -54,6 +50,7 @@ data class NumberInterval<T : Number>(val lessThanValue: T?, val greaterThanValu
  * Stolen from Teppo Kurki's FilterTable.
  */
 class NumberFilterPopup : CustomField<NumberInterval<Double>?>() {
+    @Suppress("UNCHECKED_CAST")
     override fun getType(): Class<out NumberInterval<Double>>? = NumberInterval::class.java as Class<NumberInterval<Double>>
 
     private lateinit var ok: Button
@@ -185,11 +182,11 @@ abstract class FilterFieldFactory(protected val container: Container.Filterable)
         val clazz = container.getType(propertyId)
         return when(clazz) {
             Integer.TYPE -> Integer::class.java
-            Long.TYPE -> Long::class.java
-            Float.TYPE -> Float::class.java
+            java.lang.Long.TYPE -> java.lang.Long::class.java
+            java.lang.Float.TYPE -> java.lang.Float::class.java
             java.lang.Double.TYPE -> java.lang.Double::class.java
-            Short.TYPE -> Short::class.java
-            Byte.TYPE -> Byte::class.java
+            java.lang.Short.TYPE -> java.lang.Short::class.java
+            java.lang.Byte.TYPE -> java.lang.Byte::class.java
             else -> clazz
         }
     }

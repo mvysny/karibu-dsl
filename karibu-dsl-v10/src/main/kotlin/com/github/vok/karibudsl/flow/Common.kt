@@ -30,7 +30,7 @@ fun Class<*>.getGetter(propertyName: String): Method {
     val descriptors: Array<out PropertyDescriptor> = Introspector.getBeanInfo(this).propertyDescriptors
     val descriptor: PropertyDescriptor? = descriptors.firstOrNull { it.name == propertyName }
     requireNotNull(descriptor) { "No such field '$propertyName' in $this; available properties: ${descriptors.joinToString { it.name }}" }
-    val getter: Method = requireNotNull(descriptor!!.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
+    val getter: Method = requireNotNull(descriptor.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
     return getter
 }
 

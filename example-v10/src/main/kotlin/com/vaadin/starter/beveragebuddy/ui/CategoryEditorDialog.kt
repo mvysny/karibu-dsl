@@ -28,7 +28,7 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
 class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)->Unit, itemDeleter: (Category)->Unit)
     : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter, Category::class.java) {
 
-    private lateinit var categoryNameField: TextField
+    private val categoryNameField: TextField
 
     init {
         formLayout.apply {

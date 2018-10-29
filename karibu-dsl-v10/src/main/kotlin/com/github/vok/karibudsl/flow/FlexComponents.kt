@@ -56,7 +56,7 @@ var (@VaadinDsl Component).flexGrow: Double
     get() {
         if (this is Grid.Column<*>) return this.flexGrow.toDouble()
         val value = element.style.get("flexGrow")
-        return if (value.isNullOrBlank()) 0.0 else value!!.toDouble()
+        return if (value.isNullOrBlank()) 0.0 else value.toDouble()
     }
     set(value) {
         when {

@@ -18,7 +18,7 @@ class _TabSheet : TabSheet() {
      * ```
      */
     @get:JvmName("getTab2")
-    val (@VaadinDsl Component).tab: Tab get() = this@_TabSheet.getTab(ttab@this) ?: throw IllegalStateException("${ttab@this} is not child of ${this@_TabSheet}")
+    val (@VaadinDsl Component).tab: Tab get() = this@_TabSheet.getTab(this) ?: throw IllegalStateException("$this is not child of ${this@_TabSheet}")
 }
 
 @VaadinDsl

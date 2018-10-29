@@ -67,7 +67,7 @@ class BinderUtilsTest : DynaTest({
 
     test("ValidatingBindings") {
         val binder = beanValidationBinder<Person>()
-        val form = Form(binder)
+        Form(binder)
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, false,"some comment")) { person }

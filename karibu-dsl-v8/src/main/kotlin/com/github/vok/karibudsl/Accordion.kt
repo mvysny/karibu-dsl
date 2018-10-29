@@ -18,7 +18,7 @@ class _Accordion : Accordion() {
      * ```
      */
     @get:JvmName("getTab2")
-    val (@VaadinDsl Component).tab: Tab get() = this@_Accordion.getTab(ttab@this) ?: throw IllegalStateException("${ttab@this} is not child of ${this@_Accordion}")
+    val (@VaadinDsl Component).tab: Tab get() = this@_Accordion.getTab(this) ?: throw IllegalStateException("$this is not child of ${this@_Accordion}")
 }
 
 @VaadinDsl
