@@ -9,6 +9,7 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.splitlayout.SplitLayout
+import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.component.textfield.PasswordField
 import com.vaadin.flow.component.textfield.TextArea
@@ -106,3 +107,6 @@ fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDs
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}) = init(Tabs(), block)
+
+@VaadinDsl
+fun (@VaadinDsl Tabs).tab(block: (@VaadinDsl Tab).() -> Unit = {}) = init(Tab(), block)
