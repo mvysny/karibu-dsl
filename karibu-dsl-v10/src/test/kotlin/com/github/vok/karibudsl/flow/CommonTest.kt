@@ -3,9 +3,8 @@ package com.github.vok.karibudsl.flow
 import com.github.karibu.testing.v10.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.Text
-import com.vaadin.flow.component.html.Label
+import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.orderedlayout.FlexLayout
-import kotlin.streams.toList
 import kotlin.test.expect
 
 class CommonTest : DynaTest({
@@ -25,6 +24,20 @@ class CommonTest : DynaTest({
             label.removeFromParent()
             expect(null) { label.parent.orElse(null) }
             expect(0) { l.componentCount }
+        }
+    }
+
+    group("flip class name") {
+        test("add") {
+            val t = Div()
+            t.classNames.flip("test")
+            expect(setOf("test")) { t.classNames }
+        }
+        test("remove") {
+            val t = Div()
+            t.classNames.add("test")
+            t.classNames.flip("test")
+            expect(setOf<String>()) { t.classNames }
         }
     }
 })

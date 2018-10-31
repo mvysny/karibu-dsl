@@ -2,6 +2,7 @@ package com.github.vok.karibudsl.flow
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.dom.ClassList
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
 import java.lang.reflect.Method
@@ -17,7 +18,7 @@ import java.lang.reflect.Method
  * @param block optional block to run over the component, allowing you to add children to the [component]
  */
 @VaadinDsl
-fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.()->Unit = {}): T {
+fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.() -> Unit = {}): T {
     add(component)
     component.block()
     return component
@@ -39,4 +40,11 @@ fun Class<*>.getGetter(propertyName: String): Method {
  */
 fun Component.removeFromParent() {
     (parent.orElse(null) as? HasComponents)?.remove(this)
+}
+
+/**
+ * Flips [className] - removes it if it was there, or adds it if it wasn't there.
+ */
+fun ClassList.flip(className: String) {
+    set(className, !contains(className))
 }
