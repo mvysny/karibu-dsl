@@ -14,7 +14,7 @@ defaultTasks("clean", "build")
 
 allprojects {
     group = "com.github.vok.karibudsl"
-    version = "0.4.12-SNAPSHOT"
+    version = "0.4.12"
 
     repositories {
         jcenter()
