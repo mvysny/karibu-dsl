@@ -1,6 +1,8 @@
 package com.github.vok.karibudsl
 
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.server.ErrorMessage
+import com.vaadin.server.UserError
 import java.net.URI
 import kotlin.test.expect
 
@@ -27,5 +29,9 @@ class UtilsTest : DynaTest({
             val uri = URI("http://localhost?q=value1&q=en&q=25")
             expect(mapOf("q" to listOf("value1", "en", "25"))) { uri.queryMap }
         }
+    }
+
+    test("error message") {
+        expect("foo bar baz") { (UserError("foo bar baz") as ErrorMessage).message }
     }
 })
