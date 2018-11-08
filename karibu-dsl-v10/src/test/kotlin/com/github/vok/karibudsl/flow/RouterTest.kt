@@ -1,9 +1,6 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.v10.MockVaadin
-import com.github.karibu.testing.v10.Routes
-import com.github.karibu.testing.v10._expectNone
-import com.github.karibu.testing.v10._get
+import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectThrows
 import com.vaadin.flow.component.UI

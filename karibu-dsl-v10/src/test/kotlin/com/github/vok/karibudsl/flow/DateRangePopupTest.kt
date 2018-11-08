@@ -1,7 +1,7 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog

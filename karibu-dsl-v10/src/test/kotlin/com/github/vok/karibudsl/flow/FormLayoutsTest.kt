@@ -1,10 +1,8 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.v10.MockVaadin
-import com.github.karibu.testing.v10.toPrettyTree
+import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.formlayout.FormLayout
-import kotlin.streams.toList
 import kotlin.test.expect
 
 class FormLayoutsTest : DynaTest({

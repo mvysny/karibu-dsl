@@ -53,7 +53,7 @@ dependencies {
     // Embedded Tomcat is currently unsupported since it always starts its own class loader which is only known on Tomcat start time
     // and we can't thus discover and preload JPA entities.
 
-    testCompile("com.github.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
     testCompile("org.jetbrains.kotlin:kotlin-test")
 

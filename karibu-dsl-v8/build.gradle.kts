@@ -3,7 +3,7 @@ dependencies {
     compile("org.slf4j:slf4j-api:1.7.25")
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
-    testCompile("com.github.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
     testCompile("ch.qos.logback:logback-classic:1.2.3")
 
     compile("io.michaelrocks:bimap:1.0.2")

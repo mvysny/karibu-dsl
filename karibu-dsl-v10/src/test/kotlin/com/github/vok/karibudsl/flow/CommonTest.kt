@@ -1,7 +1,7 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.v10.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.orderedlayout.FlexLayout

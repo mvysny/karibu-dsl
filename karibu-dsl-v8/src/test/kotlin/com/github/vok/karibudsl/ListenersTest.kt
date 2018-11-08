@@ -1,9 +1,9 @@
 package com.github.vok.karibudsl
 
-import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.serializeToBytes
+import com.github.mvysny.kaributesting.v8.MockVaadin
 import com.vaadin.ui.Button
 import com.vaadin.ui.Image
 import java.io.Serializable

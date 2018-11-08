@@ -1,9 +1,8 @@
 package com.github.vok.karibudsl
 
-import com.github.karibu.testing.MockVaadin
+import com.github.mvysny.kaributesting.v8.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.navigator.View
-import com.vaadin.navigator.ViewChangeListener
 import kotlin.test.expect
 
 class AutoViewProviderTest : DynaTest({

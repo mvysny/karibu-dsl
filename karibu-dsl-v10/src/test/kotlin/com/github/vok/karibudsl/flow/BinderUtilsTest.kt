@@ -1,7 +1,7 @@
 package com.github.vok.karibudsl.flow
 
-import com.github.karibu.testing.v10.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.AbstractField
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.data.binder.Binder

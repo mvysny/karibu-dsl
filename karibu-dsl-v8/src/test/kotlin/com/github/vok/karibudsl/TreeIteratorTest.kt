@@ -1,7 +1,7 @@
 package com.github.vok.karibudsl
 
-import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.kaributesting.v8.MockVaadin
 import com.vaadin.ui.Component
 import com.vaadin.ui.VerticalLayout
 import kotlin.test.expect

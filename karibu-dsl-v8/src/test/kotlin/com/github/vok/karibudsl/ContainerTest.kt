@@ -1,10 +1,10 @@
 package com.github.vok.karibudsl
 
-import com.github.karibu.testing.MockVaadin
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.dynatest.expectThrows
+import com.github.mvysny.kaributesting.v8.MockVaadin
 import com.vaadin.ui.*
 import java.lang.IllegalStateException
 import kotlin.test.expect
