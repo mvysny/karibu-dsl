@@ -66,22 +66,46 @@ subprojects {
             from(java.sourceSets["main"].allSource)
         }
 
+        val javadocJar = task("javadocJar", Jar::class) {
+            val javadoc = tasks.findByName("javadoc") as Javadoc
+            javadoc.isFailOnError = false
+            dependsOn(javadoc)
+            classifier = "javadoc"
+            from(javadoc.destinationDir)
+        }
+
         publishing {
             publications {
                 create("mavenJava", MavenPublication::class.java).apply {
                     groupId = project.group.toString()
                     this.artifactId = artifactId
                     version = project.version.toString()
-                    pom.withXml {
-                        val root = asNode()
-                        root.appendNode("description", "Karibu-DSL, Kotlin extensions/DSL for Vaadin")
-                        root.appendNode("name", artifactId)
-                        root.appendNode("url", "https://github.com/mvysny/karibu-dsl")
+                    pom {
+                        description.set("Karibu-DSL, Kotlin extensions/DSL for Vaadin")
+                        name.set(artifactId)
+                        url.set("https://github.com/mvysny/karibu-dsl")
+                        licenses {
+                            license {
+                                name.set("The MIT License (MIT)")
+                                url.set("https://opensource.org/licenses/MIT")
+                                distribution.set("repo")
+                            }
+                        }
+                        developers {
+                            developer {
+                                id.set("mavi")
+                                name.set("Martin Vysny")
+                                email.set("martin@vysny.me")
+                            }
+                        }
+                        scm {
+                            url.set("https://github.com/mvysny/karibu-dsl")
+                        }
                     }
+
                     from(components.findByName("java")!!)
-                    artifact(sourceJar) {
-                        classifier = "sources"
-                    }
+                    artifact(sourceJar)
+                    artifact(javadocJar)
                 }
             }
         }
