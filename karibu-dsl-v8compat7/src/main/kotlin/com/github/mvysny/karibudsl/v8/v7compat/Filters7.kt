@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.github.vok.karibudsl.v7
+package com.github.mvysny.karibudsl.v8.v7compat
 
 import com.github.vok.karibudsl.*
 import com.vaadin.server.Resource
