@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile("com.github.vok.karibudsl:karibu-dsl-v8:x.y.z")
+    compile("com.github.mvysny.karibudsl:karibu-dsl-v8:x.y.z")
 }
 ```
 
