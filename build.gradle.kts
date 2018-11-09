@@ -15,8 +15,8 @@ plugins {
 defaultTasks("clean", "build")
 
 allprojects {
-    group = "com.github.vok.karibudsl"
-    version = "0.4.13-SNAPSHOT"
+    group = "com.github.mvysny.karibudsl"
+    version = "0.5.0-SNAPSHOT"
 
     repositories {
         jcenter()
@@ -118,7 +118,7 @@ subprojects {
             key = local.getProperty("bintray.key")
             pkg(closureOf<BintrayExtension.PackageConfig> {
                 repo = "github"
-                name = "com.github.vok.karibudsl"
+                name = "com.github.mvysny.karibudsl"
                 setLicenses("MIT")
                 vcsUrl = "https://github.com/mvysny/karibu-dsl"
                 publish = true
