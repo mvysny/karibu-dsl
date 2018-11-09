@@ -15,8 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.*
-import com.vaadin.flow.component.HasComponents
+import com.github.mvysny.karibudsl.v10.*
 import java.time.LocalDate
 
 import com.vaadin.starter.beveragebuddy.backend.Category

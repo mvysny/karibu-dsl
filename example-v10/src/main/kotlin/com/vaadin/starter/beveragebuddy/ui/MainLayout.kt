@@ -15,9 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.div
-import com.github.vok.karibudsl.flow.h2
-import com.github.vok.karibudsl.flow.routerLink
+import com.github.mvysny.karibudsl.v10.div
+import com.github.mvysny.karibudsl.v10.h2
+import com.github.mvysny.karibudsl.v10.routerLink
 import com.vaadin.flow.router.RouterLayout
 import com.vaadin.flow.router.RouterLink
 import com.vaadin.flow.router.AfterNavigationEvent

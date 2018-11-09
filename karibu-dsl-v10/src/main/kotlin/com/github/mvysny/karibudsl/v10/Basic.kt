@@ -1,7 +1,6 @@
-package com.github.vok.karibudsl.flow
+package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
-import com.vaadin.flow.router.HasUrlParameter
 
 // annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
 // which makes them stand out apart from the common functions, which is very nice.

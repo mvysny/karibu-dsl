@@ -1,4 +1,4 @@
-package com.github.vok.karibudsl.flow
+package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.provider.Query

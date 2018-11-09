@@ -1,9 +1,8 @@
-package com.github.vok.karibudsl.flow
+package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.AbstractField
-import com.vaadin.flow.component.Component
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue

@@ -15,14 +15,12 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.button
-import com.github.vok.karibudsl.flow.div
-import com.github.vok.karibudsl.flow.h2
-import com.github.vok.karibudsl.flow.horizontalLayout
-import com.vaadin.flow.component.Composite
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.div
+import com.github.mvysny.karibudsl.v10.h2
+import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.HasStyle
-import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.H2

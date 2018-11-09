@@ -15,12 +15,10 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.*
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.data.binder.BeanValidationBinder
 import com.vaadin.flow.shared.Registration
-import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.button.Button
-import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.html.H2

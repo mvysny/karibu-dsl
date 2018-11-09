@@ -1,10 +1,8 @@
-package com.github.vok.karibudsl.flow
+package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.data.binder.*
 import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
-import com.vaadin.flow.component.UI
-import com.vaadin.flow.component.page.Page
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.server.VaadinSession
 import java.math.BigDecimal
