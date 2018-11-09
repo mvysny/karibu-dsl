@@ -1,4 +1,4 @@
-package com.github.vok.karibudsl
+package com.github.mvysny.karibudsl.v8
 
 import com.vaadin.server.Resource
 import com.vaadin.ui.HasComponents

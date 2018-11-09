@@ -15,9 +15,9 @@
  */
 package com.example.v8.uitest.example
 
-import com.github.vok.karibudsl.*
-import com.github.vok.karibudsl.ModifierKey.Alt
-import com.github.vok.karibudsl.ModifierKey.Ctrl
+import com.github.mvysny.karibudsl.v8.*
+import com.github.mvysny.karibudsl.v8.ModifierKey.Alt
+import com.github.mvysny.karibudsl.v8.ModifierKey.Ctrl
 import com.vaadin.event.ShortcutAction.KeyCode.E
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View

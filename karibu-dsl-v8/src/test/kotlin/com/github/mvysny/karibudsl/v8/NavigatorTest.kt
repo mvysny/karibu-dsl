@@ -1,4 +1,4 @@
-package com.github.vok.karibudsl
+package com.github.mvysny.karibudsl.v8
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v8.MockVaadin
@@ -22,7 +22,7 @@ class SimpleView : View, VerticalLayout() {
 class NavigatorTest : DynaTest({
     beforeEach {
         MockVaadin.setup()
-        autoDiscoverViews("com.github.vok.karibudsl")
+        autoDiscoverViews("com.github.mvysny.karibudsl.v8")
         UI.getCurrent().apply {
             navigator = Navigator(this, this)
             navigator.addProvider(autoViewProvider)

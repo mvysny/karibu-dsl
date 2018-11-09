@@ -1,6 +1,6 @@
 package com.example.v8.uitest.example
 
-import com.github.vok.karibudsl.*
+import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.event.ShortcutAction
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View

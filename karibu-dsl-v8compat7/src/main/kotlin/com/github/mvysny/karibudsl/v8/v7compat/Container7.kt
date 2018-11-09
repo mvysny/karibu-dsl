@@ -2,8 +2,8 @@
 
 package com.github.mvysny.karibudsl.v8.v7compat
 
-import com.github.vok.karibudsl.VaadinDsl
-import com.github.vok.karibudsl.init
+import com.github.mvysny.karibudsl.v8.VaadinDsl
+import com.github.mvysny.karibudsl.v8.init
 import com.vaadin.ui.HasComponents
 import com.vaadin.v7.ui.HorizontalLayout
 import com.vaadin.v7.ui.VerticalLayout

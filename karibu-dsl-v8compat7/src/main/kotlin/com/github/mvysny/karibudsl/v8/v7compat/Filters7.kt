@@ -2,7 +2,7 @@
 
 package com.github.mvysny.karibudsl.v8.v7compat
 
-import com.github.vok.karibudsl.*
+import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.server.Resource
 import com.vaadin.ui.*
 import com.vaadin.ui.HorizontalLayout

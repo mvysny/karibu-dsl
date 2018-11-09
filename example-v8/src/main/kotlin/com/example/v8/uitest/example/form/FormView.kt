@@ -1,6 +1,6 @@
 package com.example.v8.uitest.example.form
 
-import com.github.vok.karibudsl.*
+import com.github.mvysny.karibudsl.v8.*
 import com.example.v8.uitest.example.title
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener

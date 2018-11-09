@@ -2,8 +2,8 @@ package com.example.v8.uitest.example
 
 import com.github.mvysny.kaributesting.v8.*
 import com.github.mvysny.dynatest.DynaTest
-import com.github.vok.karibudsl.autoDiscoverViews
-import com.github.vok.karibudsl.navigateToView
+import com.github.mvysny.karibudsl.v8.autoDiscoverViews
+import com.github.mvysny.karibudsl.v8.navigateToView
 import com.vaadin.ui.Label
 import com.vaadin.ui.themes.ValoTheme
 import kotlin.test.expect

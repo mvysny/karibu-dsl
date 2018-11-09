@@ -1,6 +1,6 @@
 package com.example.v8.uitest.example
 
-import com.github.vok.karibudsl.*
+import com.github.mvysny.karibudsl.v8.*
 import com.example.v8.uitest.example.form.FormView
 import com.vaadin.annotations.*
 import com.vaadin.icons.VaadinIcons

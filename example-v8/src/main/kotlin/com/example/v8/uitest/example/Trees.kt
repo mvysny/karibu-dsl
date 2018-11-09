@@ -15,8 +15,8 @@
  */
 package com.example.v8.uitest.example
 
-import com.github.vok.karibudsl.AutoView
-import com.github.vok.karibudsl.tree
+import com.github.mvysny.karibudsl.v8.AutoView
+import com.github.mvysny.karibudsl.v8.tree
 import com.vaadin.data.TreeData
 import com.vaadin.data.provider.HierarchicalDataProvider
 import com.vaadin.data.provider.TreeDataProvider

@@ -1,6 +1,6 @@
 package com.example.v8.uitest.example
 
-import com.github.vok.karibudsl.*
+import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.shared.ui.MarginInfo
