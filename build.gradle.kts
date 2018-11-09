@@ -18,7 +18,6 @@ allprojects {
 
     repositories {
         jcenter()
-        maven { setUrl("https://dl.bintray.com/mvysny/github") }
     }
 
     tasks {
