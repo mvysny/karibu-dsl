@@ -12,7 +12,7 @@ class WelcomeViewTest : DynaTest({
 
     beforeGroup {
         // auto-discover views and register them to autoViewProvider
-        autoDiscoverViews("com.github")
+        autoDiscoverViews("com.example")
     }
 
     beforeEach { MockVaadin.setup({ MyUI() }) }
