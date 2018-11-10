@@ -13,7 +13,7 @@ simply by including appropriate Gradle dependency:
 
 ```groovy
 repositories {
-    jcenter()
+    jcenter()  // or mavenCentral()
 }
 
 dependencies {
@@ -23,15 +23,10 @@ dependencies {
 
 > Note: obtain the newest version from the latest tag name above
 
-Maven:
+Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a dependency:
+
 ```xml
 <project>
-	<repositories>
-		<repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com/</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.vok.karibudsl</groupId>
