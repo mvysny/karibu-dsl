@@ -6,8 +6,6 @@ dependencies {
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
     testCompile("ch.qos.logback:logback-classic:1.2.3")
 
-    compile("io.michaelrocks:bimap:1.0.2")
-
     // Vaadin
     compile("com.vaadin:vaadin-server:${ext["vaadin8_version"]}")
     compile("com.vaadin:vaadin-push:${ext["vaadin8_version"]}") // to include atmosphere and have support for class auto-discovery

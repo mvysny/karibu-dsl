@@ -4,8 +4,6 @@ import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.navigator.ViewProvider
 import com.vaadin.ui.UI
-import io.michaelrocks.bimap.HashBiMap
-import io.michaelrocks.bimap.MutableBiMap
 import org.atmosphere.util.annotation.AnnotationDetector
 import org.slf4j.LoggerFactory
 import java.net.URLDecoder
@@ -62,15 +60,16 @@ class AutoViewProvider : ServletContainerInitializer {
             return viewName.substring(0..(if(firstSlash < 0) viewName.length - 1 else firstSlash - 1))
         }
 
-        override fun getView(viewName: String): View? = viewNameToClass.get(viewName)?.newInstance()
+        override fun getView(viewName: String): View? = viewNameToClass[viewName]?.newInstance()
 
         /**
          * Maps view name to the view class.
          */
-        private val viewNameToClass: MutableBiMap<String, Class<out View>> = HashBiMap()
+        private val viewNameToClass = mutableMapOf<String, Class<out View>>()
+        private val classToViewName = mutableMapOf<Class<out View>, String>()
 
         fun <T: View> getMapping(clazz: Class<T>): String =
-                viewNameToClass.inverse[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString(transform = { it.name })}")
+                classToViewName[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString(transform = { it.name })}")
 
         @JvmStatic
         private val log = LoggerFactory.getLogger(AutoViewProvider::class.java)
@@ -96,7 +95,8 @@ class AutoViewProvider : ServletContainerInitializer {
                     throw IllegalStateException("Views $viewClass and ${viewNameToClass[viewName]} are trying to register under a common name '$viewName'. Please annotate one of those views with the @AutoView annotation and specify a different name")
                 }
                 check(View::class.java.isAssignableFrom(viewClass)) { "$viewClass is annotated with @AutoView yet it does not implement Vaadin ${View::class.java.name}" }
-                viewNameToClass.forcePut(viewName, viewClass.asSubclass(View::class.java))
+                viewNameToClass[viewName] = viewClass.asSubclass(View::class.java)
+                classToViewName[viewClass.asSubclass(View::class.java)] = viewName
             }
         }
     }
