@@ -88,13 +88,20 @@ fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(property: KProperty1<T, V>, block: 
         }
 
 /**
- * Retrieves the column for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
+ * Retrieves the column for given [property]; it matches the column ID to [KProperty1.name].
  * @throws IllegalArgumentException if no such column exists.
  */
 @Suppress("UNCHECKED_CAST")
-fun <T, V> Grid<T>.getColumnBy(property: KProperty1<T, V>): Grid.Column<T, V> =
-        getColumn(property.name) as Grid.Column<T, V>?
-                ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.id }.filterNotNull()}")
+fun <T, V> Grid<T>.getColumnBy(property: KProperty1<T, V>): Grid.Column<T, V> = getColumnBy(property.name)
+
+/**
+ * Retrieves the column for given [columnId].
+ * @throws IllegalArgumentException if no such column exists.
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T, V> Grid<T>.getColumnBy(columnId: String): Grid.Column<T, V> =
+        getColumn(columnId) as Grid.Column<T, V>?
+                ?: throw IllegalArgumentException("No column with ID $columnId; available column IDs: ${columns.map { it.id }.filterNotNull()}")
 
 enum class VAlign { Left, Middle, Right }
 
