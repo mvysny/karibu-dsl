@@ -63,13 +63,13 @@ subprojects {
         val java: JavaPluginConvention = convention.getPluginByName("java")
 
         val sourceJar = task("sourceJar", Jar::class) {
-            dependsOn(tasks.findByName("classes"))
+            dependsOn(tasks["classes"])
             classifier = "sources"
-            from(java.sourceSets["main"].allSource)
+            from(sourceSets.main.get().allSource)
         }
 
         val javadocJar = task("javadocJar", Jar::class) {
-            val javadoc = tasks.findByName("dokka") as DokkaTask
+            val javadoc = tasks["dokka"] as DokkaTask
             javadoc.outputFormat = "javadoc"
             javadoc.outputDirectory = "$buildDir/javadoc"
             dependsOn(javadoc)
@@ -106,7 +106,7 @@ subprojects {
                         }
                     }
 
-                    from(components.findByName("java")!!)
+                    from(components["java"])
                     artifact(sourceJar)
                     artifact(javadocJar)
                 }

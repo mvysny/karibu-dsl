@@ -1,12 +1,5 @@
-plugins {
-    id("io.spring.dependency-management") version "1.0.4.RELEASE"
-}
-
-dependencyManagement {
-    imports { mavenBom("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}") }
-}
-
 dependencies {
+    compile(enforcedPlatform("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}"))
     compile(kotlin("stdlib-jdk8"))
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")

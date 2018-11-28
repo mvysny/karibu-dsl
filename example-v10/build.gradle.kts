@@ -2,7 +2,6 @@
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 plugins {
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
     id("org.gretty")
     war
 }
@@ -10,10 +9,6 @@ plugins {
 gretty {
     contextPath = "/"
     servletContainer = "jetty9.4"
-}
-
-dependencyManagement {
-    imports { mavenBom("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}") }
 }
 
 dependencies {
