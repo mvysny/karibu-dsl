@@ -1,6 +1,8 @@
 package com.github.mvysny.karibudsl.v8
 
 import com.vaadin.ui.*
+import java.lang.IllegalStateException
+import java.lang.reflect.Method
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).()->Unit = {}) = init(VerticalLayout(), block)
@@ -51,6 +53,7 @@ fun (@VaadinDsl HasComponents).addChild(child: Component) {
             1 -> secondComponent = child
             else -> throw IllegalArgumentException("$this can only have 2 children")
         }
+        is Composite -> compositeSetCompositionRoot(this, child)
         else -> throw IllegalArgumentException("Unsupported component container $this")
     }
 }
@@ -72,6 +75,7 @@ fun (@VaadinDsl HasComponents).removeChild(child: Component) {
             firstComponent == child -> firstComponent = null
             secondComponent == child -> secondComponent = null
         }
+        is Composite -> throw IllegalStateException("Cannot set root to null in Composite")
         else -> throw IllegalArgumentException("Unsupported component container $this")
     }
 }
@@ -81,6 +85,13 @@ fun (@VaadinDsl HasComponents).removeChild(child: Component) {
  */
 fun Component.removeFromParent() {
     parent?.removeChild(this)
+}
+
+/**
+ * Workaround around [Composite.setCompositionRoot] being protected, so that [addChild] can insert components into [Composite].
+ */
+private val compositeSetCompositionRoot: Method = Composite::class.java.getDeclaredMethod("setCompositionRoot", Component::class.java).apply {
+    isAccessible = true
 }
 
 /**
@@ -98,6 +109,7 @@ fun (@VaadinDsl HasComponents).removeAllComponents() {
             secondComponent = null
         }
         is PopupView -> popupComponent = Label("")
+        is Composite -> throw IllegalStateException("Cannot set root to null in Composite")
         else -> throw IllegalArgumentException("Unsupported component container $this")
     }
 }
