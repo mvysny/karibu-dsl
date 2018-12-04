@@ -1,5 +1,5 @@
 dependencies {
-    compile(enforcedPlatform("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}"))
+    compile(platform("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}"))
     compile(kotlin("stdlib-jdk8"))
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
