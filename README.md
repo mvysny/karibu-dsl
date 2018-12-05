@@ -22,7 +22,7 @@ This library:
 The documentation differs for Vaadin 8 and for Vaadin 10:
 
 * [Karibu-DSL Vaadin 8 tutorial](karibu-dsl-v8)
-* [Karibu-DSL Vaadin 10 tutorial](karibu-dsl-v10)
+* [Karibu-DSL Vaadin platform (Vaadin 10+) tutorial](karibu-dsl-v10)
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
@@ -41,7 +41,7 @@ Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-
 Supports:
 
 * [Vaadin 8](https://vaadin.com/framework) (including support for v7 compatibility package)
-* [Vaadin 10 aka Flow](https://vaadin.com/flow)
+* [Vaadin platform aka Vaadin 10+](https://vaadin.com/flow)
 
 ## Upgrading
 
