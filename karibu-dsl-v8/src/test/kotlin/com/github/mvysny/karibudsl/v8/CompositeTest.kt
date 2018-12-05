@@ -12,13 +12,15 @@ import com.vaadin.ui.UI
  * This is also an API test that we can create components based on [Composite]. The components should be final,
  * so that developers prefer [composition over inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
  */
-class MyComposite : Composite() {
+class ButtonBar : Composite() {
     init {
         // create the component UI here; maybe even attach very simple listeners here
-        verticalLayout {
-            horizontalLayout {
-                button("ok")
-                button("cancel")
+        horizontalLayout {
+            button("ok") {
+                onLeftClick { okClicked() }
+            }
+            button("cancel") {
+                onLeftClick { cancelClicked() }
             }
         }
 
@@ -26,10 +28,12 @@ class MyComposite : Composite() {
     }
 
     // add listener methods here
+    private fun okClicked() {}
+    private fun cancelClicked() {}
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).myComposite(block: (@VaadinDsl MyComposite).()->Unit = {}) = init(MyComposite(), block)
+fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).() -> Unit = {}) = init(ButtonBar(), block)
 
 class CompositeTest : DynaTest({
     beforeEach { MockVaadin.setup() }
@@ -37,7 +41,7 @@ class CompositeTest : DynaTest({
 
     test("lookup") {
         UI.getCurrent().apply {
-            myComposite()
+            buttonBar()
         }
         _get<Button> { caption = "ok" }
     }

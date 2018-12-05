@@ -228,22 +228,49 @@ if (button.w.isFillParent) { ... }
 
 ## Writing your own components
 
-Usually one writes custom components by extending the `CustomComponent` class; but you can of course extend
-any Vaadin component. Please read the [Composition with CustomComponent](https://vaadin.com/docs/-/part/framework/components/components-customcomponent.html) for more details.
+Usually one writes custom components by extending the `Composite` class. Please read the [Composition with Composite and CustomComponent](https://vaadin.com/docs/-/part/framework/components/components-customcomponent.html) for more details.
 
-To integrate your component with Karibu-DSL, you will need to introduce your own extension method for your component.
-Just implement your component, say, `MyComposite`,
-and then you just write the following code below your component:
+> We promote composition over inheritance, similar to [React's Composition vs Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
+You should always extend `Composite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
+it part of your class and you can't replace it with e.g. `FlowLayout` without breaking backward compatibility.
+
+An example of such a component:
 
 ```kotlin
-fun HasComponents.myComposite(block: MyComposite.()->Unit = {}) = init(MyComposite(), block)
+class ButtonBar : Composite() {
+    init {
+        // create the component UI here; maybe even attach very simple listeners here
+        horizontalLayout {
+            button("ok") {
+                onLeftClick { okClicked() }
+            }
+            button("cancel") {
+                onLeftClick { cancelClicked() }
+            }
+        }
+
+        // perform any further initialization here
+    }
+
+    // add listener methods here
+    private fun okClicked() {}
+    private fun cancelClicked() {}
+}
+```
+
+To allow for your component to be inserted into other layouts, you will need to introduce your own extension method for your component.
+Just write the following code below your component:
+
+```kotlin
+@VaadinDsl
+fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).() -> Unit = {}) = init(ButtonBar(), block)
 ```
 
 This will allow you to use your component as follows:
 
 ```kotlin
 verticalLayout {
-  myComposite {
+  buttonBar {
     styleName = "black"; w = 100.perc
     ... // etc
   }
