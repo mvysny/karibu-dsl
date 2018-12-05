@@ -10,17 +10,19 @@ import com.vaadin.flow.component.button.Button
 import java.lang.IllegalStateException
 
 /**
- * This is also an API test that we can create components based on [Composite]. The components should be final,
+ * This is also an API test that we can create components based on [KComposite]. The components should be final,
  * so that developers prefer [composition over inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
  */
-class MyComposite : KComposite() {
+class ButtonBar : KComposite() {
     init {
         ui {
             // create the component UI here; maybe even attach very simple listeners here
-            verticalLayout {
-                horizontalLayout {
-                    button("ok")
-                    button("cancel")
+            horizontalLayout {
+                button("ok") {
+                    onLeftClick { okClicked() }
+                }
+                button("cancel") {
+                    onLeftClick { cancelClicked() }
                 }
             }
         }
@@ -29,10 +31,12 @@ class MyComposite : KComposite() {
     }
 
     // add listener methods here
+    private fun okClicked() {}
+    private fun cancelClicked() {}
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).myComposite(block: (@VaadinDsl MyComposite).()->Unit = {}) = init(MyComposite(), block)
+fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).()->Unit = {}) = init(ButtonBar(), block)
 
 class CompositeTest : DynaTest({
     beforeEach { MockVaadin.setup() }
@@ -40,12 +44,12 @@ class CompositeTest : DynaTest({
 
     test("lookup") {
         UI.getCurrent().apply {
-            myComposite()
+            buttonBar()
         }
         _get<Button> { caption = "ok" }
     }
 
-    test("empty composite fails when added to the UI") {
+    test("uninitialized composite fails with informative exception") {
         expectThrows(IllegalStateException::class, "The content has not yet been initialized") {
             UI.getCurrent().add(object : KComposite() {})
         }
