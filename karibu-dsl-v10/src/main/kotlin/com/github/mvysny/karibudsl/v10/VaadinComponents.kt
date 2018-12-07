@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.checkbox.Checkbox
+import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
@@ -110,3 +111,6 @@ fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}) = 
 
 @VaadinDsl
 fun (@VaadinDsl Tabs).tab(block: (@VaadinDsl Tab).() -> Unit = {}) = init(Tab(), block)
+
+@VaadinDsl
+fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}) = init(CheckboxGroup(), block)
