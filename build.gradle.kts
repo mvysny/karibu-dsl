@@ -5,9 +5,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.10"
+    id("org.jetbrains.kotlin.jvm") version "1.3.11"
     id("org.gretty") version "2.2.0"
-    id("com.jfrog.bintray") version "1.8.4"
+    id("com.jfrog.bintray") version "1.8.3"
     `maven-publish`
     id("org.jetbrains.dokka") version "0.9.17"
 }
