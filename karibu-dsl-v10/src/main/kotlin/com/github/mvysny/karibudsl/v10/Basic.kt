@@ -18,7 +18,7 @@ fun Component.fireEvent(event: ComponentEvent<*>) {
 }
 
 /**
- * The [Button.click] function sends the click request to the browser, which will then send the click event
+ * The [com.vaadin.flow.component.button.Button.click] function sends the click request to the browser, which will then send the click event
  * to the server. This function avoids the roundtrip and works even for browserless testing.
  */
 fun <R> R.serverClick() where R : Component, R : ClickNotifier<R> {
@@ -51,3 +51,10 @@ var HasSize.minWidth: String?
 var HasSize.maxWidth: String?
     get() = element.style.get("maxWidth")
     set(value) { element.style.set("maxWidth", value) }
+
+/**
+ * When this component or any of its children/descendants is focused and user presses given [key], [listener] is invoked.
+ */
+fun Component.addKeyListener(key: Key, listener: () -> Unit) {
+    element.addEventListener("keydown") { listener() }.filter = "event.key == '${key.keys[0]}'"
+}
