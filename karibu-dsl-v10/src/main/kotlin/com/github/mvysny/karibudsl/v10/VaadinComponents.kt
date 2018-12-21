@@ -39,6 +39,7 @@ fun (@VaadinDsl Button).setPrimary() {
 /**
  * Provides access to component themes. Effectively [com.vaadin.flow.dom.Element.getThemeList].
  */
+@Deprecated("Use standard methods in the HasTheme interface or addThemeVariants() for individual components")
 val (@VaadinDsl HasElement).themes: ThemeList get() = element.themeList
 
 /**
