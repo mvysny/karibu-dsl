@@ -14,19 +14,20 @@ import java.lang.IllegalStateException
  * so that developers prefer [composition over inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
  */
 class ButtonBar : KComposite() {
-    init {
-        ui {
-            // create the component UI here; maybe even attach very simple listeners here
-            horizontalLayout {
-                button("ok") {
-                    onLeftClick { okClicked() }
-                }
-                button("cancel") {
-                    onLeftClick { cancelClicked() }
-                }
+    private lateinit var okButton: Button
+    private val root = ui {
+        // create the component UI here; maybe even attach very simple listeners here
+        horizontalLayout {
+            okButton = button("ok") {
+                onLeftClick { okClicked() }
+            }
+            button("cancel") {
+                onLeftClick { cancelClicked() }
             }
         }
+    }
 
+    init {
         // perform any further initialization here
     }
 

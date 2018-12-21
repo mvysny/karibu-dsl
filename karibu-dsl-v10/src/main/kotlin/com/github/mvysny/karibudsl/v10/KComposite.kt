@@ -13,19 +13,19 @@ import java.lang.UnsupportedOperationException
  * For example:
  * ```kotlin
  * class ButtonBar : KComposite() {
- *   init {
- *     ui {
- *       // create the component UI here; maybe even attach very simple listeners here
- *       horizontalLayout {
- *         button("ok") {
- *           onLeftClick { okClicked() }
- *         }
- *         button("cancel") {
- *           onLeftClick { cancelClicked() }
- *         }
+ *   private val root = ui {
+ *     // create the component UI here; maybe even attach very simple listeners here
+ *     horizontalLayout {
+ *       button("ok") {
+ *         onLeftClick { okClicked() }
+ *       }
+ *       button("cancel") {
+ *         onLeftClick { cancelClicked() }
  *       }
  *     }
+ *   }
  *
+ *   init {
  *     // perform any further initialization here
  *   }
  *
@@ -42,7 +42,7 @@ abstract class KComposite : Composite<Component>() {
     /**
      * Initializes the UI of this composite.
      */
-    protected fun ui(block: HasComponents.()->Unit) {
+    protected fun <T> ui(block: HasComponents.()->T): T {
         check(root == null) { "The content has already been initialized!" }
         val dummy = object : HasComponents {
             override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
