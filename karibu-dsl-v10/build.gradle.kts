@@ -1,16 +1,9 @@
-plugins {
-    id("io.spring.dependency-management") version "1.0.4.RELEASE"
-}
-
-dependencyManagement {
-    imports { mavenBom("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}") }
-}
-
 dependencies {
+    compile(platform("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}"))
     compile(kotlin("stdlib-jdk8"))
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
-    testCompile("com.github.kaributesting:karibu-testing-v10:${ext["kaributesting_version"]}")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:${ext["kaributesting_version"]}")
     testCompile("org.slf4j:slf4j-simple:1.7.25")
 
     // Vaadin

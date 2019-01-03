@@ -15,8 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.*
-import com.vaadin.flow.component.HasComponents
+import com.github.mvysny.karibudsl.v10.*
 import java.time.LocalDate
 
 import com.vaadin.starter.beveragebuddy.backend.Category
@@ -32,11 +31,11 @@ import com.vaadin.flow.component.textfield.TextField
 class ReviewEditorDialog(saveHandler: (Review, AbstractEditorDialog.Operation) -> Unit, deleteHandler: (Review) -> Unit)
     : AbstractEditorDialog<Review>("Review", saveHandler, deleteHandler, Review::class.java) {
 
-    private lateinit var categoryBox: ComboBox<Category>
-    private lateinit var scoreBox: ComboBox<String>
-    private lateinit var lastTasted: DatePicker
-    private lateinit var beverageName: TextField
-    private lateinit var timesTasted: TextField
+    private val categoryBox: ComboBox<Category>
+    private val scoreBox: ComboBox<String>
+    private val lastTasted: DatePicker
+    private val beverageName: TextField
+    private val timesTasted: TextField
 
     init {
         formLayout.apply {

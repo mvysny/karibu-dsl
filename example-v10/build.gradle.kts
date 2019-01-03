@@ -2,7 +2,6 @@
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 plugins {
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
     id("org.gretty")
     war
 }
@@ -10,10 +9,6 @@ plugins {
 gretty {
     contextPath = "/"
     servletContainer = "jetty9.4"
-}
-
-dependencyManagement {
-    imports { mavenBom("com.vaadin:vaadin-bom:${ext["vaadin10_version"]}") }
 }
 
 dependencies {
@@ -25,7 +20,7 @@ dependencies {
     compile("ch.qos.logback:logback-classic:1.2.3")
     compile("org.slf4j:slf4j-api:1.7.25")
 
-    testCompile("com.github.kaributesting:karibu-testing-v10:${ext["kaributesting_version"]}")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:${ext["kaributesting_version"]}")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
     testCompile("org.jetbrains.kotlin:kotlin-test")
 }

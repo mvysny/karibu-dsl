@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/mvysny/karibu-dsl.svg?branch=master)](https://travis-ci.org/mvysny/karibu-dsl)
 [![Join the chat at https://gitter.im/vaadin/vaadin-on-kotlin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/vaadin-on-kotlin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub tag](https://img.shields.io/github/tag/mvysny/karibu-dsl.svg)](https://github.com/mvysny/karibu-dsl/tags)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.mvysny.karibudsl/karibu-dsl-v8/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.mvysny.karibudsl/karibu-dsl-v8)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=karibu-uitest&style=flat&svg=1)](https://karibu-uitest.herokuapp.com/)
 
 # Karibu-DSL (Vaadin Kotlin Extensions)
@@ -21,7 +22,7 @@ This library:
 The documentation differs for Vaadin 8 and for Vaadin 10:
 
 * [Karibu-DSL Vaadin 8 tutorial](karibu-dsl-v8)
-* [Karibu-DSL Vaadin 10 tutorial](karibu-dsl-v10)
+* [Karibu-DSL Vaadin platform (Vaadin 10+) tutorial](karibu-dsl-v10)
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
@@ -40,7 +41,17 @@ Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-
 Supports:
 
 * [Vaadin 8](https://vaadin.com/framework) (including support for v7 compatibility package)
-* [Vaadin 10 aka Flow](https://vaadin.com/flow)
+* [Vaadin platform aka Vaadin 10+](https://vaadin.com/flow)
+
+## Upgrading
+
+The Maven dependency `groupId` has been changed in order for the library to be eligible for Maven Central. Also, all files have been moved to a proper package.
+To upgrade to 0.5.x from 0.4.x:
+
+* Change the `groupId` from `com.github.vok.karibudsl` to `com.github.mvysny.karibudsl`
+* In all of your Vaadin 8 project files, search for a string `import com.github.vok.karibudsl.` and replace it with `import com.github.mvysny.karibudsl.v8.`. You can easily achieve this with
+  Intellij, by launching _Replace In Path_ via `Ctrl+Shift+R` and selecting the Scope of _Whole Project_. For Vaadin 10-based project, search for `import com.github.vok.karibudsl.flow.`
+  and replace that with `import com.github.mvysny.karibudsl.v10.` instead.
 
 # License
 

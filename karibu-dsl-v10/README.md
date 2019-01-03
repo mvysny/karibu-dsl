@@ -13,25 +13,20 @@ simply by including appropriate Gradle dependency:
 
 ```groovy
 repositories {
-    jcenter()
+    jcenter()  // or mavenCentral()
 }
 
 dependencies {
-    compile("com.github.vok.karibudsl:karibu-dsl-v10:x.y.z")
+    compile("com.github.mvysny.karibudsl:karibu-dsl-v10:x.y.z")
 }
 ```
 
 > Note: obtain the newest version from the latest tag name above
 
-Maven:
+Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a dependency:
+
 ```xml
 <project>
-	<repositories>
-		<repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com/</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.vok.karibudsl</groupId>
@@ -145,22 +140,51 @@ use `VerticalLayout`/`HorizontalLayout`.
 
 ### Writing your own components
 
-Usually one writes custom components by extending the `Composite` class; but you can of course extend
-any Vaadin component.
+Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.
 
-To integrate your component with Karibu-DSL, you will need to introduce your own extension method for your component.
-Just implement your component, say, `MyComposite`,
-and then you just write the following code below your component:
+> We promote composition over inheritance, similar to [React's Composition vs Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
+You should always extend `Composite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
+it part of your class and you can't replace it with e.g. `FlowLayout` without breaking backward compatibility.
+
+An example of such a component:
 
 ```kotlin
-fun HasComponents.myComposite(block: MyComposite.()->Unit = {}) = init(MyComposite(), block)
+class ButtonBar : KComposite() {
+    init {
+        ui {
+            // create the component UI here; maybe even attach very simple listeners here
+            horizontalLayout {
+                button("ok") {
+                    onLeftClick { okClicked() }
+                }
+                button("cancel") {
+                    onLeftClick { cancelClicked() }
+                }
+            }
+        }
+
+        // perform any further initialization here
+    }
+
+    // add listener methods here
+    private fun okClicked() {}
+    private fun cancelClicked() {}
+}
+```
+
+To allow for your component to be inserted into other layouts, you will need to introduce your own extension method for your component.
+Just write the following code below your component:
+
+```kotlin
+@VaadinDsl
+fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).()->Unit = {}) = init(ButtonBar(), block)
 ```
 
 This will allow you to use your component as follows:
 
 ```kotlin
 verticalLayout {
-  myComposite {
+  buttonBar {
     styleName = "black"
     ... // etc
   }

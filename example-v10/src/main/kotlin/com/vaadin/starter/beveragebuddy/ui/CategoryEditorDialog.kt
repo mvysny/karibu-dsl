@@ -15,7 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.vok.karibudsl.flow.*
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.StringLengthValidator
 import com.vaadin.starter.beveragebuddy.backend.Category
@@ -28,7 +28,7 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
 class CategoryEditorDialog(itemSaver: (Category, AbstractEditorDialog.Operation)->Unit, itemDeleter: (Category)->Unit)
     : AbstractEditorDialog<Category>("Category", itemSaver, itemDeleter, Category::class.java) {
 
-    private lateinit var categoryNameField: TextField
+    private val categoryNameField: TextField
 
     init {
         formLayout.apply {
