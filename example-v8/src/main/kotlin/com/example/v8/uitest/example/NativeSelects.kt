@@ -18,12 +18,13 @@ package com.example.v8.uitest.example
 import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
+import com.vaadin.ui.Composite
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class NativeSelects : VerticalLayout(), View {
-    init {
+class NativeSelects : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Selects")
 
@@ -47,8 +48,5 @@ class NativeSelects : VerticalLayout(), View {
                 setItems((1..10).map { "Option $it" })
             }
         }
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }

@@ -322,3 +322,30 @@ private class DemoDialog {
         win.focus()
     }
 }
+
+private fun HasComponents.sampleToolBar(block: MenuBar.()->Unit = {}) = menuBar {
+    w = fillParent
+    item("", VaadinIcons.ALIGN_LEFT) {
+        styleName = "icon-only"
+        isCheckable = true
+    }
+    item("", VaadinIcons.ALIGN_CENTER) {
+        styleName = "icon-only"
+        isCheckable = true
+    }
+    item("", VaadinIcons.ALIGN_RIGHT) {
+        styleName = "icon-only"
+        isCheckable = true
+    }
+    item("", VaadinIcons.PAPERCLIP) {
+        styleName = "icon-only"
+    }
+    item("", VaadinIcons.ROTATE_LEFT) {
+        styleName = "icon-only"
+    }
+    item("", VaadinIcons.ROTATE_RIGHT) {
+        styleName = "icon-only"
+        isEnabled = false
+    }
+    block()
+}

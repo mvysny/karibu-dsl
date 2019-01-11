@@ -24,10 +24,10 @@ import com.vaadin.ui.themes.ValoTheme
 import org.slf4j.LoggerFactory
 
 @AutoView
-class Sliders : VerticalLayout(), View {
+class Sliders : Composite(), View {
     private lateinit var pb: ProgressBar
     private lateinit var pb2: ProgressBar
-    init {
+    private val root = verticalLayout {
         isSpacing = false
         title("Sliders")
 

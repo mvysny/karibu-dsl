@@ -18,14 +18,13 @@ package com.example.v8.uitest.example
 import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.ui.*
 import com.vaadin.ui.MenuBar.MenuItem
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class MenuBars : VerticalLayout(), View {
-    init {
+class MenuBars : Composite(), View {
+    private val root = verticalLayout {
         setMargin(true)
         isSpacing = true
 
@@ -85,24 +84,17 @@ class MenuBars : VerticalLayout(), View {
             }
         }
     }
+}
 
-    override fun enter(event: ViewChangeEvent) {
-    }
-
-    companion object {
-
-        private fun HasComponents.sampleMenuButton(caption: String, splitButton: Boolean, block: MenuBar.()->Unit = {}) =
-                dropDownButton(caption, splitButton) {
+private fun HasComponents.sampleMenuButton(caption: String, splitButton: Boolean, block: MenuBar.()->Unit = {}) =
+        dropDownButton(caption, splitButton) {
             item("Another Action")
             item("Secondary Action")
             addSeparator()
             item("Last Action")
         }.apply(block)
-    }
 
-}
-
-fun HasComponents.sampleMenuBar(block: MenuBar.()->Unit = {}) = menuBar {
+private fun HasComponents.sampleMenuBar(block: MenuBar.()->Unit = {}) = menuBar {
     val click: (MenuItem) -> Unit = { selectedItem: MenuItem -> Notification.show("Clicked " + selectedItem.text) }
     w = fillParent
     item("File") {
@@ -167,32 +159,5 @@ fun HasComponents.sampleMenuBar(block: MenuBar.()->Unit = {}) = menuBar {
         isEnabled = false
     }
     item("Upload", VaadinIcons.UPLOAD, click)
-    block()
-}
-
-fun HasComponents.sampleToolBar(block: MenuBar.()->Unit = {}) = menuBar {
-    w = fillParent
-    item("", VaadinIcons.ALIGN_LEFT) {
-        styleName = "icon-only"
-        isCheckable = true
-    }
-    item("", VaadinIcons.ALIGN_CENTER) {
-        styleName = "icon-only"
-        isCheckable = true
-    }
-    item("", VaadinIcons.ALIGN_RIGHT) {
-        styleName = "icon-only"
-        isCheckable = true
-    }
-    item("", VaadinIcons.PAPERCLIP) {
-        styleName = "icon-only"
-    }
-    item("", VaadinIcons.ROTATE_LEFT) {
-        styleName = "icon-only"
-    }
-    item("", VaadinIcons.ROTATE_RIGHT) {
-        styleName = "icon-only"
-        isEnabled = false
-    }
     block()
 }

@@ -7,8 +7,8 @@ import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class PopupViews : VerticalLayout(), View {
-    init {
+class PopupViews : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Popup Views")
 
@@ -43,8 +43,5 @@ class PopupViews : VerticalLayout(), View {
                 }
             }
         }
-    }
-
-    override fun enter(event: ViewChangeListener.ViewChangeEvent) {
     }
 }

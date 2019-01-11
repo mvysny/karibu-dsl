@@ -19,13 +19,14 @@ import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
+import com.vaadin.ui.Composite
 import com.vaadin.ui.HasComponents
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class Panels : VerticalLayout(), View {
-    init {
+class Panels : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Panels & Layout panels")
 
@@ -126,8 +127,5 @@ class Panels : VerticalLayout(), View {
             w = 10.em
         }
         button("Button")
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }
