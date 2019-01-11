@@ -25,9 +25,9 @@ import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class TextFields : VerticalLayout(), View {
+class TextFields : Composite(), View {
 
-    init {
+    private val root = verticalLayout {
         isSpacing = false
         title("Text Fields")
 
@@ -210,8 +210,5 @@ class TextFields : VerticalLayout(), View {
         label {
             html("Text-to-Speech powered by <a href='https://responsivevoice.org/'>ResponsiveVoice</a>")
         }
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }

@@ -9,7 +9,7 @@ import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class Tabsheets : VerticalLayout(), View {
+class Tabsheets : Composite(), View {
 
     private lateinit var closable: CheckBox
     private lateinit var overflow: CheckBox
@@ -25,9 +25,8 @@ class Tabsheets : VerticalLayout(), View {
     private lateinit var iconsOnTop: CheckBox
     private lateinit var selectedOnly: CheckBox
 
-    internal var tabs: TabSheet? = null
-
-    init {
+    private var tabs: TabSheet? = null
+    private val root = verticalLayout {
         isSpacing = false
         title("Tabs")
 
@@ -54,7 +53,9 @@ class Tabsheets : VerticalLayout(), View {
             iconsOnTop = checkBox("Icons on top")
             selectedOnly = checkBox("Selected tab closable")
         }
+    }
 
+    init {
         // Generate initial view
         update()
 
@@ -73,9 +74,9 @@ class Tabsheets : VerticalLayout(), View {
         style += if (selectedOnly.value) " only-selected-closable" else ""
 
         if (tabs != null) {
-            removeComponent(tabs)
+            root.removeComponent(tabs)
         }
-        tabs = tabSheet {
+        tabs = root.tabSheet {
             styleName = style.trim()
             val sg = StringGenerator.iterator()
             for (i in 1..if (overflow.value!!) 20 else 3) {
@@ -98,8 +99,5 @@ class Tabsheets : VerticalLayout(), View {
             // First tab is always enabled
             getTab(0).isEnabled = true
         }
-    }
-
-    override fun enter(event: ViewChangeListener.ViewChangeEvent) {
     }
 }

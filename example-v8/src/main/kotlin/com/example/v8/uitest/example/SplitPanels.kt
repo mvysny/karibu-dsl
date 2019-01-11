@@ -8,8 +8,8 @@ import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class SplitPanels : VerticalLayout(), View {
-    init {
+class SplitPanels : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Split Panels")
 
@@ -44,7 +44,7 @@ class SplitPanels : VerticalLayout(), View {
             }
             panel {
                 caption = "Large style"; w = 300.px; h = 200.px
-                horizontalSplitPanel {
+                verticalSplitPanel {
                     setSizeFull(); styleName = ValoTheme.SPLITPANEL_LARGE
                     demoContent()
                     demoContent()
@@ -52,12 +52,9 @@ class SplitPanels : VerticalLayout(), View {
             }
         }
     }
-
-    override fun enter(event: ViewChangeListener.ViewChangeEvent) {
-    }
 }
 
-private fun HasComponents.demoContent() = init(VerticalLayout()) {
+private fun HasComponents.demoContent() = verticalLayout {
     label("Fictum,  deserunt mollit anim laborum astutumque!") {
         w = fillParent
     }
