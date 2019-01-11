@@ -8,7 +8,9 @@ import java.lang.UnsupportedOperationException
 
 /**
  * Replaces Vaadin's UI auto-creation magic by explicit UI creation. You need to call [ui] to populate this composite with content:
- * * The recommended way is to call [ui] in the `init{}` block, or in the constructor
+ * * The recommended way is to call [ui] in a field initializer; for example you can create a field named `root` and
+ * call the `ui{}` there. See example below for details.
+ * * Alternatively you can call [ui] in the `init{}` block, or in the constructor
  * * Alternatively you can override [initContent] and call [ui] there.
  * For example:
  * ```kotlin
