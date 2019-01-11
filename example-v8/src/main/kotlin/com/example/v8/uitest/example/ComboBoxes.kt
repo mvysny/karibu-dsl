@@ -20,12 +20,13 @@ import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.server.UserError
+import com.vaadin.ui.Composite
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class ComboBoxes : VerticalLayout(), View {
-    init {
+class ComboBoxes : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Combo Boxes")
 
@@ -139,8 +140,5 @@ class ComboBoxes : VerticalLayout(), View {
                 setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
             }
         }
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }

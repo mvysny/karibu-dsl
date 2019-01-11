@@ -20,14 +20,15 @@ import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.server.UserError
 import com.vaadin.shared.ui.datefield.DateResolution
+import com.vaadin.ui.Composite
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 import java.time.LocalDate
 import java.util.*
 
 @AutoView
-class DateFields : VerticalLayout(), View {
-    init {
+class DateFields : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Date Fields")
 
@@ -127,8 +128,5 @@ class DateFields : VerticalLayout(), View {
                 isShowISOWeekNumbers = true
             }
         }
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }

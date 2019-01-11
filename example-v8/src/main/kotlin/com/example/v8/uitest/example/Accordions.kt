@@ -8,8 +8,8 @@ import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class Accordions : VerticalLayout(), View {
-    init {
+class Accordions : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Accordions")
 
@@ -20,9 +20,6 @@ class Accordions : VerticalLayout(), View {
                 addStyleName(ValoTheme.ACCORDION_BORDERLESS)
             }
         }
-    }
-
-    override fun enter(event: ViewChangeListener.ViewChangeEvent) {
     }
 }
 

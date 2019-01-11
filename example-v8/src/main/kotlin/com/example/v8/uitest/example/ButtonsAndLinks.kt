@@ -30,8 +30,8 @@ import com.vaadin.ui.themes.ValoTheme
  * @author Vaadin Ltd
  */
 @AutoView
-class ButtonsAndLinks : VerticalLayout(), View {
-    init {
+class ButtonsAndLinks : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Buttons")
 
@@ -122,8 +122,5 @@ class ButtonsAndLinks : VerticalLayout(), View {
                 isEnabled = false
             }
         }
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }

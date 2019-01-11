@@ -4,12 +4,13 @@ import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.shared.ui.MarginInfo
+import com.vaadin.ui.Composite
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class Labels : VerticalLayout(), View {
-    init {
+class Labels : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false; w = 50.perc
         title("Labels")
 
@@ -63,8 +64,5 @@ class Labels : VerticalLayout(), View {
                 }
             }
         }
-    }
-
-    override fun enter(event: ViewChangeListener.ViewChangeEvent) {
     }
 }

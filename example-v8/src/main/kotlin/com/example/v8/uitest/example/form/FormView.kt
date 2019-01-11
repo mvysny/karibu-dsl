@@ -5,10 +5,7 @@ import com.example.v8.uitest.example.title
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.server.UserError
-import com.vaadin.ui.Alignment
-import com.vaadin.ui.FormLayout
-import com.vaadin.ui.Label
-import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 /**
@@ -16,13 +13,13 @@ import com.vaadin.ui.themes.ValoTheme
  * @author mavi
  */
 @AutoView
-class FormView: VerticalLayout(), View {
+class FormView: Composite(), View {
 
     // binder is used to bind value-editing components to the Person bean itself.
     // for more information just check https://vaadin.com/vaadin-fw8-documentation-portlet/framework/datamodel/datamodel-forms.html
     private val binder = beanValidationBinder<Person>()
 
-    init {
+    private val root = verticalLayout {
         title("Forms")
 
         // create the UI.

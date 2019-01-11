@@ -14,8 +14,8 @@ import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class CommonElementsView : VerticalLayout(), View {
-    init {
+class CommonElementsView : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Common UI Elements")
 
@@ -219,9 +219,6 @@ class CommonElementsView : VerticalLayout(), View {
                 }
             }
         }
-    }
-
-    override fun enter(event: ViewChangeListener.ViewChangeEvent?) {
     }
 }
 

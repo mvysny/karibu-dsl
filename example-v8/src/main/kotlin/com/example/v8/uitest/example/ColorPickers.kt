@@ -20,12 +20,13 @@ import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.shared.ui.colorpicker.Color
 import com.vaadin.ui.AbstractColorPicker.PopupStyle
+import com.vaadin.ui.Composite
 import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.themes.ValoTheme
 
 @AutoView
-class ColorPickers : VerticalLayout(), View {
-    init {
+class ColorPickers : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Color Pickers")
 
@@ -40,8 +41,5 @@ class ColorPickers : VerticalLayout(), View {
                 textfieldVisibility = true
             }
         }
-    }
-
-    override fun enter(event: ViewChangeEvent) {
     }
 }
