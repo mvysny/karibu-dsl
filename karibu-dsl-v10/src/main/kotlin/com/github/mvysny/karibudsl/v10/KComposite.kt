@@ -40,9 +40,10 @@ abstract class KComposite : Composite<Component>() {
     override fun initContent(): Component = checkNotNull(root) { "The content has not yet been initialized, please call the ui() function in the constructor" }
 
     /**
-     * Initializes the UI of this composite.
+     * Initializes the UI of this composite. Returns the component created by the block, so that we can store the created
+     * component in the `root` field and access it later on, as shown above.
      */
-    protected fun <T> ui(block: HasComponents.()->T): T {
+    protected fun <T: Component> ui(block: HasComponents.()->T): T {
         check(root == null) { "The content has already been initialized!" }
         val dummy = object : HasComponents {
             override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
