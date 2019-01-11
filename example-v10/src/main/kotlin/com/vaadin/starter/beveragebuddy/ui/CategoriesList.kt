@@ -38,52 +38,57 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
  */
 @Route(value = "categories", layout = MainLayout::class)
 @PageTitle("Categories List")
-class CategoriesList : VerticalLayout() {
+class CategoriesList : KComposite() {
 
     private lateinit var searchField: TextField
-    private val grid: Grid<Category>
+    private lateinit var grid: Grid<Category>
 
     private val form = CategoryEditorDialog(
             { category, operation -> saveCategory(category, operation) },
             { deleteCategory(it) })
 
-    init {
-        content { align(stretch, middle) }
-        addClassName("categories-list")
+    private val root = ui {
+        verticalLayout {
+            content { align(stretch, middle) }
+            addClassName("categories-list")
 
-        div { // view toolbar
-            addClassName("view-toolbar")
-            searchField = textField {
-                prefixComponent = Icon(VaadinIcon.SEARCH)
-                addClassName("view-toolbar__search-field")
-                placeholder = "Search"
-                addValueChangeListener { updateView() }
-                valueChangeMode = ValueChangeMode.EAGER
+            div {
+                // view toolbar
+                addClassName("view-toolbar")
+                searchField = textField {
+                    prefixComponent = Icon(VaadinIcon.SEARCH)
+                    addClassName("view-toolbar__search-field")
+                    placeholder = "Search"
+                    addValueChangeListener { updateView() }
+                    valueChangeMode = ValueChangeMode.EAGER
+                }
+                button("New category", Icon("lumo", "plus")) {
+                    setPrimary()
+                    addClassName("view-toolbar__button")
+                    addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
+                }
             }
-            button("New category", Icon("lumo", "plus")) {
-                setPrimary()
-                addClassName("view-toolbar__button")
-                addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
-            }
-        }
-        grid = grid {
-            addColumnFor(Category::name) {
-                setHeader("Category")
-            }
-            addColumn({ it.getReviewCount() }).setHeader("Beverages")
-            addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
+            grid = grid {
+                addColumnFor(Category::name) {
+                    setHeader("Category")
+                }
+                addColumn({ it.getReviewCount() }).setHeader("Beverages")
+                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
 
-            // Grid does not yet implement HasStyle
-            element.classList.add("categories")
-            element.setAttribute("theme", "row-dividers")
-            asSingleSelect().addValueChangeListener {
-                if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
-                    selectionChanged(it.value.id!!)
-                    selectionModel.deselect(it.value)
+                // Grid does not yet implement HasStyle
+                element.classList.add("categories")
+                element.setAttribute("theme", "row-dividers")
+                asSingleSelect().addValueChangeListener {
+                    if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
+                        selectionChanged(it.value.id!!)
+                        selectionModel.deselect(it.value)
+                    }
                 }
             }
         }
+    }
 
+    init {
         updateView()
     }
 

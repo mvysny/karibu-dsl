@@ -15,9 +15,7 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.mvysny.karibudsl.v10.div
-import com.github.mvysny.karibudsl.v10.h2
-import com.github.mvysny.karibudsl.v10.routerLink
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.router.RouterLayout
 import com.vaadin.flow.router.RouterLink
 import com.vaadin.flow.router.AfterNavigationEvent
@@ -25,7 +23,6 @@ import com.vaadin.flow.router.AfterNavigationObserver
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexComponent
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.server.InitialPageSettings
@@ -41,25 +38,29 @@ import com.vaadin.flow.theme.lumo.Lumo
 @HtmlImport("frontend://styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
-class MainLayout : VerticalLayout(), RouterLayout, AfterNavigationObserver, PageConfigurator {
+class MainLayout : KComposite(), RouterLayout, AfterNavigationObserver, PageConfigurator {
     private lateinit var categories: RouterLink
     private lateinit var reviews: RouterLink
 
-    init {
-        addClassName("main-layout")
-        defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
-        div { // header
-            addClassName("main-layout__header")
-            h2("Beverage Buddy") {
-                addClassName("main-layout__title")
-            }
-            div { // navigation
-                addClassName("main-layout__nav")
-                reviews = routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
-                    addClassName("main-layout__nav-item")
+    private val root = ui {
+        verticalLayout {
+            addClassName("main-layout")
+            defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
+            div {
+                // header
+                addClassName("main-layout__header")
+                h2("Beverage Buddy") {
+                    addClassName("main-layout__title")
                 }
-                categories = routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
-                    addClassName("main-layout__nav-item")
+                div {
+                    // navigation
+                    addClassName("main-layout__nav")
+                    reviews = routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
+                        addClassName("main-layout__nav-item")
+                    }
+                    categories = routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
+                        addClassName("main-layout__nav-item")
+                    }
                 }
             }
         }

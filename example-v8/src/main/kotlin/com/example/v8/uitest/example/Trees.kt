@@ -17,6 +17,7 @@ package com.example.v8.uitest.example
 
 import com.github.mvysny.karibudsl.v8.AutoView
 import com.github.mvysny.karibudsl.v8.tree
+import com.github.mvysny.karibudsl.v8.verticalLayout
 import com.vaadin.data.TreeData
 import com.vaadin.data.provider.HierarchicalDataProvider
 import com.vaadin.data.provider.TreeDataProvider
@@ -24,13 +25,14 @@ import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent
 import com.vaadin.server.SerializablePredicate
+import com.vaadin.ui.Composite
 import com.vaadin.ui.Grid
 import com.vaadin.ui.VerticalLayout
 import java.util.*
 
 @AutoView
-class Trees : VerticalLayout(), View {
-    init {
+class Trees : Composite(), View {
+    private val root = verticalLayout {
         isSpacing = false
         title("Trees")
 
@@ -41,8 +43,6 @@ class Trees : VerticalLayout(), View {
             setItemIconGenerator { VaadinIcons.values()[it % VaadinIcons.values().size] }
         }
     }
-
-    override fun enter(event: ViewChangeEvent) {}
 }
 
 private fun generateTestData(): HierarchicalDataProvider<Int, SerializablePredicate<Int>> {
