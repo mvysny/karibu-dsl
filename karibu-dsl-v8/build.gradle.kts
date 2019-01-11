@@ -9,7 +9,7 @@ dependencies {
     // Vaadin
     compile("com.vaadin:vaadin-server:${ext["vaadin8_version"]}")
     compile("com.vaadin:vaadin-push:${ext["vaadin8_version"]}") // to include atmosphere and have support for class auto-discovery
-    compile("javax.servlet:javax.servlet-api:3.1.0")
+    compileOnly("javax.servlet:javax.servlet-api:3.1.0")
 
     // IDEA language injections
     compile("com.intellij:annotations:12.0")
