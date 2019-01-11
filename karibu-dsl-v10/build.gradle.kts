@@ -8,7 +8,7 @@ dependencies {
 
     // Vaadin
     compile("com.vaadin:vaadin-core:${ext["vaadin10_version"]}")
-    compile("javax.servlet:javax.servlet-api:3.1.0")
+    compileOnly("javax.servlet:javax.servlet-api:3.1.0")
 
     // IDEA language injections
     compile("com.intellij:annotations:12.0")
