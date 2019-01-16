@@ -8,13 +8,11 @@ import com.vaadin.flow.component.*
 @DslMarker
 annotation class VaadinDsl
 
-private val fireEventMethod = Component::class.java.getDeclaredMethod("fireEvent", ComponentEvent::class.java)
 /**
  * Fires given event on the component.
  */
 fun Component.fireEvent(event: ComponentEvent<*>) {
-    fireEventMethod.isAccessible = true
-    fireEventMethod.invoke(this, event)
+    ComponentUtil.fireEvent(this, event)
 }
 
 /**
