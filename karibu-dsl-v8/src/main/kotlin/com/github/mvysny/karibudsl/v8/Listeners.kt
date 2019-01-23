@@ -51,7 +51,7 @@ fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).onLayoutClick(listener: (Layou
  */
 fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).addChildClickListener(listener: (LayoutEvents.LayoutClickEvent) -> Unit) {
     (this as Component).addStyleName("clickable")
-    addLayoutClickListener({ event ->
+    addLayoutClickListener { event ->
         if (event.button != MouseEventDetails.MouseButton.LEFT) {
             // only handle left mouse clicks
         } else if (event.isDoubleClick) {
@@ -65,7 +65,7 @@ fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).addChildClickListener(listener
             } else {
                 listener(event)
             }
-    })
+    }
 }
 
 /**
