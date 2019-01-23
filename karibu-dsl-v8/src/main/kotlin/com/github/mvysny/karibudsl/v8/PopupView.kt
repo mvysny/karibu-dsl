@@ -1,9 +1,8 @@
 package com.github.mvysny.karibudsl.v8
 
-import com.vaadin.ui.Component
-import com.vaadin.ui.HasComponents
-import com.vaadin.ui.Label
-import com.vaadin.ui.PopupView
+import com.vaadin.shared.Registration
+import com.vaadin.ui.*
+import java.lang.IllegalStateException
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).popupView(small: String? = null, block: (@VaadinDsl PopupView).()->Unit = {}): PopupView {
@@ -51,3 +50,30 @@ var (@VaadinDsl PopupView).minimizedValueAsHTML: String
         content = simpleContent.copy(small = value)
     }
 
+/**
+ * Lazily runs given [block] at most once, which initializes the contents of this [PopupView] when it is first shown:
+ * ```
+ * popupView {
+ *   lazy {
+ *     button("complex layout")
+ *   }
+ * }
+ * ```
+ */
+@VaadinDsl
+fun (@VaadinDsl PopupView).lazy(block: (@VaadinDsl HasComponents).()->Unit) {
+    val minVal = minimizedValueAsHTML
+    content = object : PopupView.Content {
+        private var popupComponent: Component? = null
+        override fun getPopupComponent(): Component {
+            if (popupComponent == null) {
+                val panel = Panel()
+                panel.block()
+                popupComponent = panel.content ?: throw IllegalStateException("block() have not created any components")
+            }
+            return popupComponent!!
+        }
+
+        override fun getMinimizedValueAsHTML(): String = minVal
+    }
+}

@@ -17,10 +17,12 @@ class PopupViews : Composite(), View {
             popupView {
                 caption = "Hide on mouse-out"; isHideOnMouseOut = true
                 minimizedValueAsHTML = "Click to view"
-                verticalLayout {
-                    isSpacing = false; w = 300.px
-                    label("Fictum,  deserunt mollit anim laborum astutumque! Magna pars studiorum, prodita quaerimus.") {
-                        w = fillParent
+                lazy {
+                    verticalLayout {
+                        isSpacing = false; w = 300.px
+                        label("Fictum,  deserunt mollit anim laborum astutumque! Magna pars studiorum, prodita quaerimus.") {
+                            w = fillParent
+                        }
                     }
                 }
             }
