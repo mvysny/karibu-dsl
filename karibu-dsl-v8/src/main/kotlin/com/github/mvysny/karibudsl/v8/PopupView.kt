@@ -1,6 +1,5 @@
 package com.github.mvysny.karibudsl.v8
 
-import com.vaadin.shared.Registration
 import com.vaadin.ui.*
 import java.lang.IllegalStateException
 
