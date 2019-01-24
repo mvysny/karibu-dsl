@@ -15,8 +15,16 @@ class PopupViews : Composite(), View {
         horizontalLayout {
             styleName = ValoTheme.LAYOUT_HORIZONTAL_WRAPPING
             popupView {
-                caption = "Hide on mouse-out"; isHideOnMouseOut = true
-                minimizedValueAsHTML = "Click to view"
+                caption = "Eager Contents"; isHideOnMouseOut = false; minimizedValueAsHTML = "Click to view"
+                verticalLayout {
+                    isSpacing = false; w = 300.px
+                    label("Fictum,  deserunt mollit anim laborum astutumque! Magna pars studiorum, prodita quaerimus.") {
+                        w = fillParent
+                    }
+                }
+            }
+            popupView {
+                caption = "Hide on mouse-out"; isHideOnMouseOut = true; minimizedValueAsHTML = "Click to view"
                 lazy {
                     verticalLayout {
                         isSpacing = false; w = 300.px
@@ -27,21 +35,16 @@ class PopupViews : Composite(), View {
                 }
             }
             popupView {
-                isHideOnMouseOut = false; caption = "Hide on click-outside"
+                isHideOnMouseOut = false; caption = "Hide on click-outside"; minimizedValueAsHTML = "Show slow loading content"
                 // we can't use DSL directly since this example sleeps 500ms before providing the popup view contents.
-                content = object : PopupView.Content {
-                    private var count = 0
-                    override fun getPopupComponent(): Component {
-                        Thread.sleep(500)
-                        return VerticalLayout().apply {
-                            isSpacing = false
-                            label {
-                                html("<h3>Thanks for waiting!</h3><p>You've opened this popup <b>${++count} time${if (count > 1) "s" else " only"}</b>.</p>")
-                            }
+                lazy {
+                    Thread.sleep(500)
+                    verticalLayout {
+                        isSpacing = false
+                        label {
+                            html("<h3>Thanks for waiting!</h3><p>You've opened this popup</p>")
                         }
                     }
-
-                    override fun getMinimizedValueAsHTML() = "Show slow loading content"
                 }
             }
         }
