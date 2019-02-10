@@ -15,7 +15,7 @@ fun DynaNodeGroup.usingApp() {
         autoDiscoverViews("com.example")
     }
 
-    beforeEach { MockVaadin.setup { MyUI() } }
+    beforeEach { MockVaadin.setup({ MyUI() }) }
     afterEach { MockVaadin.tearDown() }
 }
 
