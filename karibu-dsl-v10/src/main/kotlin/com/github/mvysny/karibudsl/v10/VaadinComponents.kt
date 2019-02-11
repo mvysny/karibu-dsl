@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.combobox.ComboBox
@@ -15,7 +16,6 @@ import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.component.textfield.*
 import com.vaadin.flow.component.timepicker.TimePicker
-import com.vaadin.flow.dom.ThemeList
 import com.vaadin.flow.shared.Registration
 
 /**
@@ -33,14 +33,8 @@ fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = n
  * Sets the button as primary. It effectively adds the "primary" theme.
  */
 fun (@VaadinDsl Button).setPrimary() {
-    themes.add("primary")
+    addThemeVariants(ButtonVariant.LUMO_PRIMARY)
 }
-
-/**
- * Provides access to component themes. Effectively [com.vaadin.flow.dom.Element.getThemeList].
- */
-@Deprecated("Use standard methods in the HasTheme interface or addThemeVariants() for individual components")
-val (@VaadinDsl HasElement).themes: ThemeList get() = element.themeList
 
 /**
  * Adds a [leftClickListener].
