@@ -12,6 +12,7 @@ dependencies {
     // accidentally missing deps:
     compile("com.vaadin:vaadin-select-flow:1.0.0")
     compile("com.vaadin:vaadin-custom-field-flow:1.0.0")
+    compile("com.vaadin:vaadin-accordion-flow:1.0.1")
 
     // IDEA language injections
     compile("com.intellij:annotations:12.0")
