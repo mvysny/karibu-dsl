@@ -34,8 +34,8 @@ dependencies {
     compile("org.slf4j:jul-to-slf4j:1.7.25")
 
     // Vaadin: workaround until https://youtrack.jetbrains.com/issue/IDEA-178071 is fixed
-    compile("com.vaadin:vaadin-client-compiled:${ext["vaadin8_version"]}")
-    compile("com.vaadin:vaadin-themes:${ext["vaadin8_version"]}")
+    compile("com.vaadin:vaadin-client-compiled:${properties["vaadin8_version"]}")
+    compile("com.vaadin:vaadin-themes:${properties["vaadin8_version"]}")
 
     // easy development with Jetty
     testCompile("org.eclipse.jetty:jetty-webapp:$jettyVer")
@@ -53,8 +53,8 @@ dependencies {
     // Embedded Tomcat is currently unsupported since it always starts its own class loader which is only known on Tomcat start time
     // and we can't thus discover and preload JPA entities.
 
-    testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${ext["kaributesting_version"]}")
-    testCompile("com.github.mvysny.dynatest:dynatest-engine:${ext["dynatest_version"]}")
+    testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${properties["kaributesting_version"]}")
+    testCompile("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
     testCompile("org.jetbrains.kotlin:kotlin-test")
 
     // heroku app runner

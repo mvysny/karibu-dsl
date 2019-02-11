@@ -20,6 +20,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven { setUrl("https://maven.vaadin.com/vaadin-prereleases/") }
     }
 
     tasks {
