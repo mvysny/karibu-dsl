@@ -20,6 +20,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        jcenter() // temporarily for karibu-testing 1.1.0
         maven { setUrl("https://maven.vaadin.com/vaadin-prereleases/") }
     }
 

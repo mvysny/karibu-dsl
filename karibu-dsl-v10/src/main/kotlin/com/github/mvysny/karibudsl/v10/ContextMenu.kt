@@ -7,6 +7,22 @@ import com.vaadin.flow.component.contextmenu.ContextMenu
 import com.vaadin.flow.component.contextmenu.HasMenuItems
 import com.vaadin.flow.component.contextmenu.MenuItem
 
+/**
+ * Allows you to define context menu for any component as follows:
+ *
+ * ```
+ * button("foo") {
+ *   contextMenu {
+ *     item("save", { e -> println("saved") })
+ *     item("style") {
+ *       item("bold", { e -> println("bold") })
+ *       item("italic", { e -> println("italic") })
+ *     }
+ *     item("clear", { e -> println("clear") })
+ *   }
+ * }
+ * ```
+ */
 @VaadinDsl
 fun (@VaadinDsl Component).contextMenu(block: ContextMenu.()->Unit = {}): ContextMenu {
     val menu = ContextMenu(this)
