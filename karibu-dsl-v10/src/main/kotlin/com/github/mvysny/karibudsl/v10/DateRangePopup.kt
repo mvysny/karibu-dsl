@@ -43,17 +43,15 @@ class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterva
     private lateinit var set: Button
     private lateinit var clear: Button
     private val dialog = Dialog()
+    /**
+     * The button which opens the popup [dialog].
+     */
     private val content = Button()
 
     init {
         dialog.apply {
             isCloseOnEsc = true
             isCloseOnOutsideClick = true
-            addOpenedChangeListener({
-                if (!isOpened) {
-                    element.removeFromParent();
-                }
-            })
             verticalLayout {
                 fromField = datePicker("From:")
                 toField = datePicker("To:")

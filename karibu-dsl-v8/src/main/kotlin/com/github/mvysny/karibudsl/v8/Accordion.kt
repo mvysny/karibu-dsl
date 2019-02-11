@@ -8,7 +8,7 @@ class _Accordion : Accordion() {
     /**
      * Allows you to access the current tab from the DSL:
      * ```kotlin
-     * tabSheet {
+     * accordion {
      *    // adding a component to tabsheet will create a tab for the component as well.
      *    label("Foo bar baz blah blah blah") {
      *      tab.caption = "Tab 1"
