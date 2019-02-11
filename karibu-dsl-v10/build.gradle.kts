@@ -9,6 +9,9 @@ dependencies {
     // Vaadin
     compile("com.vaadin:vaadin-core:${properties["vaadin10_version"]}")
     compileOnly("javax.servlet:javax.servlet-api:3.1.0")
+    // accidentally missing deps:
+    compile("com.vaadin:vaadin-select-flow:1.0.0")
+    compile("com.vaadin:vaadin-custom-field-flow:1.0.0")
 
     // IDEA language injections
     compile("com.intellij:annotations:12.0")

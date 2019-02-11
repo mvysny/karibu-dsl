@@ -1,9 +1,9 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.vaadin.flow.component.AbstractCompositeField
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.customfield.CustomField
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
 import java.io.Serializable
@@ -36,7 +36,7 @@ data class DateInterval(var from: LocalDate?, var to: LocalDate?) : Serializable
  *
  * The current date range is also displayed as the caption of the button.
  */
-class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterval>(null) {
+class DateRangePopup: CustomField<DateInterval>() {
     private val formatter get() = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(UI.getCurrent().locale ?: Locale.getDefault())
     private lateinit var fromField: DatePicker
     private lateinit var toField: DatePicker
@@ -46,7 +46,7 @@ class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterva
     /**
      * The button which opens the popup [dialog].
      */
-    private val content = Button()
+    private val content: Button
 
     init {
         dialog.apply {
@@ -58,13 +58,7 @@ class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterva
                 horizontalLayout {
                     set = button("Set") {
                         onLeftClick {
-                            val from: LocalDate? = fromField.value
-                            val to: LocalDate? = toField.value
-                            if (from == null && to == null) {
-                                setModelValue(null, true)
-                            } else {
-                                setModelValue(DateInterval(from, to), true)
-                            }
+                            updateValue()
                             updateCaption()
                             dialog.close()
                         }
@@ -73,7 +67,7 @@ class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterva
                         onLeftClick {
                             fromField.value = null
                             toField.value = null
-                            setModelValue(null, true)
+                            updateValue()
                             updateCaption()
                             dialog.close()
                         }
@@ -81,12 +75,24 @@ class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterva
                 }
             }
         }
-        content.apply {
+        content = button {
             onLeftClick {
-                dialog.isOpened = !dialog.isOpened
+                isDialogVisible = !isDialogVisible
             }
         }
         updateCaption()
+    }
+
+    var isDialogVisible: Boolean
+        get() = dialog.isOpened
+        set(value) {
+            dialog.isOpened = value
+        }
+
+    override fun generateModelValue(): DateInterval? {
+        val from: LocalDate? = fromField.value
+        val to: LocalDate? = toField.value
+        return if (from == null && to == null) null else DateInterval(from, to)
     }
 
     override fun setPresentationValue(newPresentationValue: DateInterval?) {
@@ -112,8 +118,6 @@ class DateRangePopup: AbstractCompositeField<Button, DateRangePopup, DateInterva
         fromField.isEnabled = !readOnly
         toField.isEnabled = !readOnly
     }
-
-    override fun initContent(): Button = content
 
     override fun isReadOnly(): Boolean = !fromField.isEnabled
 

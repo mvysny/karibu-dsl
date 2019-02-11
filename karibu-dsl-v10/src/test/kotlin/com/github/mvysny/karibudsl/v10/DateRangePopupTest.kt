@@ -53,7 +53,7 @@ class DateRangePopupTest : DynaTest({
     group("popup tests") {
         beforeEach {
             // open popup
-            (component.content as Button)._click()
+            component.isDialogVisible = true
             _get<Dialog>() // expect the dialog to pop up
         }
 
@@ -76,7 +76,6 @@ class DateRangePopupTest : DynaTest({
             component.value = DateInterval.now()
             var wasCalled = false
             component.addValueChangeListener {
-                expect(true) { it.isFromClient }
                 expect(null) { it.value }
                 wasCalled = true
             }
@@ -90,7 +89,6 @@ class DateRangePopupTest : DynaTest({
             component.value = DateInterval.now()
             var wasCalled = false
             component.addValueChangeListener {
-                expect(true) { it.isFromClient }
                 expect(null) { it.value }
                 wasCalled = true
             }
@@ -105,7 +103,6 @@ class DateRangePopupTest : DynaTest({
         test("Set properly sets the value in") {
             var wasCalled = false
             component.addValueChangeListener {
-                expect(true) { it.isFromClient }
                 expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { it.value }
                 wasCalled = true
             }

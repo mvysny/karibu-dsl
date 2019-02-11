@@ -9,12 +9,12 @@ import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.Tabs
-import com.vaadin.flow.component.textfield.PasswordField
-import com.vaadin.flow.component.textfield.TextArea
-import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.component.textfield.*
+import com.vaadin.flow.component.timepicker.TimePicker
 import com.vaadin.flow.dom.ThemeList
 import com.vaadin.flow.shared.Registration
 
@@ -63,6 +63,19 @@ fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDs
 fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block: (@VaadinDsl ComboBox<T>).() -> Unit = {}) = init(ComboBox(label), block)
 
 /**
+ * Creates a [Vaadin Select](https://vaadin.com/components/vaadin-select). See the HTML Examples link for a list
+ * of possible alternative themes for the button; use [themes] to add more themes.
+ *
+ * The difference between combobox and select is that select isn't lazy, but you can add any child component into the select
+ * and it will appear in the popup.
+ */
+@VaadinDsl
+fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, block: (@VaadinDsl Select<T>).() -> Unit = {}) = init(Select<T>()) {
+    if (label != null) setLabel(label)
+    block()
+}
+
+/**
  * Creates a [Vaadin Date Picker](https://vaadin.com/elements/vaadin-date-picker). See the HTML Examples link for a list
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
@@ -104,6 +117,20 @@ fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() ->
 @VaadinDsl
 fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {}) = init(TextField(label), block)
 
+/**
+ * Creates a [Email Field](https://vaadin.com/components/vaadin-text-field). See the HTML Examples link for a list
+ * of possible alternative themes for the button; use [themes] to add more themes.
+ */
+@VaadinDsl
+fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@VaadinDsl EmailField).() -> Unit = {}) = init(EmailField(label), block)
+
+/**
+ * Creates a [Number Field](https://vaadin.com/components/vaadin-text-field). See the HTML Examples link for a list
+ * of possible alternative themes for the button; use [themes] to add more themes.
+ */
+@VaadinDsl
+fun (@VaadinDsl HasComponents).numberField(label: String? = null, block: (@VaadinDsl NumberField).() -> Unit = {}) = init(NumberField(label), block)
+
 @VaadinDsl
 fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}) = init(TextArea(label), block)
 
@@ -115,3 +142,9 @@ fun (@VaadinDsl Tabs).tab(block: (@VaadinDsl Tab).() -> Unit = {}) = init(Tab(),
 
 @VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}) = init(CheckboxGroup(), block)
+
+/**
+ * Creates a [Time Picker](https://vaadin.com/components/vaadin-time-picker) field.
+ */
+@VaadinDsl
+fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@VaadinDsl TimePicker).() -> Unit = {}) = init(TimePicker(label), block)
