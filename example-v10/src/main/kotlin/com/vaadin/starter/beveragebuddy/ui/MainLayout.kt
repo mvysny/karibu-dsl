@@ -16,15 +16,15 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
-import com.vaadin.flow.router.RouterLayout
-import com.vaadin.flow.router.RouterLink
-import com.vaadin.flow.router.AfterNavigationEvent
-import com.vaadin.flow.router.AfterNavigationObserver
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
+import com.vaadin.flow.router.AfterNavigationEvent
+import com.vaadin.flow.router.AfterNavigationObserver
+import com.vaadin.flow.router.RouterLayout
+import com.vaadin.flow.router.RouterLink
 import com.vaadin.flow.server.InitialPageSettings
 import com.vaadin.flow.server.PageConfigurator
 import com.vaadin.flow.theme.Theme

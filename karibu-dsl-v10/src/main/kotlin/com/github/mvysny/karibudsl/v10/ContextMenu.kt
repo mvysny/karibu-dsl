@@ -15,21 +15,21 @@ fun (@VaadinDsl Component).contextMenu(block: ContextMenu.()->Unit = {}): Contex
 }
 
 @VaadinDsl
-fun <M: HasMenuItems> (@VaadinDsl M).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
-                                          block: M.()->Unit = {}): MenuItem =
+fun (@VaadinDsl HasMenuItems).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
+                                          block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         addItem(text, clickListener).apply { block() }
 
 @VaadinDsl
 fun (@VaadinDsl MenuItem).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
-                                          block: MenuItem.()->Unit = {}): MenuItem =
+                                          block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         subMenu.addItem(text, clickListener).apply { block() }
 
 @VaadinDsl
-fun <M: HasMenuItems> (@VaadinDsl M).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
-                                          block: M.()->Unit = {}): MenuItem =
+fun (@VaadinDsl HasMenuItems).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
+                                          block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         addItem(component, clickListener).apply { block() }
 
 @VaadinDsl
 fun (@VaadinDsl MenuItem).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
-                               block: MenuItem.()->Unit = {}): MenuItem =
+                               block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         subMenu.addItem(component, clickListener).apply { block() }
