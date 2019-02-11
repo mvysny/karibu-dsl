@@ -2,6 +2,13 @@
 
 # Vaadin 10 DSL
 
+Compatibility chart:
+
+| Karibu-DSL version | Supports |
+|------------------------|----------|
+| 0.5.x | Vaadin 10, Vaadin 11, Vaadin 12 |
+| 0.6.x | Vaadin 13 |
+
 ## Using in your projects
 
 You'll probably want to use [Vaadin On Kotlin](http://www.vaadinonkotlin.eu) which makes use of this library and adds
