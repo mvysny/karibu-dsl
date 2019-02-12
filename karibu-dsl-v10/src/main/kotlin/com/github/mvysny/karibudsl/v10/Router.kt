@@ -72,11 +72,7 @@ fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String
 }
 
 private fun RouterLink.getRouter(): Router {
-    var router: Router? = null
-    if (element.node.isAttached) {
-        val tree = element.node.owner as StateTree
-        router = tree.ui.router
-    }
+    var router: Router? = UI.getCurrent()?.router
     if (router == null) {
         router = VaadinService.getCurrent().router
     }
