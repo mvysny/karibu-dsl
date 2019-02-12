@@ -20,4 +20,19 @@ class ContextMenuTest : DynaTest({
             }
         }
     }
+
+    group("grid") {
+        test("smoke") {
+            UI.getCurrent().grid<String> {
+                gridContextMenu {
+                    item("save", { e -> println("saved") })
+                    item("style") {
+                        item("bold", { e -> println("bold") })
+                        item("italic", { e -> println("italic") })
+                    }
+                    item("clear", { e -> println("clear") })
+                }
+            }
+        }
+    }
 })
