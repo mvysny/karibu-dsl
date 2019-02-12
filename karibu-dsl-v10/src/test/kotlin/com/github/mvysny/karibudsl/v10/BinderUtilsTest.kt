@@ -8,6 +8,7 @@ import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.NumberField
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import java.io.Serializable
@@ -94,7 +95,54 @@ class BinderUtilsTest : DynaTest({
         TextField().bind(binder).bind(TestingPerson::foo)
         TextField().bind(binder).bind(TestingPerson::baz)
     }
+
+    test("SimpleBindings with NumberField: write") {
+        val binder = Binder<Person>(Person::class.java)
+        val form = Form2(binder)
+        form.testInt.value = 5.0
+        form.testLong.value = 555.0
+        form.testBI.value = 123.0
+        form.testBD.value = 77.11
+        val person = Person()
+        expect(true) { binder.writeBeanIfValid(person) }
+        expect(Person(testInt = 5, testLong = 555L, testBD = BigDecimal("77.11"), testBI = BigInteger("123"))) { person }
+    }
+
+    test("SimpleBindings with NumberField: load") {
+        val binder = Binder<Person>(Person::class.java)
+        val form = Form2(binder)
+        binder.readBean(Person(testInt = 5, testLong = 555L, testBD = BigDecimal("77.11"), testBI = BigInteger("123")))
+        expect(5.0) { form.testInt.value }
+        expect(555.0) { form.testLong.value }
+        expect(123.0) { form.testBI.value }
+        expect(77.11) { form.testBD.value }
+    }
 })
+
+private class Form2(binder: Binder<Person>): VerticalLayout() {
+    val testInt: NumberField
+    val testLong: NumberField
+    val testBD: NumberField
+    val testBI: NumberField
+    init {
+        testInt = numberField("Test Int:") {
+            bind(binder).toInt().bind(Person::testInt)
+        }
+        testLong = numberField("Test Long:") {
+            bind(binder).toLong().bind(Person::testLong)
+        }
+        testBD = numberField("Test BigDecimal:") {
+            bind(binder).toBigDecimal().bind(Person::testBD)
+        }
+        testBI = numberField("Test BigInteger:") {
+            bind(binder).toBigInteger().bind(Person::testBI)
+        }
+    }
+
+    fun clear() {
+        listOf(testInt, testLong, testBD, testBI).forEach { it.value = null }
+    }
+}
 
 private class Form(binder: Binder<Person>): VerticalLayout() {
     val fullName: TextField

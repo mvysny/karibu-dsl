@@ -30,17 +30,33 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(StringToIntegerConverter("Can't convert to integer"))
 
+@JvmName("doubleToInt")
+fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
+        withConverter(DoubleToIntConverter)
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
         withConverter(StringToDoubleConverter("Can't convert to decimal number"))
 
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(StringToLongConverter("Can't convert to integer"))
 
+@JvmName("doubleToLong")
+fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
+        withConverter(DoubleToLongConverter)
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withConverter(StringToBigDecimalConverter("Can't convert to decimal number"))
 
+@JvmName("doubleToBigDecimal")
+fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
+        withConverter(DoubleToBigDecimalConverter)
+
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter("Can't convert to integer"))
+
+@JvmName("doubleToBigInteger")
+fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
+        withConverter(DoubleToBigIntegerConverter)
 
 /**
  * The time zone as reported by the browser.
@@ -123,4 +139,24 @@ class LocalDateTimeToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Co
 
     override fun convertToPresentation(date: Instant?, context: ValueContext): LocalDateTime? =
         date?.atZone(zoneId)?.toLocalDateTime()
+}
+
+object DoubleToIntConverter : Converter<Double?, Int?> {
+    override fun convertToPresentation(value: Int?, context: ValueContext?): Double? = value?.toDouble()
+    override fun convertToModel(value: Double?, context: ValueContext?): Result<Int?> = Result.ok(value?.toInt())
+}
+object DoubleToLongConverter : Converter<Double?, Long?> {
+    override fun convertToPresentation(value: Long?, context: ValueContext?): Double? = value?.toDouble()
+    override fun convertToModel(value: Double?, context: ValueContext?): Result<Long?> = Result.ok(value?.toLong())
+}
+object DoubleToBigDecimalConverter : Converter<Double?, BigDecimal?> {
+    override fun convertToPresentation(value: BigDecimal?, context: ValueContext?): Double? = value?.toDouble()
+    override fun convertToModel(value: Double?, context: ValueContext?): Result<BigDecimal?> = Result.ok(value?.toBigDecimal())
+}
+object DoubleToBigIntegerConverter : Converter<Double?, BigInteger?> {
+    override fun convertToPresentation(value: BigInteger?, context: ValueContext?): Double? = value?.toDouble()
+    override fun convertToModel(value: Double?, context: ValueContext?): Result<BigInteger?> {
+        val bi = if (value == null) null else BigInteger(value.toLong().toString())
+        return Result.ok(bi)
+    }
 }
