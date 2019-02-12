@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10._get
@@ -23,8 +24,8 @@ class DetailsTest : DynaTest({
                 button("hi!")
             }
         }
-        _expectOne<Span>{ text = "Hello" }
-        _expectOne<Button>{ caption = "hi!" }
+        _expectOne<Span> { text = "Hello" }
+        _expectOne<Button> { caption = "hi!" }
         expect("hi!") { _get<Details>().content.toList().joinToString { it.caption } }
     }
 
@@ -34,7 +35,18 @@ class DetailsTest : DynaTest({
                 button("hi!")
             }
         }
-        _expectOne<Button>{ caption = "hi!" }
+        _expectOne<Button> { caption = "hi!" }
         expect("hi!") { _get<Details>().summary.caption }
+    }
+
+    test("clear content") {
+        val d = UI.getCurrent().details()
+        expectList() { d.content.toList() }
+        d.content {
+            button("hi!")
+        }
+        expect(1) { d.content.count() }
+        d.clearContent()
+        expectList() { d.content.toList() }
     }
 })
