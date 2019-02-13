@@ -81,15 +81,16 @@ class CategoriesList : KComposite() {
                 // Grid does not yet implement HasStyle
                 element.classList.add("categories")
                 element.setAttribute("theme", "row-dividers")
-                asSingleSelect().addValueChangeListener {
-                    if (it.value != null) {  // deselect fires yet another selection event, this time with null Category.
-                        selectionChanged(it.value.id!!)
-                        selectionModel.deselect(it.value)
-                    }
-                }
 
                 gridContextMenu {
-                    item("edit", { cat -> if (cat != null) edit(cat) })
+                    item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+                }
+            }
+
+            addShortcut(Alt + KEY_E) {
+                val cat = grid.asSingleSelect().value
+                if (cat != null) {
+                    edit(cat)
                 }
             }
         }
@@ -109,10 +110,6 @@ class CategoriesList : KComposite() {
 
     private fun edit(category: Category) {
         form.open(category, AbstractEditorDialog.Operation.EDIT)
-    }
-
-    private fun selectionChanged(categoryId: Long) {
-        form.open(CategoryService.getById(categoryId), AbstractEditorDialog.Operation.EDIT)
     }
 
     private fun Category.getReviewCount(): String {
