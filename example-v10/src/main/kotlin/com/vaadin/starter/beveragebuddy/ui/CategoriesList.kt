@@ -74,6 +74,7 @@ class CategoriesList : KComposite() {
                 addColumnFor(Category::name) {
                     setHeader("Category")
                 }
+                // @todo mavi N database fetches!
                 addColumn({ it.getReviewCount() }).setHeader("Beverages")
                 addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
 
