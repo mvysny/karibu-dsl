@@ -23,7 +23,7 @@ class CategoriesListTest : DynaTest({
     test("create new category") {
         UI.getCurrent().navigate("categories")
         _get<CategoriesList>()  // make sure that the navigation succeeded
-        _get<Button> { caption = "New category" } ._click()
+        _get<Button> { caption = "New category (Alt+N)" } ._click()
 
         // make sure that the "New Category" dialog is opened
         _get<CategoryEditorDialog>()
