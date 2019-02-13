@@ -16,12 +16,13 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v10.ModifierKey.*
+import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.value.ValueChangeMode
@@ -62,10 +63,11 @@ class CategoriesList : KComposite() {
                     addValueChangeListener { updateView() }
                     valueChangeMode = ValueChangeMode.EAGER
                 }
-                button("New category", Icon("lumo", "plus")) {
+                button("New category (Alt+N)", Icon("lumo", "plus")) {
                     setPrimary()
                     addClassName("view-toolbar__button")
                     addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
+                    addClickShortcut(Alt + KEY_N)
                 }
             }
             grid = grid {
@@ -84,6 +86,10 @@ class CategoriesList : KComposite() {
                         selectionModel.deselect(it.value)
                     }
                 }
+
+                gridContextMenu {
+                    item("edit", { cat -> if (cat != null) edit(cat) })
+                }
             }
         }
     }
@@ -97,8 +103,12 @@ class CategoriesList : KComposite() {
             icon = Icon("lumo", "edit")
             addClassName("review__edit")
             element.setAttribute("theme", "tertiary")
-            addClickListener  { _ -> form.open(category, AbstractEditorDialog.Operation.EDIT) }
+            addClickListener  { _ -> edit(category) }
         }
+
+    private fun edit(category: Category) {
+        form.open(category, AbstractEditorDialog.Operation.EDIT)
+    }
 
     private fun selectionChanged(categoryId: Long) {
         form.open(CategoryService.getById(categoryId), AbstractEditorDialog.Operation.EDIT)

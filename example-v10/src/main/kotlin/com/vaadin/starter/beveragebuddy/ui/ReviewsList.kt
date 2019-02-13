@@ -15,6 +15,9 @@
  */
 package com.vaadin.starter.beveragebuddy.ui
 
+import com.github.mvysny.karibudsl.v10.ModifierKey.*
+import com.github.mvysny.karibudsl.v10.addClickShortcut
+import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.templatemodel.TemplateModel
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
@@ -76,6 +79,7 @@ class ReviewsList : PolymerTemplate<ReviewsModel>() {
         search.valueChangeMode = ValueChangeMode.EAGER
         search.addValueChangeListener { updateList() }
         addReview.addClickListener { openForm(Review(), AbstractEditorDialog.Operation.ADD) }
+        addReview.addClickShortcut(Alt + KEY_N)
         updateList()
     }
 
