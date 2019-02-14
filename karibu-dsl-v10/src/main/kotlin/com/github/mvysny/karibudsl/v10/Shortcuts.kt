@@ -20,7 +20,7 @@ enum class ModifierKey(private val hack: Int) {
 infix operator fun Set<ModifierKey>.plus(key: Key) = KeyShortcut(key, this)
 
 /**
- * Denotes a keyboard shortcut, such as [ModifierKey.Ctrl]+[ModifierKey.Alt]+[Key.KEY_C]`. When properly imported, this
+ * Denotes a keyboard shortcut, such as [ModifierKey.Ctrl]+[ModifierKey.Alt]+[Key.KEY_C]. When properly imported, this
  * becomes `Ctrl+Alt+KEY_C` ;)
  */
 data class KeyShortcut(val key: Key, val modifierKeys: Set<ModifierKey> = setOf()) : Serializable {
@@ -28,18 +28,26 @@ data class KeyShortcut(val key: Key, val modifierKeys: Set<ModifierKey> = setOf(
 }
 
 /**
- * Allows you to [add click shortcuts][ClickNotifier.addClickShortcut] such as `Ctrl+Alt+KEY_C`. See [KeyShortcut] for more details.
+ * Allows you to [add click shortcuts][ClickNotifier.addClickShortcut] such as `addClickShortcut(ModifierKey.Ctrl + ModifierKey.Alt + Key.KEY_C)`.
+ *
+ * When you properly import `ModifierKey.*` and `Key.*`, the call can be written as `addClickShortcut(Ctrl + Alt + KEY_C)`
  */
 fun ClickNotifier<*>.addClickShortcut(shortcut: KeyShortcut): ShortcutRegistration = addClickShortcut(shortcut.key, *shortcut.vaadinModifiers)
 
 /**
- * Allows you to [add focus shortcuts][Focusable.addFocusShortcut] such as `Ctrl+Alt+KEY_C`. See [KeyShortcut] for more details.
+ * Allows you to [add focus shortcuts][Focusable.addFocusShortcut] such as `addClickShortcut(ModifierKey.Ctrl + ModifierKey.Alt + Key.KEY_C)`.
+ *
+ * When you properly import `ModifierKey.*` and `Key.*`, the call can be written as `addFocusShortcut(Ctrl + Alt + KEY_C)`
  */
 fun Focusable<*>.addFocusShortcut(shortcut: KeyShortcut): ShortcutRegistration = addFocusShortcut(shortcut.key, *shortcut.vaadinModifiers)
 
 /**
  * Attaches a keyboard shortcut to given component receiver. The keyboard shortcut is only active when the component is visible
  * and attached to the UI. Ideal targets are therefore: views (for creating a view-wide shortcut), modal dialogs.
+ *
+ * Example: `addShortcut(ModifierKey.Ctrl + ModifierKey.Alt + Key.KEY_C) { print("hello!") }`.
+ *
+ * When you properly import `ModifierKey.*` and `Key.*`, the call can be written as `addShortcut(Ctrl + Alt + KEY_C) { print("hello!") }`
  */
 fun Component.addShortcut(shortcut: KeyShortcut, block: ()->Unit): ShortcutRegistration =
         Shortcuts.addShortcutListener(this, Command { block() }, shortcut.key, *shortcut.vaadinModifiers)

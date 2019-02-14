@@ -39,7 +39,8 @@ private fun shortcutListener(shortcut: KeyShortcut, block: () -> Unit): Shortcut
 /**
  * Adds global shortcut listener. The listener is not added directly for this component - instead it is global, up to the nearest parent
  * Panel, UI or Window.
- * @param shortcut the shortcut, e.g. `Ctrl + Alt + C`
+ * @param shortcut the shortcut, e.g. `ModifierKey.Ctrl + ModifierKey.Alt + ShortcutAction.KeyCode.C`.
+ * When you properly import `ModifierKey.*` and `ShortcutAction.KeyCode.*`, this expression can be written as `Ctrl + Alt + C`
  */
 fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): Registration {
     val listener = shortcutListener(shortcut, action)
@@ -58,7 +59,8 @@ fun (@VaadinDsl Component).addGlobalShortcutListener(keyCode: Int, action: () ->
  * [ShortcutAction.KeyCode] and (optional) [ModifierKey]s.
  * The shortcut is global (bound to the containing Window).
  *
- * Example of shortcut expression: `Ctrl + Alt + C`
+ * Example of shortcut expression: `ModifierKey.Ctrl + ModifierKey.Alt + ShortcutAction.KeyCode.C`.
+ * When you properly import `ModifierKey.*` and `ShortcutAction.KeyCode.*`, this expression can be written as `Ctrl + Alt + C`.
  */
 var (@VaadinDsl Button).clickShortcut: KeyShortcut
     get() = throw RuntimeException("Property is write-only")
