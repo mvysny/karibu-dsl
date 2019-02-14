@@ -53,9 +53,23 @@ fun (@VaadinDsl MenuItem).item(component: Component, clickListener: ((ClickEvent
                                block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         subMenu.item(component, clickListener, block)
 
+/**
+ * Akin to [Grid.addContextMenu], but allows you to configure the context menu via given [block], as follows:
+ * ```
+ * grid<Person> {
+ *   gridContextMenu {
+ *     item("edit", { person -> println("editing $person") })
+ *     item("delete", { person -> person.delete(); println("deleted $person") })
+ *   }
+ * }
+ * ```
+ *
+ * Note that you can attach both [GridContextMenu] and [ContextMenu] to the grid, but that's discouraged since both of
+ * those will show on right click and will overlap.
+ */
 @VaadinDsl
 fun <T> (@VaadinDsl Grid<T>).gridContextMenu(block: GridContextMenu<T>.()->Unit = {}): GridContextMenu<T> {
-    val menu = GridContextMenu(this)
+    val menu = addContextMenu()
     menu.block()
     return menu
 }

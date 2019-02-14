@@ -20,6 +20,7 @@ import com.github.mvysny.karibudsl.v10.ModifierKey.*
 import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
@@ -43,6 +44,8 @@ class CategoriesList : KComposite() {
 
     private lateinit var searchField: TextField
     private lateinit var grid: Grid<Category>
+    // currently there is no way to retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
+    lateinit var gridContextMenu: GridContextMenu<Category>
 
     private val form = CategoryEditorDialog(
             { category, operation -> saveCategory(category, operation) },
@@ -74,15 +77,17 @@ class CategoriesList : KComposite() {
                 addColumnFor(Category::name) {
                     setHeader("Category")
                 }
-                // @todo mavi N database fetches!
                 addColumn({ it.getReviewCount() }).setHeader("Beverages")
-                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).flexGrow = 0
+                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).apply {
+                    flexGrow = 0
+                    key = "edit"
+                }
 
                 // Grid does not yet implement HasStyle
                 element.classList.add("categories")
                 element.setAttribute("theme", "row-dividers")
 
-                gridContextMenu {
+                gridContextMenu = gridContextMenu {
                     item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
                 }
             }
@@ -112,12 +117,6 @@ class CategoriesList : KComposite() {
         form.open(category, AbstractEditorDialog.Operation.EDIT)
     }
 
-    private fun Category.getReviewCount(): String {
-        val reviewsInCategory: List<Review> = ReviewService.findReviews(name)
-        val totalCount: Int = reviewsInCategory.sumBy { it.count }
-        return totalCount.toString()
-    }
-
     private fun updateView() {
         val categories: List<Category> = CategoryService.findCategories(searchField.value ?: "")
         grid.setItems(categories)
@@ -139,4 +138,10 @@ class CategoriesList : KComposite() {
         Notification.show("Category successfully deleted.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
+}
+
+fun Category.getReviewCount(): String {
+    val reviewsInCategory: List<Review> = ReviewService.findReviews(name)
+    val totalCount: Int = reviewsInCategory.sumBy { it.count }
+    return totalCount.toString()
 }
