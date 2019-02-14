@@ -52,3 +52,12 @@ fun Focusable<*>.addFocusShortcut(shortcut: KeyShortcut): ShortcutRegistration =
 fun Component.addShortcut(shortcut: KeyShortcut, block: ()->Unit): ShortcutRegistration =
         Shortcuts.addShortcutListener(this, Command { block() }, shortcut.key, *shortcut.vaadinModifiers)
                 .listenOn(this)
+
+/**
+ * Allows to add shortcut on a single key, e.g.
+ * ```
+ * addShortcut(Key.ENTER.shortcut) { login() }
+ * addShortcut(ENTER.shortcut) { login() }
+ * ```
+ */
+val Key.shortcut: KeyShortcut get() = KeyShortcut(this)
