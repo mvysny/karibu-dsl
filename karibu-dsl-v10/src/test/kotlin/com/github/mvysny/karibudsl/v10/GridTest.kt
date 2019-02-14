@@ -88,6 +88,8 @@ class GridTest : DynaTest({
                 val tf = grid.headerRows.last().getCell(Person::fullName).component
                 (tf as TextField).caption
             }
+            grid.headerRows.last().getCell(Person::fullName).component = null
+            expect(null) { grid.headerRows.last().getCell(Person::fullName).component }
         }
         test("two components") {
             val grid = Grid<Person>().apply {
@@ -112,6 +114,8 @@ class GridTest : DynaTest({
                 val tf = grid.footerRows.last().getCell(Person::fullName).component
                 (tf as TextField).caption
             }
+            grid.footerRows.last().getCell(Person::fullName).component = null
+            expect(null) { grid.footerRows.last().getCell(Person::fullName).component }
         }
         test("two components") {
             val grid = Grid<Person>().apply {
