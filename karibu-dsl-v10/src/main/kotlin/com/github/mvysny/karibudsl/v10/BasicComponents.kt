@@ -49,10 +49,3 @@ var HasSize.minWidth: String?
 var HasSize.maxWidth: String?
     get() = element.style.get("maxWidth")
     set(value) { element.style.set("maxWidth", value) }
-
-/**
- * When this component or any of its children/descendants is focused and user presses given [key], [listener] is invoked.
- */
-fun Component.addKeyListener(key: Key, listener: () -> Unit) {
-    element.addEventListener("keydown") { listener() }.filter = "event.key == '${key.keys[0]}'"
-}
