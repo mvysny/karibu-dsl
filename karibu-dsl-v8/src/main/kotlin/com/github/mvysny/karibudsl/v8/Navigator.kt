@@ -118,6 +118,18 @@ val autoViewProvider = AutoViewProvider
 
 private const val VIEW_NAME_USE_DEFAULT = "USE_DEFAULT"
 
+/**
+ * Asks the current UI navigator to navigate to given [view], with optional [params].
+ *
+ * Only works with views annotated with [AutoView] and [autoViewProvider].
+ * If you need to use a different a different navigator, you have to call [com.vaadin.navigator.Navigator.navigateTo] directly.
+ *
+ * As a convention, you should introduce a static method `navigateTo(params)` to all of your views,
+ * which will then simply call this function.
+ * @param view the class of the view.
+ * @param params an optional list of string params. The View will receive the params via
+ * [View.enter]'s [ViewChangeListener.ViewChangeEvent], use [parameterList] to parse them back in.
+ */
 fun navigateToView(view: Class<out View>, vararg params: String) {
     require(view.findAnnotation(AutoView::class.java) != null) { "$view is not annotated with @AutoView; unfortunately all views must be annotated directly, otherwise ServletContainerInitializer won't auto-discover it for us" }
     val mapping = AutoViewProvider.getMapping(view)
@@ -134,11 +146,14 @@ internal fun <T: Annotation> Class<*>.findAnnotation(ac: Class<T>): T? {
 }
 
 /**
- * Asks the current UI navigator to navigate to given view.
+ * Asks the current UI navigator to navigate to given [view], with optional [params].
+ *
+ * Only works with views annotated with [AutoView] and [autoViewProvider].
+ * If you need to use a different a different navigator, you have to call [com.vaadin.navigator.Navigator.navigateTo] directly.
  *
  * As a convention, you should introduce a static method `navigateTo(params)` to all of your views,
  * which will then simply call this function.
- * @param V the class of the view, not null.
+ * @param V the class of the view.
  * @param params an optional list of string params. The View will receive the params via
  * [View.enter]'s [ViewChangeListener.ViewChangeEvent], use [parameterList] to parse them back in.
  */
