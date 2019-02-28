@@ -27,7 +27,7 @@ import com.vaadin.flow.shared.Registration
  * @param block runs the block with the button as a receiver.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {}) = init(Button(text, icon), block)
+fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {}): Button = init(Button(text, icon), block)
 
 /**
  * Sets the button as primary. It effectively adds the "primary" theme.
@@ -47,7 +47,7 @@ fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener:
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDsl Checkbox).() -> Unit = {}) = init(Checkbox(label), block)
+fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDsl Checkbox).() -> Unit = {}): Checkbox = init(Checkbox(label), block)
 
 /**
  * Creates a [Vaadin Combo Box](https://vaadin.com/elements/vaadin-combo-box). See the HTML Examples link for a list

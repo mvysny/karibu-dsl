@@ -46,7 +46,13 @@ class DateRangePopup: CustomField<DateInterval>() {
     /**
      * The button which opens the popup [dialog].
      */
-    private val content: Button
+    private val content: Button = content {
+        button {
+            onLeftClick {
+                isDialogVisible = !isDialogVisible
+            }
+        }
+    }
 
     init {
         dialog.apply {
@@ -73,11 +79,6 @@ class DateRangePopup: CustomField<DateInterval>() {
                         }
                     }
                 }
-            }
-        }
-        content = button {
-            onLeftClick {
-                isDialogVisible = !isDialogVisible
             }
         }
         updateCaption()

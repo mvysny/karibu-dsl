@@ -4,7 +4,6 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.dom.Element
-import java.lang.UnsupportedOperationException
 
 /**
  * Replaces Vaadin's UI auto-creation magic by explicit UI creation. You need to call [ui] to populate this composite with content:
