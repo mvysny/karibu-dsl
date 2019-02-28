@@ -4,6 +4,7 @@ import com.github.mvysny.karibudsl.v8.*
 import com.vaadin.navigator.View
 import com.vaadin.navigator.ViewChangeListener
 import com.vaadin.shared.Version
+import com.vaadin.ui.Composite
 import com.vaadin.ui.VerticalLayout
 
 /**
@@ -11,13 +12,13 @@ import com.vaadin.ui.VerticalLayout
  * @author mvy
  */
 @AutoView("")
-class WelcomeView: VerticalLayout(), View {
+class WelcomeView: Composite(), View {
 
     companion object {
         fun navigateTo() = navigateToView<WelcomeView>()
     }
 
-    init {
+    private val root = verticalLayout {
         isMargin = true
         title("Welcome To The Karibu-DSL Demo")
 
