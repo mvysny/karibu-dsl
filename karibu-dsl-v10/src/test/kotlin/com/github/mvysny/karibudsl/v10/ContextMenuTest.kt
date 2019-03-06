@@ -11,12 +11,12 @@ class ContextMenuTest : DynaTest({
     test("smoke") {
         UI.getCurrent().button {
             contextMenu {
-                item("save", { e -> println("saved") })
+                item("save", { _ -> println("saved") })
                 item("style") {
-                    item("bold", { e -> println("bold") })
-                    item("italic", { e -> println("italic") })
+                    item("bold", { _ -> println("bold") })
+                    item("italic", { _ -> println("italic") })
                 }
-                item("clear", { e -> println("clear") })
+                item("clear", { _ -> println("clear") })
             }
         }
     }
@@ -25,12 +25,12 @@ class ContextMenuTest : DynaTest({
         test("smoke") {
             UI.getCurrent().grid<String> {
                 gridContextMenu {
-                    item("save", { e -> println("saved") })
+                    item("save", { _ -> println("saved") })
                     item("style") {
-                        item("bold", { e -> println("bold") })
-                        item("italic", { e -> println("italic") })
+                        item("bold", { _ -> println("bold") })
+                        item("italic", { _ -> println("italic") })
                     }
-                    item("clear", { e -> println("clear") })
+                    item("clear", { _ -> println("clear") })
                 }
             }
         }

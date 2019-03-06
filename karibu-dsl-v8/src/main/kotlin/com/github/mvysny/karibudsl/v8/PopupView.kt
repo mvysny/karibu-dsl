@@ -1,9 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.github.mvysny.karibudsl.v8
 
 import com.vaadin.shared.Registration
 import com.vaadin.ui.*
 
-@Suppress("DEPRECATION")
 @VaadinDsl
 fun (@VaadinDsl HasComponents).popupViewOld(small: String? = null, block: (@VaadinDsl PopupView).() -> Unit = {}): PopupView {
     val result = init(PopupView(SimpleContent.EMPTY), block)

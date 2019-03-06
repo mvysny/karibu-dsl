@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "UNUSED_PARAMETER")
 
 package com.github.mvysny.karibudsl.v8.v7compat
 

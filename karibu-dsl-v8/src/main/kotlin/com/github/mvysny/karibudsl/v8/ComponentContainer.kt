@@ -40,6 +40,7 @@ fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block
  * For custom containers just implement the [SpecialContainer] interface.
  */
 fun (@VaadinDsl HasComponents).addChild(child: Component) {
+    @Suppress("DEPRECATION")
     when (this) {
         is ComponentContainer -> addComponent(child)
         is SpecialContainer -> addComponent(child)
@@ -62,6 +63,7 @@ fun (@VaadinDsl HasComponents).addChild(child: Component) {
  * Removes [child] from this container. Does nothing if child has no parent or it is nested in some other container.
  */
 fun (@VaadinDsl HasComponents).removeChild(child: Component) {
+    @Suppress("DEPRECATION")
     when (this) {
         is ComponentContainer -> removeComponent(child)
         is SpecialContainer -> removeComponent(child)
@@ -98,6 +100,7 @@ private val compositeSetCompositionRoot: Method = Composite::class.java.getDecla
  * Removes all components from given container.
  */
 fun (@VaadinDsl HasComponents).removeAllComponents() {
+    @Suppress("DEPRECATION")
     when (this) {
         is ComponentContainer -> removeAllComponents()
         is SpecialContainer -> removeAllComponents()
