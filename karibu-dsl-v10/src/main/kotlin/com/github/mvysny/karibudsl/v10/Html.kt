@@ -32,9 +32,9 @@ fun (@VaadinDsl HasComponents).em(text: String? = null, block: (@VaadinDsl Empha
 @VaadinDsl
 fun (@VaadinDsl HasComponents).span(text: String? = null, block: (@VaadinDsl Span).() -> Unit = {}) = init(Span(text), block)
 @VaadinDsl
-fun (@VaadinDsl HasComponents).anchor(href: String? = null, text: String? = href, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
+fun (@VaadinDsl HasComponents).anchor(href: String = "", text: String? = href, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
 @VaadinDsl
-fun (@VaadinDsl HasComponents).image(src: String? = null, alt: String? = src, block: (@VaadinDsl Image).() -> Unit = {}) = init(Image(src, alt), block)
+fun (@VaadinDsl HasComponents).image(src: String = "", alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}) = init(Image(src, alt), block)
 @VaadinDsl
 fun (@VaadinDsl HasComponents).label(text: String? = null, `for`: Component? = null, block: (@VaadinDsl Label).() -> Unit = {}) = init(Label(text).apply {
     if (`for` != null) setFor(`for`)
