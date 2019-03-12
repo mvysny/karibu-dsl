@@ -131,7 +131,7 @@ class CommonElementsView : Composite(), View {
                             styleName = ValoTheme.BUTTON_SMALL
                             onLeftClick {
                                 notification.position = position
-                                notification.show(Page.getCurrent())
+                                notification.clone().show()
                             }
                         }
                         Position.values().sliceArray(0..8).forEach { buttonWhichShows(it) }
