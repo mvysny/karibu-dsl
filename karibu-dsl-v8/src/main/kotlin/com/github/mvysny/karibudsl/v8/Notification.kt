@@ -20,3 +20,39 @@ fun Notification.clone(): Notification = Notification(caption, description).also
 fun Notification.show() {
     show(Page.getCurrent())
 }
+
+var Notification.isDark: Boolean
+    get() = styleNames.contains("dark")
+    set(value) {
+        styleNames.set("dark", value)
+    }
+
+var Notification.isSuccess: Boolean
+    get() = styleNames.contains("success")
+    set(value) {
+        styleNames.set("success", value)
+    }
+
+var Notification.isFailure: Boolean
+    get() = styleNames.contains("failure")
+    set(value) {
+        styleNames.set("failure", value)
+    }
+
+var Notification.isBar: Boolean
+    get() = styleNames.contains("bar")
+    set(value) {
+        styleNames.set("bar", value)
+    }
+
+var Notification.isSmall: Boolean
+    get() = styleNames.contains("small")
+    set(value) {
+        styleNames.set("small", value)
+    }
+
+var Notification.isClosable: Boolean
+    get() = styleNames.contains("closable")
+    set(value) {
+        styleNames.set("closable", value)
+    }

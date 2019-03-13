@@ -33,3 +33,5 @@ val URI.queryMap: Map<String, List<String>> get() {
  * `The&#32;user&#32;does&#32;not&#32;exist` is converted to `The user does not exist`.
  */
 val ErrorMessage.message: String get() = Jsoup.parse(formattedHtmlMessage).text()
+
+fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }

@@ -51,27 +51,6 @@ fun (@VaadinDsl AbstractTextField).onEnterPressed(enterListener: (AbstractTextFi
 }
 
 /**
- * Adds or removes given [style] from the component, depending on the value of the [isPresent] parameter.
- */
-fun (@VaadinDsl Component).toggleStyleName(style: String, isPresent: Boolean) {
-    if (isPresent) addStyleName(style) else removeStyleName(style)
-}
-
-/**
- * Returns a set of styles currently present on the component.
- */
-val (@VaadinDsl Component).styleNames: Set<String> get() = styleName.split(' ').filterNotBlank().toSet()
-
-/**
- * Checks whether the component has given [style].
- * @param style if contains a space, this is considered to be a list of styles. In such case, all styles must be present on the component.
- */
-fun (@VaadinDsl Component).hasStyleName(style: String): Boolean {
-    if (style.contains(' ')) return style.split(' ').filterNotBlank().all { hasStyleName(style) }
-    return styleNames.contains(style)
-}
-
-/**
  * Configures this button as primary. Beware - all buttons marked primary using this function, attached to the current UI
  * or Window will be pressed on Enter key press.
  */
