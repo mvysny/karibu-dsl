@@ -25,6 +25,15 @@ interface ClassList : MutableSet<String>, Serializable {
             remove(className)
         }
     }
+
+    /**
+     * Toggles given [className] (removes it if it's present, or adds it if it's absent).
+     * @param className the class name to toggle, cannot contain spaces.
+     */
+    fun toggle(className: String) {
+        require(!className.containsWhitespace()) { "'$className' cannot contain whitespace" }
+        set(className, !contains(className))
+    }
 }
 
 private abstract class AbstractStringBasedClassList : AbstractMutableSet<String>(), ClassList {

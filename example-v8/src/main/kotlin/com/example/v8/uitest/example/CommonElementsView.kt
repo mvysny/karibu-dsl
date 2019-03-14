@@ -55,11 +55,6 @@ class CommonElementsView : Composite(), View {
             addComponent(Panel("Notifications").apply {
                 verticalLayout {
                     val notification = Notification("")
-                    var typeString: String = ""
-                    var styleString: String = ""
-                    fun updateTypeStyle() {
-                        notification.styleName = "$typeString $styleString".trim()
-                    }
 
                     textField("Title") {
                         w = fillParent; placeholder = "Title for the notification"
@@ -77,26 +72,20 @@ class CommonElementsView : Composite(), View {
                     }
                     menuBar {
                         caption = "Type"; styleName = ValoTheme.MENUBAR_SMALL
-                        val typeCommand = { selectedItem: MenuBar.MenuItem ->
-                            typeString = if (selectedItem.text == "Humanized") "" else selectedItem.text.toLowerCase()
-                            updateTypeStyle()
-                            items.forEach { item -> item.isChecked = false }
-                            selectedItem.isChecked = true
+                        fun setType(type: Notification.Type) {
+                            items.forEach { item -> item.isChecked = item.text.toLowerCase() == type.style }
+                            Notification.Type.values().forEach { notification.styleNames.set(it.style, it == type) }
                         }
-                        item("Humanized", menuSelected = typeCommand) {
-                            isCheckable = true
-                            isChecked = true
+                        Notification.Type.values().forEach { type ->
+                            item(type.style.capitalize(), menuSelected = { setType(type) }) { isCheckable = true }
                         }
-                        item("Tray", menuSelected = typeCommand) { isCheckable = true }
-                        item("Warning", menuSelected = typeCommand) { isCheckable = true }
-                        item("Error", menuSelected = typeCommand) { isCheckable = true }
-                        item("System", menuSelected = typeCommand) { isCheckable = true }
+                        setType(Notification.Type.HUMANIZED_MESSAGE)
                     }
                     menuBar {
                         caption = "Additional style"; styleName = ValoTheme.MENUBAR_SMALL
                         val styleCommand = MenuBar.Command {
-                            styleString = items.filter { it.isChecked }.joinToString(" ", transform = { it.text.toLowerCase() })
-                            updateTypeStyle()
+                            val styleName: String = it.text.toLowerCase()
+                            notification.styleNames.toggle(styleName)
                         }
                         addItem("Dark", styleCommand).isCheckable = true
                         addItem("Success", styleCommand).isCheckable = true
