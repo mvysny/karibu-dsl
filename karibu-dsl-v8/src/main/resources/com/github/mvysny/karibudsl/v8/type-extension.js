@@ -1,4 +1,4 @@
-window.org_test_TypeExtension = function () {
+window.com_github_mvysny_karibudsl_v8_TypeExtension = function () {
     var element = this.getElement(this.getParentId());
     var self = this;
     this.onStateChange = function () {

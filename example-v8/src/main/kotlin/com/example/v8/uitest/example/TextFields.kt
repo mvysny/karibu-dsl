@@ -38,7 +38,7 @@ class TextFields : Composite(), View {
                 placeholder = "First name"
                 icon = testIcon.next()
             }
-            textField("Custom color") {
+            emailField("Custom color") {
                 placeholder = "Email"
                 addStyleName("color1")
             }
