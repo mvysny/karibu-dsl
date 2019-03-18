@@ -19,18 +19,6 @@ fun (@VaadinDsl HasComponents).button(caption: String? = null, block: (@VaadinDs
 fun (@VaadinDsl HasComponents).image(caption: String? = null, resource: Resource? = null, block: (@VaadinDsl Image).()->Unit = {}) = init(Image(caption, resource), block)
 
 /**
- * Creates a [TextField] and attaches it to this component.
- * @param caption optional caption
- * @param value the optional value
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).textField(caption: String? = null, value: String? = null, block: (@VaadinDsl TextField).()->Unit = {}): TextField {
-    val textField = TextField(caption, value ?: "")  // TextField no longer accepts null as a value.
-    init(textField, block)
-    return textField
-}
-
-/**
  * Creates a [Label]
  * @param content the label content
  * @param block use to set additional label parameters
@@ -131,18 +119,6 @@ fun (@VaadinDsl HasComponents).richTextArea(caption: String? = null, block: (@Va
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).slider(caption: String? = null, block: (@VaadinDsl Slider).()->Unit = {}) = init(Slider(caption), block)
-
-/**
- * Creates a [TextArea] and attaches it to this component.
- * @param caption optional caption
- * @param value the optional value
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).textArea(caption: String? = null, block: (@VaadinDsl TextArea).()->Unit = {}): TextArea {
-    val component = TextArea(caption)
-    init(component, block)
-    return component
-}
 
 @VaadinDsl
 fun <T: Any> (@VaadinDsl HasComponents).tree(caption: String? = null, block: (@VaadinDsl Tree<T>).()->Unit = {}) = init(Tree<T>(caption), block)
