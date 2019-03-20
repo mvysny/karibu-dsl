@@ -75,5 +75,12 @@ class ClassListTest : DynaTest({
             expect(false) { styleNames.remove("foo") }
             expect("bar baz") { label.styleName }
         }
+        test("toggle") {
+            val label = Label().apply { styleName = "foo bar baz" }
+            label.styleNames.toggle("bar")
+            expect("foo baz") { label.styleName }
+            label.styleNames.toggle("bar")
+            expect("foo baz bar") { label.styleName }
+        }
     }
 })

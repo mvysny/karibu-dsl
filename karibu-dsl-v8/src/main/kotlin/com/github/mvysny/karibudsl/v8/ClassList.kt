@@ -120,7 +120,7 @@ fun (@VaadinDsl Component).toggleStyleName(style: String, isPresent: Boolean) {
 }
 
 /**
- * Checks whether the component has given [style].
+ * Checks whether the component has given [style] (or multiple styles if the string contains space).
  * @param style if contains a space, this is considered to be a list of styles. In such case, all styles must be present on the component.
  */
 fun (@VaadinDsl Component).hasStyleName(style: String): Boolean {

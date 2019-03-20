@@ -43,8 +43,10 @@ fun Component.removeFromParent() {
 }
 
 /**
- * Flips [className] - removes it if it was there, or adds it if it wasn't there.
+ * Toggles [className] - removes it if it was there, or adds it if it wasn't there.
+ * @param className the class name to toggle, cannot contain spaces.
  */
-fun ClassList.flip(className: String) {
+fun ClassList.toggle(className: String) {
+    require(!className.containsWhitespace()) { "'$className' cannot contain whitespace" }
     set(className, !contains(className))
 }
