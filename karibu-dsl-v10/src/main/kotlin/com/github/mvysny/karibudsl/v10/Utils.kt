@@ -7,7 +7,8 @@ private val messages = mapOf("cantConvertToInteger" to "Can't convert to integer
         "from" to "From:",
         "to" to "To:",
         "set" to "Set",
-        "clear" to "Clear"
+        "clear" to "Clear",
+        "all" to "All"
 )
 /**
  * Change this function to provide a proper i18n for your apps. For a list of all keys used by Karibu-DSL see [messages].
