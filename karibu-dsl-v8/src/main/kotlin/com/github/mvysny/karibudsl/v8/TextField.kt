@@ -26,6 +26,8 @@ fun (@VaadinDsl HasComponents).textArea(caption: String? = null, block: (@Vaadin
 /**
  * Simply sets the `type` HTML attribute to the `<input>` element represented by the [TextField] Vaadin component. Instead of
  * using this class directly, you can use [AbstractTextField.type] to change the type easily.
+ *
+ * See [AbstractTextField.type] for documentation.
  */
 @JavaScript("type-extension.js")
 class TypeExtension(textField: AbstractTextField) : AbstractJavaScriptExtension(textField) {
@@ -48,13 +50,25 @@ class TypeExtension(textField: AbstractTextField) : AbstractJavaScriptExtension(
 /**
  * Controls the type of the text field. You can use any of the [HTML types allowed](https://www.w3schools.com/tags/att_input_type.asp), however
  * only a couple may actually be usable:
- * * email
- * * number
- * * search
- * * text (default)
- * * url
- * * range
- * You should use other Vaadin fields as necessary, for example use [com.vaadin.ui.DateField] to input date etc.
+ * * `"email"`
+ * * `"number"` - use [textField] and Vaadin binder with appropriate numeric converter, such as [toInt].
+ * * `"search"`
+ * * `"text"` (default)
+ * * `"tel"`
+ * * `"url"`
+ * * `"range"`
+ * You should use other Vaadin fields as necessary:
+ * * Use [com.vaadin.ui.DateField] to input `"date"`
+ * * Use [colorPicker] instead of `"color"`
+ * * Use [button] instead of `"button"` or `"reset"` or `"submit"`
+ * * Use [dateTimeField] instead of `"datetime-local"`
+ * * Use [upload] instead of `"file"`
+ * * Use [com.vaadin.ui.Component.isVisible] instead of `"hidden"`
+ * * Use [dateField] and set [com.vaadin.ui.DateField.setResolution] to MONTH for `"month"`
+ * * Use [passwordField] instead of `"password"`
+ * * Use [radioButtonGroup] instead of `"radio"`
+ * * No Vaadin component for `"time"`
+ * * No Vaadin component for `"week"`
  */
 var AbstractTextField.type: String? by ExtensionPropertyDelegate(TypeExtension::class.java, TypeExtension::type, { TypeExtension(it) }, "text")
 
