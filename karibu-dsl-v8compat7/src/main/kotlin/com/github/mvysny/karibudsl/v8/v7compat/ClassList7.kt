@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.github.mvysny.karibudsl.v8.v7compat
 
 import com.github.mvysny.karibudsl.v8.AbstractStringBasedClassList

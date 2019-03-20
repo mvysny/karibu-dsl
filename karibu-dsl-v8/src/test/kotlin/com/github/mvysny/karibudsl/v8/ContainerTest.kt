@@ -16,7 +16,10 @@ class ContainerTest : DynaTest({
 
     test("prerequisites") {
         expect(false) { AbsoluteLayout() is AbstractOrderedLayout }
-        expect(true) { VerticalLayout() is AbstractOrderedLayout }
+        expect(true) {
+            @Suppress("USELESS_IS_CHECK")  // the tests rely on this.
+            VerticalLayout() is AbstractOrderedLayout
+        }
     }
 
     containerBattery(CssLayout::class.java)
