@@ -26,15 +26,15 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
             }
         })
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
-        withConverter(StringToIntegerConverter("Can't convert to integer"))
+        withConverter(StringToIntegerConverter(karibuDslI18n("CANT_CONVERT_TO_INTEGER")))
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
-        withConverter(StringToDoubleConverter("Can't convert to decimal number"))
+        withConverter(StringToDoubleConverter(karibuDslI18n("CANT_CONVERT_TO_DECIMAL")))
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
-        withConverter(StringToLongConverter("Can't convert to integer"))
+        withConverter(StringToLongConverter(karibuDslI18n("CANT_CONVERT_TO_INTEGER")))
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
-        withConverter(StringToBigDecimalConverter("Can't convert to decimal number"))
+        withConverter(StringToBigDecimalConverter(karibuDslI18n("CANT_CONVERT_TO_DECIMAL")))
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
-        withConverter(StringToBigIntegerConverter("Can't convert to integer"))
+        withConverter(StringToBigIntegerConverter(karibuDslI18n("CANT_CONVERT_TO_INTEGER")))
 
 val browserTimeZone: ZoneId
     get() = Page.getCurrent().webBrowser.let { browser ->

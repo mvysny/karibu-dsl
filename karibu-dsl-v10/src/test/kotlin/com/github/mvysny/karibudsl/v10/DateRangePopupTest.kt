@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.*
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
@@ -16,6 +17,13 @@ class DateRangePopupTest : DynaTest({
 
     test("Initial value is null") {
         expect(null) { component.value }
+    }
+
+    test("dsl") {
+        UI.getCurrent().apply {
+            dateRangePopup()
+        }
+        _expectOne<DateRangePopup>()
     }
 
     test("setting the value preserves the value") {

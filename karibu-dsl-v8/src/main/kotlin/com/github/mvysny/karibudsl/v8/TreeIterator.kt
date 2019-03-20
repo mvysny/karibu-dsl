@@ -31,5 +31,5 @@ class TreeIterator<out T>(private val root: T, private val children: (T) -> Iter
  * @return iterable which iteratively walks over this component and all of its descendants.
  */
 fun (@VaadinDsl Component).walk(): Iterable<Component> = Iterable {
-    TreeIterator(this, { component -> component as? HasComponents ?: listOf() })
+    TreeIterator(this) { component -> component as? HasComponents ?: listOf() }
 }

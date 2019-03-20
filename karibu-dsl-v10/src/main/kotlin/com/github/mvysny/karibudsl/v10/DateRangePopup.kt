@@ -59,17 +59,17 @@ class DateRangePopup: CustomField<DateInterval>() {
             isCloseOnEsc = true
             isCloseOnOutsideClick = true
             verticalLayout {
-                fromField = datePicker("From:")
-                toField = datePicker("To:")
+                fromField = datePicker(karibuDslI18n("FROM"))
+                toField = datePicker(karibuDslI18n("TO"))
                 horizontalLayout {
-                    set = button("Set") {
+                    set = button(karibuDslI18n("SET")) {
                         onLeftClick {
                             updateValue()
                             updateCaption()
                             dialog.close()
                         }
                     }
-                    clear = button("Clear") {
+                    clear = button(karibuDslI18n("CLEAR")) {
                         onLeftClick {
                             fromField.value = null
                             toField.value = null

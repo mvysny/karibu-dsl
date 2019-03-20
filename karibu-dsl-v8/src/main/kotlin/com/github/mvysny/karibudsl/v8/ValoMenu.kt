@@ -10,7 +10,7 @@ import com.vaadin.ui.themes.ValoTheme
 
 /**
  * A main screen with a responsive Valo menu and a view placeholder, where the View contents will go upon navigation.
- * You should set this class as the contents of your UI and set it to the [Navigator] as follows:
+ * You should set this class as the contents of your UI and set it to the [com.vaadin.navigator.Navigator] as follows:
  * ```
  * class UI {
  *   override fun init(request: VaadinRequest?) {
