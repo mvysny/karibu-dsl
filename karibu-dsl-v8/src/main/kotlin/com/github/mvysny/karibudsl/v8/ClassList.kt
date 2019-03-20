@@ -1,7 +1,10 @@
 package com.github.mvysny.karibudsl.v8
 
-import com.vaadin.ui.Component
-import com.vaadin.ui.Notification
+import com.vaadin.ui.*
+import com.vaadin.ui.components.grid.FooterCell
+import com.vaadin.ui.components.grid.FooterRow
+import com.vaadin.ui.components.grid.HeaderCell
+import com.vaadin.ui.components.grid.HeaderRow
 import java.io.Serializable
 
 /**
@@ -36,7 +39,7 @@ interface ClassList : MutableSet<String>, Serializable {
     }
 }
 
-private abstract class AbstractStringBasedClassList : AbstractMutableSet<String>(), ClassList {
+abstract class AbstractStringBasedClassList : AbstractMutableSet<String>(), ClassList {
     /**
      * Returns a space-separated list of style names.
      */
@@ -139,3 +142,87 @@ private class NotificationClassList(val notification: Notification) : AbstractSt
  * Returns a mutable set of styles currently present on the component.
  */
 val (@VaadinDsl Notification).styleNames: ClassList get() = NotificationClassList(this)
+
+private class HasStylesClassList(val hasStyles: HasStyleNames) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = hasStyles.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        hasStyles.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl HasStyleNames).styleNames: ClassList get() = HasStylesClassList(this)
+
+private class TabClassList(val tab: TabSheet.Tab) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = tab.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        tab.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl TabSheet.Tab).styleNames: ClassList get() = TabClassList(this)
+
+private class MenuItemClassList(val menuItem: MenuBar.MenuItem) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = menuItem.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        menuItem.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl MenuBar.MenuItem).styleNames: ClassList get() = MenuItemClassList(this)
+
+private class FooterCellClassList(val footerCell: FooterCell) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = footerCell.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        footerCell.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl FooterCell).styleNames: ClassList get() = FooterCellClassList(this)
+
+private class FooterRowClassList(val footerRow: FooterRow) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = footerRow.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        footerRow.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl FooterRow).styleNames: ClassList get() = FooterRowClassList(this)
+
+private class HeaderRowClassList(val headerRow: HeaderRow) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = headerRow.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        headerRow.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl HeaderRow).styleNames: ClassList get() = HeaderRowClassList(this)
+
+private class HeaderCellClassList(val headerCell: HeaderCell) : AbstractStringBasedClassList() {
+    override fun getStyleName(): String = headerCell.styleName
+    override fun setStyleName(styleNames: Set<String>) {
+        headerCell.styleName = styleNames.joinToString(" ")
+    }
+}
+
+/**
+ * Returns a mutable set of styles currently present on the component.
+ */
+val (@VaadinDsl HeaderCell).styleNames: ClassList get() = HeaderCellClassList(this)
