@@ -3,7 +3,9 @@ package com.github.mvysny.karibudsl.v8
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v8.MockVaadin
-import com.vaadin.ui.Label
+import com.vaadin.ui.*
+import com.vaadin.ui.components.grid.FooterRow
+import com.vaadin.ui.components.grid.HeaderRow
 import kotlin.test.expect
 
 class ClassListTest : DynaTest({
@@ -82,5 +84,71 @@ class ClassListTest : DynaTest({
             label.styleNames.toggle("bar")
             expect("foo baz bar") { label.styleName }
         }
+    }
+
+    test("notification null style") {
+        val n = Notification("foo").apply { styleName = null }
+        n.styleNames.add("foo")
+        expect("foo") { n.styleName }
+        n.styleNames.remove("foo")
+        expect(null) { n.styleName }
+    }
+
+    test("TabSheet.Tab null style") {
+        lateinit var t: TabSheet.Tab
+        UI.getCurrent().apply {
+            tabSheet {
+                label("foo") {
+                    t = tab
+                }
+            }
+        }
+        t.styleName = null
+        t.styleNames.add("foo")
+        expect("foo") { t.styleName }
+        t.styleNames.remove("foo")
+        expect(null) { t.styleName }
+    }
+
+    test("MenuItem null style") {
+        lateinit var t: MenuBar.MenuItem
+        UI.getCurrent().apply {
+            menuBar {
+                t = item("foo")
+            }
+        }
+        t.styleName = null
+        t.styleNames.add("foo")
+        expect("foo") { t.styleName }
+        t.styleNames.remove("foo")
+        expect(null) { t.styleName }
+    }
+
+    test("HeaderRow null style") {
+        lateinit var t: HeaderRow
+        UI.getCurrent().apply {
+            grid<String> {
+                t = appendHeaderRow()
+            }
+        }
+        t.styleName = null
+        t.styleNames.add("foo")
+        expect("foo") { t.styleName }
+        t.styleNames.remove("foo")
+        expect(null) { t.styleName }
+    }
+
+    test("FooterRow null style") {
+        lateinit var t: FooterRow
+        UI.getCurrent().apply {
+            grid<String> {
+                t = appendFooterRow()
+            }
+        }
+        t.styleName = null
+        t.styleNames.add("foo")
+        expect("foo") { t.styleName }
+        t.styleNames.remove("foo")
+        expect(null) { t.styleName }
     }
 })

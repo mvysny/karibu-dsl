@@ -132,9 +132,9 @@ fun (@VaadinDsl Component).hasStyleName(style: String): Boolean {
 }
 
 private class NotificationClassList(val notification: Notification) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = notification.styleName
+    override fun getStyleName(): String = notification.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        notification.styleName = styleNames.joinToString(" ")
+        notification.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
@@ -156,9 +156,9 @@ private class HasStylesClassList(val hasStyles: HasStyleNames) : AbstractStringB
 val (@VaadinDsl HasStyleNames).styleNames: ClassList get() = HasStylesClassList(this)
 
 private class TabClassList(val tab: TabSheet.Tab) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = tab.styleName
+    override fun getStyleName(): String = tab.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        tab.styleName = styleNames.joinToString(" ")
+        tab.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
@@ -168,9 +168,9 @@ private class TabClassList(val tab: TabSheet.Tab) : AbstractStringBasedClassList
 val (@VaadinDsl TabSheet.Tab).styleNames: ClassList get() = TabClassList(this)
 
 private class MenuItemClassList(val menuItem: MenuBar.MenuItem) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = menuItem.styleName
+    override fun getStyleName(): String = menuItem.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        menuItem.styleName = styleNames.joinToString(" ")
+        menuItem.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
@@ -180,9 +180,9 @@ private class MenuItemClassList(val menuItem: MenuBar.MenuItem) : AbstractString
 val (@VaadinDsl MenuBar.MenuItem).styleNames: ClassList get() = MenuItemClassList(this)
 
 private class FooterCellClassList(val footerCell: FooterCell) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = footerCell.styleName
+    override fun getStyleName(): String = footerCell.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        footerCell.styleName = styleNames.joinToString(" ")
+        footerCell.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
@@ -192,9 +192,9 @@ private class FooterCellClassList(val footerCell: FooterCell) : AbstractStringBa
 val (@VaadinDsl FooterCell).styleNames: ClassList get() = FooterCellClassList(this)
 
 private class FooterRowClassList(val footerRow: FooterRow) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = footerRow.styleName
+    override fun getStyleName(): String = footerRow.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        footerRow.styleName = styleNames.joinToString(" ")
+        footerRow.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
@@ -204,9 +204,9 @@ private class FooterRowClassList(val footerRow: FooterRow) : AbstractStringBased
 val (@VaadinDsl FooterRow).styleNames: ClassList get() = FooterRowClassList(this)
 
 private class HeaderRowClassList(val headerRow: HeaderRow) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = headerRow.styleName
+    override fun getStyleName(): String = headerRow.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        headerRow.styleName = styleNames.joinToString(" ")
+        headerRow.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
@@ -216,9 +216,9 @@ private class HeaderRowClassList(val headerRow: HeaderRow) : AbstractStringBased
 val (@VaadinDsl HeaderRow).styleNames: ClassList get() = HeaderRowClassList(this)
 
 private class HeaderCellClassList(val headerCell: HeaderCell) : AbstractStringBasedClassList() {
-    override fun getStyleName(): String = headerCell.styleName
+    override fun getStyleName(): String = headerCell.styleName ?: ""
     override fun setStyleName(styleNames: Set<String>) {
-        headerCell.styleName = styleNames.joinToString(" ")
+        headerCell.styleName = if (styleNames.isEmpty()) null else styleNames.joinToString(" ")
     }
 }
 
