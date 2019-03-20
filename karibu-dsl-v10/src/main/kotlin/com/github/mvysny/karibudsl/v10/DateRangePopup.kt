@@ -8,6 +8,7 @@ import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
 import java.io.Serializable
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
@@ -25,7 +26,7 @@ data class DateInterval(var from: LocalDate?, var to: LocalDate?) : Serializable
         get() = from == null && to == null
 
     companion object {
-        fun now() = DateInterval(LocalDate.now(), LocalDate.now())
+        fun now(zoneId: ZoneId = browserTimeZone) = DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
     }
 }
 

@@ -28,31 +28,31 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
         })
 
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
-        withConverter(StringToIntegerConverter(karibuDslI18n("CANT_CONVERT_TO_INTEGER")))
+        withConverter(StringToIntegerConverter(karibuDslI18n("cantConvertToInteger")))
 
 @JvmName("doubleToInt")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(DoubleToIntConverter)
 
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
-        withConverter(StringToDoubleConverter(karibuDslI18n("CANT_CONVERT_TO_DECIMAL")))
+        withConverter(StringToDoubleConverter(karibuDslI18n("cantConvertToDecimal")))
 
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
-        withConverter(StringToLongConverter(karibuDslI18n("CANT_CONVERT_TO_INTEGER")))
+        withConverter(StringToLongConverter(karibuDslI18n("cantConvertToInteger")))
 
 @JvmName("doubleToLong")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(DoubleToLongConverter)
 
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
-        withConverter(StringToBigDecimalConverter(karibuDslI18n("CANT_CONVERT_TO_DECIMAL")))
+        withConverter(StringToBigDecimalConverter(karibuDslI18n("cantConvertToDecimal")))
 
 @JvmName("doubleToBigDecimal")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withConverter(DoubleToBigDecimalConverter)
 
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
-        withConverter(StringToBigIntegerConverter(karibuDslI18n("CANT_CONVERT_TO_INTEGER")))
+        withConverter(StringToBigIntegerConverter(karibuDslI18n("cantConvertToInteger")))
 
 @JvmName("doubleToBigInteger")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
