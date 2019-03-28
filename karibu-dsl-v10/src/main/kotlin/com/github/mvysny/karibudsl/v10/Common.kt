@@ -36,7 +36,7 @@ fun Class<*>.getGetter(propertyName: String): Method {
 }
 
 /**
- * Removes the component from its parent. Does nothing if the component does not have a parent.
+ * Removes the component from its parent. Does nothing if the component is not attached to a parent.
  */
 fun Component.removeFromParent() {
     (parent.orElse(null) as? HasComponents)?.remove(this)
