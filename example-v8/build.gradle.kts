@@ -58,7 +58,7 @@ dependencies {
     testCompile("org.jetbrains.kotlin:kotlin-test")
 
     // heroku app runner
-    staging("com.github.jsimone:webapp-runner:9.0.11.0")
+    staging("com.github.jsimone:webapp-runner-main:9.0.17.0")
 }
 
 // Heroku
