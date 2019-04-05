@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v8
 import com.vaadin.data.*
 import com.vaadin.data.converter.*
 import com.vaadin.server.Page
+import com.vaadin.server.WebBrowser
 import com.vaadin.ui.AbstractTextField
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -36,16 +37,23 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBu
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter(karibuDslI18n("cantConvertToInteger")))
 
-val browserTimeZone: ZoneId
-    get() = Page.getCurrent().webBrowser.let { browser ->
-        if (!browser.timeZoneId.isNullOrBlank()) {
-            // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
-            ZoneId.of(browser.timeZoneId)
-        } else {
-            // fallback to time zone offset
-            ZoneOffset.ofTotalSeconds(browser.timezoneOffset / 1000)
-        }
+val WebBrowser.timeZone: ZoneId
+    get() = if (!timeZoneId.isNullOrBlank()) {
+        // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
+        ZoneId.of(timeZoneId)
+    } else {
+        // fallback to time zone offset
+        ZoneOffset.ofTotalSeconds(timezoneOffset / 1000)
     }
+
+val browserTimeZone: ZoneId get() = Page.getCurrent().webBrowser.timeZone
+
+/**
+ * Returns the current date and time at browser's current time zone.
+ */
+val WebBrowser.currentDateTime: LocalDateTime
+    get() =
+        LocalDateTime.now(ZoneOffset.ofTotalSeconds(timezoneOffset / 1000))
 
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(browserTimeZone))

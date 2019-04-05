@@ -5,11 +5,17 @@ import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.server.VaadinSession
+import com.vaadin.flow.server.WebBrowser
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.*
 import java.util.*
 import kotlin.reflect.KMutableProperty1
+import java.time.ZoneOffset
+import java.time.LocalDateTime
+import jdk.nashorn.internal.objects.NativeDate.getTimezoneOffset
+import java.time.Duration.ofMillis
+
 
 /**
  * Trims the user input string before storing it into the underlying property data source. Vital for mobile-oriented apps:
@@ -20,6 +26,7 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
         withConverter(object : Converter<String?, String?> {
             override fun convertToModel(value: String?, context: ValueContext?): Result<String?> =
                     Result.ok(value?.trim())
+
             override fun convertToPresentation(value: String?, context: ValueContext?): String? {
                 // must not return null here otherwise TextField will fail with NPE:
                 // // workaround for https://github.com/vaadin/framework/issues/8664
@@ -61,17 +68,26 @@ fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigInteger(): Binder.BindingBu
 /**
  * The time zone as reported by the browser.
  */
-val browserTimeZone: ZoneId
-    get() = VaadinSession.getCurrent().browser.let { browser ->
-        val timeZoneId: String? = browser.timeZoneId
-        if (!timeZoneId.isNullOrBlank()) {
-            // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
-            ZoneId.of(timeZoneId)
-        } else {
-            // fallback to time zone offset
-            ZoneOffset.ofTotalSeconds(browser.timezoneOffset / 1000)
-        }
+val WebBrowser.timeZone: ZoneId
+    get() = if (!timeZoneId.isNullOrBlank()) {
+        // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
+        ZoneId.of(timeZoneId)
+    } else {
+        // fallback to time zone offset
+        ZoneOffset.ofTotalSeconds(timezoneOffset / 1000)
     }
+
+/**
+ * The time zone as reported by the browser.
+ */
+val browserTimeZone: ZoneId get() = VaadinSession.getCurrent().browser.timeZone
+
+/**
+ * Returns the current date and time at browser's current time zone.
+ */
+val WebBrowser.currentDateTime: LocalDateTime
+    get() =
+        LocalDateTime.now(ZoneOffset.ofTotalSeconds(timezoneOffset / 1000))
 
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(browserTimeZone))
@@ -81,11 +97,11 @@ fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingB
         withConverter(LocalDateTimeToDateConverter(browserTimeZone))
 
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
-    withConverter(LocalDateToInstantConverter(browserTimeZone))
+        withConverter(LocalDateToInstantConverter(browserTimeZone))
 
 @JvmName("localDateTimeToInstant")
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
-    withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
+        withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
 
 /**
  * Allows you to create [BeanValidationBinder] like this: `beanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
@@ -123,10 +139,10 @@ fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KMutab
  */
 class LocalDateToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Converter<LocalDate?, Instant?> {
     override fun convertToModel(localDate: LocalDate?, context: ValueContext): Result<Instant?> =
-        Result.ok(localDate?.atStartOfDay(zoneId)?.toInstant())
+            Result.ok(localDate?.atStartOfDay(zoneId)?.toInstant())
 
     override fun convertToPresentation(date: Instant?, context: ValueContext): LocalDate? =
-        date?.atZone(zoneId)?.toLocalDate()
+            date?.atZone(zoneId)?.toLocalDate()
 }
 
 /**
@@ -135,24 +151,27 @@ class LocalDateToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Conver
  */
 class LocalDateTimeToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
     override fun convertToModel(localDate: LocalDateTime?, context: ValueContext): Result<Instant?> =
-        Result.ok(localDate?.atZone(zoneId)?.toInstant())
+            Result.ok(localDate?.atZone(zoneId)?.toInstant())
 
     override fun convertToPresentation(date: Instant?, context: ValueContext): LocalDateTime? =
-        date?.atZone(zoneId)?.toLocalDateTime()
+            date?.atZone(zoneId)?.toLocalDateTime()
 }
 
 object DoubleToIntConverter : Converter<Double?, Int?> {
     override fun convertToPresentation(value: Int?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<Int?> = Result.ok(value?.toInt())
 }
+
 object DoubleToLongConverter : Converter<Double?, Long?> {
     override fun convertToPresentation(value: Long?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<Long?> = Result.ok(value?.toLong())
 }
+
 object DoubleToBigDecimalConverter : Converter<Double?, BigDecimal?> {
     override fun convertToPresentation(value: BigDecimal?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<BigDecimal?> = Result.ok(value?.toBigDecimal())
 }
+
 object DoubleToBigIntegerConverter : Converter<Double?, BigInteger?> {
     override fun convertToPresentation(value: BigInteger?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<BigInteger?> {
