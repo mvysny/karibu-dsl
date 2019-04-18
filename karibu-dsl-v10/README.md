@@ -36,7 +36,7 @@ Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a 
 <project>
 	<dependencies>
 		<dependency>
-			<groupId>com.github.vok.karibudsl</groupId>
+			<groupId>com.github.mvysny.karibudsl</groupId>
 			<artifactId>karibu-dsl-v10</artifactId>
 			<version>x.y.z</version>
 		</dependency>
