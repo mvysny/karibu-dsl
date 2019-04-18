@@ -61,8 +61,6 @@ subprojects {
             localProperties.inputStream().use { local.load(it) }
         }
 
-        val java: JavaPluginConvention = convention.getPluginByName("java")
-
         val sourceJar = task("sourceJar", Jar::class) {
             dependsOn(tasks["classes"])
             classifier = "sources"
