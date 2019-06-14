@@ -4,6 +4,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10.label
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.icon.VaadinIcon
 
 class AppLayoutTest : DynaTest({
     beforeEach { MockVaadin.setup() }
@@ -11,10 +12,13 @@ class AppLayoutTest : DynaTest({
 
     test("smoke") {
         UI.getCurrent().appLayout {
-            branding { h3("My App") }
-            withVaadinMenu {
-                item("Item 1")
-                item("Item 2")
+            navbar {
+                drawerToggle()
+                h3("My App")
+            }
+            drawer {
+                routerLink(VaadinIcon.ARCHIVE, "Foo")
+                routerLink(VaadinIcon.ACADEMY_CAP, "Bar")
             }
             content {
                 span("Hello world!")
