@@ -16,16 +16,16 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.HasElement
+import com.vaadin.flow.component.applayout.AppLayoutMenu
 import com.vaadin.flow.component.dependency.HtmlImport
+import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
-import com.vaadin.flow.router.AfterNavigationEvent
-import com.vaadin.flow.router.AfterNavigationObserver
 import com.vaadin.flow.router.RouterLayout
-import com.vaadin.flow.router.RouterLink
 import com.vaadin.flow.server.InitialPageSettings
+import com.vaadin.flow.server.PWA
 import com.vaadin.flow.server.PageConfigurator
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
@@ -38,51 +38,25 @@ import com.vaadin.flow.theme.lumo.Lumo
 @HtmlImport("frontend://styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
-class MainLayout : KComposite(), RouterLayout, AfterNavigationObserver, PageConfigurator {
-    private lateinit var categories: RouterLink
-    private lateinit var reviews: RouterLink
-
+@PWA(name = "Beverage Buddy", shortName = "BeverageBuddy")
+class MainLayout : KComposite(), RouterLayout {
+    private lateinit var appLayoutMenu: AppLayoutMenu
     private val root = ui {
-        verticalLayout {
-            addClassName("main-layout")
-            defaultHorizontalComponentAlignment = FlexComponent.Alignment.STRETCH
-            div {
-                // header
-                addClassName("main-layout__header")
-                h2("Beverage Buddy") {
-                    addClassName("main-layout__title")
+        appLayout {
+            branding { h3("Beverage Buddy") }
+            appLayoutMenu = withVaadinMenu {
+                item("Reviews", Icon(VaadinIcon.LIST)) {
+                    setRoute(ReviewsList::class)
                 }
-                div {
-                    // navigation
-                    addClassName("main-layout__nav")
-                    reviews = routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
-                        addClassName("main-layout__nav-item")
-                    }
-                    categories = routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
-                        addClassName("main-layout__nav-item")
-                    }
+                item("Categories", Icon(VaadinIcon.ARCHIVES)) {
+                    setRoute(CategoriesList::class)
                 }
             }
         }
     }
 
-    override fun afterNavigation(event: AfterNavigationEvent) {
-        // updating the active menu item based on if either of views is active
-        // (note that this is triggered even for the error view)
-        val segment = event.location.firstSegment
-        val reviewsActive = segment == reviews.href
-        val categoriesActive = segment == categories.href
-
-        reviews.setClassName(ACTIVE_ITEM_STYLE, reviewsActive)
-        categories.setClassName(ACTIVE_ITEM_STYLE, categoriesActive)
-    }
-
-    override fun configurePage(settings: InitialPageSettings) {
-        settings.addMetaTag("apple-mobile-web-app-capable", "yes")
-        settings.addMetaTag("apple-mobile-web-app-status-bar-style", "black")
-    }
-
-    companion object {
-        private val ACTIVE_ITEM_STYLE = "main-layout__nav-item--selected"
+    override fun showRouterLayoutContent(content: HasElement) {
+        root.showRouterLayoutContent(content, appLayoutMenu)
+        content.element.classList.add("main-layout")
     }
 }
