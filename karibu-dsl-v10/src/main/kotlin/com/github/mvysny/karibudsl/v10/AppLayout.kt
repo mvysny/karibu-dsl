@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 /**
  * Creates an [App Layout](https://vaadin.com/components/vaadin-app-layout). Example:
  *
- * ```kotlin
+ * ```
  * class MainLayout : KComposite(), RouterLayout {
  *   private lateinit var appLayoutMenu: AppLayoutMenu
  *   private val root = ui {
@@ -41,6 +41,14 @@ import kotlin.reflect.KClass
 @VaadinDsl
 fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Unit = {}) = init(AppLayout(), block)
 
+/**
+ * Allows you to set the [AppLayout.setBranding] in a DSL fashion:
+ * ```
+ * appLayout {
+ *   branding { h3("My App") }
+ * }
+ * ```
+ */
 @VaadinDsl
 fun (@VaadinDsl AppLayout).branding(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
@@ -54,6 +62,10 @@ fun (@VaadinDsl AppLayout).branding(block: (@VaadinDsl HasComponents).() -> Unit
     dummy.block()
 }
 
+/**
+ * Allows you to set the [AppLayout.setContent] in a DSL fashion. Not really useful since you will most probably use
+ * [showRouterLayoutContent] to set the current view as the content of the app layout.
+ */
 @VaadinDsl
 fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
@@ -68,6 +80,15 @@ fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit 
     dummy.block()
 }
 
+/**
+ * Allows you to set the [AppLayout.setBranding] in a DSL fashion:
+ * ```
+ * appLayout {
+ *   menu { menu component }
+ * }
+ * ```
+ * Not that useful since you'll most probably want to use the [AppLayoutMenu] which you can instantiate by using [withVaadinMenu].
+ */
 @VaadinDsl
 fun (@VaadinDsl AppLayout).menu(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
@@ -82,11 +103,14 @@ fun (@VaadinDsl AppLayout).menu(block: (@VaadinDsl HasComponents).() -> Unit = {
     dummy.block()
 }
 
-@VaadinDsl
-fun (@VaadinDsl HasComponents).appLayoutMenu(block: (@VaadinDsl AppLayoutMenu).() -> Unit = {}) = AppLayoutMenu().apply {
-    this@appLayoutMenu.element
-}
-
+/**
+ * Sets the [AppLayoutMenu] as the menu into the [AppLayout]:
+ * ```
+ * appLayout {
+ *   withVaadinMenu { item("hello!") }
+ * }
+ * ```
+ */
 @VaadinDsl
 fun (@VaadinDsl AppLayout).withVaadinMenu(block: (@VaadinDsl AppLayoutMenu).() -> Unit = {}): AppLayoutMenu {
     val menu: AppLayoutMenu = createMenu()
@@ -101,6 +125,9 @@ fun (@VaadinDsl AppLayoutMenu).item(title: String? = null, icon: Component? = nu
     return item
 }
 
+/**
+ * Allows to set given view as the [navigationTarget] for this menu item.
+ */
 fun AppLayoutMenuItem.setRoute(navigationTarget: KClass<out Component>) {
     val link = RouterLink("foo", navigationTarget.java)
     route = link.href
@@ -115,10 +142,9 @@ fun AppLayout.showRouterLayoutContent(content: HasElement, menu: AppLayoutMenu) 
     if (component is RouteNotFoundError) {
         menu.selectMenuItem(null)
     } else {
-        val target = UI.getCurrent().router.getUrl(component.javaClass)
-
-        menu.getMenuItemTargetingRoute(target!!)
-                .ifPresent({ item -> menu.selectMenuItem(item) })
+        val target: String = UI.getCurrent().router.getUrl(component.javaClass)
+        menu.getMenuItemTargetingRoute(target)
+                .ifPresent { item -> menu.selectMenuItem(item) }
     }
     setContent(content.element)
 }
