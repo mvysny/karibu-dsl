@@ -66,8 +66,10 @@ fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit =
 }
 
 /**
- * Allows you to set the [AppLayout.setContent] in a DSL fashion. Not really useful since you will most probably use
- * [showRouterLayoutContent] to set the current view as the content of the app layout.
+ * Allows you to set the [AppLayout.setContent] in a DSL fashion.
+ *
+ * The [AppLayout] implements [RouterLayout] and is able to automatically populate itself with the view's contents.
+ * If you wish to take advantage of this feature, just make your main layout extend the [AppLayout] class.
  */
 @VaadinDsl
 fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
