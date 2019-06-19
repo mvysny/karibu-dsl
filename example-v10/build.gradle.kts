@@ -4,6 +4,11 @@
 plugins {
     id("org.gretty")
     war
+    id("com.devsoap.vaadin-flow") version "1.2"
+}
+
+vaadin {
+    version = properties["vaadin10_version"] as String
 }
 
 gretty {
@@ -13,12 +18,11 @@ gretty {
 
 dependencies {
     compile(project(":karibu-dsl-v10"))
-    providedCompile("javax.servlet:javax.servlet-api:3.1.0")
-
-    // logging
-    // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
-    compile("ch.qos.logback:logback-classic:1.2.3")
-    compile("org.slf4j:slf4j-api:1.7.25")
+    compile(vaadin.bom())
+    compile(vaadin.core())
+    compile(vaadin.lumoTheme())
+    compileOnly(vaadin.servletApi())
+    runtime(vaadin.slf4j())
 
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v10:${properties["kaributesting_version"]}")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")

@@ -1,5 +1,4 @@
 dependencies {
-    compile(platform("com.vaadin:vaadin-bom:${properties["vaadin10_version"]}"))
     compile(kotlin("stdlib-jdk8"))
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
@@ -7,7 +6,12 @@ dependencies {
     testCompile("org.slf4j:slf4j-simple:1.7.25")
 
     // Vaadin
-    compile("com.vaadin:vaadin-core:${properties["vaadin10_version"]}")
+    // don't compile-depend on vaadin-core anymore: the app itself should manage Vaadin dependencies, for example
+    // using the gradle-flow-plugin or direct dependency on vaadin-core. The reason is that the app may wish to use the
+    // npm mode and exclude all webjars.
+    compileOnly(platform("com.vaadin:vaadin-bom:${properties["vaadin10_version"]}"))
+    compileOnly("com.vaadin:vaadin-core:${properties["vaadin10_version"]}")
+    testCompile("com.vaadin:vaadin-core:${properties["vaadin10_version"]}")
     compileOnly("javax.servlet:javax.servlet-api:3.1.0")
 
     // IDEA language injections
