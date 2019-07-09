@@ -67,6 +67,6 @@ fun Element.setOrRemoveAttribute(attribute: String, value: String?) {
 /**
  * Sets or removes the `title` attribute on component's element.
  */
-var Component.title: String?
+var Component.tooltip: String?
     get() = element.getAttribute("title")
     set(value) { element.setOrRemoveAttribute("title", value) }
