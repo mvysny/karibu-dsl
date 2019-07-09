@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
+import com.vaadin.flow.dom.Element
 
 // annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
 // which makes them stand out apart from the common functions, which is very nice.
@@ -49,3 +50,23 @@ var HasSize.minWidth: String?
 var HasSize.maxWidth: String?
     get() = element.style.get("maxWidth")
     set(value) { element.style.set("maxWidth", value) }
+
+/**
+ * Either calls [Element.setAttribute] (if the [value] is not null), or
+ * [Element.removeAttribute] (if the [value] is null).
+ * @param attribute the name of the attribute.
+ */
+fun Element.setOrRemoveAttribute(attribute: String, value: String?) {
+    if (value == null) {
+        removeAttribute(attribute)
+    } else {
+        setAttribute(attribute, value)
+    }
+}
+
+/**
+ * Sets or removes the `title` attribute on component's element.
+ */
+var Component.title: String?
+    get() = element.getAttribute("title")
+    set(value) { element.setOrRemoveAttribute("title", value) }

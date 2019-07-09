@@ -16,4 +16,15 @@ class BasicTest : DynaTest({
         b.serverClick()
         expect(1) { clicked }
     }
+
+    test("title") {
+        val b = Button()
+        expect(null) { b.title }
+        b.title = ""
+        expect("") { b.title }
+        b.title = "foo"
+        expect("foo") { b.title }
+        b.title = null
+        expect(null) { b.title }
+    }
 })
