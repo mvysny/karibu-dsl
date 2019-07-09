@@ -21,9 +21,9 @@ class BasicTest : DynaTest({
         val b = Button()
         expect(null) { b.title }
         b.title = ""
-        expect("") { b.title }
+        expect<String?>("") { b.title } // https://youtrack.jetbrains.com/issue/KT-32501
         b.title = "foo"
-        expect("foo") { b.title }
+        expect<String?>("foo") { b.title } // https://youtrack.jetbrains.com/issue/KT-32501
         b.title = null
         expect(null) { b.title }
     }
