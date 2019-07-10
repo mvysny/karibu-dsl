@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10.label
 import com.vaadin.flow.component.UI
@@ -11,7 +12,7 @@ class AppLayoutTest : DynaTest({
     afterEach { MockVaadin.tearDown() }
 
     test("smoke") {
-        UI.getCurrent().appLayout {
+        val a = UI.getCurrent().appLayout {
             navbar {
                 drawerToggle()
                 h3("My App")
@@ -24,5 +25,6 @@ class AppLayoutTest : DynaTest({
                 span("Hello world!")
             }
         }
+        a.cloneBySerialization()
     }
 })

@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.button.Button
 import kotlin.test.expect
@@ -15,6 +16,7 @@ class BasicTest : DynaTest({
         b.onLeftClick { clicked++ }
         b.serverClick()
         expect(1) { clicked }
+        b.cloneBySerialization()
     }
 
     test("title") {

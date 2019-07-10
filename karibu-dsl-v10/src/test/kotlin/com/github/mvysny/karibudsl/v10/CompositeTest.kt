@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.expectThrows
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._get
@@ -48,6 +49,13 @@ class CompositeTest : DynaTest({
             buttonBar()
         }
         _get<Button> { caption = "ok" }
+    }
+
+    test("serialize") {
+        UI.getCurrent().apply {
+            buttonBar()
+        }
+        UI.getCurrent().cloneBySerialization()
     }
 
     test("uninitialized composite fails with informative exception") {
