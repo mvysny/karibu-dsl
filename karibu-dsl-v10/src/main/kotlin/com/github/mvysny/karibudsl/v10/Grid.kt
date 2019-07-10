@@ -10,6 +10,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
+import com.vaadin.flow.function.SerializableComparator
 import com.vaadin.flow.shared.util.SharedUtil
 import java.lang.reflect.Method
 import java.util.*
@@ -47,7 +48,7 @@ fun <T, V : Comparable<V>> (@VaadinDsl Grid<T>).addColumnFor(
     converter: (V?) -> Any? = { it },
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
-    addColumn({ it: T -> converter(property.get(it)) }).apply {
+    addColumn { converter(property.get(it)) }.apply {
         key = property.name
         if (sortable) sortProperty = property
         setHeader(SharedUtil.camelCaseToHumanFriendly(property.name))
@@ -97,7 +98,7 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
     set(value) {
         setSortProperty(value.name)
         // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
-        setComparator(compareBy { value.get(it) as Comparable<*> })
+        setComparator(SerializableComparator<T> { a, b -> compareValuesBy(a, b, { value.get(it) as Comparable<*> }) })
     }
 
 /**

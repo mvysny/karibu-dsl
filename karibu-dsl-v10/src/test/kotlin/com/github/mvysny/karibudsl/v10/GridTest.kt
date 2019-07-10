@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.expectList
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
@@ -128,6 +129,14 @@ class GridTest : DynaTest({
                 (tf as TextField).caption
             }
         }
+    }
+
+    test("serialization") {
+        val grid = Grid<Person>().apply {
+            addColumnFor(Person::fullName)
+            appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
+        }
+        grid.cloneBySerialization()
     }
 })
 
