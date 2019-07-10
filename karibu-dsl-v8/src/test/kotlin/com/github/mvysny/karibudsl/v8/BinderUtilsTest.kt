@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v8
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v8.MockVaadin
 import com.vaadin.data.Binder
 import com.vaadin.data.HasValue
@@ -36,6 +37,8 @@ class BinderUtilsTest : DynaTest({
         expect("") { form.testBD.value }
         expect("") { form.testBI.value }
         expect("") { form.testLong.value }
+
+        form.cloneBySerialization()
     }
 
     test("WriteBeanWithNullFields") {

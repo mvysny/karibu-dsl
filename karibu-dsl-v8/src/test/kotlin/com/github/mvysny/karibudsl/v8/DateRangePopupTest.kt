@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v8
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v8.*
 import com.vaadin.shared.ui.datefield.DateTimeResolution
 import com.vaadin.ui.*
@@ -60,5 +61,10 @@ class DateRangePopupTest : DynaTest({
             expect(DateInterval(LocalDateTime.of(2018, 12, 22, 1, 2, 0, 0),
                     LocalDateTime.of(2018, 12, 22, 1, 2, 59, 999))) { _value }
         }
+    }
+
+    test("serializable") {
+        UI.getCurrent().dateRangePopup()
+        UI.getCurrent().cloneBySerialization()
     }
 })

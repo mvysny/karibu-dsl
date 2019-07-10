@@ -1,11 +1,13 @@
 package com.github.mvysny.karibudsl.v8
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v8.MockVaadin
 import com.vaadin.data.provider.ListDataProvider
 import com.vaadin.shared.data.sort.SortDirection
 import com.vaadin.ui.Grid
 import com.vaadin.ui.TextField
+import com.vaadin.ui.UI
 import kotlin.test.expect
 
 class GridTest : DynaTest({
@@ -91,6 +93,15 @@ class GridTest : DynaTest({
                 }
             }
         }
+    }
+
+    test("serializable") {
+        data class TestingClass(var foo: String?, var bar: String)
+        UI.getCurrent().grid<TestingClass> {
+            addColumnFor(TestingClass::foo)   // this must compile
+            addColumnFor(TestingClass::bar)   // this must compile
+        }
+        UI.getCurrent().cloneBySerialization()
     }
 })
 

@@ -6,7 +6,7 @@ import java.util.*
 
 plugins {
     kotlin("jvm") version "1.3.41"
-    id("org.gretty") version "2.2.0"
+    id("org.gretty") version "2.3.1"
     id("com.jfrog.bintray") version "1.8.3"
     `maven-publish`
     id("org.jetbrains.dokka") version "0.9.17"
