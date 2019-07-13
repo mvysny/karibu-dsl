@@ -11,7 +11,7 @@ Compatibility chart:
 | 0.7.x | Vaadin 14+ |
 
 > Note: 0.7.x works with Vaadin 13 as well, with some limitations
-  as outlined in #19
+  as outlined in [Issue #19](https://github.com/mvysny/karibu-dsl/issues/19).
 
 ## Using in your projects
 
