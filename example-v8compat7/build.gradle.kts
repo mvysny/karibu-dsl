@@ -14,7 +14,7 @@ gretty {
 val staging by configurations.creating
 
 dependencies {
-    compile(project(":karibu-dsl-v8"))
+    compile(project(":karibu-dsl-v8compat7"))
 
     // logging
     // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
@@ -23,11 +23,9 @@ dependencies {
     // this will allow us to configure Vaadin to log to SLF4J
     compile("org.slf4j:jul-to-slf4j:1.7.25")
 
-    compile("com.vaadin:vaadin-compatibility-server:${properties["vaadin8_version"]}")
     compile("com.vaadin:vaadin-compatibility-client-compiled:${properties["vaadin8_version"]}")
     compile("com.vaadin:vaadin-themes:${properties["vaadin8_version"]}")
 
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${properties["kaributesting_version"]}")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
-    testCompile("org.jetbrains.kotlin:kotlin-test")
 }

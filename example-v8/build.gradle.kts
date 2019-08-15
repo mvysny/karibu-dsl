@@ -55,7 +55,6 @@ dependencies {
 
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${properties["kaributesting_version"]}")
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
-    testCompile("org.jetbrains.kotlin:kotlin-test")
 
     // heroku app runner
     staging("com.github.jsimone:webapp-runner-main:9.0.22.0")
