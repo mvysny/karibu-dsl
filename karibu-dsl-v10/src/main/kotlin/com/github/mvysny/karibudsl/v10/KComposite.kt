@@ -50,12 +50,12 @@ abstract class KComposite : Composite<Component>() {
             override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
             override fun add(vararg components: Component) {
                 require(components.size < 2) { "Too many components to add - composite can only host one! ${components.toList()}" }
-                val component = components.firstOrNull() ?: return
+                val component: Component = components.firstOrNull() ?: return
                 check(root == null) { "The content has already been initialized!" }
                 root = component
             }
         }
-        val component = dummy.block()
+        val component: T = dummy.block()
         checkNotNull(root) { "`block` must add exactly one component" }
         return component
     }
