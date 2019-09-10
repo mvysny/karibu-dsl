@@ -38,20 +38,6 @@ var Component.textAlign: String?
     set(value) { element.style.set("textAlign", value) }
 
 /**
- * Sets the "min-width" style, or removes it.
- */
-var HasSize.minWidth: String?
-    get() = element.style.get("minWidth")
-    set(value) { element.style.set("minWidth", value) }
-
-/**
- * Sets the "max-width" style, or removes it.
- */
-var HasSize.maxWidth: String?
-    get() = element.style.get("maxWidth")
-    set(value) { element.style.set("maxWidth", value) }
-
-/**
  * Either calls [Element.setAttribute] (if the [value] is not null), or
  * [Element.removeAttribute] (if the [value] is null).
  * @param attribute the name of the attribute.
