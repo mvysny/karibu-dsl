@@ -5,7 +5,10 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.FooterRow
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.HeaderRow
+import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.DataProvider
+import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
+import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
@@ -19,9 +22,20 @@ import kotlin.reflect.KProperty1
 @VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
     init(Grid<T>()) {
-        if (dataProvider != null) this.dataProvider = dataProvider
+        if (dataProvider != null) {
+            this.dataProvider = dataProvider
+        }
         block()
     }
+
+@VaadinDsl
+fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}) =
+        init(TreeGrid<T>()) {
+            if (dataProvider != null) {
+                (this as Grid<T>).dataProvider = dataProvider
+            }
+            block()
+        }
 
 /**
  * Refreshes the Grid and re-polls for data.

@@ -4,9 +4,11 @@ import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.expectList
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.DataCommunicator
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.QuerySortOrder
@@ -137,6 +139,13 @@ class GridTest : DynaTest({
             appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
         }
         grid.cloneBySerialization()
+    }
+
+    group("treeGrid") {
+        test("smoke") {
+            UI.getCurrent().treeGrid<String>()
+            _expectOne<TreeGrid<*>>()
+        }
     }
 })
 

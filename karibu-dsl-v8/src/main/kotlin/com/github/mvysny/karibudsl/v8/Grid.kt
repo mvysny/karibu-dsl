@@ -32,6 +32,9 @@ fun <T: Any> (@VaadinDsl HasComponents).grid(itemClass: KClass<T>? = null, capti
             block()
         }
 
+/**
+ * Creates a tree grid.
+ */
 @VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}) = init(
     TreeGrid<T>()
