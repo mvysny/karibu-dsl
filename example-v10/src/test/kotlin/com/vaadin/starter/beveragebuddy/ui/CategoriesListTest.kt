@@ -42,7 +42,7 @@ class CategoriesListTest : DynaTest({
     test("edit existing category") {
         val cat = CategoryService.findAll()[0]
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, cat.name, cat.getReviewCount(), "null")
+        grid.expectRow(0, cat.name, cat.getReviewCount(), "Button[text='Edit']")
         grid._clickRenderer(0, "edit")
 
         // make sure that the "Edit Category" dialog is opened
@@ -53,7 +53,7 @@ class CategoriesListTest : DynaTest({
     test("edit existing category via context menu") {
         val cat = CategoryService.findAll()[0]
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, cat.name, cat.getReviewCount(), "null")
+        grid.expectRow(0, cat.name, cat.getReviewCount(), "Button[text='Edit']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
 
         // make sure that the "Edit Category" dialog is opened
