@@ -132,7 +132,7 @@ fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDs
 fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}) = init(Tabs(), block)
 
 @VaadinDsl
-fun (@VaadinDsl Tabs).tab(block: (@VaadinDsl Tab).() -> Unit = {}) = init(Tab(), block)
+fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}) = init(Tab(label), block)
 
 @VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}) = init(CheckboxGroup(), block)
