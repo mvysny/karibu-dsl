@@ -9,7 +9,7 @@ class AccordionTest : DynaTest({
     afterEach { MockVaadin.tearDown() }
 
     test("smoke") {
-        val a = UI.getCurrent().accordion {
+        UI.getCurrent().accordion {
             add("lorem ipsum") {
                 content {
                     label("dolor sit amet")
