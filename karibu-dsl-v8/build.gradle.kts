@@ -1,10 +1,10 @@
 dependencies {
     compile(kotlin("stdlib-jdk8"))
-    compile("org.slf4j:slf4j-api:1.7.25")
+    compile("org.slf4j:slf4j-api:${properties["slf4j_version"]}")
 
     testCompile("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
     testCompile("com.github.mvysny.kaributesting:karibu-testing-v8:${properties["kaributesting_version"]}")
-    testCompile("ch.qos.logback:logback-classic:1.2.3")
+    testCompile("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 
     // Vaadin
     compile("com.vaadin:vaadin-server:${properties["vaadin8_version"]}")
