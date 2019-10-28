@@ -102,3 +102,12 @@ fun <T> (@VaadinDsl GridContextMenu<T>).item(component: Component, clickListener
 fun <T> (@VaadinDsl GridMenuItem<T>).item(component: Component, clickListener: ((T?)->Unit)? = null,
                                block: (@VaadinDsl GridMenuItem<T>).()->Unit = {}): GridMenuItem<T> =
         subMenu.addItem(component, clickListener.toListener).apply { block() }
+
+/**
+ * [SubMenu] is leveraged instead of HasMenuItems to provide access to [SubMenu.remove] and [SubMenu.removeAll] instead of [HasComponents.remove] / [HasComponents.removeAll]
+ */
+@VaadinDsl
+fun (@VaadinDsl MenuItem).subMenu(block: (@VaadinDsl SubMenu).() -> Unit): SubMenu = subMenu.apply(block)
+
+@VaadinDsl
+fun <T> (@VaadinDsl GridMenuItem<T>).subMenu(block: (@VaadinDsl GridSubMenu<T>).() -> Unit): GridSubMenu<T> = subMenu.apply(block)
