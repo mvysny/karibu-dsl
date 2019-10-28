@@ -34,6 +34,8 @@ fun (@VaadinDsl HasComponents).span(text: String? = null, block: (@VaadinDsl Spa
 @VaadinDsl
 fun (@VaadinDsl HasComponents).anchor(href: String = "", text: String? = href, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
 @VaadinDsl
+fun (@VaadinDsl HasComponents).anchor(href: AbstractStreamResource, text: String? = null, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
+@VaadinDsl
 fun (@VaadinDsl HasComponents).image(src: String = "", alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}) = init(Image(src, alt), block)
 @VaadinDsl
 fun (@VaadinDsl HasComponents).label(text: String? = null, `for`: Component? = null, block: (@VaadinDsl Label).() -> Unit = {}) = init(Label(text).apply {
