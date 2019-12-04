@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 
 /**
  * Creates a [Flex Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
- * of possible alternative themes for the button; use [themes] to add more themes.
+ * of possible alternative themes for the button.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> Unit = {}) = init(FlexLayout(), block)
@@ -58,11 +58,17 @@ fun (@VaadinDsl HasComponents).horizontalLayout(
 })
 
 /**
- * Sets the component's [FlexComponent.getFlexGrow]. Only works when the component is nested in a [FlexComponent].
+ * Sets the component's [FlexComponent.getFlexGrow]. Only works when the
+ * component is nested in a [FlexComponent].
  *
- * This defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves as a proportion. It dictates what amount of the available space inside the flex container the item should take up.
+ * This defines the ability for a flex item to grow if necessary. It accepts a
+ * unitless value that serves as a proportion. It dictates what amount of the
+ * available space inside the flex container the item should take up.
  *
- * If all items have flex-grow set to 1, the remaining space in the container will be distributed equally to all children. If one of the children has a value of 2, the remaining space would take up twice as much space as the others (or it will try to, at least).
+ * If all items have flex-grow set to 1, the remaining space in the container
+ * will be distributed equally to all children. If one of the children has a value
+ * of 2, the remaining space would take up twice as much space as the others
+ * (or it will try to, at least).
  *
  * Negative numbers are invalid.
  *
@@ -86,7 +92,8 @@ var (@VaadinDsl Component).flexGrow: Double
     }
 
 /**
- * Checks if the component expands when nested in [FlexComponent]. Alias for setting [flexGrow] to 1.0; see [flexGrow] for more information.
+ * Checks if the component expands when nested in [FlexComponent]. Alias for
+ * setting [flexGrow] to 1.0; see [flexGrow] for more information.
  */
 var (@VaadinDsl Component).isExpand: Boolean
     get() = flexGrow > 0
@@ -95,7 +102,8 @@ var (@VaadinDsl Component).isExpand: Boolean
     }
 
 /**
- * The `flex-shrink` CSS property specifies the flex shrink factor of a flex item. Flex items will shrink to fill the container according
+ * The `flex-shrink` CSS property specifies the flex shrink factor of a flex item.
+ * Flex items will shrink to fill the container according
  * to the `flex-shrink` number, when the default size of flex items is larger than the flex container.
  *
  * Get more information at [flex-shrink](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink)
