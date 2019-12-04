@@ -13,8 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
  * of possible alternative themes for the button; use [themes] to add more themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> Unit = {})
-        = init(FlexLayout(), block)
+fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> Unit = {}) = init(FlexLayout(), block)
 
 /**
  * Creates a [Vertical Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
@@ -91,7 +90,9 @@ var (@VaadinDsl Component).flexGrow: Double
  */
 var (@VaadinDsl Component).isExpand: Boolean
     get() = flexGrow > 0
-    set(value) { flexGrow = if (value) 1.0 else 0.0 }
+    set(value) {
+        flexGrow = if (value) 1.0 else 0.0
+    }
 
 /**
  * The `flex-shrink` CSS property specifies the flex shrink factor of a flex item. Flex items will shrink to fill the container according
@@ -118,7 +119,9 @@ var (@VaadinDsl Component).flexShrink: Double
  */
 var (@VaadinDsl Component).flexBasis: String?
     get() = element.style.get("flexBasis")
-    set(value) { element.style.set("flexBasis", value) }
+    set(value) {
+        element.style.set("flexBasis", value)
+    }
 
 /**
  * This allows the default alignment (or the one specified by [FlexComponent.getAlignItems] to be overridden for individual flex items.
@@ -127,7 +130,9 @@ var (@VaadinDsl Component).flexBasis: String?
  */
 var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment
     get() = (parent.get() as FlexComponent<*>).getAlignSelf(this)
-    set(value) { (parent.get() as FlexComponent<*>).setAlignSelf(value, this) }
+    set(value) {
+        (parent.get() as FlexComponent<*>).setAlignSelf(value, this)
+    }
 
 /**
  * This aligns a flex container's lines within when there is extra space in the cross-axis, similar to how [FlexComponent.getJustifyContentMode] aligns individual
@@ -135,12 +140,16 @@ var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment
  */
 var (@VaadinDsl FlexLayout).alignContent: AlignContent
     get() = (this as FlexComponent<*>).alignContent
-    set(value) { (this as FlexComponent<*>).alignContent = value }
+    set(value) {
+        (this as FlexComponent<*>).alignContent = value
+    }
 
 // private since it would confuse users of VerticalLayout and HorizontalLayout which also implement FlexComponent.
 private var (@VaadinDsl FlexComponent<*>).alignContent: AlignContent
     get() = AlignContent.fromFlexValue(element.style.get("alignContent"))
-    set(value) { element.style.set("alignContent", value.flexValue) }
+    set(value) {
+        element.style.set("alignContent", value.flexValue)
+    }
 
 enum class AlignContent(val flexValue: String) {
     /**
@@ -169,7 +178,8 @@ enum class AlignContent(val flexValue: String) {
     Stretch("stretch");
 
     companion object {
-        fun fromFlexValue(flexValue: String?): AlignContent = values().firstOrNull { it.flexValue == flexValue } ?: Stretch
+        fun fromFlexValue(flexValue: String?): AlignContent =
+                values().firstOrNull { it.flexValue == flexValue } ?: Stretch
     }
 }
 
@@ -189,7 +199,9 @@ enum class AlignContent(val flexValue: String) {
  */
 var (@VaadinDsl Component).verticalAlignSelf: FlexComponent.Alignment
     get() = (parent.get() as HorizontalLayout).getVerticalComponentAlignment(this)
-    set(value) { (parent.get() as HorizontalLayout).setVerticalComponentAlignment(value, this) }
+    set(value) {
+        (parent.get() as HorizontalLayout).setVerticalComponentAlignment(value, this)
+    }
 
 /**
  * Only to be used with children of [VerticalLayout]: gets or sets a horizontal alignment for individual components inside the [VerticalLayout].
@@ -204,7 +216,9 @@ var (@VaadinDsl Component).verticalAlignSelf: FlexComponent.Alignment
  */
 var (@VaadinDsl Component).horizontalAlignSelf: FlexComponent.Alignment
     get() = (parent.get() as VerticalLayout).getHorizontalComponentAlignment(this)
-    set(value) { (parent.get() as VerticalLayout).setHorizontalComponentAlignment(value, this) }
+    set(value) {
+        (parent.get() as VerticalLayout).setHorizontalComponentAlignment(value, this)
+    }
 
 class HorizontalLayoutContent(private val owner: HorizontalLayout) {
     /**
@@ -216,7 +230,9 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
      */
     var horizontalAlignment: FlexComponent.JustifyContentMode
         get() = owner.justifyContentMode
-        set(value) { owner.justifyContentMode = value }
+        set(value) {
+            owner.justifyContentMode = value
+        }
 
     /**
      * The default vertical alignment to be used by all components without
@@ -231,7 +247,9 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
      */
     var verticalAlignment: FlexComponent.Alignment
         get() = owner.defaultVerticalComponentAlignment
-        set(value) { owner.defaultVerticalComponentAlignment = value }
+        set(value) {
+            owner.defaultVerticalComponentAlignment = value
+        }
 
     /**
      * Items are positioned to the top of the available space.
@@ -291,7 +309,9 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
     /**
      * Centers all children inside of the layout. Equal to setting [center] and [middle].
      */
-    fun center() { align(center, middle) }
+    fun center() {
+        align(center, middle)
+    }
 
     /**
      * Align the children as specified by the [horizontalAlignment] and [verticalAlignment].
@@ -327,7 +347,7 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
  * * [flexBasis]
  */
 @VaadinDsl
-inline fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.()->Unit) {
+inline fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.() -> Unit) {
     // the only reason why this is done as a builder, is that the HorizontalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
     HorizontalLayoutContent(this).block()
@@ -348,7 +368,9 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
      */
     var horizontalAlignment: FlexComponent.Alignment
         get() = owner.defaultHorizontalComponentAlignment
-        set(value) { owner.defaultHorizontalComponentAlignment = value }
+        set(value) {
+            owner.defaultHorizontalComponentAlignment = value
+        }
 
     /**
      * This aligns the container's components within when there is extra space. See [justify-content](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#article-header-id-6)
@@ -359,7 +381,9 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
      */
     var verticalAlignment: FlexComponent.JustifyContentMode
         get() = owner.justifyContentMode
-        set(value) { owner.justifyContentMode = value }
+        set(value) {
+            owner.justifyContentMode = value
+        }
 
     /**
      * Children are positioned to the left of the available space.
@@ -414,7 +438,9 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
     /**
      * Centers all children inside of the layout. Equal to setting [center] and [middle].
      */
-    fun center() { align(center, middle) }
+    fun center() {
+        align(center, middle)
+    }
 
     /**
      * Align the children as specified by the [horizontalAlignment] and [verticalAlignment].
@@ -450,7 +476,7 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
  * * [flexBasis]
  */
 @VaadinDsl
-inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.()->Unit) {
+inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.() -> Unit) {
     // the only reason why this is done as a builder, is that the VerticalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
     VerticalLayoutContent(this).block()
@@ -472,6 +498,7 @@ enum class FlexWrap(val flexValue: String) {
      * wrap-reverse: flex items will wrap onto multiple lines from bottom to top.
      */
     WrapReverse("wrap-reverse");
+
     companion object {
         fun findByFlex(flexValue: String?) = when {
             flexValue == null -> null
