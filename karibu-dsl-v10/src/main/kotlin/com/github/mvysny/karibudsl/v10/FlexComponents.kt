@@ -18,23 +18,42 @@ fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> U
 
 /**
  * Creates a [Vertical Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
- * of possible alternative themes for the button; use [themes] to add more themes.
+ * of possible alternative themes for the button.
  *
- * The default content align is set to `content { align(left, top) }`.
+ * The default content align is set to `content { align(left, top) }`. The layout
+ * has 100% width by default.
+ * @param isPadding whether to have padding around the children of the layout, defaults to true
+ * @param isSpacing whether to have spacing between the children of the layout, defaults to true
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).() -> Unit = {}) = init(VerticalLayout(), {
+fun (@VaadinDsl HasComponents).verticalLayout(
+        isPadding: Boolean = true,
+        isSpacing: Boolean = true,
+        block: (@VaadinDsl VerticalLayout).() -> Unit = {}
+) = init(VerticalLayout(), {
+    this.isPadding = isPadding
+    this.isSpacing = isSpacing
     content { align(left, top) }
     block()
 })
+
 /**
  * Creates a [Horizontal Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
- * of possible alternative themes for the button; use [themes] to add more themes.
+ * of possible alternative themes for the button.
  *
- * The default content align is set to `content { align(left, baseline) }`.
+ * The default content align is set to `content { align(left, baseline) }`. The layout
+ * has undefined width by default.
+ * @param isPadding whether to have padding around the children of the layout, defaults to false
+ * @param isSpacing whether to have spacing between the children of the layout, defaults to true
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).() -> Unit = {}) = init(HorizontalLayout(), {
+fun (@VaadinDsl HasComponents).horizontalLayout(
+        isPadding: Boolean = false,
+        isSpacing: Boolean = true,
+        block: (@VaadinDsl HorizontalLayout).() -> Unit = {}
+) = init(HorizontalLayout(), {
+    this.isPadding = isPadding
+    this.isSpacing = isSpacing
     content { align(left, baseline) }
     block()
 })
