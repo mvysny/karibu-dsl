@@ -23,10 +23,11 @@ class GridTest : DynaTest({
 
     group("addColumnFor tests") {
         test("grid addColumnFor works both for nullable and non-null properties") {
-            data class TestingClass(var foo: String?, var bar: String)
+            data class TestingClass(var foo: String?, var bar: String, var nonComparable: List<String>)
             Grid<TestingClass>().apply {
                 addColumnFor(TestingClass::foo)   // this must compile
                 addColumnFor(TestingClass::bar)   // this must compile
+                addColumnFor(TestingClass::nonComparable)  // this must compile
             }
         }
 

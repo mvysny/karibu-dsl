@@ -56,7 +56,7 @@ val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.is
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V : Comparable<V>> (@VaadinDsl Grid<T>).addColumnFor(
+fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
     property: KProperty1<T, V?>,
     sortable: Boolean = true,
     converter: (V?) -> Any? = { it },
@@ -79,7 +79,7 @@ fun <T, V : Comparable<V>> (@VaadinDsl Grid<T>).addColumnFor(
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V : Comparable<V>> (@VaadinDsl Grid<T>).addColumnFor(
+fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
     property: KProperty1<T, V?>,
     renderer: Renderer<T>,
     sortable: Boolean = true,
