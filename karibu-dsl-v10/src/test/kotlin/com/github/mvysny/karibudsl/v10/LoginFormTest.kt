@@ -19,7 +19,7 @@ class LoginFormTest : DynaTest({
             header.title = "VoK Security Demo"
             additionalInformation = "Log in as user/user or admin/admin"
         }
-        UI.getCurrent().loginForm {
+        UI.getCurrent().loginForm(loginI18n) {
             addLoginListener { e ->
                 isError = true
             }
