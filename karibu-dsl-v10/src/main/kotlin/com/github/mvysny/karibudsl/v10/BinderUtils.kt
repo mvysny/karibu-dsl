@@ -6,6 +6,7 @@ import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.page.ExtendedClientDetails
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
+import com.vaadin.flow.data.validator.*
 import com.vaadin.flow.server.VaadinSession
 import com.vaadin.flow.server.WebBrowser
 import java.math.BigDecimal
@@ -41,18 +42,24 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<B
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(DoubleToIntConverter)
 
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
-        withConverter(StringToDoubleConverter(karibuDslI18n("cantConvertToDecimal")))
+fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(
+        errorMessage: String = karibuDslI18n("cantConvertToDecimal")
+): Binder.BindingBuilder<BEAN, Double?> =
+        withConverter(StringToDoubleConverter(errorMessage))
 
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
-        withConverter(StringToLongConverter(karibuDslI18n("cantConvertToInteger")))
+fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(
+        errorMessage: String = karibuDslI18n("cantConvertToInteger")
+): Binder.BindingBuilder<BEAN, Long?> =
+        withConverter(StringToLongConverter(errorMessage))
 
 @JvmName("doubleToLong")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(DoubleToLongConverter)
 
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
-        withConverter(StringToBigDecimalConverter(karibuDslI18n("cantConvertToDecimal")))
+fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(
+        errorMessage: String = karibuDslI18n("cantConvertToDecimal")
+): Binder.BindingBuilder<BEAN, BigDecimal?> =
+        withConverter(StringToBigDecimalConverter(errorMessage))
 
 @JvmName("doubleToBigDecimal")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
@@ -91,7 +98,8 @@ var extendedClientDetails: ExtendedClientDetails?
  * The time zone as reported by the browser. You need to populate the [extendedClientDetails] first, otherwise the
  * UTC Time zone is going to be returned!
  */
-val browserTimeZone: ZoneId get() = extendedClientDetails?.timeZone ?: ZoneId.of("UTC")
+val browserTimeZone: ZoneId
+    get() = extendedClientDetails?.timeZone ?: ZoneId.of("UTC")
 
 /**
  * Returns the current date and time at browser's current time zone.
@@ -128,7 +136,7 @@ inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = B
  * ```
  */
 fun <BEAN, FIELDVALUE> HasValue<*, FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
-    var builder = binder.forField(this)
+    var builder: Binder.BindingBuilder<BEAN, FIELDVALUE> = binder.forField(this)
 
     // fix NPE for TextField and TextArea by having a converter which converts null to "" and back.
     @Suppress("UNCHECKED_CAST")
@@ -194,3 +202,43 @@ object DoubleToBigIntegerConverter : Converter<Double?, BigInteger?> {
         return Result.ok(bi)
     }
 }
+
+class StringNotBlankValidator(val errorMessage: String = "must not be blank") : Validator<String?> {
+    override fun apply(value: String?, context: ValueContext): ValidationResult = when {
+        value.isNullOrBlank() -> ValidationResult.error(errorMessage)
+        else -> ValidationResult.ok()
+    }
+}
+
+fun <BEAN> Binder.BindingBuilder<BEAN, String?>.validateNotBlank(
+        errorMessage: String = "must not be blank"
+): Binder.BindingBuilder<BEAN, String?> =
+        withValidator(StringNotBlankValidator(errorMessage))
+
+fun <BEAN> Binder.BindingBuilder<BEAN, String?>.validEmail(
+        errorMessage: String = "must be a valid email address"
+): Binder.BindingBuilder<BEAN, String?> =
+        withValidator(EmailValidator(errorMessage))
+
+fun <BEAN> Binder.BindingBuilder<BEAN, Float?>.validateInRange(range: ClosedRange<Float>): Binder.BindingBuilder<BEAN, Float?> =
+        withValidator(FloatRangeValidator("must be in $range", range.start, range.endInclusive))
+
+@JvmName("validateIntInRange")
+fun <BEAN> Binder.BindingBuilder<BEAN, Int?>.validateInRange(range: IntRange): Binder.BindingBuilder<BEAN, Int?> =
+        withValidator(IntegerRangeValidator("must be in $range", range.start, range.endInclusive))
+
+@JvmName("validateLongInRange")
+fun <BEAN> Binder.BindingBuilder<BEAN, Long?>.validateInRange(range: LongRange): Binder.BindingBuilder<BEAN, Long?> =
+        withValidator(LongRangeValidator("must be in $range", range.start, range.endInclusive))
+
+@JvmName("validateDoubleInRange")
+fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.validateInRange(range: ClosedRange<Double>): Binder.BindingBuilder<BEAN, Double?> =
+        withValidator(DoubleRangeValidator("must be in $range", range.start, range.endInclusive))
+
+@JvmName("validateBigIntegerInRange")
+fun <BEAN> Binder.BindingBuilder<BEAN, BigInteger?>.validateInRange(range: ClosedRange<BigInteger>): Binder.BindingBuilder<BEAN, BigInteger?> =
+        withValidator(BigIntegerRangeValidator("must be in $range", range.start, range.endInclusive))
+
+@JvmName("validateBigDecimalInRange")
+fun <BEAN> Binder.BindingBuilder<BEAN, BigDecimal?>.validateInRange(range: ClosedRange<BigDecimal>): Binder.BindingBuilder<BEAN, BigDecimal?> =
+        withValidator(BigDecimalRangeValidator("must be in $range", range.start, range.endInclusive))
