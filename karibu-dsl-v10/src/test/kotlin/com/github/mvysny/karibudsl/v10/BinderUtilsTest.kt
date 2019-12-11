@@ -52,7 +52,7 @@ class BinderUtilsTest : DynaTest({
         val person = Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, null, "some comment",
                 25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"))
         binder.writeBean(person)
-        expect(Person(testBoolean = false, comment = "")) { person }
+        expect(Person(testBoolean = false)) { person }
     }
 
     test("SimpleBindings") {
