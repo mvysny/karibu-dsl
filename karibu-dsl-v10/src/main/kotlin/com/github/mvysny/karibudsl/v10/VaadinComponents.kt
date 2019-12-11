@@ -134,7 +134,7 @@ fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinD
 fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@VaadinDsl EmailField).() -> Unit = {}) = init(EmailField(label), block)
 
 /**
- * Creates a [Number Field](https://vaadin.com/components/vaadin-text-field). See the HTML Examples link for a list
+ * Creates a [Number Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
  * of possible alternative themes for the button.
  */
 @VaadinDsl
@@ -157,3 +157,21 @@ fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl Check
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@VaadinDsl TimePicker).() -> Unit = {}) = init(TimePicker(label), block)
+
+/**
+ * Creates a [Integer Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
+ * of possible alternative themes for the button.
+ *
+ * Only available starting with Vaadin 14.1.
+ */
+@VaadinDsl
+fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@VaadinDsl IntegerField).() -> Unit = {}) = init(IntegerField(label), block)
+
+/**
+ * Creates a [BigDecimal Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
+ * of possible alternative themes for the button.
+ *
+ * Only available starting with Vaadin 14.1.
+ */
+@VaadinDsl
+fun (@VaadinDsl HasComponents).bigDecimalField(label: String? = null, block: (@VaadinDsl BigDecimalField).() -> Unit = {}) = init(BigDecimalField(label), block)

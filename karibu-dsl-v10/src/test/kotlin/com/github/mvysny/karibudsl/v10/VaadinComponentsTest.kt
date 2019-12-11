@@ -2,6 +2,8 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -10,6 +12,36 @@ import kotlin.test.expect
 class VaadinComponentsTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
+
+    test("smoke") {
+        UI.getCurrent().apply {
+            button("Foo") {
+                setPrimary()
+            }
+            iconButton(VaadinIcon.LEVEL_LEFT.create()) {
+                onLeftClick {  }
+            }
+            checkBox()
+            comboBox<String>()
+            select<String>()
+            datePicker()
+            dialog()
+            icon(VaadinIcon.TRASH)
+            passwordField()
+            splitLayout()
+            textField()
+            emailField()
+            numberField()
+            textArea()
+            tabs {
+                tab()
+            }
+            checkBoxGroup<Int>()
+            timePicker()
+            integerField()
+            bigDecimalField()
+        }
+    }
 
     group("flex") {
         test("setting flexGrow on component sets it to the parent VerticalLayout correctly") {
