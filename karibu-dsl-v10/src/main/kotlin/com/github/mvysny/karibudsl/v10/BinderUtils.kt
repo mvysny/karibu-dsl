@@ -4,6 +4,7 @@ import com.vaadin.flow.data.binder.*
 import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.page.ExtendedClientDetails
+import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.server.VaadinSession
 import com.vaadin.flow.server.WebBrowser
@@ -128,8 +129,12 @@ inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = B
  */
 fun <BEAN, FIELDVALUE> HasValue<*, FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
     var builder = binder.forField(this)
+
+    // fix NPE for TextField and TextArea by having a converter which converts null to "" and back.
     @Suppress("UNCHECKED_CAST")
-    if (this is TextField) builder = builder.withNullRepresentation("" as FIELDVALUE)
+    if (this is TextField || this is TextArea) {
+        builder = builder.withNullRepresentation("" as FIELDVALUE)
+    }
     return builder
 }
 
