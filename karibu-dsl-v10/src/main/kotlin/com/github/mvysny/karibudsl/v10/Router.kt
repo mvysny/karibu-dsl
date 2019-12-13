@@ -23,7 +23,7 @@ fun navigateToView(viewType: KClass<out Component>) {
 
 /**
  * Navigates to given view with parameters: `navigateToView(DocumentView::class, 25L)`.
- * @param params typically a non-null parameter, but may be null in case of view's optional parameter.
+ * @param param typically a non-null parameter, but may be null in case of view's optional parameter.
  */
 fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Component, T: HasUrlParameter<C> {
     // don't use this fun with reified C - when there is a parameter T, that would require the user to write something like this:
