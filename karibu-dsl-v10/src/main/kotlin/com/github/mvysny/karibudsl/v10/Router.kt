@@ -1,14 +1,13 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.vaadin.flow.router.RouterLink
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.internal.StateTree
-import com.vaadin.flow.router.HasUrlParameter
-import com.vaadin.flow.router.Router
+import com.vaadin.flow.router.*
 import com.vaadin.flow.server.VaadinService
+import java.util.*
 import kotlin.reflect.KClass
 
 /**
@@ -71,7 +70,10 @@ fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String
     return link
 }
 
-private fun RouterLink.getRouter(): Router {
+/**
+ * Returns [UI.getRouter]/[VaadinService.router], whichever returns a non-null value.
+ */
+private fun getRouter(): Router {
     var router: Router? = UI.getCurrent()?.router
     if (router == null) {
         router = VaadinService.getCurrent().router
@@ -93,4 +95,20 @@ fun RouterLink.setRoute(navigationTarget: KClass<out Component>) = setRoute(getR
  */
 fun <T, C> RouterLink.setRoute(navigationTarget: KClass<out C>, parameter: T) where C: Component, C: HasUrlParameter<T> {
     setRoute(getRouter(), navigationTarget.java, parameter)
+}
+
+/**
+ * Returns the navigated-to view class.
+ */
+val AfterNavigationEvent.viewClass: Class<out Component>? get() =
+    (activeChain.first() as Component).javaClass
+
+/**
+ * Finds a view mapped to this location.
+ * @param router router to use, defaults to [UI.getRouter]/[VaadinService.router].
+ */
+fun Location.getViewClass(router: Router = getRouter()): Class<out Component>? {
+    val navigationTarget: Optional<NavigationState> =
+            router.resolveNavigationTarget("/$path", queryParameters.parameters.mapValues { it.value.toTypedArray() })
+    return navigationTarget.orElse(null)?.navigationTarget
 }
