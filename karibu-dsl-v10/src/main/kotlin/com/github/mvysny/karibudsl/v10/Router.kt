@@ -4,7 +4,6 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.icon.VaadinIcon
-import com.vaadin.flow.internal.StateTree
 import com.vaadin.flow.router.*
 import com.vaadin.flow.server.VaadinService
 import java.util.*
