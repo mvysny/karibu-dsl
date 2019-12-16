@@ -24,7 +24,7 @@ class TabHost : KComposite() {
 
     private val root = ui {
         verticalLayout(false, false) {
-            setWidthFull(); content { align(FlexComponent.Alignment.STRETCH, FlexComponent.JustifyContentMode.START) }
+            setWidthFull(); content { align(stretch, top) }
 
             tabsComponent = tabs()
             tabsContainer = div()
