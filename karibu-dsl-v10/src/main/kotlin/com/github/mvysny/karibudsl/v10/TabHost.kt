@@ -1,8 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.ComponentEventListener
-import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.tabs.Tab
@@ -13,7 +11,7 @@ import com.vaadin.flow.shared.Registration
 /**
  * A TabHost - shows both the [Tabs] component and the tab contents.
  */
-class TabHost : KComposite() {
+class TabHost : KComposite(), HasStyle, HasSize {
     private lateinit var tabsComponent: Tabs
     private lateinit var tabsContainer: Div
 
