@@ -10,12 +10,12 @@ class AccordionTest : DynaTest({
 
     test("smoke") {
         UI.getCurrent().accordion {
-            add("lorem ipsum") {
+            panel("lorem ipsum") {
                 content {
                     label("dolor sit amet")
                 }
             }
-            add {
+            panel {
                 summary { checkBox("More Lorem Ipsum?") }
                 content {
                     label("dolor sit amet")

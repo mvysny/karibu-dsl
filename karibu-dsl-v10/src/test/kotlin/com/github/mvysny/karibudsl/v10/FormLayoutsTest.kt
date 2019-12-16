@@ -2,6 +2,8 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.formlayout.FormLayout
 import kotlin.test.expect
 
@@ -25,5 +27,14 @@ class FormLayoutsTest : DynaTest({
     └── KFormItem[]
         ├── Label[text='Name:']
         └── TextField[value='']""") { layout.toPrettyTree().trim() }
+    }
+    test("colspan") {
+        lateinit var button: Button
+        val layout = UI.getCurrent().formLayout {
+            button = button("foo") {
+                colspan = 5
+            }
+        }
+        expect(5) { layout.getColspan(button) }
     }
 })

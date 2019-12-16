@@ -9,10 +9,10 @@ import com.vaadin.flow.component.accordion.AccordionPanel
  *
  * ```
  * accordion {
- *   add("lorem ipsum") {
+ *   panel("lorem ipsum") {
  *     content { label("dolor sit amet") }
  *   }
- *   add {
+ *   panel {
  *     summary { checkBox("More Lorem Ipsum?") }
  *     content { label("dolor sit amet") }
  *   }
@@ -26,7 +26,7 @@ fun (@VaadinDsl HasComponents).accordion(block: (@VaadinDsl Accordion).() -> Uni
  * Adds a new [AccordionPanel] to this [Accordion].
  */
 @VaadinDsl
-fun (@VaadinDsl Accordion).add(summaryText: String? = null, block: (@VaadinDsl AccordionPanel).() -> Unit = {}): AccordionPanel = add(AccordionPanel()).apply {
+fun (@VaadinDsl Accordion).panel(summaryText: String? = null, block: (@VaadinDsl AccordionPanel).() -> Unit = {}): AccordionPanel = add(AccordionPanel()).apply {
     if (summaryText != null) this.summaryText = summaryText
     block()
 }

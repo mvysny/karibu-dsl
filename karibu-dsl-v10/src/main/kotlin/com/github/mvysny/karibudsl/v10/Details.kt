@@ -53,6 +53,6 @@ fun Details.clearContent() = setContent(null)
 @VaadinDsl
 fun (@VaadinDsl Details).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     clearContent()
-    val div = Div().apply { block() }
+    val div: Div = Div().apply { block() }
     addContent(*div.children.toList().toTypedArray())
 }

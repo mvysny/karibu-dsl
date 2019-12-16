@@ -6,12 +6,37 @@ import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.html.Label
 
 /**
+ * A [FormLayout] which allows to specify [colspan] for its children:
+ *
+ * ```
+ * formLayout {
+ *   textArea {
+ *     colspan = 2
+ *   }
+ * }
+ * ```
+ */
+class KFormLayout : FormLayout() {
+
+    /**
+     * Sets colspan for the child of this [FormLayout].
+     */
+    inline var (@VaadinDsl Component).colspan: Int
+        @JvmName("__getColspanInternal")
+        get() = getColspan(this)
+        @JvmName("__setColspanInternal")
+        set(value) {
+            setColspan(this, value)
+        }
+}
+
+/**
  * Creates a [Form Layout](https://vaadin.com/elements/vaadin-form-layout). See the HTML Examples link for a list
- * of possible alternative themes for the button; use [themes] to add more themes.
+ * of possible alternative themes for the layout.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).() -> Unit = {})
-        = init(FormLayout(), block)
+fun (@VaadinDsl HasComponents).formLayout(block: (KFormLayout).() -> Unit = {})
+        = init(KFormLayout(), block)
 
 /**
  * Makes [addToLabel] public so that we can call it.
