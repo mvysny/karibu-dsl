@@ -40,7 +40,7 @@ class ButtonBar : KComposite() {
 @VaadinDsl
 fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).()->Unit = {}) = init(ButtonBar(), block)
 
-class CompositeTest : DynaTest({
+class KCompositeTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
 
