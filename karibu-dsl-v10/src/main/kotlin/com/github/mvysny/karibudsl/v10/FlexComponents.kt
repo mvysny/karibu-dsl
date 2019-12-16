@@ -323,6 +323,10 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
 
     /**
      * Align the children as specified by the [horizontalAlignment] and [verticalAlignment].
+     * @param horizontalAlignment use one of [left], [right], [center], [between], [around] or [evenly],
+     * which are shortcuts for [FlexComponent.JustifyContentMode].
+     * @param verticalAlignment use one of [top], [bottom], [stretch], [middle], [baseline],
+     * which are shortcuts for [FlexComponent.Alignment].
      */
     fun align(horizontalAlignment: FlexComponent.JustifyContentMode, verticalAlignment: FlexComponent.Alignment) {
         this.horizontalAlignment = horizontalAlignment
@@ -452,6 +456,10 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
 
     /**
      * Align the children as specified by the [horizontalAlignment] and [verticalAlignment].
+     * @param horizontalAlignment use one of [left], [right], [center], [stretch], [top] which are
+     * aliases for [FlexComponent.Alignment].
+     * @param verticalAlignment one of [top], [bottom], [middle], [between], [around], [evenly],
+     * which are aliases for [FlexComponent.JustifyContentMode].
      */
     fun align(horizontalAlignment: FlexComponent.Alignment, verticalAlignment: FlexComponent.JustifyContentMode) {
         this.horizontalAlignment = horizontalAlignment
