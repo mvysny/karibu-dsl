@@ -1,13 +1,10 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
+import com.vaadin.flow.dom.ClassList
+import com.vaadin.flow.dom.DomEventListener
+import com.vaadin.flow.dom.DomListenerRegistration
 import com.vaadin.flow.dom.Element
-
-// annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
-// which makes them stand out apart from the common functions, which is very nice.
-@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE, AnnotationTarget.FUNCTION)
-@DslMarker
-annotation class VaadinDsl
 
 /**
  * Fires given event on the component.
@@ -56,3 +53,35 @@ fun Element.setOrRemoveAttribute(attribute: String, value: String?) {
 var Component.tooltip: String?
     get() = element.getAttribute("title")
     set(value) { element.setOrRemoveAttribute("title", value) }
+
+/**
+ * Adds the right-click (context-menu) [listener] to the component. Also causes the right-click browser
+ * menu not to be shown on this component (see [preventDefault]).
+ */
+fun Component.addContextMenuListener(listener: DomEventListener): DomListenerRegistration =
+        element.addEventListener("contextmenu", listener)
+                .preventDefault()
+
+/**
+ * Makes the client-side listener call [Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
+ * on the event.
+ *
+ * @return this
+ */
+fun DomListenerRegistration.preventDefault(): DomListenerRegistration = addEventData("event.preventDefault()")
+
+/**
+ * Removes the component from its parent. Does nothing if the component is not attached to a parent.
+ */
+fun Component.removeFromParent() {
+    (parent.orElse(null) as? HasComponents)?.remove(this)
+}
+
+/**
+ * Toggles [className] - removes it if it was there, or adds it if it wasn't there.
+ * @param className the class name to toggle, cannot contain spaces.
+ */
+fun ClassList.toggle(className: String) {
+    require(!className.containsWhitespace()) { "'$className' cannot contain whitespace" }
+    set(className, !contains(className))
+}

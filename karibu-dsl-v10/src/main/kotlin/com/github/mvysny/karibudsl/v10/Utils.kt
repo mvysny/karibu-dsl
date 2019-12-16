@@ -1,8 +1,13 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.dom.ClassList
 import com.vaadin.flow.dom.DomEventListener
 import com.vaadin.flow.dom.DomListenerRegistration
+import java.beans.Introspector
+import java.beans.PropertyDescriptor
+import java.lang.reflect.Method
 
 fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
 
@@ -20,17 +25,12 @@ private val messages = mapOf("cantConvertToInteger" to "Can't convert to integer
 var karibuDslI18n: (key: String) -> String = { key -> messages[key] ?: key }
 
 /**
- * Adds the right-click (context-menu) [listener] to the component. Also causes the right-click browser
- * menu not to be shown on this component (see [preventDefault]).
+ * Returns the getter method for given property name; fails if there is no such getter.
  */
-fun Component.addContextMenuListener(listener: DomEventListener): DomListenerRegistration =
-        element.addEventListener("contextmenu", listener)
-                .preventDefault()
-
-/**
- * Makes the client-side listener call [Event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
- * on the event.
- *
- * @return this
- */
-fun DomListenerRegistration.preventDefault(): DomListenerRegistration = addEventData("event.preventDefault()")
+fun Class<*>.getGetter(propertyName: String): Method {
+    val descriptors: Array<out PropertyDescriptor> = Introspector.getBeanInfo(this).propertyDescriptors
+    val descriptor: PropertyDescriptor? = descriptors.firstOrNull { it.name == propertyName }
+    requireNotNull(descriptor) { "No such field '$propertyName' in $this; available properties: ${descriptors.joinToString { it.name }}" }
+    val getter: Method = requireNotNull(descriptor.readMethod) { "The $this.$propertyName property does not have a getter: $descriptor" }
+    return getter
+}
