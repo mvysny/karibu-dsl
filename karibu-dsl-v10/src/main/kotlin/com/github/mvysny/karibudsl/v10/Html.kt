@@ -74,3 +74,48 @@ fun (@VaadinDsl HasComponents).html(@Language("html") html: String) {
 class Strong : HtmlContainer(), HasText
 @VaadinDsl
 fun (@VaadinDsl HasComponents).strong(text: String = "", block: (@VaadinDsl Strong).() -> Unit = {}) = init(Strong().apply { this.text = text }, block)
+
+/**
+ * Component representing a `<br>` element.
+ */
+@Tag(Tag.BR)
+class Br : HtmlComponent()
+@VaadinDsl
+fun (@VaadinDsl HasComponents).br(block: (@VaadinDsl Br).() -> Unit = {}) = init(Br(), block)
+
+@VaadinDsl
+fun (@VaadinDsl HasComponents).ol(type: OrderedList.NumberingType? = null, block: (@VaadinDsl OrderedList).() -> Unit = {})
+        = init(if (type == null) OrderedList() else OrderedList(type), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).li(text: String? = null, block: (@VaadinDsl ListItem).() -> Unit = {})
+        = init(if (text == null) ListItem() else ListItem(text), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).iframe(src: String? = null, block: (@VaadinDsl IFrame).() -> Unit = {})
+        = init(if (src == null) IFrame() else IFrame(src), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).article(block: (@VaadinDsl Article).() -> Unit = {})
+        = init(Article(), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).aside(block: (@VaadinDsl Aside).() -> Unit = {})
+        = init(Aside(), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).dl(block: (@VaadinDsl DescriptionList).() -> Unit = {})
+        = init(DescriptionList(), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).dd(text: String? = null, block: (@VaadinDsl DescriptionList.Description).() -> Unit = {})
+        = init(if (text == null) DescriptionList.Description() else DescriptionList.Description(text), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).dt(text: String? = null, block: (@VaadinDsl DescriptionList.Term).() -> Unit = {})
+        = init(if (text == null) DescriptionList.Term() else DescriptionList.Term(text), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).footer(block: (@VaadinDsl Footer).() -> Unit = {})
+        = init(Footer(), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).header(block: (@VaadinDsl Header).() -> Unit = {})
+        = init(Header(), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).pre(text: String? = null, block: (@VaadinDsl Pre).() -> Unit = {})
+        = init(if (text == null) Pre() else Pre(text), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).ul(block: (@VaadinDsl UnorderedList).() -> Unit = {})
+        = init(UnorderedList(), block)
