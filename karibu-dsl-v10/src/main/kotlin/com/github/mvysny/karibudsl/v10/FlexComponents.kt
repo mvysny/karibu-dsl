@@ -358,7 +358,6 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
-@VaadinDsl
 inline fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.() -> Unit) {
     // the only reason why this is done as a builder, is that the HorizontalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
@@ -491,7 +490,6 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
-@VaadinDsl
 inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.() -> Unit) {
     // the only reason why this is done as a builder, is that the VerticalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
