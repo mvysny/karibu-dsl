@@ -85,3 +85,15 @@ fun ClassList.toggle(className: String) {
     require(!className.containsWhitespace()) { "'$className' cannot contain whitespace" }
     set(className, !contains(className))
 }
+
+/**
+ * Finds component's parent, parent's parent (etc) which satisfies given [predicate].
+ * Returns null if there is no such parent.
+ */
+tailrec fun Component.findAncestor(predicate: (Component) -> Boolean): Component? {
+    val p = parent.orElse(null) ?: return null
+    if (predicate(p)) {
+        return p
+    }
+    return p.findAncestor(predicate)
+}

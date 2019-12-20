@@ -4,6 +4,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.Text
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -61,5 +62,17 @@ class VaadinUtilsTest : DynaTest({
         expect<String?>("foo") { b.tooltip } // https://youtrack.jetbrains.com/issue/KT-32501
         b.tooltip = null
         expect(null) { b.tooltip }
+    }
+
+    group("findAncestor") {
+        test("null on no parent") {
+            expect(null) { Button().findAncestor { false } }
+        }
+        test("null on no acceptance") {
+            expect(null) { UI.getCurrent().button().findAncestor { false } }
+        }
+        test("finds UI") {
+            expect(UI.getCurrent()) { UI.getCurrent().button().findAncestor { it is UI } }
+        }
     }
 })

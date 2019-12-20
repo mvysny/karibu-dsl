@@ -2,7 +2,6 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.Div
-import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.dom.Element
@@ -67,11 +66,23 @@ class TabHost : KComposite(), HasStyle, HasSize {
      * Sets the contents of given [tab] to [newContents].
      */
     fun setTabContents(tab: Tab, newContents: Component?) {
+        checkOurTab(tab)
+        tabsToComponents[tab] = newContents
+        update()
+    }
+
+    /**
+     * Returns the contents of given [tab].
+     */
+    fun getTabContents(tab: Tab): Component? {
+        checkOurTab(tab)
+        return tabsToComponents[tab]
+    }
+
+    private fun checkOurTab(tab: Tab) {
         require(tabsToComponents.containsKey(tab)) {
             "Tab $tab is not hosted in this TabHost"
         }
-        tabsToComponents[tab] = newContents
-        update()
     }
 
     /**
@@ -147,16 +158,35 @@ class TabHost : KComposite(), HasStyle, HasSize {
     }
 
     fun addSelectedChangeListener(listener: ComponentEventListener<Tabs.SelectedChangeEvent>): Registration =
-        tabsComponent.addSelectedChangeListener(listener)
+            tabsComponent.addSelectedChangeListener(listener)
 }
 
 /**
  * Returns the current index of a tab within its [Tabs] container.
  */
-val Tab.index: Int get() {
-    val tabs: Tabs = checkNotNull((parent.orElse(null)) as Tabs?) { "tab $this is not attached to a parent" }
-    return tabs.indexOf(this)
-}
+val Tab.index: Int
+    get() {
+        return owner.indexOf(this)
+    }
+
+/**
+ * Returns the owner [Tabs] of this tab. Fails if the tab is not attached to any [Tabs] owner.
+ */
+val Tab.owner: Tabs
+    get() = checkNotNull((parent.orElse(null)) as Tabs?) { "tab $this is not attached to a parent" }
+
+val Tab.ownerTabHost: TabHost
+    get() = checkNotNull(findAncestor { it is TabHost }) { "tab $this is not attached to a TabHost" } as TabHost
+
+/**
+ * Returns or sets this tab contents in the [TabHost]. Works only for tabs nested in a [TabHost].
+ */
+var Tab.contents: Component?
+    get() = ownerTabHost.getTabContents(this)
+    set(value) {
+        ownerTabHost.setTabContents(this, value)
+    }
+
 
 /**
  * Creates a [TabHost] component which shows both the list of tabs, and the tab contents itself.

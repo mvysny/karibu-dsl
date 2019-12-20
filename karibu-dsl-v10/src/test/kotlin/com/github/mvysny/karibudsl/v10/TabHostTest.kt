@@ -100,4 +100,33 @@ class TabHostTest : DynaTest({
         expect(0) { th.tabCount }
         _expectNone<Span> { text = "it works!" }
     }
+
+    test("owner") {
+        lateinit var tab: Tab
+        val th = UI.getCurrent().tabHost {
+            tab = tab("foo") { span("it works!") }
+        }
+        expect(th) { tab.ownerTabHost }
+        tab.owner
+    }
+
+    group("tab contents") {
+        test("non-empty contents") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo") { span("it works!") }
+            }
+            expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
+        }
+        test("clearing contents") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo") { span("it works!") }
+            }
+            expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
+            tab.contents = null
+            _expectNone<Span>()
+            expect(null) { tab.contents }
+        }
+    }
 })
