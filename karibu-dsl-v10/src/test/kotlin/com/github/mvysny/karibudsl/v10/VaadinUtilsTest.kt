@@ -74,6 +74,22 @@ class VaadinUtilsTest : DynaTest({
         test("finds UI") {
             expect(UI.getCurrent()) { UI.getCurrent().button().findAncestor { it is UI } }
         }
+        test("doesn't find self") {
+            expect(UI.getCurrent()) { UI.getCurrent().button().findAncestor { true } }
+        }
+    }
+
+    group("findAncestorOrSelf") {
+        test("null on no parent") {
+            expect(null) { Button().findAncestorOrSelf { false } }
+        }
+        test("null on no acceptance") {
+            expect(null) { UI.getCurrent().button().findAncestorOrSelf { false } }
+        }
+        test("finds self") {
+            val button = UI.getCurrent().button()
+            expect(button) { button.findAncestorOrSelf { true } }
+        }
     }
 
     test("isNestedIn") {

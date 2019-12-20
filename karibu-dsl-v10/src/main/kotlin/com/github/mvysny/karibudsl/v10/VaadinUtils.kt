@@ -90,12 +90,19 @@ fun ClassList.toggle(className: String) {
  * Finds component's parent, parent's parent (etc) which satisfies given [predicate].
  * Returns null if there is no such parent.
  */
-tailrec fun Component.findAncestor(predicate: (Component) -> Boolean): Component? {
-    val p = parent.orElse(null) ?: return null
-    if (predicate(p)) {
-        return p
+fun Component.findAncestor(predicate: (Component) -> Boolean): Component? =
+        findAncestorOrSelf { it != this && predicate(it) }
+
+/**
+ * Finds component, component's parent, parent's parent (etc) which satisfies given [predicate].
+ * Returns null if no component on the ancestor-or-self axis satisfies.
+ */
+tailrec fun Component.findAncestorOrSelf(predicate: (Component) -> Boolean): Component? {
+    if (predicate(this)) {
+        return this
     }
-    return p.findAncestor(predicate)
+    val p: Component = parent.orElse(null) ?: return null
+    return p.findAncestorOrSelf(predicate)
 }
 
 /**
