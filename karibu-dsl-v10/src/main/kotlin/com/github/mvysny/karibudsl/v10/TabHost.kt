@@ -21,10 +21,12 @@ class TabHost : KComposite(), HasStyle, HasSize {
 
     private val root = ui {
         verticalLayout(false, false) {
-            setWidthFull(); content { align(stretch, top) }
+            setWidthFull(); content { align(stretch, top) }; addClassName("tabhost")
 
             tabsComponent = tabs()
-            tabsContainer = div()
+            tabsContainer = div {
+                element.classList.add("tabhost-container")
+            }
         }
     }
 
