@@ -171,9 +171,7 @@ class TabHost : KComposite(), HasStyle, HasSize {
  * Returns the current index of a tab within its [Tabs] container.
  */
 val Tab.index: Int
-    get() {
-        return owner.indexOf(this)
-    }
+    get() = owner.indexOf(this)
 
 /**
  * Returns the owner [Tabs] of this tab. Fails if the tab is not attached to any [Tabs] owner.

@@ -68,6 +68,7 @@ class TabHostTest : DynaTest({
         expect(tab) { th.selectedTab }
         expectList(tab) { th.tabs }
         expect(1) { th.tabCount }
+        expect(0) { tab.index }
 
         th.setTabContents(tab, Span("it works!"))
         _expectOne<Span> { text = "it works!" }
