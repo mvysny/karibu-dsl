@@ -84,7 +84,7 @@ class TabHost : KComposite(), HasStyle, HasSize {
      */
     fun findTabContaining(component: Component): Tab? {
         val contentComponents: Set<Component> = tabsToComponents.values.filterNotNull().toSet()
-        val contents = component.findAncestorOrSelf { contentComponents.contains(it) } ?: return null
+        val contents: Component = component.findAncestorOrSelf { contentComponents.contains(it) } ?: return null
         return findTabWithContents(contents)
     }
 
