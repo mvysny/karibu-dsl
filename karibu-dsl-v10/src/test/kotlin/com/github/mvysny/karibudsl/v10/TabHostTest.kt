@@ -129,4 +129,22 @@ class TabHostTest : DynaTest({
             expect(null) { tab.contents }
         }
     }
+    group("find contents") {
+        test("empty tab") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo")
+            }
+            expect(null) { tab.contents }
+            expect(null) { th.findTabWithContents(Span("bar")) }
+        }
+        
+        test("simple test") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo") { span("it works!") }
+            }
+            expect(tab) { th.findTabWithContents(tab.contents!!) }
+        }
+    }
 })

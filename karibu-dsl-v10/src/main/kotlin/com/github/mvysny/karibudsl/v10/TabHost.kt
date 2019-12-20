@@ -48,7 +48,6 @@ class TabHost : KComposite(), HasStyle, HasSize {
             }
         }
         val content: Component? = dummy.block()
-        checkNotNull(root) { "`block` must add exactly one component" }
         return addTab(label, content)
     }
 
@@ -70,6 +69,13 @@ class TabHost : KComposite(), HasStyle, HasSize {
         tabsToComponents[tab] = newContents
         update()
     }
+
+    /**
+     * Finds a tab containing given [contents]. Returns null if there is no
+     * such tab.
+     */
+    fun findTabWithContents(contents: Component): Tab? =
+            tabsToComponents.entries.firstOrNull { it.value == contents } ?.key
 
     /**
      * Returns the contents of given [tab].
