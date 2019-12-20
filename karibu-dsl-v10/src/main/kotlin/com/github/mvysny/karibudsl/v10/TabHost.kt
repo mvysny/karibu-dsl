@@ -80,6 +80,15 @@ class TabHost : KComposite(), HasStyle, HasSize {
             tabsToComponents.entries.firstOrNull { it.value == contents } ?.key
 
     /**
+     * Finds a tab which transitively contains given [component].
+     */
+    fun findTabContaining(component: Component): Tab? {
+        val contentComponents: Set<Component> = tabsToComponents.values.filterNotNull().toSet()
+        val contents = component.findAncestorOrSelf { contentComponents.contains(it) } ?: return null
+        return findTabWithContents(contents)
+    }
+
+    /**
      * Returns the contents of given [tab].
      */
     fun getTabContents(tab: Tab): Component? {

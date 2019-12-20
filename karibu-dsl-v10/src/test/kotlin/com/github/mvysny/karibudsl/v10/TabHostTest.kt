@@ -6,6 +6,7 @@ import com.github.mvysny.kaributesting.v10._expectNone
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10.expectList
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.tabs.Tab
 import kotlin.test.expect
@@ -146,6 +147,38 @@ class TabHostTest : DynaTest({
                 tab = tab("foo") { span("it works!") }
             }
             expect(tab) { th.findTabWithContents(tab.contents!!) }
+        }
+    }
+    group("findTabContaining") {
+        test("empty tab") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo")
+            }
+            expect(null) { th.findTabContaining(Span("bar")) }
+        }
+
+        test("simple test") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo") { span("it works!") }
+            }
+            expect(tab) { th.findTabContaining(tab.contents!!) }
+        }
+
+        test("complex test") {
+            lateinit var tab: Tab
+            lateinit var nested: Button
+            val th = UI.getCurrent().tabHost {
+                tab = tab("foo") {
+                    div {
+                        div {
+                            nested = button()
+                        }
+                    }
+                }
+            }
+            expect(tab) { th.findTabContaining(nested) }
         }
     }
 })
