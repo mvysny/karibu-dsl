@@ -97,3 +97,9 @@ tailrec fun Component.findAncestor(predicate: (Component) -> Boolean): Component
     }
     return p.findAncestor(predicate)
 }
+
+/**
+ * Checks if this component is nested in [potentialAncestor].
+ */
+fun Component.isNestedIn(potentialAncestor: Component) =
+        findAncestor { it == potentialAncestor } != null

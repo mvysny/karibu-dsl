@@ -75,4 +75,9 @@ class VaadinUtilsTest : DynaTest({
             expect(UI.getCurrent()) { UI.getCurrent().button().findAncestor { it is UI } }
         }
     }
+
+    test("isNestedIn") {
+        expect(false) { Button().isNestedIn(UI.getCurrent()) }
+        expect(true) { UI.getCurrent().button().isNestedIn(UI.getCurrent()) }
+    }
 })
