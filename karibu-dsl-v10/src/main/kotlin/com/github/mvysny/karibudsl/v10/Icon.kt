@@ -55,8 +55,6 @@ data class IconName(val collection: String, val name: String) : Serializable {
          */
         fun of(vaadinIcon: VaadinIcon) = IconName("vaadin", vaadinIcon.name.toLowerCase().replace('_', '-'))
     }
-
-
 }
 
 /**
