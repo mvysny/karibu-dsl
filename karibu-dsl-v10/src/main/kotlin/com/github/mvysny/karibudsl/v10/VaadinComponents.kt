@@ -99,13 +99,6 @@ fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@Vaadin
 fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}) = init(Dialog(), block)
 
 /**
- * Creates a [Iron Icon](https://vaadin.com/elements/vaadin-icons/). See the HTML Examples link for a list
- * of possible alternative themes for the button.
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(icon), block)
-
-/**
  * Creates a [Password Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
  * of possible alternative themes for the button.
  */
