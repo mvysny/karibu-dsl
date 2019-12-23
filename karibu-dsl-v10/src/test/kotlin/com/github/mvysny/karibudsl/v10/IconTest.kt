@@ -34,6 +34,5 @@ class IconTest : DynaTest({
         val icon = VaadinIcon.ABACUS.create()
         icon.iconName = null
         expect(null) { icon.iconName }
-
     }
 })
