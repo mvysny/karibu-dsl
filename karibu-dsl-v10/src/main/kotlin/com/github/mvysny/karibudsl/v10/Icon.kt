@@ -11,6 +11,10 @@ import java.io.Serializable
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(icon), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).icon(collection: String, icon: String, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(collection, icon), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).ironIcon(collection: String, icon: String, block: (@VaadinDsl IronIcon).() -> Unit = {}) = init(IronIcon(collection, icon), block)
 
 /**
  * Represents an icon name and a collection from which the icon came.
