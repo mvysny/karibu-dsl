@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.icon.IronIcon
 import java.io.Serializable
 
 /**
