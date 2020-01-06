@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.*
+import com.vaadin.flow.server.AbstractStreamResource
 import org.intellij.lang.annotations.Language
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -34,7 +35,11 @@ fun (@VaadinDsl HasComponents).span(text: String? = null, block: (@VaadinDsl Spa
 @VaadinDsl
 fun (@VaadinDsl HasComponents).anchor(href: String = "", text: String? = href, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
 @VaadinDsl
+fun (@VaadinDsl HasComponents).anchor(href: AbstractStreamResource, text: String? = null, block: (@VaadinDsl Anchor).() -> Unit = {}) = init(Anchor(href, text), block)
+@VaadinDsl
 fun (@VaadinDsl HasComponents).image(src: String = "", alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}) = init(Image(src, alt), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).image(src: AbstractStreamResource, alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}) = init(Image(src, alt), block)
 @VaadinDsl
 fun (@VaadinDsl HasComponents).label(text: String? = null, `for`: Component? = null, block: (@VaadinDsl Label).() -> Unit = {}) = init(Label(text).apply {
     if (`for` != null) setFor(`for`)

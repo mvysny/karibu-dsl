@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.icon.IronIcon
 import java.io.Serializable
 
 /**
@@ -11,6 +12,10 @@ import java.io.Serializable
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(icon), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).icon(collection: String, icon: String, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(collection, icon), block)
+@VaadinDsl
+fun (@VaadinDsl HasComponents).ironIcon(collection: String, icon: String, block: (@VaadinDsl IronIcon).() -> Unit = {}) = init(IronIcon(collection, icon), block)
 
 /**
  * Represents an icon name and a collection from which the icon came.
