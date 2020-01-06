@@ -59,6 +59,15 @@ data class IconName(val collection: String, val name: String) : Serializable {
          * Gets the icon name from given [vaadinIcon].
          */
         fun of(vaadinIcon: VaadinIcon) = IconName("vaadin", vaadinIcon.name.toLowerCase().replace('_', '-'))
+
+        /**
+         * Parses the [toString] string representation. Returns null if the [iconName] is not in the expected format.
+         * @param iconName string representation in the form of `collection:name`.
+         */
+        fun fromString(iconName: String): IconName? {
+            val iconPair = iconName.split(':')
+            return if (iconPair.size == 2) IconName(iconPair[0], iconPair[1]) else null
+        }
     }
 }
 
@@ -68,12 +77,21 @@ data class IconName(val collection: String, val name: String) : Serializable {
  */
 var Icon.iconName: IconName?
     get() {
-        val icon = element.getAttribute("icon")
-        val iconPair = icon.split(':')
-        if (iconPair.size == 2) {
-            return IconName(iconPair[0], iconPair[1])
-        }
-        return null
+        val icon: String = element.getAttribute("icon")
+        return IconName.fromString(icon)
+    }
+    set(value: IconName?) {
+        element.setAttribute("icon", value?.toString() ?: "")
+    }
+
+/**
+ * Returns the icon name and collection from the [IronIcon] component. Returns null
+ * if no icon is set.
+ */
+var IronIcon.iconName: IconName?
+    get() {
+        val icon: String = element.getAttribute("icon")
+        return IconName.fromString(icon)
     }
     set(value: IconName?) {
         element.setAttribute("icon", value?.toString() ?: "")

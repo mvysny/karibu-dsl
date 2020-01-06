@@ -2,7 +2,9 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.icon.Icon
+import com.vaadin.flow.component.icon.IronIcon
 import com.vaadin.flow.component.icon.VaadinIcon
 import kotlin.test.expect
 
@@ -24,15 +26,31 @@ class IconTest : DynaTest({
         }
     }
 
-    test("changing icon") {
-        val icon = VaadinIcon.ABACUS.create()
-        icon.iconName = IconName.of(VaadinIcon.VAADIN_H)
-        expect(VaadinIcon.VAADIN_H) { icon.iconName!!.asVaadinIcon() }
+    group("icon") {
+        test("changing icon") {
+            val icon = VaadinIcon.ABACUS.create()
+            icon.iconName = IconName.of(VaadinIcon.VAADIN_H)
+            expect(VaadinIcon.VAADIN_H) { icon.iconName!!.asVaadinIcon() }
+        }
+
+        test("clearing icon") {
+            val icon: Icon = UI.getCurrent().icon(VaadinIcon.ABACUS)
+            icon.iconName = null
+            expect(null) { icon.iconName }
+        }
     }
 
-    test("clearing icon") {
-        val icon = VaadinIcon.ABACUS.create()
-        icon.iconName = null
-        expect(null) { icon.iconName }
+    group("iron icon") {
+        test("changing icon") {
+            val icon: IronIcon = UI.getCurrent().ironIcon("foo", "bar")
+            icon.iconName = IconName.of(VaadinIcon.VAADIN_H)
+            expect(VaadinIcon.VAADIN_H) { icon.iconName!!.asVaadinIcon() }
+        }
+
+        test("clearing icon") {
+            val icon: IronIcon = UI.getCurrent().ironIcon("foo", "bar")
+            icon.iconName = null
+            expect(null) { icon.iconName }
+        }
     }
 })

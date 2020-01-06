@@ -3,6 +3,8 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.server.InputStreamFactory
+import com.vaadin.flow.server.StreamResource
 
 class HtmlTest : DynaTest({
     beforeEach { MockVaadin.setup() }
@@ -22,7 +24,9 @@ class HtmlTest : DynaTest({
             em()
             span()
             anchor()
+            anchor(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
             image()
+            image(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
             label()
             input()
             nativeButton()
