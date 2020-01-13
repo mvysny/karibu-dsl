@@ -30,8 +30,4 @@ class UtilsTest : DynaTest({
             expect(mapOf("q" to listOf("value1", "en", "25"))) { uri.queryMap }
         }
     }
-
-    test("error message") {
-        expect("foo bar baz") { (UserError("foo bar baz") as ErrorMessage).message }
-    }
 })

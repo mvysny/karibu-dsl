@@ -9,7 +9,7 @@ import com.vaadin.ui.*
 import java.lang.IllegalStateException
 import kotlin.test.expect
 
-class ContainerTest : DynaTest({
+class ComponentContainerTest : DynaTest({
 
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

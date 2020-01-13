@@ -1,7 +1,5 @@
 package com.github.mvysny.karibudsl.v8
 
-import com.vaadin.server.ErrorMessage
-import org.jsoup.Jsoup
 import java.net.URI
 import java.util.*
 
@@ -24,16 +22,10 @@ val URI.queryMap: Map<String, List<String>>
 
         val result = mutableMapOf<String, MutableList<String>>()
         for (pair in keyValueList) {
-            result.computeIfAbsent(pair.first, { LinkedList() }).add(pair.second)
+            result.computeIfAbsent(pair.first) { LinkedList() }.add(pair.second)
         }
         return result
     }
-
-/**
- * Unescapes [ErrorMessage.getFormattedHtmlMessage] and converts it to sane string. E.g.
- * `The&#32;user&#32;does&#32;not&#32;exist` is converted to `The user does not exist`.
- */
-val ErrorMessage.message: String get() = Jsoup.parse(formattedHtmlMessage).text()
 
 fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
 
