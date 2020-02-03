@@ -19,7 +19,9 @@ dependencies {
 
     // always include support for bean validation
     compile("javax.validation:validation-api:2.0.1.Final")  // so that the BeanFieldGroup will perform JSR303 validations
-    compile("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}")
+    compile("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}") {
+        exclude(module = "jakarta.validation-api")
+    }
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
     compile("org.glassfish:javax.el:3.0.1-b08")
 }
