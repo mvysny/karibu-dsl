@@ -27,12 +27,17 @@ object CategoryService {
      * @return          the list of matching categories
      */
     fun findCategories(filter: String): List<Category> {
-        val normalizedFilter = filter.trim()
+        val normalizedFilter: String = filter.trim()
         // Make a copy of each matching item to keep entities and DTOs separated
         return categories.values
-                .filter { it.name.contains(normalizedFilter, ignoreCase = true) }
+                .filter { categoryMatchesFilter(it, normalizedFilter) }
                 .map { it.copy() }
                 .sortedBy { it.name }
+    }
+
+    fun categoryMatchesFilter(category: Category, filter: String): Boolean {
+        val normalizedFilter: String = filter.trim()
+        return category.name.contains(normalizedFilter, ignoreCase = true)
     }
 
     /**
@@ -73,7 +78,10 @@ object CategoryService {
      * @param category  the category to delete
      * @return  true if the operation was successful, otherwise false
      */
-    fun deleteCategory(category: Category): Boolean = categories.remove(category.id) != null
+    fun deleteCategory(category: Category): Boolean {
+        checkNotNull(category.id)
+        return categories.remove(category.id!!) != null
+    }
 
     /**
      * Persists the given category into the category store.
@@ -86,19 +94,29 @@ object CategoryService {
      * @param dto   the category to save
      */
     fun saveCategory(dto: Category) {
-        var entity: Category? = if (dto.id == null) null else categories[dto.id!!]
+        if (dto.id == null) {
+            // create
+            // Make a copy to keep entities and DTOs separated
+            val entity = dto.copy()
+            entity.id = nextId.incrementAndGet()
+            dto.id = entity.id
+            categories[entity.id!!] = entity
+            return
+        }
+        var entity: Category? = categories[dto.id!!]
 
         if (entity == null) {
             // Make a copy to keep entities and DTOs separated
             entity = dto.copy()
-            if (entity.id == null) {
-                entity.id = nextId.incrementAndGet()
-            }
-            categories.put(entity.id!!, entity)
+            categories[entity.id!!] = entity
         } else {
             entity.name = dto.name
         }
     }
 
     fun findAll() = findCategories("")
+
+    fun deleteAll() {
+        categories.clear()
+    }
 }

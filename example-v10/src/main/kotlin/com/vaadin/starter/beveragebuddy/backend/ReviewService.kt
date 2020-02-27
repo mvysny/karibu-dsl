@@ -1,7 +1,8 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.vaadin.starter.beveragebuddy.ui.converters.LocalDateToStringConverter
+import com.vaadin.flow.templatemodel.ModelEncoder
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
@@ -103,4 +104,28 @@ object ReviewService {
     }
 
     fun get(id: Long): Review = reviews[id] ?: throw IllegalArgumentException("No review with id $id")
+
+    /**
+     * Computes the total sum of [count] for all reviews belonging to given [categoryId].
+     * @return the total sum, 0 or greater.
+     */
+    fun getTotalCountForReviewsInCategory(categoryId: Long): Int =
+            reviews.values.filter { it.category?.id == categoryId } .sumBy { it.count }
+
+    fun deleteAll() {
+        reviews.clear()
+    }
+}
+
+/**
+ * Converts between DateTime-objects and their String-representations
+ */
+class LocalDateToStringConverter : ModelEncoder<LocalDate, String> {
+
+    override fun decode(value: String?): LocalDate? = if (value == null) null else LocalDate.parse(value, DATE_FORMAT)
+    override fun encode(modelValue: LocalDate?): String? = modelValue?.format(DATE_FORMAT)
+
+    companion object {
+        private val DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+    }
 }

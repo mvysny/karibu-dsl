@@ -13,26 +13,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui
+package com.vaadin.starter.beveragebuddy.ui.categories
 
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v10.ModifierKey.*
 import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
+import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.renderer.ComponentRenderer
-import com.vaadin.flow.data.value.ValueChangeMode
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
-import com.vaadin.starter.beveragebuddy.backend.Review
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
+import com.vaadin.starter.beveragebuddy.ui.*
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -42,60 +42,46 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
 @PageTitle("Categories List")
 class CategoriesList : KComposite() {
 
-    private lateinit var searchField: TextField
+    private lateinit var header: H3
+    private lateinit var toolbar: Toolbar
     private lateinit var grid: Grid<Category>
-    // currently there is no way to retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
+    // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
     lateinit var gridContextMenu: GridContextMenu<Category>
 
-    private val form = CategoryEditorDialog(
-            { category, operation -> saveCategory(category, operation) },
-            { deleteCategory(it) })
+    private val editorDialog = CategoryEditorDialog(
+        { category -> saveCategory(category) },
+        { deleteCategory(it) })
 
     private val root = ui {
         verticalLayout {
-            content { align(stretch, middle) }
-            addClassName("categories-list")
-
-            div {
-                // view toolbar
-                addClassName("view-toolbar")
-                searchField = textField {
-                    prefixComponent = Icon(VaadinIcon.SEARCH)
-                    addClassName("view-toolbar__search-field")
-                    placeholder = "Search"
-                    addValueChangeListener { updateView() }
-                    valueChangeMode = ValueChangeMode.EAGER
-                }
-                button("New category (Alt+N)", Icon("lumo", "plus")) {
-                    setPrimary()
-                    addClassName("view-toolbar__button")
-                    addClickListener { form.open(Category(null, ""), AbstractEditorDialog.Operation.ADD) }
-                    addClickShortcut(Alt + KEY_N)
-                }
+            isPadding = false; content { align(stretch, top) }
+            toolbar = toolbarView("New category") {
+                onSearch = { updateView() }
+                onCreate = { editorDialog.createNew() }
             }
+            header = h3()
             grid = grid {
+                isExpand = true
                 addColumnFor(Category::name) {
                     setHeader("Category")
                 }
-                addColumn({ it.getReviewCount() }).setHeader("Beverages")
+                addColumn { it.getReviewCount() }.setHeader("Beverages")
                 addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).apply {
-                    flexGrow = 0
-                    key = "edit"
+                    flexGrow = 0; key = "edit"
                 }
-
-                // Grid does not yet implement HasStyle
-                element.classList.add("categories")
-                element.setAttribute("theme", "row-dividers")
+                element.themeList.add("row-dividers")
 
                 gridContextMenu = gridContextMenu {
+                    item("New", { _ -> editorDialog.createNew() })
                     item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+                    item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
                 }
             }
 
             addShortcut(Alt + KEY_E) {
-                val cat = grid.asSingleSelect().value
-                if (cat != null) {
-                    edit(cat)
+                val category = grid.asSingleSelect().value
+                if (category != null) {
+                    edit(category)
                 }
             }
         }
@@ -107,41 +93,39 @@ class CategoriesList : KComposite() {
 
     private fun createEditButton(category: Category): Button =
         Button("Edit").apply {
-            icon = Icon("lumo", "edit")
+            icon = Icon(VaadinIcon.EDIT)
             addClassName("review__edit")
-            element.setAttribute("theme", "tertiary")
-            addClickListener  { _ -> edit(category) }
+            addThemeVariants(ButtonVariant.LUMO_TERTIARY)
+            onLeftClick { edit(category) }
         }
 
     private fun edit(category: Category) {
-        form.open(category, AbstractEditorDialog.Operation.EDIT)
+        editorDialog.edit(category)
     }
 
+    private fun Category.getReviewCount(): String = ReviewService.getTotalCountForReviewsInCategory(id!!).toString()
+
     private fun updateView() {
-        val categories: List<Category> = CategoryService.findCategories(searchField.value ?: "")
+        val categories: List<Category> = CategoryService.findCategories(toolbar.searchText)
+        if (!toolbar.searchText.isBlank()) {
+            header.text = "Search for “${toolbar.searchText}”"
+        } else {
+            header.text = "Categories"
+        }
         grid.setItems(categories)
     }
 
-    private fun saveCategory(category: Category, operation: AbstractEditorDialog.Operation) {
+    private fun saveCategory(category: Category) {
+        val creating = category.id == null
         CategoryService.saveCategory(category)
-        Notification.show("Category successfully ${operation.nameInText}ed.", 3000, Notification.Position.BOTTOM_START)
+        val op = if (creating) "added" else "saved"
+        Notification.show("Category successfully ${op}.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
 
     private fun deleteCategory(category: Category) {
-        val reviewsInCategory = ReviewService.findReviews(category.name)
-        reviewsInCategory.forEach { review ->
-            review.category = null
-            ReviewService.saveReview(review)
-        }
         CategoryService.deleteCategory(category)
         Notification.show("Category successfully deleted.", 3000, Notification.Position.BOTTOM_START)
         updateView()
     }
-}
-
-fun Category.getReviewCount(): String {
-    val reviewsInCategory: List<Review> = ReviewService.findReviews(name)
-    val totalCount: Int = reviewsInCategory.sumBy { it.count }
-    return totalCount.toString()
 }

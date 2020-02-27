@@ -16,45 +16,64 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasElement
-import com.vaadin.flow.component.applayout.AppLayout
-import com.vaadin.flow.component.dependency.HtmlImport
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
-import com.vaadin.flow.server.PWA
+import com.vaadin.flow.router.HighlightConditions
+import com.vaadin.flow.router.RouterLayout
+import com.vaadin.flow.server.InitialPageSettings
+import com.vaadin.flow.server.PageConfigurator
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
+import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
+import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 
 /**
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
 @BodySize(width = "100vw", height = "100vh")
-@HtmlImport("frontend://styles.html")
+@CssImport("frontend://styles/shared-styles.css")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
-@PWA(name = "Beverage Buddy", shortName = "BeverageBuddy")
-class MainLayout : AppLayout() {
-    init {
-        isDrawerOpened = false
-        navbar {
-            drawerToggle()
-            h3("Beverage Buddy")
-        }
-        drawer {
+class MainLayout : KComposite(), RouterLayout, PageConfigurator {
+
+    private val root = ui {
+        verticalLayout {
+            addClassName("main-layout"); setSizeFull(); isPadding = false
+            content { align(stretch, top) }
             div {
-                routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class)
-            }
-            div {
-                routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class)
+                // header
+                addClassName("main-layout__header")
+                h2("Beverage Buddy") {
+                    addClassName("main-layout__title")
+                }
+                div {
+                    // navigation
+                    addClassName("main-layout__nav")
+                    routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
+                        addClassName("main-layout__nav-item")
+                        highlightCondition = HighlightConditions.sameLocation()
+                    }
+                    routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
+                        addClassName("main-layout__nav-item")
+                        highlightCondition = HighlightConditions.sameLocation()
+                    }
+                }
             }
         }
     }
 
     override fun showRouterLayoutContent(content: HasElement) {
-        super.showRouterLayoutContent(content)
-        content.element.classList.add("main-layout")
-        isDrawerOpened = false
+        root.add(content as Component)
+        content.isExpand = true
+    }
+
+    override fun configurePage(settings: InitialPageSettings) {
+        settings.addMetaTag("apple-mobile-web-app-capable", "yes")
+        settings.addMetaTag("apple-mobile-web-app-status-bar-style", "black")
     }
 }
