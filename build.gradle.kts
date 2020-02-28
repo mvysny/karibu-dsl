@@ -27,6 +27,7 @@ allprojects {
     tasks {
         // Heroku
         val stage by registering {
+            // see example-v8/build.gradle.kts - the 'stage' task is properly configured there
         }
     }
 }
