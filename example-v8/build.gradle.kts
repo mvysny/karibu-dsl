@@ -69,6 +69,6 @@ tasks {
         }
     }
     "stage" {
-        dependsOn("build", copyToLib)
+        dependsOn(":example-v8:build", copyToLib)
     }
 }

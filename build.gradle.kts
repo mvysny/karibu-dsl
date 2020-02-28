@@ -27,7 +27,6 @@ allprojects {
     tasks {
         // Heroku
         val stage by registering {
-            dependsOn("build")
         }
     }
 }
