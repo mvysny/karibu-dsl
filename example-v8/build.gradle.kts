@@ -2,7 +2,7 @@
 // https://github.com/vaadin/framework/tree/master/uitest/src/main/java/com/vaadin/tests/themes/valo
 
 plugins {
-    id("com.devsoap.plugin.vaadin") version "1.4.1"
+    id("com.devsoap.plugin.vaadin") version "2.0.0.beta2"
     war
     id("org.gretty")
 }
