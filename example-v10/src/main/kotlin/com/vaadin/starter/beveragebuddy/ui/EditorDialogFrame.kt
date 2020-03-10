@@ -22,7 +22,9 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.html.H2
 import com.vaadin.flow.component.notification.Notification
+import com.vaadin.flow.component.notification.NotificationVariant
 import com.vaadin.flow.data.binder.Binder
+import com.vaadin.flow.data.binder.BinderValidationStatus
 import com.vaadin.flow.shared.Registration
 import java.io.Serializable
 
@@ -140,8 +142,8 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
             onSaveItem(currentItem!!)
             close()
         } else {
-            val status = form.binder.validate()
-            Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
+            Notification.show("Please correct the errors in the form", 2000, Notification.Position.MIDDLE)
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR)
         }
     }
 }
