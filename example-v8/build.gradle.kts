@@ -19,18 +19,20 @@ gretty {
 val staging by configurations.creating
 
 dependencies {
-    implementation(project(":karibu-dsl-v8"))
+    // need to stay on "compile" - "api" and "implementation" deps are ignored for some reason.
+    // could it be a bug in com.devsoap.plugin.vaadin?
+    compile(project(":karibu-dsl-v8"))
 
     // logging
     // currently we are logging through the SLF4J API to slf4j-simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
-    implementation("org.slf4j:slf4j-api:${properties["slf4j_version"]}")
+    compile("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
+    compile("org.slf4j:slf4j-api:${properties["slf4j_version"]}")
     // this will allow us to configure Vaadin to log to SLF4J
-    implementation("org.slf4j:jul-to-slf4j:${properties["slf4j_version"]}")
+    compile("org.slf4j:jul-to-slf4j:${properties["slf4j_version"]}")
 
     // Vaadin: workaround until https://youtrack.jetbrains.com/issue/IDEA-178071 is fixed
-    implementation("com.vaadin:vaadin-client-compiled:${properties["vaadin8_version"]}")
-    implementation("com.vaadin:vaadin-themes:${properties["vaadin8_version"]}")
+    compile("com.vaadin:vaadin-client-compiled:${properties["vaadin8_version"]}")
+    compile("com.vaadin:vaadin-themes:${properties["vaadin8_version"]}")
 
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v8:${properties["kaributesting_version"]}")
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
