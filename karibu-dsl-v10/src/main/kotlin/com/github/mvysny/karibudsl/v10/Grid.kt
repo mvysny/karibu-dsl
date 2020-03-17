@@ -12,6 +12,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
+import com.vaadin.flow.function.SerializableComparator
 import com.vaadin.flow.shared.util.SharedUtil
 import java.lang.reflect.Method
 import java.util.*
@@ -110,7 +111,8 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
     set(value) {
         setSortProperty(value.name)
         // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
-        setComparator { a: T, b: T -> compareValuesBy(a, b, { value.get(it) as Comparable<*> }) }
+        // need to use SerializableComparator otherwise a regular Comparator is emitted which is not serializable
+        setComparator(SerializableComparator { a: T, b: T -> compareValuesBy(a, b, { value.get(it) as Comparable<*> }) })
     }
 
 /**
@@ -125,8 +127,8 @@ fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
  * Returns a [Comparator] which compares values of given property name.
  */
 fun <T> Class<T>.getPropertyComparator(propertyName: String): Comparator<T> {
-    val getter = getGetter(propertyName)
-    return compareBy { it: T? -> if (it == null) null else getter.invoke(it) as Comparable<*> }
+    val getter: Method = getGetter(propertyName)
+    return compareBy { if (it == null) null else getter.invoke(it) as Comparable<*> }
 }
 
 /**
