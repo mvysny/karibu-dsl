@@ -8,12 +8,10 @@ import com.vaadin.flow.component.grid.HeaderRow
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
-import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
-import com.vaadin.flow.function.SerializableComparator
 import com.vaadin.flow.shared.util.SharedUtil
 import java.lang.reflect.Method
 import java.util.*
@@ -112,7 +110,7 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
     set(value) {
         setSortProperty(value.name)
         // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
-        setComparator(SerializableComparator<T> { a, b -> compareValuesBy(a, b, { value.get(it) as Comparable<*> }) })
+        setComparator { a: T, b: T -> compareValuesBy(a, b, { value.get(it) as Comparable<*> }) }
     }
 
 /**
@@ -173,7 +171,7 @@ inline fun <reified T, reified V> Grid<T>.addColumnFor(
  * @param renderer
  * @param block runs given block on the column.
  * @param T the type of the bean stored in the Grid
- * @param V the value that the column will display, deduced from the type of the [property].
+ * @param V the value that the column will display, deduced from the type of the [propertyName].
  * @return the newly created column
  */
 inline fun <reified T, reified V> Grid<T>.addColumnFor(
@@ -196,6 +194,7 @@ inline fun <reified T, reified V> Grid<T>.addColumnFor(
 /**
  * Returns `com.vaadin.flow.component.grid.AbstractColumn`
  */
+@Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
 internal val HeaderRow.HeaderCell.column: Any
     get() {
         val getColumn = abstractCellClass.getDeclaredMethod("getColumn")
@@ -209,6 +208,7 @@ private val abstractColumnClass = Class.forName("com.vaadin.flow.component.grid.
 /**
  * Returns `com.vaadin.flow.component.grid.AbstractColumn`
  */
+@Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
 private val FooterRow.FooterCell.column: Any
     get() {
         val getColumn = abstractCellClass.getDeclaredMethod("getColumn")
