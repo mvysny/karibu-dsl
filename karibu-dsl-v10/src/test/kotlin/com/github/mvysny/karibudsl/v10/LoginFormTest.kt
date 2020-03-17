@@ -20,9 +20,7 @@ class LoginFormTest : DynaTest({
             additionalInformation = "Log in as user/user or admin/admin"
         }
         UI.getCurrent().loginForm(loginI18n) {
-            addLoginListener { e ->
-                isError = true
-            }
+            addLoginListener { isError = true }
         }
         _expectOne<LoginForm>()
 
