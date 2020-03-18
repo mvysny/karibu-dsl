@@ -59,7 +59,7 @@ fun (@VaadinDsl HasComponents).horizontalLayout(
 
 /**
  * Sets the component's [FlexComponent.getFlexGrow]. Only works when the
- * component is nested in a [FlexComponent].
+ * component is nested in a DOM element using CSS flexbox.
  *
  * This defines the ability for a flex item to grow if necessary. It accepts a
  * unitless value that serves as a proportion. It dictates what amount of the
