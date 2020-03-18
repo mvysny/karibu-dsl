@@ -3,12 +3,20 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectThrows
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import kotlin.test.expect
 
-class FlexComponentsTest : DynaTest({
+class LayoutsTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
+
+    test("smoke") {
+        UI.getCurrent().flexLayout {
+            verticalLayout()
+            horizontalLayout()
+        }
+    }
 
     group("flexGrow") {
         test("flexGrow works even when the component is not yet attached to parent") {
