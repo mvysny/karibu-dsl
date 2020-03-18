@@ -53,7 +53,8 @@ get() = placeholder.orElse(null)
 set(value) { setPlaceholder(value) }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).nativeButton(block: (@VaadinDsl NativeButton).() -> Unit = {}) = init(NativeButton(), block)
+fun (@VaadinDsl HasComponents).nativeButton(text: String? = null, block: (@VaadinDsl NativeButton).() -> Unit = {}) =
+        init(NativeButton(text), block)
 
 /**
  * Adds given html snippet into the current element. Way better than [Html] since:
