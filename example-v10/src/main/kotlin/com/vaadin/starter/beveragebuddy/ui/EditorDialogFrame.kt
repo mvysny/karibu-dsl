@@ -127,9 +127,7 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         currentItem = item
         val operation = if (creating) "Add new" else "Edit"
         titleField.text = "$operation ${form.itemType}"
-        if (registrationForSave != null) {
-            registrationForSave!!.remove()
-        }
+        registrationForSave?.remove()
         registrationForSave = saveButton.addClickListener { saveClicked() }
         form.binder.readBean(currentItem)
 
