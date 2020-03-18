@@ -8,11 +8,27 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.orderedlayout.FlexLayout
+import com.vaadin.flow.dom.DomEventListener
 import kotlin.test.expect
 
 class VaadinUtilsTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
+
+    test("text") {
+        val t: Text = UI.getCurrent().text("foo")
+        expect("foo") { t.text }
+        expect(UI.getCurrent()) { t.parent.get() }
+    }
+
+    test("setOrRemoveAttribute") {
+        val t = Div().element
+        expect(null) { t.getAttribute("foo") }
+        t.setOrRemoveAttribute("foo", "bar")
+        expect("bar") { t.getAttribute("foo") }
+        t.setOrRemoveAttribute("foo", null)
+        expect(null) { t.getAttribute("foo") }
+    }
 
     group("removeFromParent()") {
         test("component with no parent") {
@@ -21,12 +37,12 @@ class VaadinUtilsTest : DynaTest({
             expect(null) { t.parent.orElse(null) }
         }
         test("nested component") {
-            val l = FlexLayout().apply { label("foo") }
-            val label = l.getComponentAt(0)
-            expect(l) { label.parent.get() }
+            val fl = FlexLayout().apply { label("foo") }
+            val label = fl.getComponentAt(0)
+            expect(fl) { label.parent.get() }
             label.removeFromParent()
             expect(null) { label.parent.orElse(null) }
-            expect(0) { l.componentCount }
+            expect(0) { fl.componentCount }
         }
     }
 
@@ -53,7 +69,7 @@ class VaadinUtilsTest : DynaTest({
         b.cloneBySerialization()
     }
 
-    test("title") {
+    test("tooltip") {
         val b = Button()
         expect(null) { b.tooltip }
         b.tooltip = ""
@@ -62,6 +78,10 @@ class VaadinUtilsTest : DynaTest({
         expect<String?>("foo") { b.tooltip } // https://youtrack.jetbrains.com/issue/KT-32501
         b.tooltip = null
         expect(null) { b.tooltip }
+    }
+
+    test("addContextMenuListener smoke") {
+        Button().addContextMenuListener(DomEventListener {})
     }
 
     group("findAncestor") {
