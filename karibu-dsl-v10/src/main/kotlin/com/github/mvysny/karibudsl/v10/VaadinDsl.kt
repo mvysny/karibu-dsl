@@ -10,7 +10,7 @@ import com.vaadin.flow.component.HasComponents
 annotation class VaadinDsl
 
 /**
- * When introducing extensions for your custom components, just call this in your method. For example:
+ * When introducing extensions for your custom components, just call [init] in your extension function. For example:
  *
  * `fun HasComponents.shinyComponent(caption: String? = null, block: ShinyComponent.()->Unit = {}) = init(ShinyComponent(caption), block)`
  *
