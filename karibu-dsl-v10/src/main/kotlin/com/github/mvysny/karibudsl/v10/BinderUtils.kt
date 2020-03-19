@@ -8,7 +8,6 @@ import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.*
 import com.vaadin.flow.server.VaadinSession
-import com.vaadin.flow.server.WebBrowser
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.*
@@ -16,7 +15,6 @@ import java.util.*
 import kotlin.reflect.KMutableProperty1
 import java.time.ZoneOffset
 import java.time.LocalDateTime
-
 
 /**
  * Trims the user input string before storing it into the underlying property data source. Vital for mobile-oriented apps:
