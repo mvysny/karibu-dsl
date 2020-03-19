@@ -3,23 +3,20 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.data.binder.*
 import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
-import com.vaadin.flow.component.page.ExtendedClientDetails
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.*
-import com.vaadin.flow.server.VaadinSession
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.*
 import java.util.*
 import kotlin.reflect.KMutableProperty1
-import java.time.ZoneOffset
 import java.time.LocalDateTime
 
 /**
  * Trims the user input string before storing it into the underlying property data source. Vital for mobile-oriented apps:
  * Android keyboard often adds whitespace to the end of the text when auto-completion occurs. Imagine storing a username ending with a space upon registration:
- * such person can no longer log in from his PC unless he explicitely types in the space.
+ * such person can no longer log in from his PC unless he explicitly types in the space.
  */
 fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.BindingBuilder<BEAN, String?> =
         withConverter(object : Converter<String?, String?> {
@@ -28,7 +25,7 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.Bind
 
             override fun convertToPresentation(value: String?, context: ValueContext?): String? {
                 // must not return null here otherwise TextField will fail with NPE:
-                // // workaround for https://github.com/vaadin/framework/issues/8664
+                // workaround for https://github.com/vaadin/framework/issues/8664
                 return value ?: ""
             }
         })
@@ -69,42 +66,6 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBu
 @JvmName("doubleToBigInteger")
 fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(DoubleToBigIntegerConverter)
-
-/**
- * The time zone as reported by the browser. Use [com.vaadin.flow.component.page.Page.retrieveExtendedClientDetails]
- * to get [ExtendedClientDetails].
- */
-val ExtendedClientDetails.timeZone: ZoneId
-    get() = if (!timeZoneId.isNullOrBlank()) {
-        // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
-        ZoneId.of(timeZoneId)
-    } else {
-        // fallback to time zone offset
-        ZoneOffset.ofTotalSeconds(timezoneOffset / 1000)
-    }
-
-/**
- * You need to populate this field first, by using [com.vaadin.flow.component.page.Page.retrieveExtendedClientDetails].
- */
-var extendedClientDetails: ExtendedClientDetails?
-    get() = VaadinSession.getCurrent().getAttribute(ExtendedClientDetails::class.java)
-    set(value) {
-        VaadinSession.getCurrent().setAttribute(ExtendedClientDetails::class.java, value)
-    }
-
-/**
- * The time zone as reported by the browser. You need to populate the [extendedClientDetails] first, otherwise the
- * UTC Time zone is going to be returned!
- */
-val browserTimeZone: ZoneId
-    get() = extendedClientDetails?.timeZone ?: ZoneId.of("UTC")
-
-/**
- * Returns the current date and time at browser's current time zone.
- */
-val ExtendedClientDetails.currentDateTime: LocalDateTime
-    get() =
-        LocalDateTime.now(ZoneOffset.ofTotalSeconds(timezoneOffset / 1000))
 
 fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(browserTimeZone))
