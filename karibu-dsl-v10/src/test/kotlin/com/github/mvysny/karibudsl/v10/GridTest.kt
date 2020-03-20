@@ -1,19 +1,17 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.expectList
+import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
-import com.vaadin.flow.data.provider.DataCommunicator
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.QuerySortOrder
 import com.vaadin.flow.data.provider.SortDirection
-import java.util.stream.Stream
 import kotlin.streams.toList
 import kotlin.test.expect
 
@@ -58,7 +56,7 @@ class GridTest : DynaTest({
             }
             expect<Class<*>>(ListDataProvider::class.java) { grid.dataProvider.javaClass }
             grid.sort(Person::fullName.desc)
-            expect((9 downTo 0).map { it.toString() }) { grid.fetchItems().map { it.fullName } }
+            expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, Int.MAX_VALUE).map { it.fullName } }
         }
 
         test("sorting by column also works with in-memory container 2") {
@@ -68,7 +66,7 @@ class GridTest : DynaTest({
             }
             expect<Class<*>>(ListDataProvider::class.java) { grid.dataProvider.javaClass }
             grid.sort(Person::fullName.desc)
-            expect((9 downTo 0).map { it.toString() }) { grid.fetchItems().map { it.fullName } }
+            expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, Int.MAX_VALUE).map { it.fullName } }
         }
     }
 
@@ -153,27 +151,13 @@ class GridTest : DynaTest({
 /**
  * Enforces a particular sorting upon a grid.
  */
-fun Grid<*>.sort(vararg criteria: QuerySortOrder) {
+fun <T> Grid<T>.sort(vararg criteria: QuerySortOrder) {
     // check that columns are sortable
-    val crit: List<GridSortOrder<out Any>> = criteria.map {
-        val col: Grid.Column<out Any> = getColumnByKey(it.sorted)
+    val crit: List<GridSortOrder<T>> = criteria.map {
+        val col: Grid.Column<T> = getColumnByKey(it.sorted)
         require(col.isSortable) { "Column for ${it.sorted} is not marked sortable" }
         GridSortOrder(col, it.direction)
     }
 
-    // remove this method when https://github.com/vaadin/vaadin-grid-flow/issues/130 is fixed
-    val setSortOrder = Grid::class.java.getDeclaredMethod("setSortOrder", List::class.java, Boolean::class.java)
-    setSortOrder.isAccessible = true
-    setSortOrder.invoke(this, crit, false)
-}
-
-/**
- * Returns the items as they would have been shown in the Grid, taking into account current sorting/filters.
- */
-fun <T> Grid<T>.fetchItems(): List<T> {
-    val fetchFromProvider = DataCommunicator::class.java.getDeclaredMethod("fetchFromProvider", Int::class.java, Int::class.java)
-    fetchFromProvider.isAccessible = true
-    @Suppress("UNCHECKED_CAST")
-    val stream: Stream<T> = fetchFromProvider.invoke(dataCommunicator, 0, Int.MAX_VALUE) as Stream<T>
-    return stream.toList()
+    sort(crit)
 }
