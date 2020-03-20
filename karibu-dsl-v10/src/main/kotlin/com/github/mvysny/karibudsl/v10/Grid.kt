@@ -19,22 +19,22 @@ import java.util.*
 import kotlin.reflect.KProperty1
 
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}) =
-    init(Grid<T>()) {
-        if (dataProvider != null) {
-            this.dataProvider = dataProvider
-        }
-        block()
+fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}): Grid<T> {
+    val grid = Grid<T>()
+    if (dataProvider != null) {
+        grid.dataProvider = dataProvider
     }
+    return init(grid, block)
+}
 
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}) =
-        init(TreeGrid<T>()) {
-            if (dataProvider != null) {
-                (this as Grid<T>).dataProvider = dataProvider
-            }
-            block()
-        }
+fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}): TreeGrid<T> {
+    val grid = TreeGrid<T>()
+    if (dataProvider != null) {
+        (grid as Grid<T>).dataProvider = dataProvider
+    }
+    return init(grid, block)
+}
 
 /**
  * Refreshes the Grid and re-polls for data.
