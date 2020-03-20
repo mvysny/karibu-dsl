@@ -20,13 +20,16 @@ import com.vaadin.flow.component.accordion.AccordionPanel
  *  ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).accordion(block: (@VaadinDsl Accordion).() -> Unit = {}) = init(Accordion(), block)
+fun (@VaadinDsl HasComponents).accordion(block: (@VaadinDsl Accordion).() -> Unit = {}): @VaadinDsl Accordion =
+        init(Accordion(), block)
 
 /**
  * Adds a new [AccordionPanel] to this [Accordion].
  */
 @VaadinDsl
-fun (@VaadinDsl Accordion).panel(summaryText: String? = null, block: (@VaadinDsl AccordionPanel).() -> Unit = {}): AccordionPanel = add(AccordionPanel()).apply {
-    if (summaryText != null) this.summaryText = summaryText
-    block()
+fun (@VaadinDsl Accordion).panel(summaryText: String? = null, block: (@VaadinDsl AccordionPanel).() -> Unit = {}): AccordionPanel {
+    val panel: AccordionPanel = add(AccordionPanel())
+    if (summaryText != null) panel.summaryText = summaryText
+    panel.block()
+    return panel
 }

@@ -6,8 +6,8 @@ import com.vaadin.flow.component.details.Details
 import com.vaadin.flow.component.html.Div
 import kotlin.streams.toList
 
-internal fun Component.checkOneChild(producerName: String): Component {
-    val count = children.count()
+internal fun Component.checkOneChildAndGet(producerName: String): Component {
+    val count: Long = children.count()
     check(count == 1L) { "$producerName was expected to produce 1 component but it produced $count" }
     return children.findFirst().get()
 }
@@ -22,9 +22,10 @@ internal fun Component.checkOneChild(producerName: String): Component {
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).details(summaryText: String? = null, block: (@VaadinDsl Details).() -> Unit = {}) = init(Details()) {
-    if (summaryText != null) this.summaryText = summaryText
-    block()
+fun (@VaadinDsl HasComponents).details(summaryText: String? = null, block: (@VaadinDsl Details).() -> Unit = {}): Details {
+    val details = Details()
+    if (summaryText != null) details.summaryText = summaryText
+    return init(details, block)
 }
 
 /**
@@ -37,8 +38,9 @@ fun (@VaadinDsl HasComponents).details(summaryText: String? = null, block: (@Vaa
  */
 @VaadinDsl
 fun (@VaadinDsl Details).summary(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    val div = Div().apply { block() }
-    val child = div.checkOneChild("block()")
+    val div = Div() // throwaway div, will be used to grab components produced by block
+    div.block()
+    val child: Component = div.checkOneChildAndGet("block()")
     this.summary = child
 }
 
@@ -53,6 +55,7 @@ fun Details.clearContent() = setContent(null)
 @VaadinDsl
 fun (@VaadinDsl Details).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     clearContent()
-    val div: Div = Div().apply { block() }
+    val div = Div() // throwaway div, will be used to grab components produced by block
+    div.block()
     addContent(*div.children.toList().toTypedArray())
 }
