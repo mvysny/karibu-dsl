@@ -197,8 +197,8 @@ internal val HeaderRow.HeaderCell.column: Any
         return getColumn.invoke(this)
     }
 
-private val abstractCellClass = Class.forName("com.vaadin.flow.component.grid.AbstractRow\$AbstractCell")
-private val abstractColumnClass = Class.forName("com.vaadin.flow.component.grid.AbstractColumn")
+private val abstractCellClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractRow\$AbstractCell")
+private val abstractColumnClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractColumn")
 
 /**
  * Returns `com.vaadin.flow.component.grid.AbstractColumn`
@@ -217,7 +217,7 @@ private val FooterRow.FooterCell.column: Any
  * @throws IllegalArgumentException if no such column exists.
  */
 fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
-    val cell: HeaderRow.HeaderCell? = cells.firstOrNull { (it.column as Grid.Column<*>).key == property.name }
+    val cell: HeaderRow.HeaderCell? = cells.firstOrNull { it.column.columnKey == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
     return cell
 }
@@ -225,9 +225,9 @@ fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
 private val Any.columnKey: String?
 get() {
     abstractColumnClass.cast(this)
-    val method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
+    val method: Method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
     method.isAccessible = true
-    val gridColumn = method.invoke(this) as Grid.Column<*>
+    val gridColumn: Grid.Column<*> = method.invoke(this) as Grid.Column<*>
     return gridColumn.key
 }
 
@@ -244,7 +244,7 @@ fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
 
 val HeaderRow.HeaderCell.renderer: Renderer<*>?
     get() {
-        val method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
+        val method: Method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
         method.isAccessible = true
         val renderer = method.invoke(column)
         return renderer as Renderer<*>?
@@ -252,7 +252,7 @@ val HeaderRow.HeaderCell.renderer: Renderer<*>?
 
 val FooterRow.FooterCell.renderer: Renderer<*>?
     get() {
-        val method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
+        val method: Method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
         method.isAccessible = true
         val renderer = method.invoke(column)
         return renderer as Renderer<*>?
