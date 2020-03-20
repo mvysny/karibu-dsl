@@ -12,7 +12,6 @@ import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
-import com.vaadin.flow.function.SerializableComparator
 import com.vaadin.flow.shared.util.SharedUtil
 import java.lang.reflect.Method
 import java.util.*
@@ -110,9 +109,6 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
     get() = throw UnsupportedOperationException("Unsupported")
     set(value) {
         setSortProperty(value.name)
-        // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
-        // need to use SerializableComparator otherwise a regular Comparator is emitted which is not serializable
-        setComparator(SerializableComparator { a: T, b: T -> compareValuesBy(a, b, { value.get(it) as Comparable<*> }) })
     }
 
 /**
@@ -151,12 +147,11 @@ inline fun <reified T, reified V> Grid<T>.addColumnFor(
     block: Grid.Column<T>.() -> Unit = {}
 ): Grid.Column<T> {
     val getter: Method = T::class.java.getGetter(propertyName)
-    return addColumn({ it: T -> converter(V::class.java.cast(getter.invoke(it))) }).apply {
+    val column: Grid.Column<T> = addColumn { converter(V::class.java.cast(getter.invoke(it))) }
+    return column.apply {
         key = propertyName
         if (sortable) {
             setSortProperty(propertyName)
-            // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
-            setComparator(T::class.java.getPropertyComparator(propertyName))
         }
         setHeader(SharedUtil.camelCaseToHumanFriendly(propertyName))
         block()
@@ -186,8 +181,6 @@ inline fun <reified T, reified V> Grid<T>.addColumnFor(
         key = propertyName
         if (sortable) {
             setSortProperty(propertyName)
-            // need to set the comparator as well: https://github.com/vaadin/flow/issues/3759
-            setComparator(T::class.java.getPropertyComparator(propertyName))
         }
         setHeader(SharedUtil.camelCaseToHumanFriendly(propertyName))
         block()
@@ -199,7 +192,7 @@ inline fun <reified T, reified V> Grid<T>.addColumnFor(
 @Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
 internal val HeaderRow.HeaderCell.column: Any
     get() {
-        val getColumn = abstractCellClass.getDeclaredMethod("getColumn")
+        val getColumn: Method = abstractCellClass.getDeclaredMethod("getColumn")
         getColumn.isAccessible = true
         return getColumn.invoke(this)
     }
@@ -224,7 +217,7 @@ private val FooterRow.FooterCell.column: Any
  * @throws IllegalArgumentException if no such column exists.
  */
 fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
-    val cell = cells.firstOrNull { (it.column as Grid.Column<*>).key == property.name }
+    val cell: HeaderRow.HeaderCell? = cells.firstOrNull { (it.column as Grid.Column<*>).key == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
     return cell
 }
@@ -244,7 +237,7 @@ get() {
  * @throws IllegalArgumentException if no such column exists.
  */
 fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
-    val cell = cells.firstOrNull { it.column.columnKey == property.name }
+    val cell: FooterRow.FooterCell? = cells.firstOrNull { it.column.columnKey == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
     return cell
 }
@@ -267,18 +260,18 @@ val FooterRow.FooterCell.renderer: Renderer<*>?
 
 var FooterRow.FooterCell.component: Component?
     get() {
-        val cr = (renderer as? ComponentRenderer<*, *>) ?: return null
+        val cr: ComponentRenderer<*, *> = (renderer as? ComponentRenderer<*, *>) ?: return null
         return cr.createComponent(null)
     }
     set(value) {
         setComponent(value)
     }
 
-private val gridSorterComponentRendererClass = Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
+private val gridSorterComponentRendererClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
 
 var HeaderRow.HeaderCell.component: Component?
     get() {
-        val r = renderer
+        val r: Renderer<*>? = renderer
         if (!gridSorterComponentRendererClass.isInstance(r)) return null
         val componentField = gridSorterComponentRendererClass.getDeclaredField("component")
         componentField.isAccessible = true
