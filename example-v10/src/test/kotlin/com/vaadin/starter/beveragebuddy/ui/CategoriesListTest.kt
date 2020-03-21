@@ -38,9 +38,8 @@ class CategoriesListTest : DynaTest({
 
     beforeEach {
         UI.getCurrent().navigate("categories")
-        _get<CategoriesList>()  // make sure that the navigation succeeded
+        _expectOne<CategoriesList>()  // make sure that the navigation succeeded
     }
-    afterEach { MockVaadin.tearDown() }
 
     test("grid lists all categories") {
         // prepare testing data
@@ -57,7 +56,7 @@ class CategoriesListTest : DynaTest({
         _get<Button> { caption = "New category (Alt+N)" } ._click()
 
         // make sure that the "New Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
 
         // do the happy flow: fill in the form with valid values and click "Save"
         _get<TextField> { caption = "Category Name" } .value = "Beer"
@@ -74,11 +73,11 @@ class CategoriesListTest : DynaTest({
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit']")
         grid._clickRenderer(0, "edit")
 
         // make sure that the "Edit Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
         expect(cat.name) { _get<TextField> { caption = "Category Name" } ._value }
     }
 
@@ -87,11 +86,11 @@ class CategoriesListTest : DynaTest({
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
 
         // make sure that the "Edit Category" dialog is opened
-        _get<EditorDialogFrame<*>>()
+        _expectOne<EditorDialogFrame<*>>()
         expect(cat.name) { _get<TextField> { caption = "Category Name" } ._value }
     }
 
@@ -100,7 +99,7 @@ class CategoriesListTest : DynaTest({
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[text='Edit']")
+        grid.expectRow(0, "Beers", "0", "Button[text='Edit', icon='vaadin:edit']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)
         expectList() { CategoryService.findAll() }
         _get<Grid<Category>>().expectRows(0)
