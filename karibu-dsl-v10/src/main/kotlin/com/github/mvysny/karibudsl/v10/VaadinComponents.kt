@@ -211,17 +211,17 @@ fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirectio
 
 @VaadinDsl
 fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
-    content = null
+    element.removeAllChildren()
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
-            require(components.size < 2) { "Too many components to add - composite can only host one! ${components.toList()}" }
+            require(components.size < 2) { "Too many components to add - scroller can only host one! ${components.toList()}" }
             val component: Component = components.firstOrNull() ?: return
-            check(content == null) { "The content has already been initialized!" }
+            check(this@content.element.childCount == 0) { "The scroller can only host one component at most" }
             content = component
         }
     }
     val result: T = dummy.block()
-    checkNotNull(content) { "`block` must add exactly one component" }
+    checkNotNull(content) { "`block` must add exactly one component to the scroller" }
     return result
 }

@@ -55,7 +55,7 @@ class VaadinComponentsTest : DynaTest({
         scroller._expectOne<Span>()
 
         // test the API - compiling the following shouldn't fail
-        scroller.content { span("Foo") }
+        scroller.content { span("Bar") }
     }
 
     group("flex") {
