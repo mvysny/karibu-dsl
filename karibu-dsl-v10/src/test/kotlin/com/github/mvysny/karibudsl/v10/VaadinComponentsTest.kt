@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -48,7 +49,7 @@ class VaadinComponentsTest : DynaTest({
     test("scroller") {
         val scroller: Scroller = UI.getCurrent().scroller {  }
         expect(null) { scroller.content }
-        val span = scroller.content { span("Foo") }
+        val span: Span = scroller.content { span("Foo") }
         expect(span) { scroller.content }
         scroller._expectOne<Span>()
     }
