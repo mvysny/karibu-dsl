@@ -40,6 +40,7 @@ class VaadinComponentsTest : DynaTest({
             timePicker()
             integerField()
             bigDecimalField()
+            dateTimePicker()
         }
     }
 

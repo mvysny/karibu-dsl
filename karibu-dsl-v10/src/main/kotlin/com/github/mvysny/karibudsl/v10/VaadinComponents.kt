@@ -7,6 +7,7 @@ import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
+import com.vaadin.flow.component.datetimepicker.DateTimePicker
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.splitlayout.SplitLayout
@@ -166,3 +167,10 @@ fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@Vaad
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).bigDecimalField(label: String? = null, block: (@VaadinDsl BigDecimalField).() -> Unit = {}) = init(BigDecimalField(label), block)
+
+@VaadinDsl
+fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@VaadinDsl DateTimePicker).() -> Unit = {}): DateTimePicker {
+    val picker = DateTimePicker()
+    picker.label = label
+    return init(picker, block)
+}
