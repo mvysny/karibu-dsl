@@ -192,6 +192,18 @@ fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@Va
     return init(picker, block)
 }
 
+/**
+ * Use as follows:
+ * ```
+ * scroller {
+ *   content {
+ *     div {
+ *       width = "200px"; height = "200px"; element.styles.add("background-color", "red")
+ *     }
+ *   }
+ * }
+ * ```
+ */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,
                                         block: (@VaadinDsl Scroller).() -> Unit = {}): Scroller =
