@@ -210,8 +210,8 @@ fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirectio
         init(Scroller(scrollDirection), block)
 
 @VaadinDsl
-fun <T: Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
-    check(content == null) { "The content has already been initialized!" }
+fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
+    content = null
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
@@ -221,7 +221,7 @@ fun <T: Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponent
             content = component
         }
     }
-    val component: T = dummy.block()
+    val result: T = dummy.block()
     checkNotNull(content) { "`block` must add exactly one component" }
-    return component
+    return result
 }
