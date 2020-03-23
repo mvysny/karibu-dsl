@@ -53,10 +53,10 @@ of the example applications below.
 
 ### UI Base Application
 
-A very simple Gradle-based application archetype is located here: https://github.com/mvysny/karibu10-helloworld-application
-The project only shows a very simple Button, so it is an ideal quick start application for experimenting
-and further development. And you can always consult the [example-v10](../example-v10) project for interesting
-components or new ways how to use them.
+A very simple Gradle-based application archetype is located here: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
+The project only shows a very simple Button, which makes it an ideal quick start application for experimenting
+and further development. For more complex example please take a look at the
+[Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok) project.
  
 To generate the archetype and run the app:
   
@@ -71,20 +71,20 @@ The app will run on [http://localhost:8080](http://localhost:8080).
 Please see the [archetype github page](https://github.com/mvysny/karibu10-helloworld-application) for further
 details on development.
 
-### "Beverage Buddy" Example Application
+### The "Beverage Buddy" Example Application
 
-The [example-v10](../example-v10) bundles a Beverage Buddy app backed by a dummy data (no database).
-Quickly run the bundled example application from the command-line:
+The [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok) is the Vaadin Beverage Buddy app
+backed by an in-memory H2 database. You can quickly run the bundled example application from the command-line:
 
 ```bash
-git clone https://github.com/mvysny/karibu-dsl
-cd karibu-dsl
-./gradlew example-v10:appRun
+git clone https://github.com/mvysny/beverage-buddy-vok
+cd beverage-buddy-vok
+./gradlew appRun
 ```
 
 The example app will be running at [http://localhost:8080](http://localhost:8080).
 
-In case of questions you can always [browse the sample project sources here](example-v10).
+In case of questions you can always [browse the sample project sources](https://github.com/mvysny/beverage-buddy-vok).
 
 ## Tutorials
 
