@@ -6,6 +6,7 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import kotlin.test.expect
 
@@ -42,6 +43,14 @@ class VaadinComponentsTest : DynaTest({
             bigDecimalField()
             dateTimePicker()
         }
+    }
+
+    test("scroller") {
+        val scroller: Scroller = UI.getCurrent().scroller {  }
+        expect(null) { scroller.content }
+        val span = scroller.content { span("Foo") }
+        expect(span) { scroller.content }
+        scroller._expectOne<Span>()
     }
 
     group("flex") {
