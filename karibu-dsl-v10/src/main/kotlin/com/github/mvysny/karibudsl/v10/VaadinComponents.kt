@@ -193,8 +193,9 @@ fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@Va
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).scroller(block: (@VaadinDsl Scroller).() -> Unit = {}): Scroller =
-        init(Scroller(), block)
+fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,
+                                        block: (@VaadinDsl Scroller).() -> Unit = {}): Scroller =
+        init(Scroller(scrollDirection), block)
 
 @VaadinDsl
 fun <T: Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
