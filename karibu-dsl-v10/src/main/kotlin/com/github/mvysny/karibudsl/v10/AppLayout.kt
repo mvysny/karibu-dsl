@@ -30,7 +30,8 @@ import com.vaadin.flow.dom.Element
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Unit = {}) = init(AppLayout(), block)
+fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Unit = {}): AppLayout
+        = init(AppLayout(), block)
 
 /**
  * Allows you to populate the [AppLayout.addToNavbar] in a DSL fashion:
@@ -97,4 +98,5 @@ fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit 
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).drawerToggle(block: (@VaadinDsl DrawerToggle).() -> Unit = {}) = init(DrawerToggle(), block)
+fun (@VaadinDsl HasComponents).drawerToggle(block: (@VaadinDsl DrawerToggle).() -> Unit = {}): DrawerToggle
+        = init(DrawerToggle(), block)
