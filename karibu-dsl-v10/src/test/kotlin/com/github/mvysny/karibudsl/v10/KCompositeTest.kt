@@ -32,7 +32,7 @@ class ButtonBar : KComposite() {
         // perform any further initialization here
     }
 
-    // add listener methods here
+    // listener methods here
     private fun okClicked() {}
     private fun cancelClicked() {}
 }

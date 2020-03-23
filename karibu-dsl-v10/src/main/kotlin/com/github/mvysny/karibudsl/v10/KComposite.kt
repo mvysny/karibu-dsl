@@ -30,7 +30,7 @@ import com.vaadin.flow.dom.Element
  *     // perform any further initialization here
  *   }
  *
- *   // add listener methods here
+ *   // listener methods here
  *   private fun okClicked() {}
  *   private fun cancelClicked() {}
  * }

@@ -121,7 +121,7 @@ however they use flex layout under the hood and hence there are very important d
 
 Generally you use the new `HorizontalLayout` as follows:
 
-```
+```kotlin
 horizontalLayout {
   content { align(right, middle) }
 }
@@ -154,7 +154,7 @@ use `VerticalLayout`/`HorizontalLayout`.
 Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.
 
 > We promote composition over inheritance, similar to [React's Composition vs Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
-You should always extend `Composite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
+You should always extend `KComposite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
 it part of your class and you can't replace it with e.g. `FlowLayout` without breaking backward compatibility.
 
 An example of such a component:
