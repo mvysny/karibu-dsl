@@ -94,16 +94,16 @@ The following example shows a really simple form with two fields and one "Save" 
 
 ```kotlin
 verticalLayout {
-  w = wrapContent
+  w = wrapContent; isSpacing = true
+
   formLayout {
-    isSpacing = true
     textField("Name:") {
       focus()
     }
     textField("Age:")
   }
   horizontalLayout {
-    alignment = Alignment.MIDDLE_RIGHT
+    content { align(right, middle) }
     button("Save") {
       onLeftClick { okPressed() }
       setPrimary()
@@ -114,10 +114,10 @@ verticalLayout {
 
 ### VerticalLayout / HorizontalLayout
 
-Vaadin 8 layouting extensively depended on the usage of `VerticalLayout` and `HorizontalLayout`. However, the layouting
-in Vaadin 10 has been changed radically and it now employs the so-called *flex layout*. Vaadin 10 however
-provides `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts.
-However, they use flex layout under the hood and hence there are very important differences.
+Vaadin 8 layouting used to depend extensively on the usage of `VerticalLayout` and `HorizontalLayout`. However, the layouting
+in Vaadin 10 has been changed radically and it now employs the so-called *flex layout*. Vaadin 10 still
+does provide `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts,
+however they use flex layout under the hood and hence there are very important differences.
 
 Generally you use the new `HorizontalLayout` as follows:
 
