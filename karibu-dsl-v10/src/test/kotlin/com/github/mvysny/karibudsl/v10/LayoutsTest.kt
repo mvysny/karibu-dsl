@@ -5,6 +5,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectThrows
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.orderedlayout.FlexComponent
 import kotlin.test.expect
 
 class LayoutsTest : DynaTest({
@@ -46,5 +47,38 @@ class LayoutsTest : DynaTest({
                 Button().flexGrow = -1.0
             }
         }
+    }
+
+    test("flexShrink") {
+        val button = Button()
+        expect(1.0) { button.flexShrink }
+        button.flexShrink = 0.0
+        expect(0.0) { button.flexShrink }
+        button.flexShrink = 1.0
+        expect(1.0) { button.flexShrink }
+        expect(null) { button.element.style.get("flexShrink") }
+    }
+
+    test("flexBasis") {
+        val button = Button()
+        expect(null) { button.flexBasis }
+        button.flexBasis = "auto"
+        expect<String?>("auto") { button.flexBasis }
+        button.flexBasis = null
+        expect(null) { button.flexBasis }
+        expect(null) { button.element.style.get("flexBasis") }
+    }
+
+    test("alignSelf") {
+        lateinit var button: Button
+        UI.getCurrent().verticalLayout {
+            button = button()
+        }
+        expect(FlexComponent.Alignment.AUTO) { button.alignSelf }
+        button.alignSelf = FlexComponent.Alignment.END
+        expect<FlexComponent.Alignment?>(FlexComponent.Alignment.END) { button.alignSelf }
+        button.alignSelf = null
+        expect(FlexComponent.Alignment.AUTO) { button.alignSelf }
+        expect(null) { button.element.style.get("alignSelf") }
     }
 })

@@ -3,10 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.orderedlayout.FlexComponent
-import com.vaadin.flow.component.orderedlayout.FlexLayout
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.orderedlayout.*
 
 /**
  * Creates a [Flex Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
@@ -136,7 +133,7 @@ var (@VaadinDsl Component).flexBasis: String?
  *
  * Please see the [FlexComponent.getAlignItems] explanation to understand the available values.
  */
-var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment
+var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment?
     get() = (parent.get() as FlexComponent<*>).getAlignSelf(this)
     set(value) {
         (parent.get() as FlexComponent<*>).setAlignSelf(value, this)
