@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.data.binder.*
 import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
+import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.*
@@ -99,7 +100,7 @@ fun <BEAN, FIELDVALUE> HasValue<*, FIELDVALUE>.bind(binder: Binder<BEAN>): Binde
 
     // fix NPE for TextField and TextArea by having a converter which converts null to "" and back.
     @Suppress("UNCHECKED_CAST")
-    if (this is TextField || this is TextArea) {
+    if (this is TextField || this is TextArea || this is EmailField) {
         builder = builder.withNullRepresentation("" as FIELDVALUE)
     }
     return builder
