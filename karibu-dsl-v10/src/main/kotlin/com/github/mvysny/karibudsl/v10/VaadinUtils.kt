@@ -110,3 +110,9 @@ tailrec fun Component.findAncestorOrSelf(predicate: (Component) -> Boolean): Com
  */
 fun Component.isNestedIn(potentialAncestor: Component) =
         findAncestor { it == potentialAncestor } != null
+
+/**
+ * Checks whether this component is currently attached to an [UI].
+ */
+// see https://github.com/vaadin/flow/issues/7911
+val Component.isAttached: Boolean get() = this is UI || ui.isPresent
