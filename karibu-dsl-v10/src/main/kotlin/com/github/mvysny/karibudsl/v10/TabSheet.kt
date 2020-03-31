@@ -8,9 +8,9 @@ import com.vaadin.flow.dom.Element
 import com.vaadin.flow.shared.Registration
 
 /**
- * A TabHost - shows both the [Tabs] component and the tab contents.
+ * A TabSheet - shows both the [Tabs] component and the tab contents.
  */
-class TabHost : KComposite(), HasStyle, HasSize {
+class TabSheet : KComposite(), HasStyle, HasSize {
     private lateinit var tabsComponent: Tabs
     private lateinit var tabsContainer: Div
 
@@ -190,21 +190,21 @@ val Tab.index: Int
 val Tab.owner: Tabs
     get() = checkNotNull((parent.orElse(null)) as Tabs?) { "tab $this is not attached to a parent" }
 
-val Tab.ownerTabHost: TabHost
-    get() = checkNotNull(findAncestor { it is TabHost }) { "tab $this is not attached to a TabHost" } as TabHost
+val Tab.ownerTabSheet: TabSheet
+    get() = checkNotNull(findAncestor { it is TabSheet }) { "tab $this is not attached to a TabHost" } as TabSheet
 
 /**
- * Returns or sets this tab contents in the [TabHost]. Works only for tabs nested in a [TabHost].
+ * Returns or sets this tab contents in the [TabSheet]. Works only for tabs nested in a [TabSheet].
  */
 var Tab.contents: Component?
-    get() = ownerTabHost.getTabContents(this)
+    get() = ownerTabSheet.getTabContents(this)
     set(value) {
-        ownerTabHost.setTabContents(this, value)
+        ownerTabSheet.setTabContents(this, value)
     }
 
 
 /**
- * Creates a [TabHost] component which shows both the list of tabs, and the tab contents itself.
+ * Creates a [TabSheet] component which shows both the list of tabs, and the tab contents itself.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).tabHost(block: (@VaadinDsl TabHost).() -> Unit = {}) = init(TabHost(), block)
+fun (@VaadinDsl HasComponents).tabHost(block: (@VaadinDsl TabSheet).() -> Unit = {}) = init(TabSheet(), block)

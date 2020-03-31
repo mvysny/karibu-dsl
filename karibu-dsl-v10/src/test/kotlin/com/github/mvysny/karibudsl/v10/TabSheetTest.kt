@@ -11,17 +11,17 @@ import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.tabs.Tab
 import kotlin.test.expect
 
-class TabHostTest : DynaTest({
+class TabSheetTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
 
     test("smoke") {
         UI.getCurrent().tabHost()
-        _expectOne<TabHost>()
+        _expectOne<TabSheet>()
     }
 
     test("Initially empty") {
-        val th = TabHost()
+        val th = TabSheet()
         expect(-1) { th.selectedIndex }
         expect(null) { th.selectedTab }
         expectList() { th.tabs }
@@ -108,7 +108,7 @@ class TabHostTest : DynaTest({
         val th = UI.getCurrent().tabHost {
             tab = tab("foo") { span("it works!") }
         }
-        expect(th) { tab.ownerTabHost }
+        expect(th) { tab.ownerTabSheet }
         tab.owner
     }
 
