@@ -21,11 +21,11 @@ class TabSheet : KComposite(), HasStyle, HasSize {
 
     private val root = ui {
         verticalLayout(false, false) {
-            setWidthFull(); content { align(stretch, top) }; addClassName("tabhost")
+            setWidthFull(); content { align(stretch, top) }; addClassName("tabsheet")
 
             tabsComponent = tabs()
             tabsContainer = div {
-                element.classList.add("tabhost-container")
+                element.classList.add("tabsheet-container")
             }
         }
     }
@@ -98,7 +98,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
 
     private fun checkOurTab(tab: Tab) {
         require(tabsToComponents.containsKey(tab)) {
-            "Tab $tab is not hosted in this TabHost"
+            "Tab $tab is not hosted in this TabSheet"
         }
     }
 
@@ -191,7 +191,7 @@ val Tab.owner: Tabs
     get() = checkNotNull((parent.orElse(null)) as Tabs?) { "tab $this is not attached to a parent" }
 
 val Tab.ownerTabSheet: TabSheet
-    get() = checkNotNull(findAncestor { it is TabSheet }) { "tab $this is not attached to a TabHost" } as TabSheet
+    get() = checkNotNull(findAncestor { it is TabSheet }) { "tab $this is not attached to a TabSheet" } as TabSheet
 
 /**
  * Returns or sets this tab contents in the [TabSheet]. Works only for tabs nested in a [TabSheet].
