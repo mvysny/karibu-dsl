@@ -109,7 +109,7 @@ class TabSheetTest : DynaTest({
             tab = tab("foo") { span("it works!") }
         }
         expect(th) { tab.ownerTabSheet }
-        tab.owner
+        tab.owner // check that the tab has an owner
     }
 
     group("tab contents") {

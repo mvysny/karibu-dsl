@@ -165,7 +165,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     }
 
     /**
-     * Returns a live list of all tabs. The list reflects changes when tabs are added or removed.
+     * Returns a live list of all tabs. The list is read-only but live: it reflects changes when tabs are added or removed.
      */
     val tabs: List<Tab> = object : AbstractList<Tab>() {
         override val size: Int
