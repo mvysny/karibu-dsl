@@ -16,7 +16,7 @@ class TabSheetTest : DynaTest({
     afterEach { MockVaadin.tearDown() }
 
     test("smoke") {
-        UI.getCurrent().tabHost()
+        UI.getCurrent().tabSheet()
         _expectOne<TabSheet>()
     }
 
@@ -30,7 +30,7 @@ class TabSheetTest : DynaTest({
 
     test("Adding a tab to an empty tabhost selects it immediately") {
         lateinit var tab: Tab
-        val th = UI.getCurrent().tabHost {
+        val th = UI.getCurrent().tabSheet {
             tab = tab("foo") {
                 span("it works!")
             }
@@ -45,7 +45,7 @@ class TabSheetTest : DynaTest({
     test("Adding a tab to a non-empty tabhost doesn't change the selection") {
         lateinit var tab: Tab
         lateinit var tab2: Tab
-        val th = UI.getCurrent().tabHost {
+        val th = UI.getCurrent().tabSheet {
             tab = tab("foo") {
                 span("it works!")
             }
@@ -62,7 +62,7 @@ class TabSheetTest : DynaTest({
 
     test("Adding a tab with null contents works") {
         lateinit var tab: Tab
-        val th = UI.getCurrent().tabHost {
+        val th = UI.getCurrent().tabSheet {
             tab = addTab("foo")
         }
         expect(0) { th.selectedIndex }
@@ -77,7 +77,7 @@ class TabSheetTest : DynaTest({
 
     test("Removing last tab clears selection") {
         lateinit var tab: Tab
-        val th = UI.getCurrent().tabHost {
+        val th = UI.getCurrent().tabSheet {
             tab = tab("foo") { span("it works!") }
         }
         th.remove(tab)
@@ -91,7 +91,7 @@ class TabSheetTest : DynaTest({
 
     test("Removing all tabs clears selection") {
         lateinit var tab: Tab
-        val th = UI.getCurrent().tabHost {
+        val th = UI.getCurrent().tabSheet {
             tab = tab("foo") { span("it works!") }
         }
         th.removeAll()
@@ -105,7 +105,7 @@ class TabSheetTest : DynaTest({
 
     test("owner") {
         lateinit var tab: Tab
-        val th = UI.getCurrent().tabHost {
+        val th = UI.getCurrent().tabSheet {
             tab = tab("foo") { span("it works!") }
         }
         expect(th) { tab.ownerTabSheet }
@@ -115,14 +115,14 @@ class TabSheetTest : DynaTest({
     group("tab contents") {
         test("non-empty contents") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
         }
         test("clearing contents") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
@@ -134,7 +134,7 @@ class TabSheetTest : DynaTest({
     group("find contents") {
         test("empty tab") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo")
             }
             expect(null) { tab.contents }
@@ -143,7 +143,7 @@ class TabSheetTest : DynaTest({
         
         test("simple test") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             expect(tab) { th.findTabWithContents(tab.contents!!) }
@@ -152,7 +152,7 @@ class TabSheetTest : DynaTest({
     group("findTabContaining") {
         test("empty tab") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo")
             }
             expect(null) { th.findTabContaining(Span("bar")) }
@@ -160,7 +160,7 @@ class TabSheetTest : DynaTest({
 
         test("simple test") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             expect(tab) { th.findTabContaining(tab.contents!!) }
@@ -169,7 +169,7 @@ class TabSheetTest : DynaTest({
         test("complex test") {
             lateinit var tab: Tab
             lateinit var nested: Button
-            val th = UI.getCurrent().tabHost {
+            val th = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     div {
                         div {

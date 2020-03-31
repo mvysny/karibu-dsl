@@ -207,4 +207,5 @@ var Tab.contents: Component?
  * Creates a [TabSheet] component which shows both the list of tabs, and the tab contents itself.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).tabHost(block: (@VaadinDsl TabSheet).() -> Unit = {}) = init(TabSheet(), block)
+fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -> Unit = {}): TabSheet
+        = init(TabSheet(), block)
