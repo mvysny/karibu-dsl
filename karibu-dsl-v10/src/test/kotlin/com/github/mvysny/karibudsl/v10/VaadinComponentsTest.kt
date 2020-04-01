@@ -44,6 +44,8 @@ class VaadinComponentsTest : DynaTest({
             integerField()
             bigDecimalField()
             dateTimePicker()
+            listBox<String>()
+            multiSelectListBox<String>()
         }
     }
 
