@@ -9,6 +9,8 @@ import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.datetimepicker.DateTimePicker
 import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.listbox.ListBox
+import com.vaadin.flow.component.listbox.MultiSelectListBox
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.splitlayout.SplitLayout
@@ -60,7 +62,7 @@ fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener:
 
 /**
  * Creates a [Vaadin Checkbox](https://vaadin.com/elements/vaadin-checkbox/). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDsl Checkbox).() -> Unit = {}): Checkbox
@@ -68,7 +70,7 @@ fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDs
 
 /**
  * Creates a [Vaadin Combo Box](https://vaadin.com/elements/vaadin-combo-box). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block: (@VaadinDsl ComboBox<T>).() -> Unit = {}): ComboBox<T>
@@ -76,7 +78,7 @@ fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block:
 
 /**
  * Creates a [Vaadin Select](https://vaadin.com/components/vaadin-select). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  *
  * The difference between combobox and select is that select isn't lazy, but you can add any child component into the select
  * and it will appear in the popup.
@@ -90,7 +92,7 @@ fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, block: (
 
 /**
  * Creates a [Vaadin Date Picker](https://vaadin.com/elements/vaadin-date-picker). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@VaadinDsl DatePicker).() -> Unit = {}): DatePicker
@@ -98,7 +100,7 @@ fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@Vaadin
 
 /**
  * Creates a [Vaadin Dialog](https://vaadin.com/elements/vaadin-dialog). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}): Dialog
@@ -106,7 +108,7 @@ fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}
 
 /**
  * Creates a [Password Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@VaadinDsl PasswordField).() -> Unit = {}): PasswordField
@@ -114,7 +116,7 @@ fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@Vaa
 
 /**
  * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() -> Unit = {}): SplitLayout
@@ -122,7 +124,7 @@ fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() ->
 
 /**
  * Creates a [Text Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {}): TextField
@@ -130,7 +132,7 @@ fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinD
 
 /**
  * Creates a [Email Field](https://vaadin.com/components/vaadin-text-field). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@VaadinDsl EmailField).() -> Unit = {}): EmailField
@@ -138,7 +140,7 @@ fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@Vaadin
 
 /**
  * Creates a [Number Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).numberField(label: String? = null, block: (@VaadinDsl NumberField).() -> Unit = {}): NumberField
@@ -167,7 +169,7 @@ fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@Vaadin
 
 /**
  * Creates a [Integer Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  *
  * Only available starting with Vaadin 14.1.
  */
@@ -177,7 +179,7 @@ fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@Vaad
 
 /**
  * Creates a [BigDecimal Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
- * of possible alternative themes for the button.
+ * of possible alternative themes.
  *
  * Only available starting with Vaadin 14.1.
  */
@@ -225,3 +227,23 @@ fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T)
     checkNotNull(content) { "`block` must add exactly one component to the scroller" }
     return result
 }
+
+/**
+ * Creates a [Vaadin List Box](https://vaadin.com/components/vaadin-list-box). See the HTML Examples link for a list
+ * of possible alternative themes.
+ *
+ * Unfortunately no label support for now: https://github.com/vaadin/vaadin-list-box-flow/issues/75
+ */
+@VaadinDsl
+fun <T : Any?> (@VaadinDsl HasComponents).listBox(block: (@VaadinDsl ListBox<T>).() -> Unit = {}): ListBox<T>
+        = init(ListBox(), block)
+
+/**
+ * Creates a multi-select [Vaadin List Box](https://vaadin.com/components/vaadin-list-box). See the HTML Examples link for a list
+ * of possible alternative themes.
+ *
+ * Unfortunately no label support for now: https://github.com/vaadin/vaadin-list-box-flow/issues/75
+ */
+@VaadinDsl
+fun <T : Any?> (@VaadinDsl HasComponents).multiSelectListBox(block: (@VaadinDsl MultiSelectListBox<T>).() -> Unit = {}): MultiSelectListBox<T>
+        = init(MultiSelectListBox(), block)
