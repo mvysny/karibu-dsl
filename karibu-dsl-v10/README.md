@@ -113,7 +113,7 @@ verticalLayout {
 ```
 
 Please see the [Creating UIs](https://www.vaadinonkotlin.eu/creating_ui-v10.html) tutorial
-for more information.
+for more information, or the [DSLs Explained](https://www.vaadinonkotlin.eu/dsl_explained-v10.html) article.
 
 For technical explanation on how this works, please read the [Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
 article.

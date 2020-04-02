@@ -129,7 +129,7 @@ Please see the [Creating UIs](https://www.vaadinonkotlin.eu/creating_ui.html) tu
 for more information.
 
 For technical explanation on how this works, please read the [Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
-article.
+article, or the [DSLs Explained](https://www.vaadinonkotlin.eu/dsl_explained.html) article.
 
 #### More complex examples:
 
