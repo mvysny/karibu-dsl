@@ -40,14 +40,14 @@ Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a 
 However, to quickly test out Karibu DSL you can simply start with one
 of the example applications below.
 
-### UI Base Application
+### UI Base Example Application
 
-A very simple Gradle-based application archetype is located here: https://github.com/mvysny/karibu-helloworld-application
+A very simple Gradle-based example application is located here: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application).
 The project only shows a very simple Button, so it is an ideal quick start application for experimenting
 and further development. And you can always consult the [example-v8](example-v8) project for interesting
 components or new ways how to use them.
  
-To generate the archetype and run the app:
+To checkout the example app and run it:
   
 ```bash
 git clone https://github.com/mvysny/karibu-helloworld-application
@@ -57,8 +57,7 @@ cd karibu-helloworld-application
 
 The app will run on [http://localhost:8080](http://localhost:8080).
 
-Please see the [Karibu Helloworld Application Archetype Github Page](https://github.com/mvysny/karibu-helloworld-application) for further
-details on development. A Maven-based archetype is also available: [Karibu Helloworld Application Maven](https://github.com/mvysny/karibu-helloworld-application-maven).
+A Maven-based example app is also available: [Karibu Helloworld Application Maven](https://github.com/mvysny/karibu-helloworld-application-maven).
 
 ### "Component Palette" App
 

@@ -51,14 +51,13 @@ Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a 
 However, to quickly test out Karibu DSL you can simply start with one
 of the example applications below.
 
-### UI Base Application
+### UI Basic Example Application
 
-A very simple Gradle-based application archetype is located here: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
+A very simple Gradle-based example application is located here: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
 The project only shows a very simple Button, which makes it an ideal quick start application for experimenting
-and further development. For more complex example please take a look at the
-[Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok) project.
+and further development.
  
-To generate the archetype and run the app:
+To checkout the example app and run it:
   
 ```bash
 git clone https://github.com/mvysny/karibu10-helloworld-application
@@ -68,12 +67,10 @@ cd karibu10-helloworld-application
 
 The app will run on [http://localhost:8080](http://localhost:8080).
 
-Please see the [archetype github page](https://github.com/mvysny/karibu10-helloworld-application) for further
-details on development.
-
 ### The "Beverage Buddy" Example Application
 
-The [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok) is the Vaadin Beverage Buddy app
+The [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
+is a more complex example app. It's the Vaadin Beverage Buddy app
 backed by an in-memory H2 database. You can quickly run the bundled example application from the command-line:
 
 ```bash
@@ -83,8 +80,6 @@ cd beverage-buddy-vok
 ```
 
 The example app will be running at [http://localhost:8080](http://localhost:8080).
-
-In case of questions you can always [browse the sample project sources](https://github.com/mvysny/beverage-buddy-vok).
 
 ## Tutorials
 
