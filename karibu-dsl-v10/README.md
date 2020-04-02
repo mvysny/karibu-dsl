@@ -112,6 +112,12 @@ verticalLayout {
 }
 ```
 
+Please see the [Creating UIs](https://www.vaadinonkotlin.eu/creating_ui-v10.html) tutorial
+for more information.
+
+For technical explanation on how this works, please read the [Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
+article.
+
 ### VerticalLayout / HorizontalLayout
 
 Vaadin 8 layouting used to depend extensively on the usage of `VerticalLayout` and `HorizontalLayout`. However, the layouting
@@ -148,6 +154,11 @@ is automatically enlarged.
 
 Please read the [Vaadin 10 server-side layouting for Vaadin 8 and Android developers](http://mavi.logdown.com/posts/6855605) for a tutorial on how to
 use `VerticalLayout`/`HorizontalLayout`.
+
+### Forms
+
+Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms-v10.html) tutorial
+for more information.
 
 ### Writing your own components
 

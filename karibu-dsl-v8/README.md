@@ -125,9 +125,10 @@ verticalLayout7 {
 }
 ```
 
-Read more at the [Creating UIs](http://www.vaadinonkotlin.eu/creating_ui.html) Vaadin-on-Kotlin guide.
+Please see the [Creating UIs](https://www.vaadinonkotlin.eu/creating_ui.html) tutorial
+for more information.
 
-For technical explanation on how this works, please read the [Using DSL to write structured UI code](http://mavi.logdown.com/posts/7073786)
+For technical explanation on how this works, please read the [Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
 article.
 
 #### More complex examples:
@@ -225,6 +226,12 @@ button {
 }
 if (button.w.isFillParent) { ... }
 ```
+
+
+### Forms
+
+Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms.html) tutorial
+for more information.
 
 ## Writing your own components
 
