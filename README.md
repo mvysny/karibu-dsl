@@ -28,6 +28,8 @@ The origins of the word *Karibu*: it's a term for North American subspecies of t
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
 means *welcome*. 
 
+> Note: For Groovy Vaadin DSL please see the [Vaadin Groovy Builder](https://github.com/mvysny/vaadin-groovy-builder) library.
+
 ## Why DSL?
 
 Just compare the Kotlin-based [CommonElementsView](example-v8/src/main/kotlin/com/example/v8/uitest/example/CommonElementsView.kt)
