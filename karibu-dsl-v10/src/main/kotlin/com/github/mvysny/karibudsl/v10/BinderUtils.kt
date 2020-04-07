@@ -7,6 +7,7 @@ import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.validator.*
+import java.lang.reflect.Method
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.*
@@ -202,3 +203,16 @@ fun <BEAN> Binder.BindingBuilder<BEAN, BigInteger?>.validateInRange(range: Close
 @JvmName("validateBigDecimalInRange")
 fun <BEAN> Binder.BindingBuilder<BEAN, BigDecimal?>.validateInRange(range: ClosedRange<BigDecimal>): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withValidator(BigDecimalRangeValidator("must be in $range", range.start, range.endInclusive))
+
+/**
+ * Guesses whether the binder has been configured with read-only.
+ *
+ * Since Binder doesn't remember whether it is read-only, we have to guess.
+ */
+val Binder<*>.guessIsReadOnly: Boolean
+    get() {
+        val bindingsGetter: Method = Binder::class.java.getDeclaredMethod("getBindings")
+        bindingsGetter.isAccessible = true
+        val bindings: Collection<Binder.Binding<*, *>> = bindingsGetter.invoke(this) as Collection<Binder.Binding<*, *>>
+        return bindings.any { it.setter != null && it.isReadOnly }
+    }

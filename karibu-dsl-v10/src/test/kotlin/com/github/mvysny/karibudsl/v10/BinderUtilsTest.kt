@@ -117,6 +117,17 @@ class BinderUtilsTest : DynaTest({
         expect(123.0) { form.testBI.value }
         expect(77.11) { form.testBD.value }
     }
+
+    test("guessIsReadOnly") {
+        val binder = Binder<Person>(Person::class.java)
+        expect(false) { binder.guessIsReadOnly }
+        val form = Form2(binder)
+        expect(false) { binder.guessIsReadOnly }
+        binder.setReadOnly(true)
+        expect(true) { binder.guessIsReadOnly }
+        binder.setReadOnly(false)
+        expect(false) { binder.guessIsReadOnly }
+    }
 })
 
 private class Form2(binder: Binder<Person>): VerticalLayout() {
