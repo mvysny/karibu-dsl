@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.dom.Element
+import java.util.stream.Stream
 
 /**
  * Replaces Vaadin's UI auto-creation magic by explicit UI creation. You need to call [ui] to populate this composite with content:
@@ -35,10 +36,18 @@ import com.vaadin.flow.dom.Element
  *   private fun cancelClicked() {}
  * }
  * ```
+ * @param root You can alternatively specify the content straight in the constructor if it is known upfront.
  */
-abstract class KComposite : Composite<Component>() {
-    private var root: Component? = null
-    override fun initContent(): Component = checkNotNull(root) { "The content has not yet been initialized, please call the ui() function in the constructor" }
+abstract class KComposite(private var root: Component? = null) : Composite<Component>() {
+    final override fun initContent(): Component = checkNotNull(root) {
+        "The content has not yet been initialized, please call the ui() function in the constructor"
+    }
+
+    // prevent accidental override by marking functions final. It's especially important to
+    // not to override the getContent() function since that will wreak havoc with Karibu-Testing
+    final override fun getContent(): Component = super.getContent()
+    final override fun getElement(): Element = super.getElement()
+    final override fun getChildren(): Stream<Component> =  super.getChildren()
 
     /**
      * Initializes the UI of this composite. Returns the component created by the block, so that we can store the created

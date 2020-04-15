@@ -4,6 +4,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.expectThrows
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10._get
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
@@ -40,6 +41,8 @@ class ButtonBar : KComposite() {
 @VaadinDsl
 fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).()->Unit = {}) = init(ButtonBar(), block)
 
+class MyButton : KComposite(Button("Click me!"))
+
 class KCompositeTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
@@ -48,7 +51,8 @@ class KCompositeTest : DynaTest({
         UI.getCurrent().apply {
             buttonBar()
         }
-        _get<Button> { caption = "ok" }
+        _expectOne<ButtonBar>()
+        _expectOne<Button> { caption = "ok" }
     }
 
     test("serialize") {
@@ -62,5 +66,11 @@ class KCompositeTest : DynaTest({
         expectThrows(IllegalStateException::class, "The content has not yet been initialized") {
             UI.getCurrent().add(object : KComposite() {})
         }
+    }
+
+    test("provide contents in constructor") {
+        UI.getCurrent().add(MyButton())
+        _expectOne<MyButton>()
+        _expectOne<Button> { caption = "Click me!" }
     }
 })
