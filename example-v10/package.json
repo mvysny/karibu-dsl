@@ -36,7 +36,8 @@
     "@vaadin/vaadin-radio-button": "1.2.6",
     "@vaadin/vaadin-tabs": "3.0.5",
     "@vaadin/vaadin-lumo-styles": "1.5.0",
-    "@vaadin/vaadin-material-styles": "1.2.3"
+    "@vaadin/vaadin-material-styles": "1.2.3",
+    "@vaadin/flow-deps": "./target/frontend"
   },
   "devDependencies": {
     "webpack": "4.30.0",
@@ -48,7 +49,7 @@
     "webpack-merge": "4.2.2",
     "raw-loader": "3.0.0"
   },
-  "vaadinAppPackageHash": "f5595cf00905c550f9760a0496747c359c2b833b3a77e8ffe28fd5e67c6a6e5e",
+  "vaadinAppPackageHash": "Main dependencies updated, force install",
   "vaadin": {
     "dependencies": {
       "@polymer/polymer": "3.2.0",
