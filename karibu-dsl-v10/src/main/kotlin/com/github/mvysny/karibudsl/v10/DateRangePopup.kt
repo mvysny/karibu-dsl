@@ -14,19 +14,16 @@ import java.time.format.FormatStyle
 import java.util.*
 
 /**
- * A potentially open date range. If both [from] and [to] are `null`, then the interval accepts any date.
- * @property to the maximum accepted value, inclusive. If `null` then the date range has no upper limit.
- * @property from the minimum accepted value, inclusive. If `null` then the date range has no lower limit.
+ * A potentially unbounded date range. If both [start] and [endInclusive] are `null`, then the interval accepts any date.
+ * @property start the minimum accepted value, inclusive. If `null` then the date range has no lower limit.
+ * @property endInclusive the maximum accepted value, inclusive. If `null` then the date range has no upper limit.
  */
-data class DateInterval(var from: LocalDate?, var to: LocalDate?) : Serializable {
-    /**
-     * True if the interval includes all possible dates (both [from] and [to] are `null`).
-     */
-    val isUniversalSet: Boolean
-        get() = from == null && to == null
-
+data class DateInterval(override var start: LocalDate?, override var endInclusive: LocalDate?) : Serializable, ClosedInterval<LocalDate> {
     companion object {
-        fun now(zoneId: ZoneId = browserTimeZone) = DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
+        /**
+         * Produces a degenerate date interval that only contains [LocalDate.now].
+         */
+        fun now(zoneId: ZoneId = browserTimeZone): DateInterval = DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
     }
 }
 
@@ -38,7 +35,9 @@ data class DateInterval(var from: LocalDate?, var to: LocalDate?) : Serializable
  * The current date range is also displayed as the caption of the button.
  */
 class DateRangePopup: CustomField<DateInterval>() {
-    private val formatter get() = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(UI.getCurrent().locale ?: Locale.getDefault())
+    private val formatter: DateTimeFormatter get() =
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                .withLocale(UI.getCurrent().locale ?: Locale.getDefault())
     private lateinit var fromField: DatePicker
     private lateinit var toField: DatePicker
     private lateinit var set: Button
@@ -98,8 +97,8 @@ class DateRangePopup: CustomField<DateInterval>() {
     }
 
     override fun setPresentationValue(newPresentationValue: DateInterval?) {
-        fromField.value = newPresentationValue?.from
-        toField.value = newPresentationValue?.to
+        fromField.value = newPresentationValue?.start
+        toField.value = newPresentationValue?.endInclusive
         updateCaption()
     }
 
