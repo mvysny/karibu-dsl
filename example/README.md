@@ -1,6 +1,7 @@
 # Beverage Buddy
 
-The Beverage Buddy example application.
+The Beverage Buddy example application. Serves just for Karibu-DSL developers to
+try out new DSL right away.
 
-OLD VERSION, DON'T USE. See [beverage-buddy-vok](https://github.com/mvysny/beverage-buddy-vok)
+See [beverage-buddy-vok](https://github.com/mvysny/beverage-buddy-vok)
 for a proper standalone port.
