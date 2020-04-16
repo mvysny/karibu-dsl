@@ -38,4 +38,4 @@ dependencies {
 }
 
 val configureBintray = ext["configureBintray"] as (artifactId: String) -> Unit
-configureBintray("karibu-dsl-v10")
+configureBintray("karibu-dsl")

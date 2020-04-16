@@ -22,7 +22,7 @@ This library:
 The documentation differs for Vaadin 8 and for Vaadin 10:
 
 * [Karibu-DSL Vaadin 8 tutorial](karibu-dsl-v8)
-* [Karibu-DSL Vaadin Platform (Vaadin 10+) tutorial](karibu-dsl-v10)
+* [Karibu-DSL Vaadin 13, 14, 15+ tutorial](karibu-dsl)
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*

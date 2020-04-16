@@ -1,6 +1,6 @@
 [![GitHub tag](https://img.shields.io/github/tag/mvysny/karibu-dsl.svg)](https://github.com/mvysny/karibu-dsl/tags)
 
-# Vaadin 10 DSL
+# Vaadin 14 DSL
 
 Compatibility chart:
 
@@ -8,7 +8,7 @@ Compatibility chart:
 |------------------------|----------|
 | 0.5.x | Vaadin 10, Vaadin 11, Vaadin 12 |
 | 0.6.x | Vaadin 13+ |
-| 0.7.x | Vaadin 14+ |
+| 0.7.x, 1.x.y | Vaadin 14+ |
 
 > Note: 0.7.x works with Vaadin 13 as well, with some limitations
   as outlined in [Issue #19](https://github.com/mvysny/karibu-dsl/issues/19).
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile("com.github.mvysny.karibudsl:karibu-dsl-v10:x.y.z")
+    compile("com.github.mvysny.karibudsl:karibu-dsl:x.y.z")
 }
 ```
 
@@ -41,7 +41,7 @@ Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a 
 	<dependencies>
 		<dependency>
 			<groupId>com.github.mvysny.karibudsl</groupId>
-			<artifactId>karibu-dsl-v10</artifactId>
+			<artifactId>karibu-dsl</artifactId>
 			<version>x.y.z</version>
 		</dependency>
     </dependencies>
