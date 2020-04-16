@@ -15,10 +15,6 @@ Compatibility chart:
 
 ## Using in your projects
 
-You'll probably want to use [Vaadin On Kotlin](http://www.vaadinonkotlin.eu) which makes use of this library and adds
-support for database, REST and other niceties, and has good documentation. However, if you just want to try out the Vaadin
-DSL bindings without any database and other stuff, please read on.
-
 You can include Karibu-DSL library into your WAR project very easily,
 simply by including appropriate Gradle dependency:
 
@@ -34,7 +30,7 @@ dependencies {
 
 > Note: obtain the newest version from the latest tag name above
 
-Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a dependency:
+Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a dependency:
 
 ```xml
 <project>
@@ -48,7 +44,7 @@ Maven: since Karibu-DSL is in Maven-Central, it's very simple, just add it as a 
 </project>
 ```
 
-However, to quickly test out Karibu DSL you can simply start with one
+To quickly test out Karibu DSL you can simply start with one
 of the example applications below.
 
 ### UI Basic Example Application
