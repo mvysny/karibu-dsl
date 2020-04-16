@@ -15,15 +15,20 @@ import java.util.*
 
 /**
  * A potentially unbounded date range. If both [start] and [endInclusive] are `null`, then the interval accepts any date.
+ *
+ * Immutable, thread-safe.
  * @property start the minimum accepted value, inclusive. If `null` then the date range has no lower limit.
  * @property endInclusive the maximum accepted value, inclusive. If `null` then the date range has no upper limit.
  */
-data class DateInterval(override var start: LocalDate?, override var endInclusive: LocalDate?) : Serializable, ClosedInterval<LocalDate> {
+data class DateInterval(override val start: LocalDate?, override val endInclusive: LocalDate?) : Serializable, ClosedInterval<LocalDate> {
     companion object {
+        val EMPTY = DateInterval(LocalDate.of(2000, 1, 2), LocalDate.of(2000, 1, 1))
+        val UNIVERSAL = DateInterval(null, null)
         /**
          * Produces a degenerate date interval that only contains [LocalDate.now].
          */
         fun now(zoneId: ZoneId = browserTimeZone): DateInterval = DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
+        fun of(localDate: LocalDate): DateInterval = DateInterval(localDate, localDate)
     }
 }
 
@@ -102,10 +107,10 @@ class DateRangePopup: CustomField<DateInterval>() {
         updateCaption()
     }
 
-    private fun format(date: LocalDate?) = if (date == null) "" else formatter.format(date)
+    private fun format(date: LocalDate?): String = if (date == null) "" else formatter.format(date)
 
     private fun updateCaption() {
-        val value = value
+        val value: DateInterval? = value
         if (value == null) {
             content.text = karibuDslI18n("all")
         } else {
@@ -130,5 +135,5 @@ class DateRangePopup: CustomField<DateInterval>() {
     override fun isRequiredIndicatorVisible(): Boolean = fromField.isRequiredIndicatorVisible
 }
 
-fun (@VaadinDsl HasComponents).dateRangePopup(block: (@VaadinDsl DateRangePopup).() -> Unit = {})
+fun (@VaadinDsl HasComponents).dateRangePopup(block: (@VaadinDsl DateRangePopup).() -> Unit = {}): DateRangePopup
         = init(DateRangePopup(), block)

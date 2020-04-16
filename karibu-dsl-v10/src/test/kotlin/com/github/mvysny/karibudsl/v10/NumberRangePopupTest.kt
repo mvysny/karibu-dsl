@@ -1,34 +1,26 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.*
-import com.vaadin.flow.component.UI
+import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.button.Button
-import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dialog.Dialog
-import java.time.LocalDate
-import kotlin.test.*
+import com.vaadin.flow.component.textfield.TextField
+import kotlin.test.expect
+import kotlin.test.fail
 
-class DateRangePopupTest : DynaTest({
+class NumberRangePopupTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
-    lateinit var component: DateRangePopup
-    beforeEach { component = DateRangePopup() }
+    lateinit var component: NumberRangePopup
+    beforeEach { component = NumberRangePopup() }
 
     test("Initial value is null") {
         expect(null) { component.value }
     }
 
-    test("dsl") {
-        UI.getCurrent().apply {
-            dateRangePopup()
-        }
-        _expectOne<DateRangePopup>()
-    }
-
     test("setting the value preserves the value") {
-        component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
-        expect(DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))) { component.value!! }
+        component.value = NumberInterval(5.0, 25.0)
+        expect(NumberInterval(5.0, 25.0)) { component.value!! }
     }
 
     group("value change listener tests") {
@@ -40,28 +32,28 @@ class DateRangePopupTest : DynaTest({
         }
 
         test("Setting the value programatically triggers value change listeners") {
-            lateinit var newValue: DateInterval
+            lateinit var newValue: NumberInterval<Double>
             component.addValueChangeListener {
                 expect(false) { it.isFromClient }
                 expect(null) { it.oldValue }
                 newValue = it.value
             }
-            component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
-            expect(DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))) { newValue }
+            component.value = NumberInterval(5.0, 25.0)
+            expect(NumberInterval(5.0, 25.0)) { newValue }
         }
 
         test("value change won't trigger unregistered change listeners") {
             component.addValueChangeListener {
                 fail("should not be fired")
             } .remove()
-            component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
+            component.value = NumberInterval(5.0, 25.0)
         }
     }
 
     group("popup tests") {
         beforeEach {
             // open popup
-            component.isDialogVisible = true
+            (component.content as Button)._click()
             _get<Dialog>() // expect the dialog to pop up
         }
 
@@ -75,15 +67,16 @@ class DateRangePopupTest : DynaTest({
         }
 
         test("setting the value while the dialog is opened propagates the values to date fields") {
-            component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
-            expect(LocalDate.of(2010, 1, 1)) { _get<DatePicker> { caption = "From (inclusive):" } .value }
-            expect(LocalDate.of(2012, 1, 1)) { _get<DatePicker> { caption = "To (inclusive):" } .value }
+            component.value = NumberInterval(5.0, 25.0)
+            expect("5") { _get<TextField> { placeholder = "From (inclusive):" } .value }
+            expect("25") { _get<TextField> { placeholder = "To (inclusive):" } .value }
         }
 
         test("Clear properly sets the value to null") {
-            component.value = DateInterval.now()
+            component.value = NumberInterval(25.0, 35.0)
             var wasCalled = false
             component.addValueChangeListener {
+                expect(true) { it.isFromClient }
                 expect(null) { it.value }
                 wasCalled = true
             }
@@ -94,14 +87,15 @@ class DateRangePopupTest : DynaTest({
         }
 
         test("Set properly sets the value to null if nothing is filled in") {
-            component.value = DateInterval.now()
+            component.value = NumberInterval(25.0, 35.0)
             var wasCalled = false
             component.addValueChangeListener {
+                expect(true) { it.isFromClient }
                 expect(null) { it.value }
                 wasCalled = true
             }
-            _get<DatePicker> { caption = "From (inclusive):" } .value = null
-            _get<DatePicker> { caption = "To (inclusive):" } .value = null
+            _get<TextField> { placeholder = "From (inclusive):" } .value = ""
+            _get<TextField> { placeholder = "To (inclusive):" } .value = ""
             _get<Button> { caption = "Set" } ._click()
             expect(true) { wasCalled }
             expect(null) { component.value }
@@ -111,14 +105,15 @@ class DateRangePopupTest : DynaTest({
         test("Set properly sets the value in") {
             var wasCalled = false
             component.addValueChangeListener {
-                expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { it.value }
+                expect(true) { it.isFromClient }
+                expect(NumberInterval(25.0, 35.0)) { it.value }
                 wasCalled = true
             }
-            _get<DatePicker> { caption = "From (inclusive):" } .value = LocalDate.of(2010, 11, 1)
-            _get<DatePicker> { caption = "To (inclusive):" } .value = LocalDate.of(2012, 1, 1)
+            _get<TextField> { placeholder = "From (inclusive):" } .value = "25"
+            _get<TextField> { placeholder = "To (inclusive):" } .value = "35"
             _get<Button> { caption = "Set" } ._click()
             expect(true) { wasCalled }
-            expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { component.value }
+            expect(NumberInterval(25.0, 35.0)) { component.value }
             _expectNone<Dialog>()  // the Set button must close the dialog
         }
     }
