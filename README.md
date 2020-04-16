@@ -13,7 +13,7 @@ Please visit [Vaadin-on-Kotlin](http://www.vaadinonkotlin.eu/) pages for the Get
 This library:
 
 * Allows you to create Vaadin UI designs in the structured code way; the idea behind the library
-  is explained in the [DSLs: Explained for Vaadin 10](https://www.vaadinonkotlin.eu/dsl_explained-v10.html) article
+  is explained in the [DSLs: Explained for Vaadin](https://www.vaadinonkotlin.eu/dsl_explained-v10.html) article
   (or for older Vaadin 8: [DSLs: Explained for Vaadin 8](https://www.vaadinonkotlin.eu/dsl_explained.html)).
   The general DSL idea is explained in [Kotlin Type-Safe Builders](https://kotlinlang.org/docs/reference/type-safe-builders.html).
 * (Vaadin 8 only): Auto-discovery and auto-mapping of Views via a custom Navigator
