@@ -19,12 +19,20 @@ class TabSheet : KComposite(), HasStyle, HasSize {
      */
     private val tabsToComponents: MutableMap<Tab, Component?> = mutableMapOf()
 
+    /**
+     * Maps [Tab] to the provider of the contents of the tab.
+     */
+    private val tabsToComponentProvider: MutableMap<Tab, ()->Component> = mutableMapOf()
+
     private val root = ui {
         verticalLayout(false, false) {
             setWidthFull(); content { align(stretch, top) }; addClassName("tabsheet")
 
             tabsComponent = tabs()
             tabsContainer = div {
+                setWidthFull()
+                // when TabSheet's height is defined, the following rules allow the container to grow or shrink as necessary.
+                isExpand = true; flexShrink = 1.0; minHeight = "0px"
                 element.classList.add("tabsheet-container")
             }
         }
@@ -64,11 +72,24 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     }
 
     /**
+     * Adds a new tab to the tab host, with optional [label]. The tab contents is
+     * constructed lazily when the tab is first shown.
+     */
+    fun addLazyTab(label: String? = null, contentsProvider: ()->Component): Tab {
+        val tab: Tab = tabsComponent.tab(label)
+        tabsToComponents[tab] = null
+        tabsToComponentProvider[tab] = contentsProvider
+        update()
+        return tab
+    }
+
+    /**
      * Sets the contents of given [tab] to [newContents].
      */
     fun setTabContents(tab: Tab, newContents: Component?) {
         checkOurTab(tab)
         tabsToComponents[tab] = newContents
+        tabsToComponentProvider.remove(tab)
         update()
     }
 
@@ -146,7 +167,22 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     private fun update() {
         val currentTabComponent: Component? = tabsContainer.children.findFirst().orElse(null)
         val selectedTab1: Tab? = selectedTab
-        val newTabComponent: Component? = if (selectedTab1 == null) null else tabsToComponents[selectedTab1]
+
+        var newTabComponent: Component?
+        if (selectedTab1 == null) {
+            newTabComponent = null
+        } else {
+            newTabComponent = tabsToComponents[selectedTab1]
+            if (newTabComponent == null) {
+                val provider = tabsToComponentProvider[selectedTab1]
+                if (provider != null) {
+                    newTabComponent = provider()
+                    tabsToComponentProvider.remove(selectedTab1)
+                    tabsToComponents[selectedTab1] = newTabComponent
+                }
+            }
+        }
+
         if (currentTabComponent != newTabComponent) {
             tabsContainer.removeAll()
             if (newTabComponent != null) {

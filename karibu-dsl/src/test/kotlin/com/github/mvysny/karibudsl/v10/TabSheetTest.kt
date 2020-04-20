@@ -7,9 +7,11 @@ import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10.expectList
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.html.Label
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.tabs.Tab
 import kotlin.test.expect
+import kotlin.test.fail
 
 class TabSheetTest : DynaTest({
     beforeEach { MockVaadin.setup() }
@@ -179,6 +181,32 @@ class TabSheetTest : DynaTest({
                 }
             }
             expect(tab) { th.findTabContaining(nested) }
+        }
+    }
+
+    group("lazy tabs") {
+        test("addFirstLazyTabImmediatelyInvokesClosure") {
+            val th = UI.getCurrent().tabSheet {}
+            val producedLabel = Label("baz")
+            th.addLazyTab("foo") { producedLabel }
+            expect(producedLabel) { th.selectedTab!!.contents }
+        }
+
+        test("addSecondLazyTabDelaysClosure") {
+            val th = UI.getCurrent().tabSheet {}
+            val producedLabel = Label("baz")
+            var allowInvoking = false
+            val tab1 = th.addTab("bar")
+            val tab2 = th.addLazyTab("foo") {
+                if (!allowInvoking) fail("Should not invoke")
+                producedLabel
+            }
+            expect(tab1) { th.selectedTab }
+            allowInvoking = true
+
+            th.selectedTab = tab2
+            expect(tab2) { th.selectedTab!! }
+            expect(producedLabel) { th.selectedTab!!.contents }
         }
     }
 })
