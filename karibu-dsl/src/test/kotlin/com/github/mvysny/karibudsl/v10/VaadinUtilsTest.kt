@@ -128,6 +128,8 @@ class VaadinUtilsTest : DynaTest({
             val button: Button = UI.getCurrent().button {}
             button.isAttached()
         }
+        UI.getCurrent().close()
+        expect(false) { UI.getCurrent().isAttached() }
     }
 
     test("insertBefore") {
