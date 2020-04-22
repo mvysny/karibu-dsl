@@ -3,12 +3,16 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.github.mvysny.kaributesting.v10._text
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.html.Div
+import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.orderedlayout.FlexLayout
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.dom.DomEventListener
+import kotlin.streams.toList
 import kotlin.test.expect
 
 class VaadinUtilsTest : DynaTest({
@@ -115,5 +119,25 @@ class VaadinUtilsTest : DynaTest({
     test("isNestedIn") {
         expect(false) { Button().isNestedIn(UI.getCurrent()) }
         expect(true) { UI.getCurrent().button().isNestedIn(UI.getCurrent()) }
+    }
+
+    test("isAttached") {
+        expect(true) { UI.getCurrent().isAttached() }
+        expect(false) { Button("foo").isAttached() }
+        expect(true) {
+            val button: Button = UI.getCurrent().button {}
+            button.isAttached()
+        }
+    }
+
+    test("insertBefore") {
+        val l = HorizontalLayout()
+        val first = Span("first")
+        l.addComponentAsFirst(first)
+        val second = Span("second")
+        l.insertBefore(second, first)
+        expect("second, first") { l.children.toList().map { it._text } .joinToString() }
+        l.insertBefore(Span("third"), first)
+        expect("second, third, first") { l.children.toList().map { it._text } .joinToString() }
     }
 })

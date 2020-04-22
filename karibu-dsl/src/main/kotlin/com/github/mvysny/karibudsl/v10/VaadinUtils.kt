@@ -114,5 +114,20 @@ fun Component.isNestedIn(potentialAncestor: Component) =
 /**
  * Checks whether this component is currently attached to an [UI].
  */
-// see https://github.com/vaadin/flow/issues/7911
-val Component.isAttached: Boolean get() = this is UI || ui.isPresent
+fun Component.isAttached(): Boolean {
+    // see https://github.com/vaadin/flow/issues/7911
+    val ui: UI = ui.orElse(null) ?: return false
+    return !ui.isClosing
+}
+
+/**
+ * Inserts this component as a child, right before an [existing] one.
+ *
+ * In case the specified component has already been added to another parent,
+ * it will be removed from there and added to this one.
+ */
+fun HasOrderedComponents<*>.insertBefore(newComponent: Component, existing: Component) {
+    val parent: Component = requireNotNull(existing.parent.orElse(null)) { "$existing has no parent" }
+    require(parent == this) { "$existing is not nested in $this" }
+    addComponentAtIndex(indexOf(existing), newComponent)
+}

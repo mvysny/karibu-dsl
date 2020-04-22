@@ -1,6 +1,8 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.Component
+import com.vaadin.flow.dom.Element
+import com.vaadin.flow.dom.Node
 import com.vaadin.flow.shared.util.SharedUtil
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -79,12 +81,21 @@ class ElementBooleanProperty(val defaultValue: Boolean) : ReadWriteProperty<Comp
 class ElementAttributeProperty(val defaultValue: String? = null) : ReadWriteProperty<Component, String?>, Serializable {
     override fun getValue(thisRef: Component, property: KProperty<*>): String? = thisRef.element.getAttribute(SharedUtil.camelCaseToDashSeparated(property.name)) ?: defaultValue
     override fun setValue(thisRef: Component, property: KProperty<*>, value: String?) {
-        val newValue = if (value == defaultValue) null else value
-        val attributeName = SharedUtil.camelCaseToDashSeparated(property.name)
+        val newValue: String? = if (value == defaultValue) null else value
+        val attributeName: String = SharedUtil.camelCaseToDashSeparated(property.name)
         if (newValue == null) {
             thisRef.element.removeAttribute(attributeName)
         } else {
             thisRef.element.setAttribute(attributeName, newValue)
         }
     }
+}
+
+/**
+ * Inserts [newNode] as a child, right before an [existingNode].
+ */
+fun Element.insertBefore(newNode: Element, existingNode: Element) {
+    val parent: Element = requireNotNull(existingNode.parent) { "$existingNode has no parent element" }
+    require(parent == this) { "$existingNode is not nested in $this" }
+    insertChild(indexOfChild(existingNode), newNode)
 }
