@@ -24,8 +24,8 @@ class FormLayoutsTest : DynaTest({
             formItem("Name:") { textField() }
         }
         expect("""└── FormLayout[]
-    └── KFormItem[]
-        ├── Label[text='Name:']
+    └── KFormItem[caption='Name:']
+        ├── Label[slot='label', text='Name:']
         └── TextField[value='']""") { layout.toPrettyTree().trim() }
     }
     test("colspan") {
