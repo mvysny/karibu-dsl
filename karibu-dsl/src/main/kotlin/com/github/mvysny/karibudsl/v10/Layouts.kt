@@ -73,17 +73,26 @@ fun (@VaadinDsl HasComponents).horizontalLayout(
  *
  * Warning: in case of [Grid.Column] it returns/sets the value of [Grid.Column.setFlexGrow].
  */
-var (@VaadinDsl Component).flexGrow: Double
+var (@VaadinDsl Component).flexGrow: Double?
     get() {
         if (this is Grid.Column<*>) return this.flexGrow.toDouble()
-        val value = element.style.get("flexGrow")
-        return if (value.isNullOrBlank()) 0.0 else value.toDouble()
+        val value: String? = element.style.get("flexGrow")
+        return if (value.isNullOrBlank()) null else value.toDouble()
     }
     set(value) {
         when {
-            this is Grid.Column<*> -> this.flexGrow = value.toInt()
-            value == 0.0 -> element.style.remove("flexGrow")
-            value > 0.0 -> element.style.set("flexGrow", value.toString())
+            this is Grid.Column<*> -> {
+                if (value == null) {
+                    element.removeProperty("flexGrow")
+                } else {
+                    this.flexGrow = value.toInt()
+                }
+            }
+            // don't rely on the default flex-grow value of 0:
+            // it could have been changed by a CSS to something else, and we might need
+            // to enforce it back to zero for this element.
+            value == null -> element.style.remove("flexGrow")
+            value >= 0.0 -> element.style.set("flexGrow", value.toString())
             else -> throw IllegalArgumentException("Flex grow property cannot be negative: $flexGrow")
         }
     }
@@ -93,7 +102,9 @@ var (@VaadinDsl Component).flexGrow: Double
  * setting [flexGrow] to 1.0; see [flexGrow] for more information.
  */
 var (@VaadinDsl Component).isExpand: Boolean
-    get() = flexGrow > 0
+    get() {
+        return (flexGrow ?: 0.0) > 0
+    }
     set(value) {
         flexGrow = if (value) 1.0 else 0.0
     }
@@ -105,13 +116,13 @@ var (@VaadinDsl Component).isExpand: Boolean
  *
  * Get more information at [flex-shrink](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink)
  */
-var (@VaadinDsl Component).flexShrink: Double
-    get() = element.style.get("flexShrink")?.toDouble() ?: 1.0
+var (@VaadinDsl Component).flexShrink: Double?
+    get() = element.style.get("flexShrink")?.toDouble()
     set(value) {
-        when (value) {
-            1.0 -> element.style.remove("flexShrink")
-            else -> element.style.set("flexShrink", value.toString())
-        }
+        // don't rely on the default flex-shrink value of 1:
+        // it could have been changed by a CSS to something else, and we might need
+        // to enforce it back to 1 for this element.
+        element.style.set("flexShrink", value?.toString())
     }
 
 /**

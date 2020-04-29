@@ -33,14 +33,14 @@ class LayoutsTest : DynaTest({
             button.element.style.set("flexGrow", "25")
             expect(25.0) { button.flexGrow }
         }
-        test("setting flexGrow to 0 removes the style") {
+        test("setting flexGrow to null removes the style") {
             val button = Button()
             button.element.style.set("flexGrow", "25")
-            button.flexGrow = 0.0
+            button.flexGrow = null
             expect(null) { button.element.style.get("flexGrow") }
         }
-        test("by default component has flexGrow of 0") {
-            expect(0.0) { Button().flexGrow }
+        test("by default component has flexGrow of null") {
+            expect(null) { Button().flexGrow }
         }
         test("setting negative flexGrow fails") {
             expectThrows(IllegalArgumentException::class) {
@@ -49,13 +49,25 @@ class LayoutsTest : DynaTest({
         }
     }
 
+    test("expand") {
+        val button = Button()
+        expect(false) { button.isExpand }
+        button.isExpand = true
+        expect(true) { button.isExpand }
+        button.isExpand = false
+        expect(false) { button.isExpand }
+    }
+
     test("flexShrink") {
         val button = Button()
-        expect(1.0) { button.flexShrink }
+        expect(null) { button.flexShrink }
         button.flexShrink = 0.0
-        expect(0.0) { button.flexShrink }
+        expect<Double?>(0.0) { button.flexShrink }
         button.flexShrink = 1.0
-        expect(1.0) { button.flexShrink }
+        expect<Double?>(1.0) { button.flexShrink }
+        expect("1.0") { button.element.style.get("flexShrink") }
+        button.flexShrink = null
+        expect(null) { button.flexShrink }
         expect(null) { button.element.style.get("flexShrink") }
     }
 
