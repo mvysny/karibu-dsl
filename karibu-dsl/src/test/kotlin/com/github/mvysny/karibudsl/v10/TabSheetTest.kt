@@ -30,7 +30,7 @@ class TabSheetTest : DynaTest({
         expect(0) { th.tabCount }
     }
 
-    test("Adding a tab to an empty tabhost selects it immediately") {
+    test("Adding a tab to an empty TabSheet selects it immediately") {
         lateinit var tab: Tab
         val th = UI.getCurrent().tabSheet {
             tab = tab("foo") {
@@ -44,7 +44,7 @@ class TabSheetTest : DynaTest({
         _expectOne<Span> { text = "it works!" }
     }
 
-    test("Adding a tab to a non-empty tabhost doesn't change the selection") {
+    test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
         lateinit var tab: Tab
         lateinit var tab2: Tab
         val th = UI.getCurrent().tabSheet {
