@@ -18,20 +18,40 @@ import java.util.*
 import kotlin.reflect.KProperty1
 
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).grid(dataProvider: DataProvider<T, *>? = null, block: (@VaadinDsl Grid<T>).() -> Unit = {}): Grid<T> {
-    val grid = Grid<T>()
+inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
+        dataProvider: DataProvider<T, *>? = null,
+        noinline block: (@VaadinDsl Grid<T>).() -> Unit = {}
+): Grid<T> {
+    val grid = Grid<T>(T::class.java, false)
     if (dataProvider != null) {
         grid.dataProvider = dataProvider
     }
+    grid.hotfixMissingHeaderRow()
     return init(grid, block)
 }
 
+/**
+ * Workaround for https://github.com/vaadin/vaadin-grid-flow/issues/912
+ *
+ * Internal, do not use. Automatically called from [grid] and [treeGrid].
+ */
+fun Grid<*>.hotfixMissingHeaderRow() {
+    if (headerRows.size == 0) {
+        appendHeaderRow()
+    }
+}
+
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(dataProvider: HierarchicalDataProvider<T, *>? = null, block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}): TreeGrid<T> {
-    val grid = TreeGrid<T>()
+inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
+        dataProvider: HierarchicalDataProvider<T, *>? = null,
+        noinline block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
+): TreeGrid<T> {
+    val grid = TreeGrid<T>(T::class.java)
+    grid.removeAllColumns() // workaround for https://github.com/vaadin/vaadin-grid-flow/issues/973
     if (dataProvider != null) {
         (grid as Grid<T>).dataProvider = dataProvider
     }
+    grid.hotfixMissingHeaderRow()
     return init(grid, block)
 }
 

@@ -19,6 +19,15 @@ class GridTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
 
+    group("grid dsl") {
+        test("basic properties") {
+            val grid: Grid<String> = UI.getCurrent().grid<String>()
+            expect(1) { grid.headerRows.size }
+            expect(0) { grid.columns.size }
+            expect(String::class.java) { grid.beanType }
+        }
+    }
+
     group("addColumnFor tests") {
         test("grid addColumnFor works both for nullable and non-null properties") {
             data class TestingClass(var foo: String?, var bar: String, var nonComparable: List<String>)
@@ -144,6 +153,12 @@ class GridTest : DynaTest({
         test("smoke") {
             UI.getCurrent().treeGrid<String>()
             _expectOne<TreeGrid<*>>()
+        }
+        test("basic properties") {
+            val grid: TreeGrid<String> = UI.getCurrent().treeGrid<String>()
+            expect(1) { grid.headerRows.size }
+            expect(0) { grid.columns.size }
+            expect(String::class.java) { grid.beanType }
         }
     }
 })
