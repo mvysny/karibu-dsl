@@ -70,7 +70,7 @@ fun GeneratedVaadinTextField<*, String>.selectAll() {
  * the text. There may be no effect if the field is unfocused - the browser
  * generally selects all when the field gains focus.
  */
-fun GeneratedVaadinTextField<*, String>.selectNone() {
+fun <R: GeneratedVaadinTextField<R, String>> R.selectNone() {
     setCursorLocation(value?.length ?: 0)
 }
 
@@ -107,7 +107,7 @@ fun GeneratedVaadinTextArea<*, String>.selectAll() {
  * the text. There may be no effect if the field is unfocused - the browser
  * generally selects all when the field gains focus.
  */
-fun GeneratedVaadinTextArea<*, String>.selectNone() {
+fun <R: GeneratedVaadinTextArea<R, String>> R.selectNone() {
     setCursorLocation(value?.length ?: 0)
 }
 
