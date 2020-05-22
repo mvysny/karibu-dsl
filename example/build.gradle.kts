@@ -29,3 +29,7 @@ dependencies {
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
+
+vaadin {
+    pnpmEnable = true
+}

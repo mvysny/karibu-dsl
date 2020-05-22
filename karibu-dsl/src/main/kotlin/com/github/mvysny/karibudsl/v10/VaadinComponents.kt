@@ -107,48 +107,12 @@ fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}
         = init(Dialog(), block)
 
 /**
- * Creates a [Password Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
- * of possible alternative themes.
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@VaadinDsl PasswordField).() -> Unit = {}): PasswordField
-        = init(PasswordField(label), block)
-
-/**
  * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
  * of possible alternative themes.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() -> Unit = {}): SplitLayout
         = init(SplitLayout(), block)
-
-/**
- * Creates a [Text Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
- * of possible alternative themes.
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {}): TextField
-        = init(TextField(label), block)
-
-/**
- * Creates a [Email Field](https://vaadin.com/components/vaadin-text-field). See the HTML Examples link for a list
- * of possible alternative themes.
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@VaadinDsl EmailField).() -> Unit = {}): EmailField
-        = init(EmailField(label), block)
-
-/**
- * Creates a [Number Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
- * of possible alternative themes.
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).numberField(label: String? = null, block: (@VaadinDsl NumberField).() -> Unit = {}): NumberField
-        = init(NumberField(label), block)
-
-@VaadinDsl
-fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}): TextArea
-        = init(TextArea(label), block)
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}) = init(Tabs(), block)
@@ -168,25 +132,9 @@ fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@Vaadin
         = init(TimePicker(label), block)
 
 /**
- * Creates a [Integer Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
- * of possible alternative themes.
- *
- * Only available starting with Vaadin 14.1.
+ * A [java.time.LocalDateTime] editor.
+ * @since Vaadin 14.2
  */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@VaadinDsl IntegerField).() -> Unit = {}): IntegerField
-        = init(IntegerField(label), block)
-
-/**
- * Creates a [BigDecimal Field](https://vaadin.com/components/vaadin-number-field/java-examples/number-field). See the HTML Examples link for a list
- * of possible alternative themes.
- *
- * Only available starting with Vaadin 14.1.
- */
-@VaadinDsl
-fun (@VaadinDsl HasComponents).bigDecimalField(label: String? = null, block: (@VaadinDsl BigDecimalField).() -> Unit = {}): BigDecimalField
-        = init(BigDecimalField(label), block)
-
 @VaadinDsl
 fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@VaadinDsl DateTimePicker).() -> Unit = {}): DateTimePicker {
     val picker = DateTimePicker()
@@ -205,6 +153,8 @@ fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@Va
  *   }
  * }
  * ```
+ *
+ * @since Vaadin 14.2
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,

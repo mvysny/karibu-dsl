@@ -36,9 +36,13 @@ inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
  * Internal, do not use. Automatically called from [grid] and [treeGrid].
  */
 fun Grid<*>.hotfixMissingHeaderRow() {
+    // don't do this yet: it's not yet possible to remove the header row: https://github.com/vaadin/vaadin-grid-flow/issues/480
+    // also https://github.com/vaadin/vaadin-grid-flow/issues/912
+/*
     if (headerRows.size == 0) {
         appendHeaderRow()
     }
+*/
 }
 
 @VaadinDsl

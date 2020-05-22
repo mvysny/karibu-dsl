@@ -11,4 +11,4 @@ out
 target
 node_modules
 webpack.generated.js
-example/node
+example/pnpmfile.js
