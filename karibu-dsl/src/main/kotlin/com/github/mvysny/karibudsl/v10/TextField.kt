@@ -57,42 +57,74 @@ fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@Vaad
 fun (@VaadinDsl HasComponents).bigDecimalField(label: String? = null, block: (@VaadinDsl BigDecimalField).() -> Unit = {}): BigDecimalField
         = init(BigDecimalField(label), block)
 
+/**
+ * Selects all text in this text field. The selection is not really visible in
+ * the browser unless the field is focused.
+ */
 fun GeneratedVaadinTextField<*, String>.selectAll() {
     getElement().executeJs("this.inputElement.select()");
 }
 
+/**
+ * Clears the selection in the text field and moves the cursor to the end of
+ * the text. There may be no effect if the field is unfocused - the browser
+ * generally selects all when the field gains focus.
+ */
 fun GeneratedVaadinTextField<*, String>.selectNone() {
-    setCursorLocation(0)
+    setCursorLocation(value?.length ?: 0)
 }
 
 /**
  * Moves the cursor within the text field. Has the side-effect of clearing the selection.
+ *
+ * There may be no effect if the field is unfocused - the browser
+ * generally selects all when the field gains focus.
  */
 fun GeneratedVaadinTextField<*, String>.setCursorLocation(cursorLocation: Int) {
     select(cursorLocation until cursorLocation)
 }
 
+/**
+ * Selects given characters in this text field. The selection is not really visible in
+ * the browser unless the field is focused.
+ */
 fun GeneratedVaadinTextField<*, String>.select(selection: IntRange) {
     require(selection.first >= 0)
     require(selection.last >= -1)
     getElement().executeJs("this.inputElement.setSelectionRange(${selection.first}, ${selection.last + 1})")
 }
 
+/**
+ * Selects all text in this text field. The selection is not really visible in
+ * the browser unless the field is focused.
+ */
 fun GeneratedVaadinTextArea<*, String>.selectAll() {
     getElement().executeJs("this.inputElement.select()")
 }
 
+/**
+ * Clears the selection in the text field and moves the cursor to the end of
+ * the text. There may be no effect if the field is unfocused - the browser
+ * generally selects all when the field gains focus.
+ */
 fun GeneratedVaadinTextArea<*, String>.selectNone() {
-    setCursorLocation(0)
+    setCursorLocation(value?.length ?: 0)
 }
 
 /**
  * Moves the cursor within the text field. Has the side-effect of clearing the selection.
+ *
+ * There may be no effect if the field is unfocused - the browser
+ * generally selects all when the field gains focus.
  */
 fun GeneratedVaadinTextArea<*, String>.setCursorLocation(cursorLocation: Int) {
     select(cursorLocation until cursorLocation)
 }
 
+/**
+ * Selects given characters in this text field. The selection is not really visible in
+ * the browser unless the field is focused.
+ */
 fun GeneratedVaadinTextArea<*, String>.select(selection: IntRange) {
     require(selection.first >= 0)
     require(selection.last >= -1)
