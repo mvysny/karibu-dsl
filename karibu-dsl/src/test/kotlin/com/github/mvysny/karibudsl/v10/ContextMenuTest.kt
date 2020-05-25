@@ -12,9 +12,11 @@ class ContextMenuTest : DynaTest({
         UI.getCurrent().button {
             contextMenu {
                 item("save", { _ -> println("saved") })
+                separator()
                 item("style") {
                     item("bold", { _ -> println("bold") })
                     item("italic", { _ -> println("italic") })
+                    separator()
                 }
                 item("clear", { _ -> println("clear") })
             }

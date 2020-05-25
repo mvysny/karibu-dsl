@@ -102,3 +102,27 @@ fun <T> (@VaadinDsl GridContextMenu<T>).item(component: Component, clickListener
 fun <T> (@VaadinDsl GridMenuItem<T>).item(component: Component, clickListener: ((T?)->Unit)? = null,
                                block: (@VaadinDsl GridMenuItem<T>).()->Unit = {}): GridMenuItem<T> =
         subMenu.addItem(component, clickListener.toListener).apply { block() }
+
+@VaadinDsl
+fun (@VaadinDsl MenuItem).separator() {
+    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
+    hr()
+}
+
+@VaadinDsl
+fun (@VaadinDsl GridMenuItem<*>).separator() {
+    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
+    hr()
+}
+
+@VaadinDsl
+fun (@VaadinDsl ContextMenu).separator() {
+    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
+    hr()
+}
+
+@VaadinDsl
+fun (@VaadinDsl GridContextMenu<*>).separator() {
+    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
+    hr()
+}
