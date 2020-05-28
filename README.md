@@ -45,6 +45,19 @@ Supports:
 * [Vaadin 13/14/15+](https://vaadin.com/)
 * Older [Vaadin 8](https://vaadin.com/vaadin-8) (including support for v7 compatibility package)
 
+## Example Projects
+
+Vaadin 14:
+
+* Simple one-page-one-button example app: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
+* A simple database-backed one-page task list app: [vaadin-kotlin-pwa](https://github.com/mvysny/vaadin-kotlin-pwa)
+* Two-page app demoing grids and database: [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
+
+Vaadin 8:
+
+* Simple one-page-one-button example app: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
+* Component palette: demoes all components and their usage: [Component Palette](https://github.com/mvysny/karibu-dsl/tree/master/karibu-dsl-v8#component-palette-app)
+
 ## Upgrading
 
 The Maven dependency `groupId` has been changed in order for the library to be eligible for Maven Central. Also, all files have been moved to a proper package.
