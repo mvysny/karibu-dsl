@@ -20,7 +20,7 @@ dependencies {
         exclude(module = "jakarta.validation-api")
     }
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
-    implementation("org.glassfish:javax.el:3.0.1-b08")
+    implementation("org.glassfish:javax.el:3.0.1-b11")
 }
 
 val configureBintray = ext["configureBintray"] as (artifactId: String) -> Unit
