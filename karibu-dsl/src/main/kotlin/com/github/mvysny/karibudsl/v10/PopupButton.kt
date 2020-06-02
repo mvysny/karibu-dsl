@@ -77,8 +77,11 @@ class PopupButton(caption: String = "") : KComposite(), HasSize {
         menu.element.executeJs("this._subMenu.close()")
     }
 
-    override fun getChildren(): Stream<Component> =
-            (super.getChildren().toList() + menuItem.subMenu.children.toList()).stream()
+    override fun getChildren(): Stream<Component> {
+        // The MenuItem does not list the subMenu's children, we need to do that explicitly
+        // so that Karibu-Testing is able to locate components in the popup content.
+        return (super.getChildren().toList() + menuItem.subMenu.children.toList()).stream()
+    }
 }
 
 @VaadinDsl
