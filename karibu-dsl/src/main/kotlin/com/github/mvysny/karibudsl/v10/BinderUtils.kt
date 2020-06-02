@@ -19,11 +19,17 @@ import java.time.LocalDateTime
  * Trims the user input string before storing it into the underlying property data source. Vital for mobile-oriented apps:
  * Android keyboard often adds whitespace to the end of the text when auto-completion occurs. Imagine storing a username ending with a space upon registration:
  * such person can no longer log in from his PC unless he explicitly types in the space.
+ * @param blanksToNulls if true then a blank String value is passed as `null` to the model. Defaults to false.
  */
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(): Binder.BindingBuilder<BEAN, String?> =
+fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(blanksToNulls: Boolean = false): Binder.BindingBuilder<BEAN, String?> =
         withConverter(object : Converter<String?, String?> {
-            override fun convertToModel(value: String?, context: ValueContext?): Result<String?> =
-                    Result.ok(value?.trim())
+            override fun convertToModel(value: String?, context: ValueContext?): Result<String?> {
+                var trimmedValue: String? = value?.trim()
+                if (blanksToNulls && trimmedValue.isNullOrBlank()) {
+                    trimmedValue = null
+                }
+                return Result.ok(trimmedValue)
+            }
 
             override fun convertToPresentation(value: String?, context: ValueContext?): String? {
                 // must not return null here otherwise TextField will fail with NPE:
