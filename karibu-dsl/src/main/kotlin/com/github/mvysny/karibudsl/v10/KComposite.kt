@@ -47,7 +47,6 @@ abstract class KComposite(private var root: Component? = null) : Composite<Compo
     // not to override the getContent() function since that will wreak havoc with Karibu-Testing
     final override fun getContent(): Component = super.getContent()
     final override fun getElement(): Element = super.getElement()
-    final override fun getChildren(): Stream<Component> =  super.getChildren()
 
     /**
      * Initializes the UI of this composite. Returns the component created by the block, so that we can store the created
