@@ -60,14 +60,6 @@ Vaadin 8:
 
 ## Upgrading
 
-The Maven dependency `groupId` has been changed in order for the library to be eligible for Maven Central. Also, all files have been moved to a proper package.
-To upgrade to 0.5.x from 0.4.x:
-
-* Change the `groupId` from `com.github.vok.karibudsl` to `com.github.mvysny.karibudsl`
-* In all of your Vaadin 8 project files, search for a string `import com.github.vok.karibudsl.` and replace it with `import com.github.mvysny.karibudsl.v8.`. You can easily achieve this with
-  Intellij, by launching _Replace In Path_ via `Ctrl+Shift+R` and selecting the Scope of _Whole Project_. For Vaadin 10-based project, search for `import com.github.vok.karibudsl.flow.`
-  and replace that with `import com.github.mvysny.karibudsl.v10.` instead.
-
 To upgrade to 1.0.0 from 0.x.y:
 * Change the `karibu-dsl-v10` dependency to just `karibu-dsl`.
 
