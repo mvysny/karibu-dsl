@@ -1,10 +1,22 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.vaadin.flow.component.HasStyle
 import java.beans.Introspector
 import java.beans.PropertyDescriptor
 import java.lang.reflect.Method
 
 fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
+
+private val regexWhitespace = Regex("\\s+")
+internal fun String.splitByWhitespaces(): List<String> = split(regexWhitespace).filterNot { it.isBlank() }
+
+/**
+ * Splits this string by whitespaces to obtain individual class names, then
+ * calls [HasStyle.addClassName] on each class name.
+ */
+internal fun String.feedClassNamesTo(target: HasStyle) {
+    splitByWhitespaces().forEach { target.addClassName(it) }
+}
 
 object Utils {
     val messages: Map<String, String> = mapOf("cantConvertToInteger" to "Can't convert to integer",

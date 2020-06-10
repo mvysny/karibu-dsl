@@ -6,6 +6,10 @@ import com.github.mvysny.dynatest.expectThrows
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.orderedlayout.FlexComponent
+import com.vaadin.flow.component.orderedlayout.FlexLayout
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import kotlin.reflect.KClass
 import kotlin.test.expect
 
 class LayoutsTest : DynaTest({
@@ -16,6 +20,27 @@ class LayoutsTest : DynaTest({
         UI.getCurrent().flexLayout {
             verticalLayout()
             horizontalLayout()
+        }
+    }
+
+    group("class names") {
+        test("flex layout") {
+            var layout: FlexLayout = UI.getCurrent().flexLayout()
+            expect(null) { layout.className }
+            layout = UI.getCurrent().flexLayout("foo bar foo")
+            expect("foo bar") { layout.className }
+        }
+        test("vertical layout") {
+            var layout: VerticalLayout = UI.getCurrent().verticalLayout()
+            expect(null) { layout.className }
+            layout = UI.getCurrent().verticalLayout(classNames = "foo bar foo")
+            expect("foo bar") { layout.className }
+        }
+        test("horizontal layout") {
+            var layout: HorizontalLayout = UI.getCurrent().horizontalLayout()
+            expect(null) { layout.className }
+            layout = UI.getCurrent().horizontalLayout(classNames = "foo bar foo")
+            expect("foo bar") { layout.className }
         }
     }
 

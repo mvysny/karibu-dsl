@@ -33,10 +33,14 @@ class KFormLayout : FormLayout() {
 /**
  * Creates a [Form Layout](https://vaadin.com/elements/vaadin-form-layout). See the HTML Examples link for a list
  * of possible alternative themes for the layout.
+ * @param classNames optional additional class names, space-separated
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).formLayout(block: (KFormLayout).() -> Unit = {})
-        = init(KFormLayout(), block)
+fun (@VaadinDsl HasComponents).formLayout(classNames: String = "", block: (KFormLayout).() -> Unit = {}): KFormLayout {
+    val layout = KFormLayout()
+    classNames.feedClassNamesTo(layout)
+    return init(layout, block)
+}
 
 /**
  * Makes [addToLabel] public so that we can call it.
@@ -52,12 +56,13 @@ internal class KFormItem : FormLayout.FormItem() {
  * documentation for more details.
  */
 @VaadinDsl
-fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {})
-        = init<FormLayout.FormItem>(KFormItem()) {
-    if (label != null) {
-        (this as KFormItem).addToLabel(label)
+fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem {
+    val item: KFormItem = KFormItem().apply {
+        if (label != null) {
+            addToLabel(label)
+        }
     }
-    block()
+    return init(item, block)
 }
 
 /**
@@ -65,7 +70,7 @@ fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDs
  * documentation for more details.
  */
 @VaadinDsl
-fun (@VaadinDsl FormLayout).formItem(label: String, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}) =
+fun (@VaadinDsl FormLayout).formItem(label: String, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem =
         formItem(Label(label), block)
 
 /**

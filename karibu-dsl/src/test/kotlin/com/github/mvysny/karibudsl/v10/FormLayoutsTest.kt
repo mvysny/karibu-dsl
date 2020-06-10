@@ -19,6 +19,12 @@ class FormLayoutsTest : DynaTest({
             layout.element.getProperty("responsiveSteps")
         }
     }
+    test("class names") {
+        var layout: KFormLayout = UI.getCurrent().formLayout()
+        expect(null) { layout.className }
+        layout = UI.getCurrent().formLayout("foo bar foo")
+        expect("foo bar") { layout.className }
+    }
     test("form items") {
         val layout = FormLayout().apply {
             formItem("Name:") { textField() }

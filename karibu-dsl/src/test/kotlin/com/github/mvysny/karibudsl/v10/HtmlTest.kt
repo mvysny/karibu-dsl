@@ -3,8 +3,10 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.server.InputStreamFactory
 import com.vaadin.flow.server.StreamResource
+import kotlin.test.expect
 
 class HtmlTest : DynaTest({
     beforeEach { MockVaadin.setup() }
@@ -45,5 +47,12 @@ class HtmlTest : DynaTest({
             pre()
             ul()
         }
+    }
+
+    test("div class names") {
+        var layout: Div = UI.getCurrent().div()
+        expect(null) { layout.className }
+        layout = UI.getCurrent().div("foo bar foo")
+        expect("foo bar") { layout.className }
     }
 })

@@ -8,9 +8,16 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 
+/**
+ * Creates a div.
+ * @param classNames optional additional class names, space-separated
+ */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).div(block: (@VaadinDsl Div).() -> Unit = {}): Div
-        = init(Div(), block)
+fun (@VaadinDsl HasComponents).div(classNames: String = "", block: (@VaadinDsl Div).() -> Unit = {}): Div {
+    val div = Div()
+    classNames.feedClassNamesTo(div)
+    return init(div, block)
+}
 
 @VaadinDsl
 fun (@VaadinDsl HasComponents).h1(text: String = "", block: (@VaadinDsl H1).() -> Unit = {}): H1
