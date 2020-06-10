@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.github.mvysny.kaributesting.v10.expectRows
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.ironlist.IronList
 
@@ -13,12 +14,13 @@ class IronListTest : DynaTest({
     group("iron list dsl") {
         test("basic properties") {
             val il: IronList<String> = UI.getCurrent().ironList<String>()
-            // todo assert that it has 0 items. Need support from Karibu-Testing
+            il.refresh()
+            il.expectRows(0)
         }
     }
 
     test("serialization") {
-        val il = IronList<Person>().apply {
+        val il: IronList<Person> = IronList<Person>().apply {
             setRenderer { it.toString() }
         }
         il.cloneBySerialization()
