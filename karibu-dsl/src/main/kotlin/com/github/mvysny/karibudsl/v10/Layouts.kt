@@ -8,9 +8,14 @@ import com.vaadin.flow.component.orderedlayout.*
 /**
  * Creates a [Flex Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
  * of possible alternative themes for the button.
+ * @param classNames optional additional class names, space-separated
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> Unit = {}) = init(FlexLayout(), block)
+fun (@VaadinDsl HasComponents).flexLayout(classNames: String = "", block: (@VaadinDsl FlexLayout).() -> Unit = {}): @VaadinDsl FlexLayout {
+    val layout = FlexLayout()
+    classNames.feedClassNamesTo(layout)
+    return init(layout, block)
+}
 
 /**
  * Creates a [Vertical Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
@@ -20,18 +25,24 @@ fun (@VaadinDsl HasComponents).flexLayout(block: (@VaadinDsl FlexLayout).() -> U
  * has 100% width by default.
  * @param isPadding whether to have padding around the children of the layout, defaults to true
  * @param isSpacing whether to have spacing between the children of the layout, defaults to true
+ * @param classNames optional additional class names, space-separated
+ * @return the vertical layout, added to the parent.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).verticalLayout(
         isPadding: Boolean = true,
         isSpacing: Boolean = true,
+        classNames: String = "",
         block: (@VaadinDsl VerticalLayout).() -> Unit = {}
-) = init(VerticalLayout(), {
-    this.isPadding = isPadding
-    this.isSpacing = isSpacing
-    content { align(left, top) }
-    block()
-})
+): VerticalLayout {
+    val layout: VerticalLayout = VerticalLayout().apply {
+        this.isPadding = isPadding
+        this.isSpacing = isSpacing
+        classNames.feedClassNamesTo(this)
+        content { align(left, top) }
+    }
+    return init(layout, block)
+}
 
 /**
  * Creates a [Horizontal Layout](https://vaadin.com/elements/vaadin-ordered-layout/). See the HTML Examples link for a list
@@ -41,18 +52,24 @@ fun (@VaadinDsl HasComponents).verticalLayout(
  * has undefined width by default.
  * @param isPadding whether to have padding around the children of the layout, defaults to false
  * @param isSpacing whether to have spacing between the children of the layout, defaults to true
+ * @param classNames optional additional class names, space-separated
+ * @return the horizontal layout, added to the parent.
  */
 @VaadinDsl
 fun (@VaadinDsl HasComponents).horizontalLayout(
         isPadding: Boolean = false,
         isSpacing: Boolean = true,
+        classNames: String = "",
         block: (@VaadinDsl HorizontalLayout).() -> Unit = {}
-) = init(HorizontalLayout(), {
-    this.isPadding = isPadding
-    this.isSpacing = isSpacing
-    content { align(left, baseline) }
-    block()
-})
+): HorizontalLayout {
+    val layout: HorizontalLayout = HorizontalLayout().apply {
+        this.isPadding = isPadding
+        this.isSpacing = isSpacing
+        classNames.feedClassNamesTo(this)
+        content { align(left, baseline) }
+    }
+    return init(layout, block)
+}
 
 /**
  * Sets the component's [FlexComponent.getFlexGrow]. Only works when the
