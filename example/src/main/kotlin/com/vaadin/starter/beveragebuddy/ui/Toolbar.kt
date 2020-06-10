@@ -4,6 +4,7 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v10.ModifierKey.Alt
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Key.KEY_N
+import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.textfield.TextField
@@ -29,7 +30,7 @@ class Toolbar(createCaption: String) : KComposite() {
      */
     val searchText: String get() = searchField.value.trim()
 
-    private val root = ui {
+    private val root: Div = ui {
         div("view-toolbar") {
             searchField = textField {
                 prefixComponent = Icon(VaadinIcon.SEARCH)
