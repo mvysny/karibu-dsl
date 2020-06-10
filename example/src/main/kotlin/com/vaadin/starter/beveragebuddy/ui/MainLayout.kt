@@ -20,6 +20,7 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasElement
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.router.HighlightConditions
@@ -41,19 +42,14 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 @Theme(Lumo::class)
 class MainLayout : KComposite(), RouterLayout, PageConfigurator {
 
-    private val root = ui {
-        verticalLayout {
-            addClassName("main-layout"); setSizeFull(); isPadding = false
-            content { align(stretch, top) }
-            div {
-                // header
-                addClassName("main-layout__header")
+    private val root: VerticalLayout = ui {
+        verticalLayout(false, classNames = "main-layout") {
+            setSizeFull(); content { align(stretch, top) }
+            div("main-layout__header") { // header
                 h2("Beverage Buddy") {
                     addClassName("main-layout__title")
                 }
-                div {
-                    // navigation
-                    addClassName("main-layout__nav")
+                div("main-layout__nav") { // navigation
                     routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class) {
                         addClassName("main-layout__nav-item")
                         highlightCondition = HighlightConditions.sameLocation()

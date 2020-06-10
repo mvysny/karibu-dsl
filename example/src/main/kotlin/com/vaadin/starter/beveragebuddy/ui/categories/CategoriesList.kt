@@ -53,8 +53,8 @@ class CategoriesList : KComposite() {
         { deleteCategory(it) })
 
     private val root = ui {
-        verticalLayout {
-            isPadding = false; content { align(stretch, top) }
+        verticalLayout(false) {
+            content { align(stretch, top) }
             toolbar = toolbarView("New category") {
                 onSearch = { updateView() }
                 onCreate = { editorDialog.createNew() }
@@ -79,7 +79,7 @@ class CategoriesList : KComposite() {
             }
 
             addShortcut(Alt + KEY_E) {
-                val category = grid.asSingleSelect().value
+                val category: Category? = grid.asSingleSelect().value
                 if (category != null) {
                     edit(category)
                 }

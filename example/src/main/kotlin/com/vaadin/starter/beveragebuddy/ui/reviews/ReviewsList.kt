@@ -46,8 +46,8 @@ class ReviewsList : KComposite() {
         { this.delete(it) })
 
     private val root = ui {
-        verticalLayout {
-            isPadding = false; content { align(stretch, top) }
+        verticalLayout(false) {
+            content { align(stretch, top) }
             toolbar = toolbarView("New review") {
                 onSearch = { updateList() }
                 onCreate = { editDialog.createNew() }
@@ -73,7 +73,7 @@ class ReviewsList : KComposite() {
     }
 
     private fun save(review: Review) {
-        val creating = review.id == null
+        val creating: Boolean = review.id == null
         ReviewService.saveReview(review)
         val op = if (creating) "added" else "saved"
         updateList()
