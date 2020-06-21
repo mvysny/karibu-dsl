@@ -1,6 +1,8 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.page.ExtendedClientDetails
+import com.vaadin.flow.component.page.Page
 import com.vaadin.flow.server.VaadinSession
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -20,7 +22,17 @@ val ExtendedClientDetails.timeZone: ZoneId
     }
 
 /**
- * You need to populate this field first, by using [com.vaadin.flow.component.page.Page.retrieveExtendedClientDetails].
+ * Retrieves [extendedClientDetails] from the browser and populates [browserTimeZone].
+ * Does nothing if the [extendedClientDetails] has already been populated.
+ */
+fun fetchTimeZoneFromBrowser() {
+    if (extendedClientDetails == null) {
+        UI.getCurrent().page.retrieveExtendedClientDetails { extendedClientDetails = it }
+    }
+}
+
+/**
+ * You need to populate this field first, by using [fetchTimeZoneFromBrowser].
  */
 var extendedClientDetails: ExtendedClientDetails?
     get() = VaadinSession.getCurrent().getAttribute(ExtendedClientDetails::class.java)
@@ -40,4 +52,4 @@ val browserTimeZone: ZoneId
  */
 val ExtendedClientDetails.currentDateTime: LocalDateTime
     get() =
-        LocalDateTime.now(ZoneOffset.ofTotalSeconds(timezoneOffset / 1000))
+        LocalDateTime.now(timeZone)
