@@ -113,11 +113,12 @@ fun Component.isNestedIn(potentialAncestor: Component) =
 
 /**
  * Checks whether this component is currently attached to an [UI].
+ *
+ * Returns true for attached components even if the UI itself is closed.
  */
 fun Component.isAttached(): Boolean {
     // see https://github.com/vaadin/flow/issues/7911
-    val ui: UI = ui.orElse(null) ?: return false
-    return !ui.isClosing
+    return element.node.isAttached
 }
 
 /**

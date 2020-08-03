@@ -129,7 +129,7 @@ class VaadinUtilsTest : DynaTest({
             button.isAttached()
         }
         UI.getCurrent().close()
-        expect(false) { UI.getCurrent().isAttached() }
+        expect(true) { UI.getCurrent().isAttached() }
     }
 
     test("insertBefore") {
