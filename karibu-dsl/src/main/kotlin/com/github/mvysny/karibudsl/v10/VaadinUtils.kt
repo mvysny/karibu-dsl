@@ -112,7 +112,7 @@ fun Component.isNestedIn(potentialAncestor: Component) =
         findAncestor { it == potentialAncestor } != null
 
 /**
- * Checks whether this component is currently attached to an [UI].
+ * Checks whether this component is currently attached to a [UI].
  *
  * Returns true for attached components even if the UI itself is closed.
  */
