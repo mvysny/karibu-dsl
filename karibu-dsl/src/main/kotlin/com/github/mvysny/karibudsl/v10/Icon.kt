@@ -11,16 +11,19 @@ import java.io.Serializable
  * of possible alternative themes for the button.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(icon), block)
+public fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {}): Icon =
+        init(Icon(icon), block)
 @VaadinDsl
-fun (@VaadinDsl HasComponents).icon(collection: String, icon: String, block: (@VaadinDsl Icon).() -> Unit = {}) = init(Icon(collection, icon), block)
+public fun (@VaadinDsl HasComponents).icon(collection: String, icon: String, block: (@VaadinDsl Icon).() -> Unit = {}): Icon =
+        init(Icon(collection, icon), block)
 @VaadinDsl
-fun (@VaadinDsl HasComponents).ironIcon(collection: String, icon: String, block: (@VaadinDsl IronIcon).() -> Unit = {}) = init(IronIcon(collection, icon), block)
+public fun (@VaadinDsl HasComponents).ironIcon(collection: String, icon: String, block: (@VaadinDsl IronIcon).() -> Unit = {}): IronIcon =
+        init(IronIcon(collection, icon), block)
 
 /**
  * Represents an icon name and a collection from which the icon came.
  */
-data class IconName(val collection: String, val name: String) : Serializable {
+public data class IconName(val collection: String, val name: String) : Serializable {
     init {
         require(collection.isNotBlank()) { "$collection: collection is blank" }
         require(name.isNotBlank()) { "$name: name is blank" }
@@ -29,19 +32,19 @@ data class IconName(val collection: String, val name: String) : Serializable {
     /**
      * Creates a new [Icon] component for this icon.
      */
-    fun toIcon() = Icon(collection, name)
+    public fun toIcon(): Icon = Icon(collection, name)
 
     /**
      * Checks whether this icon represents a [VaadinIcon]. Use [asVaadinIcon] to obtain
      * the original icon.
      */
-    val isVaadinIcon get() = collection == "vaadin"
+    val isVaadinIcon: Boolean get() = collection == "vaadin"
 
     /**
      * If this icon represents a [VaadinIcon], return the appropriate [VaadinIcon]
      * constant, else return null.
      */
-    fun asVaadinIcon(): VaadinIcon? {
+    public fun asVaadinIcon(): VaadinIcon? {
         if (!isVaadinIcon) {
             return null
         }
@@ -52,20 +55,21 @@ data class IconName(val collection: String, val name: String) : Serializable {
     /**
      * Returns this icon name as a string in the format `collection:name`.
      */
-    override fun toString() = "$collection:$name"
+    override fun toString(): String = "$collection:$name"
 
-    companion object {
+    public companion object {
         /**
          * Gets the icon name from given [vaadinIcon].
          */
-        fun of(vaadinIcon: VaadinIcon) = IconName("vaadin", vaadinIcon.name.toLowerCase().replace('_', '-'))
+        public fun of(vaadinIcon: VaadinIcon): IconName =
+                IconName("vaadin", vaadinIcon.name.toLowerCase().replace('_', '-'))
 
         /**
          * Parses the [toString] string representation. Returns null if the [iconName] is not in the expected format.
          * @param iconName string representation in the form of `collection:name`.
          */
-        fun fromString(iconName: String): IconName? {
-            val iconPair = iconName.split(':')
+        public fun fromString(iconName: String): IconName? {
+            val iconPair: List<String> = iconName.split(':')
             return if (iconPair.size == 2) IconName(iconPair[0], iconPair[1]) else null
         }
     }
@@ -75,7 +79,7 @@ data class IconName(val collection: String, val name: String) : Serializable {
  * Returns the icon name and collection from the [Icon] component. Returns null
  * if no icon is set.
  */
-var Icon.iconName: IconName?
+public var Icon.iconName: IconName?
     get() {
         val icon: String = element.getAttribute("icon")
         return IconName.fromString(icon)
@@ -88,7 +92,7 @@ var Icon.iconName: IconName?
  * Returns the icon name and collection from the [IronIcon] component. Returns null
  * if no icon is set.
  */
-var IronIcon.iconName: IconName?
+public var IronIcon.iconName: IconName?
     get() {
         val icon: String = element.getAttribute("icon")
         return IconName.fromString(icon)

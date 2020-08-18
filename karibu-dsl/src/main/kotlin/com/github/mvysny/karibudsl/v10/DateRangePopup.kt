@@ -20,15 +20,17 @@ import java.util.*
  * @property start the minimum accepted value, inclusive. If `null` then the date range has no lower limit.
  * @property endInclusive the maximum accepted value, inclusive. If `null` then the date range has no upper limit.
  */
-data class DateInterval(override val start: LocalDate?, override val endInclusive: LocalDate?) : Serializable, ClosedInterval<LocalDate> {
-    companion object {
-        val EMPTY = DateInterval(LocalDate.of(2000, 1, 2), LocalDate.of(2000, 1, 1))
-        val UNIVERSAL = DateInterval(null, null)
+public data class DateInterval(override val start: LocalDate?, override val endInclusive: LocalDate?) : Serializable, ClosedInterval<LocalDate> {
+    public companion object {
+        public val EMPTY: DateInterval =
+                DateInterval(LocalDate.of(2000, 1, 2), LocalDate.of(2000, 1, 1))
+        public val UNIVERSAL: DateInterval = DateInterval(null, null)
         /**
          * Produces a degenerate date interval that only contains [LocalDate.now].
          */
-        fun now(zoneId: ZoneId = browserTimeZone): DateInterval = DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
-        fun of(localDate: LocalDate): DateInterval = DateInterval(localDate, localDate)
+        public fun now(zoneId: ZoneId = browserTimeZone): DateInterval =
+                DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
+        public fun of(localDate: LocalDate): DateInterval = DateInterval(localDate, localDate)
     }
 }
 
@@ -39,7 +41,7 @@ data class DateInterval(override val start: LocalDate?, override val endInclusiv
  *
  * The current date range is also displayed as the caption of the button.
  */
-class DateRangePopup: CustomField<DateInterval>() {
+public class DateRangePopup: CustomField<DateInterval>() {
     private val formatter: DateTimeFormatter get() =
         DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
                 .withLocale(UI.getCurrent().locale ?: Locale.getDefault())
@@ -89,7 +91,7 @@ class DateRangePopup: CustomField<DateInterval>() {
         updateCaption()
     }
 
-    var isDialogVisible: Boolean
+    public var isDialogVisible: Boolean
         get() = dialog.isOpened
         set(value) {
             dialog.isOpened = value
@@ -135,5 +137,5 @@ class DateRangePopup: CustomField<DateInterval>() {
     override fun isRequiredIndicatorVisible(): Boolean = fromField.isRequiredIndicatorVisible
 }
 
-fun (@VaadinDsl HasComponents).dateRangePopup(block: (@VaadinDsl DateRangePopup).() -> Unit = {}): DateRangePopup
+public fun (@VaadinDsl HasComponents).dateRangePopup(block: (@VaadinDsl DateRangePopup).() -> Unit = {}): DateRangePopup
         = init(DateRangePopup(), block)

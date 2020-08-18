@@ -16,12 +16,12 @@ import com.vaadin.flow.component.html.Label
  * }
  * ```
  */
-class KFormLayout : FormLayout() {
+public class KFormLayout : FormLayout() {
 
     /**
      * Sets colspan for the child of this [FormLayout].
      */
-    inline var (@VaadinDsl Component).colspan: Int
+    public inline var (@VaadinDsl Component).colspan: Int
         @JvmName("__getColspanInternal")
         get() = getColspan(this)
         @JvmName("__setColspanInternal")
@@ -36,7 +36,7 @@ class KFormLayout : FormLayout() {
  * @param classNames optional additional class names, space-separated
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).formLayout(classNames: String = "", block: (KFormLayout).() -> Unit = {}): KFormLayout {
+public fun (@VaadinDsl HasComponents).formLayout(classNames: String = "", block: (KFormLayout).() -> Unit = {}): KFormLayout {
     val layout = KFormLayout()
     classNames.feedClassNamesTo(layout)
     return init(layout, block)
@@ -56,7 +56,7 @@ internal class KFormItem : FormLayout.FormItem() {
  * documentation for more details.
  */
 @VaadinDsl
-fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem {
+public fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem {
     val item: KFormItem = KFormItem().apply {
         if (label != null) {
             addToLabel(label)
@@ -70,16 +70,16 @@ fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@VaadinDs
  * documentation for more details.
  */
 @VaadinDsl
-fun (@VaadinDsl FormLayout).formItem(label: String, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem =
+public fun (@VaadinDsl FormLayout).formItem(label: String, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem =
         formItem(Label(label), block)
 
 /**
  * Builds a list of [com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep].
  */
-class FormLayoutResponsiveSteps {
+public class FormLayoutResponsiveSteps {
     internal val steps = mutableListOf<FormLayout.ResponsiveStep>()
-    val aside = FormLayout.ResponsiveStep.LabelsPosition.ASIDE
-    val top = FormLayout.ResponsiveStep.LabelsPosition.TOP
+    public val aside: FormLayout.ResponsiveStep.LabelsPosition = FormLayout.ResponsiveStep.LabelsPosition.ASIDE
+    public val top: FormLayout.ResponsiveStep.LabelsPosition = FormLayout.ResponsiveStep.LabelsPosition.TOP
     /**
      * Adds a responsive step with the minimum width, given number of [columns] and [labelsPosition]. Example of use:
      * ```
@@ -87,7 +87,7 @@ class FormLayoutResponsiveSteps {
      * ```
      * @receiver the minimum width defined as CSS format, e.g. "0px", "30em"
      */
-    operator fun String.invoke(columns: Int, labelsPosition: FormLayout.ResponsiveStep.LabelsPosition? = null) {
+    public operator fun String.invoke(columns: Int, labelsPosition: FormLayout.ResponsiveStep.LabelsPosition? = null) {
         steps.add(FormLayout.ResponsiveStep(this, columns, labelsPosition))
     }
 }
@@ -98,7 +98,7 @@ class FormLayoutResponsiveSteps {
  * responsiveSteps { "0px"(1, top); "30em"(2, aside) }
  * ```
  */
-fun (@VaadinDsl FormLayout).responsiveSteps(block: FormLayoutResponsiveSteps.()->Unit) {
+public fun (@VaadinDsl FormLayout).responsiveSteps(block: FormLayoutResponsiveSteps.()->Unit) {
     val steps = FormLayoutResponsiveSteps()
     steps.block()
     responsiveSteps = steps.steps

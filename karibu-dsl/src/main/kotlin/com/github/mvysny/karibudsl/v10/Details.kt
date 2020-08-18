@@ -22,9 +22,11 @@ internal fun Component.checkOneChildAndGet(producerName: String): Component {
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).details(summaryText: String? = null, block: (@VaadinDsl Details).() -> Unit = {}): Details {
+public fun (@VaadinDsl HasComponents).details(summaryText: String? = null, block: (@VaadinDsl Details).() -> Unit = {}): Details {
     val details = Details()
-    if (summaryText != null) details.summaryText = summaryText
+    if (summaryText != null) {
+        details.summaryText = summaryText
+    }
     return init(details, block)
 }
 
@@ -37,7 +39,7 @@ fun (@VaadinDsl HasComponents).details(summaryText: String? = null, block: (@Vaa
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl Details).summary(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+public fun (@VaadinDsl Details).summary(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val div = Div() // throwaway div, will be used to grab components produced by block
     div.block()
     val child: Component = div.checkOneChildAndGet("block()")
@@ -47,13 +49,15 @@ fun (@VaadinDsl Details).summary(block: (@VaadinDsl HasComponents).() -> Unit = 
 /**
  * Removes all [content][Details.getContent] components from this [Details].
  */
-fun Details.clearContent() = setContent(null)
+public fun Details.clearContent() {
+    setContent(null)
+}
 
 /**
  * Clears previous contents and re-populates the content of this [Details].
  */
 @VaadinDsl
-fun (@VaadinDsl Details).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+public fun (@VaadinDsl Details).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     clearContent()
     val div = Div() // throwaway div, will be used to grab components produced by block
     div.block()

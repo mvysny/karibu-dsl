@@ -15,7 +15,7 @@ import java.io.Serializable
  * @property start the minimum accepted value, inclusive. If `null` then the numeric range has no lower limit.
  * @property endInclusive the maximum accepted value, inclusive. If `null` then the numeric range has no upper limit.
  */
-data class NumberInterval<T>(override val start: T?, override val endInclusive: T?) : Serializable, ClosedInterval<T>
+public data class NumberInterval<T>(override val start: T?, override val endInclusive: T?) : Serializable, ClosedInterval<T>
     where T: Number, T: Comparable<T>
 
 internal data class MutableDoubleInterval(override var start: Double?, override var endInclusive: Double?) : Serializable, ClosedInterval<Double> {
@@ -35,7 +35,7 @@ internal data class MutableDoubleInterval(override var start: Double?, override 
  *
  * The current numeric range is also displayed as the caption of the button.
  */
-class NumberRangePopup : AbstractCompositeField<Button, NumberRangePopup, NumberInterval<Double>>(null) {
+public class NumberRangePopup : AbstractCompositeField<Button, NumberRangePopup, NumberInterval<Double>>(null) {
     private lateinit var ltInput: TextField
     private lateinit var gtInput: TextField
 
@@ -133,5 +133,5 @@ class NumberRangePopup : AbstractCompositeField<Button, NumberRangePopup, Number
     override fun isRequiredIndicatorVisible(): Boolean = ltInput.isRequiredIndicatorVisible
 }
 
-fun (@VaadinDsl HasComponents).numberRangePopup(block: (@VaadinDsl NumberRangePopup).() -> Unit = {}): NumberRangePopup
+public fun (@VaadinDsl HasComponents).numberRangePopup(block: (@VaadinDsl NumberRangePopup).() -> Unit = {}): NumberRangePopup
         = init(NumberRangePopup(), block)

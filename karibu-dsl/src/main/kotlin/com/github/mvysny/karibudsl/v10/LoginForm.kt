@@ -62,7 +62,7 @@ import com.vaadin.flow.component.login.LoginI18n
  * }
  * ```
  */
-fun (@VaadinDsl HasComponents).loginForm(
+public fun (@VaadinDsl HasComponents).loginForm(
         loginI18n: LoginI18n = LoginI18n.createDefault(),
         block: (@VaadinDsl LoginForm).() -> Unit = {}
 ): LoginForm = init(LoginForm(loginI18n), block)
@@ -76,7 +76,7 @@ fun (@VaadinDsl HasComponents).loginForm(
  * }
  * ```
  */
-fun loginI18n(block: LoginI18n.()->Unit): LoginI18n = LoginI18n.createDefault().apply {
+public fun loginI18n(block: LoginI18n.()->Unit): LoginI18n = LoginI18n.createDefault().apply {
     header = LoginI18n.Header()
     block()
 }
@@ -85,7 +85,7 @@ fun loginI18n(block: LoginI18n.()->Unit): LoginI18n = LoginI18n.createDefault().
  * Sets the error message with given [title] and [message]. The error message
  * is shown when [LoginForm.isError] is set to true.
  */
-fun LoginI18n.setErrorMessage(title: String, message: String) {
+public fun LoginI18n.setErrorMessage(title: String, message: String) {
     errorMessage = LoginI18n.ErrorMessage().apply {
         this.title = title
         this.message = message

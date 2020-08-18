@@ -30,7 +30,7 @@ import com.vaadin.flow.shared.Registration
  * @param block runs the block with the button as a receiver.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {}): Button = init(Button(text, icon), block)
+public fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {}): Button = init(Button(text, icon), block)
 
 /**
  * Utility method which creates a [Vaadin Button](https://vaadin.com/elements/vaadin-button) which
@@ -42,7 +42,7 @@ fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = n
  * @param block runs the block with the button as a receiver.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).iconButton(icon: Component, block: (@VaadinDsl Button).() -> Unit = {}): Button = button(icon = icon) {
+public fun (@VaadinDsl HasComponents).iconButton(icon: Component, block: (@VaadinDsl Button).() -> Unit = {}): Button = button(icon = icon) {
     addThemeVariants(ButtonVariant.LUMO_ICON)
     block()
 }
@@ -50,14 +50,14 @@ fun (@VaadinDsl HasComponents).iconButton(icon: Component, block: (@VaadinDsl Bu
 /**
  * Sets the button as primary. It effectively adds the [ButtonVariant.LUMO_PRIMARY] theme variant.
  */
-fun (@VaadinDsl Button).setPrimary() {
+public fun (@VaadinDsl Button).setPrimary() {
     addThemeVariants(ButtonVariant.LUMO_PRIMARY)
 }
 
 /**
  * Adds a [leftClickListener].
  */
-fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener: ((ClickEvent<T>) -> Unit)): Registration
+public fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener: ((ClickEvent<T>) -> Unit)): Registration
         = addClickListener(leftClickListener)
 
 /**
@@ -65,7 +65,7 @@ fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener:
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDsl Checkbox).() -> Unit = {}): Checkbox
+public fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDsl Checkbox).() -> Unit = {}): Checkbox
         = init(Checkbox(label), block)
 
 /**
@@ -73,7 +73,7 @@ fun (@VaadinDsl HasComponents).checkBox(label: String? = null, block: (@VaadinDs
  * of possible alternative themes.
  */
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block: (@VaadinDsl ComboBox<T>).() -> Unit = {}): ComboBox<T>
+public fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block: (@VaadinDsl ComboBox<T>).() -> Unit = {}): ComboBox<T>
         = init(ComboBox(label), block)
 
 /**
@@ -84,7 +84,7 @@ fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null, block:
  * and it will appear in the popup.
  */
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, block: (@VaadinDsl Select<T>).() -> Unit = {}): Select<T> {
+public fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, block: (@VaadinDsl Select<T>).() -> Unit = {}): Select<T> {
     val select = Select<T>()
     if (label != null) select.label = label
     return init(select, block)
@@ -95,7 +95,7 @@ fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, block: (
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@VaadinDsl DatePicker).() -> Unit = {}): DatePicker
+public fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@VaadinDsl DatePicker).() -> Unit = {}): DatePicker
         = init(DatePicker(label), block)
 
 /**
@@ -103,7 +103,7 @@ fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@Vaadin
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}): Dialog
+public fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}): Dialog
         = init(Dialog(), block)
 
 /**
@@ -111,24 +111,26 @@ fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() -> Unit = {}): SplitLayout
+public fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() -> Unit = {}): SplitLayout
         = init(SplitLayout(), block)
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}) = init(Tabs(), block)
+public fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}): Tabs =
+        init(Tabs(), block)
 
 @VaadinDsl
-fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}) = init(Tab(label), block)
+public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab =
+        init(Tab(label), block)
 
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}): CheckboxGroup<T>
+public fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}): CheckboxGroup<T>
         = init(CheckboxGroup(), block)
 
 /**
  * Creates a [Time Picker](https://vaadin.com/components/vaadin-time-picker) field.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@VaadinDsl TimePicker).() -> Unit = {}): TimePicker
+public fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@VaadinDsl TimePicker).() -> Unit = {}): TimePicker
         = init(TimePicker(label), block)
 
 /**
@@ -136,7 +138,7 @@ fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@Vaadin
  * @since Vaadin 14.2
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@VaadinDsl DateTimePicker).() -> Unit = {}): DateTimePicker {
+public fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@VaadinDsl DateTimePicker).() -> Unit = {}): DateTimePicker {
     val picker = DateTimePicker()
     picker.label = label
     return init(picker, block)
@@ -157,12 +159,12 @@ fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, block: (@Va
  * @since Vaadin 14.2
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,
+public fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,
                                         block: (@VaadinDsl Scroller).() -> Unit = {}): Scroller =
         init(Scroller(scrollDirection), block)
 
 @VaadinDsl
-fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
+public fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
     element.removeAllChildren()
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
@@ -185,7 +187,7 @@ fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T)
  * Unfortunately no label support for now: https://github.com/vaadin/vaadin-list-box-flow/issues/75
  */
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).listBox(block: (@VaadinDsl ListBox<T>).() -> Unit = {}): ListBox<T>
+public fun <T : Any?> (@VaadinDsl HasComponents).listBox(block: (@VaadinDsl ListBox<T>).() -> Unit = {}): ListBox<T>
         = init(ListBox(), block)
 
 /**
@@ -195,5 +197,5 @@ fun <T : Any?> (@VaadinDsl HasComponents).listBox(block: (@VaadinDsl ListBox<T>)
  * Unfortunately no label support for now: https://github.com/vaadin/vaadin-list-box-flow/issues/75
  */
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).multiSelectListBox(block: (@VaadinDsl MultiSelectListBox<T>).() -> Unit = {}): MultiSelectListBox<T>
+public fun <T : Any?> (@VaadinDsl HasComponents).multiSelectListBox(block: (@VaadinDsl MultiSelectListBox<T>).() -> Unit = {}): MultiSelectListBox<T>
         = init(MultiSelectListBox(), block)

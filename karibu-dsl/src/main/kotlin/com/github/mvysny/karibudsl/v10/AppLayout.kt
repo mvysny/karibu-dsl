@@ -30,7 +30,7 @@ import com.vaadin.flow.dom.Element
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Unit = {}): AppLayout
+public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Unit = {}): AppLayout
         = init(AppLayout(), block)
 
 /**
@@ -42,7 +42,7 @@ fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Uni
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl AppLayout).navbar(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+public fun (@VaadinDsl AppLayout).navbar(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
@@ -56,7 +56,7 @@ fun (@VaadinDsl AppLayout).navbar(block: (@VaadinDsl HasComponents).() -> Unit =
  * Populates the AppLayout drawer slot.
  */
 @VaadinDsl
-fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
@@ -73,7 +73,7 @@ fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit =
  * If you wish to take advantage of this feature, just make your main layout extend the [AppLayout] class.
  */
 @VaadinDsl
-fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+public fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
@@ -98,5 +98,5 @@ fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit 
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).drawerToggle(block: (@VaadinDsl DrawerToggle).() -> Unit = {}): DrawerToggle
+public fun (@VaadinDsl HasComponents).drawerToggle(block: (@VaadinDsl DrawerToggle).() -> Unit = {}): DrawerToggle
         = init(DrawerToggle(), block)

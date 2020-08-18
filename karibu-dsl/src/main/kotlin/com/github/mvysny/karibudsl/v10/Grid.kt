@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.reflect.KProperty1
 
 @VaadinDsl
-inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
+public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
         dataProvider: DataProvider<T, *>? = null,
         noinline block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
@@ -35,7 +35,7 @@ inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
  *
  * Internal, do not use. Automatically called from [grid] and [treeGrid].
  */
-fun Grid<*>.hotfixMissingHeaderRow() {
+public fun Grid<*>.hotfixMissingHeaderRow() {
     // don't do this yet: it's not yet possible to remove the header row: https://github.com/vaadin/vaadin-grid-flow/issues/480
     // also https://github.com/vaadin/vaadin-grid-flow/issues/912
 /*
@@ -46,7 +46,7 @@ fun Grid<*>.hotfixMissingHeaderRow() {
 }
 
 @VaadinDsl
-inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
+public inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
         dataProvider: HierarchicalDataProvider<T, *>? = null,
         noinline block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
 ): TreeGrid<T> {
@@ -62,11 +62,13 @@ inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
 /**
  * Refreshes the Grid and re-polls for data.
  */
-fun (@VaadinDsl Grid<*>).refresh() = dataProvider.refreshAll()
+public fun (@VaadinDsl Grid<*>).refresh() {
+    dataProvider.refreshAll()
+}
 
-val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*, *>
-val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*, *>
-val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
+public val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*, *>
+public val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*, *>
+public val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
 
 /**
  * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
@@ -78,7 +80,7 @@ val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.is
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
+public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
     property: KProperty1<T, V?>,
     sortable: Boolean = true,
     converter: (V?) -> Any? = { it },
@@ -101,7 +103,7 @@ fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
+public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
     property: KProperty1<T, V?>,
     renderer: Renderer<T>,
     sortable: Boolean = true,
@@ -128,7 +130,7 @@ fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
  * }
  * ```
  */
-var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
+public var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
     @Deprecated("Cannot read this property", level = DeprecationLevel.ERROR)
     get() = throw UnsupportedOperationException("Unsupported")
     set(value) {
@@ -139,14 +141,14 @@ var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
  * Retrieves the column for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
  * @throws IllegalArgumentException if no such column exists.
  */
-fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
+public fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
     getColumnByKey(property.name)
             ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.key }.filterNotNull()}")
 
 /**
  * Returns a [Comparator] which compares values of given property name.
  */
-fun <T> Class<T>.getPropertyComparator(propertyName: String): Comparator<T> {
+public fun <T> Class<T>.getPropertyComparator(propertyName: String): Comparator<T> {
     val getter: Method = getGetter(propertyName)
     return compareBy { if (it == null) null else getter.invoke(it) as Comparable<*> }
 }
@@ -164,7 +166,7 @@ fun <T> Class<T>.getPropertyComparator(propertyName: String): Comparator<T> {
  * @param V the value that the column will display.
  * @return the newly created column
  */
-inline fun <reified T, reified V> Grid<T>.addColumnFor(
+public inline fun <reified T, reified V> Grid<T>.addColumnFor(
     propertyName: String,
     sortable: Boolean = true,
     noinline converter: (V?) -> Any? = { it },
@@ -195,7 +197,7 @@ inline fun <reified T, reified V> Grid<T>.addColumnFor(
  * @param V the value that the column will display, deduced from the type of the [propertyName].
  * @return the newly created column
  */
-inline fun <reified T, reified V> Grid<T>.addColumnFor(
+public inline fun <reified T, reified V> Grid<T>.addColumnFor(
     propertyName: String,
     renderer: Renderer<T>,
     sortable: Boolean = true,
@@ -240,7 +242,7 @@ private val FooterRow.FooterCell.column: Any
  * @return the corresponding cell
  * @throws IllegalArgumentException if no such column exists.
  */
-fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
+public fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
     val cell: HeaderRow.HeaderCell? = cells.firstOrNull { it.column.columnKey == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
     return cell
@@ -260,13 +262,13 @@ get() {
  * @return the corresponding cell
  * @throws IllegalArgumentException if no such column exists.
  */
-fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
+public fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
     val cell: FooterRow.FooterCell? = cells.firstOrNull { it.column.columnKey == property.name }
     require(cell != null) { "This grid has no property named ${property.name}: $cells" }
     return cell
 }
 
-val HeaderRow.HeaderCell.renderer: Renderer<*>?
+public val HeaderRow.HeaderCell.renderer: Renderer<*>?
     get() {
         val method: Method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
         method.isAccessible = true
@@ -274,7 +276,7 @@ val HeaderRow.HeaderCell.renderer: Renderer<*>?
         return renderer as Renderer<*>?
     }
 
-val FooterRow.FooterCell.renderer: Renderer<*>?
+public val FooterRow.FooterCell.renderer: Renderer<*>?
     get() {
         val method: Method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
         method.isAccessible = true
@@ -282,7 +284,7 @@ val FooterRow.FooterCell.renderer: Renderer<*>?
         return renderer as Renderer<*>?
     }
 
-var FooterRow.FooterCell.component: Component?
+public var FooterRow.FooterCell.component: Component?
     get() {
         val cr: ComponentRenderer<*, *> = (renderer as? ComponentRenderer<*, *>) ?: return null
         return cr.createComponent(null)
@@ -293,7 +295,7 @@ var FooterRow.FooterCell.component: Component?
 
 private val gridSorterComponentRendererClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
 
-var HeaderRow.HeaderCell.component: Component?
+public var HeaderRow.HeaderCell.component: Component?
     get() {
         val r: Renderer<*>? = renderer
         if (!gridSorterComponentRendererClass.isInstance(r)) return null

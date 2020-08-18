@@ -16,7 +16,7 @@ import kotlin.streams.toList
  * popup with contents.
  * @author mavi@vaadin.com
  */
-class PopupButton(caption: String = "") : KComposite(), HasSize {
+public class PopupButton(caption: String = "") : KComposite(), HasSize {
     private lateinit var menuItem: MenuItem
     private val menu: MenuBar = ui {
         menuBar {
@@ -27,7 +27,7 @@ class PopupButton(caption: String = "") : KComposite(), HasSize {
     /**
      * The popup button caption.
      */
-    var caption: String
+    public var caption: String
         get() = menuItem.text
         set(caption: String) {
             menuItem.text = caption
@@ -41,7 +41,7 @@ class PopupButton(caption: String = "") : KComposite(), HasSize {
      * Sets the popup contents, removing any previously set content.
      * @param content the new content to set, not null.
      */
-    fun setPopupContent(content: Component) {
+    public fun setPopupContent(content: Component) {
         menuItem.subMenu.removeAll()
         menuItem.subMenu.add(content)
     }
@@ -50,7 +50,7 @@ class PopupButton(caption: String = "") : KComposite(), HasSize {
      * Propagate the content of the popup button via a DSL [block]. Removes all
      * previously set content.
      */
-    fun content(block: HasComponents.() -> Unit) {
+    public fun content(block: HasComponents.() -> Unit) {
         menuItem.subMenu.removeAll()
         block(object : HasComponents {
             override fun getElement(): Element = throw RuntimeException("Unexpected")
@@ -65,14 +65,14 @@ class PopupButton(caption: String = "") : KComposite(), HasSize {
      * Adds theme variants to the component.
      * @param variants theme variants to add
      */
-    fun addThemeVariants(vararg variants: MenuBarVariant) {
+    public fun addThemeVariants(vararg variants: MenuBarVariant) {
         menu.addThemeVariants(*variants)
     }
 
     /**
      * Closes the popup button. Does nothing if the popup button is already closed.
      */
-    fun close() {
+    public fun close() {
         // workaround for https://github.com/vaadin/vaadin-menu-bar/issues/102
         menu.element.executeJs("this._subMenu.close()")
     }
@@ -85,5 +85,5 @@ class PopupButton(caption: String = "") : KComposite(), HasSize {
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).popupButton(caption: String = "", block: PopupButton.()->Unit = {}): PopupButton
+public fun (@VaadinDsl HasComponents).popupButton(caption: String = "", block: PopupButton.()->Unit = {}): PopupButton
         = init(PopupButton(caption), block)

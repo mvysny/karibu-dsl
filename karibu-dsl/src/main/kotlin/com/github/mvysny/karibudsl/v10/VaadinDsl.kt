@@ -7,7 +7,7 @@ import com.vaadin.flow.component.HasComponents
 // which makes them stand out apart from the common functions, which is very nice.
 @Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE, AnnotationTarget.FUNCTION)
 @DslMarker
-annotation class VaadinDsl
+public annotation class VaadinDsl
 
 /**
  * When introducing extensions for your custom components, just call [init] in your extension function. For example:
@@ -20,7 +20,7 @@ annotation class VaadinDsl
  * @param block optional block to run over the component, allowing you to add children to the [component]
  */
 @VaadinDsl
-fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.() -> Unit = {}): T {
+public fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.() -> Unit = {}): T {
     add(component)
     component.block()
     return component

@@ -10,7 +10,7 @@ import com.vaadin.flow.shared.Registration
 /**
  * A TabSheet - shows both the [Tabs] component and the tab contents.
  */
-class TabSheet : KComposite(), HasStyle, HasSize {
+public class TabSheet : KComposite(), HasStyle, HasSize {
     private lateinit var tabsComponent: Tabs
     private lateinit var tabsContainer: Div
 
@@ -46,7 +46,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
      * Adds a new tab to the tab host, with optional [label] and optional contents.
      */
     @VaadinDsl
-    fun tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Component? = { null }): Tab {
+    public fun tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Component? = { null }): Tab {
         var root: Component? = null
         val dummy = object : HasComponents {
             override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
@@ -64,7 +64,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Adds a new tab to the tab host, with optional [label] and optional contents.
      */
-    fun addTab(label: String? = null, contents: Component? = null): Tab {
+    public fun addTab(label: String? = null, contents: Component? = null): Tab {
         val tab: Tab = tabsComponent.tab(label)
         tabsToComponents[tab] = contents
         update()
@@ -75,7 +75,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
      * Adds a new tab to the tab host, with optional [label]. The tab contents is
      * constructed lazily when the tab is first shown.
      */
-    fun addLazyTab(label: String? = null, contentsProvider: ()->Component): Tab {
+    public fun addLazyTab(label: String? = null, contentsProvider: ()->Component): Tab {
         val tab: Tab = tabsComponent.tab(label)
         tabsToComponents[tab] = null
         tabsToComponentProvider[tab] = contentsProvider
@@ -86,7 +86,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Sets the contents of given [tab] to [newContents].
      */
-    fun setTabContents(tab: Tab, newContents: Component?) {
+    public fun setTabContents(tab: Tab, newContents: Component?) {
         checkOurTab(tab)
         tabsToComponents[tab] = newContents
         tabsToComponentProvider.remove(tab)
@@ -97,13 +97,13 @@ class TabSheet : KComposite(), HasStyle, HasSize {
      * Finds a tab containing given [contents]. Returns null if there is no
      * such tab.
      */
-    fun findTabWithContents(contents: Component): Tab? =
+    public fun findTabWithContents(contents: Component): Tab? =
             tabsToComponents.entries.firstOrNull { it.value == contents } ?.key
 
     /**
      * Finds a tab which transitively contains given [component].
      */
-    fun findTabContaining(component: Component): Tab? {
+    public fun findTabContaining(component: Component): Tab? {
         val contentComponents: Set<Component> = tabsToComponents.values.filterNotNull().toSet()
         val contents: Component = component.findAncestorOrSelf { contentComponents.contains(it) } ?: return null
         return findTabWithContents(contents)
@@ -112,7 +112,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Returns the contents of given [tab].
      */
-    fun getTabContents(tab: Tab): Component? {
+    public fun getTabContents(tab: Tab): Component? {
         checkOurTab(tab)
         return tabsToComponents[tab]
     }
@@ -126,7 +126,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Removes a [tab]. If the tab is selected, another tab is selected automatically (if possible).
      */
-    fun remove(tab: Tab) {
+    public fun remove(tab: Tab) {
         tabsToComponents.remove(tab)
         tabsComponent.remove(tab)
         update()
@@ -135,7 +135,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Currently selected tab. Defaults to null since by default there are no tabs.
      */
-    var selectedTab: Tab?
+    public var selectedTab: Tab?
         get() = tabsComponent.selectedTab
         set(value) {
             tabsComponent.selectedTab = value
@@ -144,7 +144,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Returns the 0-based index of the currently selected tab.
      */
-    var selectedIndex: Int
+    public var selectedIndex: Int
         get() = tabsComponent.selectedIndex
         set(value) {
             tabsComponent.selectedIndex = value
@@ -153,12 +153,12 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Returns the current number of tabs.
      */
-    val tabCount: Int get() = tabsToComponents.keys.count()
+    public val tabCount: Int get() = tabsToComponents.keys.count()
 
     /**
      * The [orientation] of this tab sheet. Defaults to [Tabs.Orientation.HORIZONTAL].
      */
-    var orientation: Tabs.Orientation
+    public var orientation: Tabs.Orientation
         get() = tabsComponent.orientation
         set(value) {
             tabsComponent.orientation = value
@@ -194,7 +194,7 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Removes all tabs.
      */
-    fun removeAll() {
+    public fun removeAll() {
         tabsToComponents.clear()
         tabsComponent.removeAll()
         update()
@@ -203,36 +203,36 @@ class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Returns a live list of all tabs. The list is read-only but live: it reflects changes when tabs are added or removed.
      */
-    val tabs: List<Tab> = object : AbstractList<Tab>() {
+    public val tabs: List<Tab> = object : AbstractList<Tab>() {
         override val size: Int
             get() = tabCount
 
         override fun get(index: Int): Tab = tabsComponent.getComponentAt(index) as Tab
     }
 
-    fun addSelectedChangeListener(listener: ComponentEventListener<Tabs.SelectedChangeEvent>): Registration =
+    public fun addSelectedChangeListener(listener: ComponentEventListener<Tabs.SelectedChangeEvent>): Registration =
             tabsComponent.addSelectedChangeListener(listener)
 }
 
 /**
  * Returns the current index of a tab within its [Tabs] container.
  */
-val Tab.index: Int
+public val Tab.index: Int
     get() = owner.indexOf(this)
 
 /**
  * Returns the owner [Tabs] of this tab. Fails if the tab is not attached to any [Tabs] owner.
  */
-val Tab.owner: Tabs
+public val Tab.owner: Tabs
     get() = checkNotNull((parent.orElse(null)) as Tabs?) { "tab $this is not attached to a parent" }
 
-val Tab.ownerTabSheet: TabSheet
+public val Tab.ownerTabSheet: TabSheet
     get() = checkNotNull(findAncestor { it is TabSheet }) { "tab $this is not attached to a TabSheet" } as TabSheet
 
 /**
  * Returns or sets this tab contents in the [TabSheet]. Works only for tabs nested in a [TabSheet].
  */
-var Tab.contents: Component?
+public var Tab.contents: Component?
     get() = ownerTabSheet.getTabContents(this)
     set(value) {
         ownerTabSheet.setTabContents(this, value)
@@ -243,5 +243,5 @@ var Tab.contents: Component?
  * Creates a [TabSheet] component which shows both the list of tabs, and the tab contents itself.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -> Unit = {}): TabSheet
+public fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -> Unit = {}): TabSheet
         = init(TabSheet(), block)

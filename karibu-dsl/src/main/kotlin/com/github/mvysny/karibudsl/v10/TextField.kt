@@ -8,7 +8,7 @@ import com.vaadin.flow.component.textfield.*
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {}): TextField
+public fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {}): TextField
         = init(TextField(label), block)
 
 /**
@@ -16,7 +16,7 @@ fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinD
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@VaadinDsl EmailField).() -> Unit = {}): EmailField
+public fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@VaadinDsl EmailField).() -> Unit = {}): EmailField
         = init(EmailField(label), block)
 
 /**
@@ -24,11 +24,11 @@ fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (@Vaadin
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).numberField(label: String? = null, block: (@VaadinDsl NumberField).() -> Unit = {}): NumberField
+public fun (@VaadinDsl HasComponents).numberField(label: String? = null, block: (@VaadinDsl NumberField).() -> Unit = {}): NumberField
         = init(NumberField(label), block)
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}): TextArea
+public fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}): TextArea
         = init(TextArea(label), block)
 
 /**
@@ -36,7 +36,7 @@ fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDs
  * of possible alternative themes.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@VaadinDsl PasswordField).() -> Unit = {}): PasswordField
+public fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@VaadinDsl PasswordField).() -> Unit = {}): PasswordField
         = init(PasswordField(label), block)
 
 /**
@@ -45,7 +45,7 @@ fun (@VaadinDsl HasComponents).passwordField(label: String? = null, block: (@Vaa
  * @since Vaadin 14.1.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@VaadinDsl IntegerField).() -> Unit = {}): IntegerField
+public fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@VaadinDsl IntegerField).() -> Unit = {}): IntegerField
         = init(IntegerField(label), block)
 
 /**
@@ -54,15 +54,15 @@ fun (@VaadinDsl HasComponents).integerField(label: String? = null, block: (@Vaad
  * @since Vaadin 14.1.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).bigDecimalField(label: String? = null, block: (@VaadinDsl BigDecimalField).() -> Unit = {}): BigDecimalField
+public fun (@VaadinDsl HasComponents).bigDecimalField(label: String? = null, block: (@VaadinDsl BigDecimalField).() -> Unit = {}): BigDecimalField
         = init(BigDecimalField(label), block)
 
 /**
  * Selects all text in this text field. The selection is not really visible in
  * the browser unless the field is focused.
  */
-fun GeneratedVaadinTextField<*, String>.selectAll() {
-    getElement().executeJs("this.inputElement.select()");
+public fun GeneratedVaadinTextField<*, String>.selectAll() {
+    element.executeJs("this.inputElement.select()");
 }
 
 /**
@@ -70,7 +70,7 @@ fun GeneratedVaadinTextField<*, String>.selectAll() {
  * the text. There may be no effect if the field is unfocused - the browser
  * generally selects all when the field gains focus.
  */
-fun <R: GeneratedVaadinTextField<R, String>> R.selectNone() {
+public fun <R: GeneratedVaadinTextField<R, String>> R.selectNone() {
     setCursorLocation(value?.length ?: 0)
 }
 
@@ -80,7 +80,7 @@ fun <R: GeneratedVaadinTextField<R, String>> R.selectNone() {
  * There may be no effect if the field is unfocused - the browser
  * generally selects all when the field gains focus.
  */
-fun GeneratedVaadinTextField<*, String>.setCursorLocation(cursorLocation: Int) {
+public fun GeneratedVaadinTextField<*, String>.setCursorLocation(cursorLocation: Int) {
     select(cursorLocation until cursorLocation)
 }
 
@@ -88,18 +88,18 @@ fun GeneratedVaadinTextField<*, String>.setCursorLocation(cursorLocation: Int) {
  * Selects given characters in this text field. The selection is not really visible in
  * the browser unless the field is focused.
  */
-fun GeneratedVaadinTextField<*, String>.select(selection: IntRange) {
+public fun GeneratedVaadinTextField<*, String>.select(selection: IntRange) {
     require(selection.first >= 0)
     require(selection.last >= -1)
-    getElement().executeJs("this.inputElement.setSelectionRange(${selection.first}, ${selection.last + 1})")
+    element.executeJs("this.inputElement.setSelectionRange(${selection.first}, ${selection.last + 1})")
 }
 
 /**
  * Selects all text in this text field. The selection is not really visible in
  * the browser unless the field is focused.
  */
-fun GeneratedVaadinTextArea<*, String>.selectAll() {
-    getElement().executeJs("this.inputElement.select()")
+public fun GeneratedVaadinTextArea<*, String>.selectAll() {
+    element.executeJs("this.inputElement.select()")
 }
 
 /**
@@ -107,7 +107,7 @@ fun GeneratedVaadinTextArea<*, String>.selectAll() {
  * the text. There may be no effect if the field is unfocused - the browser
  * generally selects all when the field gains focus.
  */
-fun <R: GeneratedVaadinTextArea<R, String>> R.selectNone() {
+public fun <R: GeneratedVaadinTextArea<R, String>> R.selectNone() {
     setCursorLocation(value?.length ?: 0)
 }
 
@@ -117,7 +117,7 @@ fun <R: GeneratedVaadinTextArea<R, String>> R.selectNone() {
  * There may be no effect if the field is unfocused - the browser
  * generally selects all when the field gains focus.
  */
-fun GeneratedVaadinTextArea<*, String>.setCursorLocation(cursorLocation: Int) {
+public fun GeneratedVaadinTextArea<*, String>.setCursorLocation(cursorLocation: Int) {
     select(cursorLocation until cursorLocation)
 }
 
@@ -125,8 +125,8 @@ fun GeneratedVaadinTextArea<*, String>.setCursorLocation(cursorLocation: Int) {
  * Selects given characters in this text field. The selection is not really visible in
  * the browser unless the field is focused.
  */
-fun GeneratedVaadinTextArea<*, String>.select(selection: IntRange) {
+public fun GeneratedVaadinTextArea<*, String>.select(selection: IntRange) {
     require(selection.first >= 0)
     require(selection.last >= -1)
-    getElement().executeJs("this.inputElement.setSelectionRange(${selection.first}, ${selection.last + 1})")
+    element.executeJs("this.inputElement.setSelectionRange(${selection.first}, ${selection.last + 1})")
 }

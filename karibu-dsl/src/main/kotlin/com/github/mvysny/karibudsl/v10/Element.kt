@@ -21,7 +21,7 @@ import java.io.Serializable
  * No *camelCase* to *dash-separated* conversion is performed.
  * @property defaultValue used in place of `null` value
  */
-class ElementStringProperty(val defaultValue: String = "") : ReadWriteProperty<Component, String>, Serializable {
+public class ElementStringProperty(public val defaultValue: String = "") : ReadWriteProperty<Component, String>, Serializable {
     override fun getValue(thisRef: Component, property: KProperty<*>): String = thisRef.element.getProperty(property.name, defaultValue)
     override fun setValue(thisRef: Component, property: KProperty<*>, value: String) {
         thisRef.element.setProperty(property.name, if (value == defaultValue) null else value)
@@ -47,7 +47,7 @@ class ElementStringProperty(val defaultValue: String = "") : ReadWriteProperty<C
  * No *camelCase* to *dash-separated* conversion is performed.
  * @property defaultValue used in place of `null` value
  */
-class ElementBooleanProperty(val defaultValue: Boolean) : ReadWriteProperty<Component, Boolean>, Serializable {
+public class ElementBooleanProperty(public val defaultValue: Boolean) : ReadWriteProperty<Component, Boolean>, Serializable {
     override fun getValue(thisRef: Component, property: KProperty<*>): Boolean = thisRef.element.getProperty(property.name, defaultValue)
     override fun setValue(thisRef: Component, property: KProperty<*>, value: Boolean) {
         thisRef.element.setProperty(property.name, value)
@@ -78,7 +78,7 @@ class ElementBooleanProperty(val defaultValue: Boolean) : ReadWriteProperty<Comp
  * For more information see Vaadin [com.vaadin.flow.dom.Element.getAttribute].
  * @property defaultValue used in place of `null` value
  */
-class ElementAttributeProperty(val defaultValue: String? = null) : ReadWriteProperty<Component, String?>, Serializable {
+public class ElementAttributeProperty(public val defaultValue: String? = null) : ReadWriteProperty<Component, String?>, Serializable {
     override fun getValue(thisRef: Component, property: KProperty<*>): String? = thisRef.element.getAttribute(SharedUtil.camelCaseToDashSeparated(property.name)) ?: defaultValue
     override fun setValue(thisRef: Component, property: KProperty<*>, value: String?) {
         val newValue: String? = if (value == defaultValue) null else value
@@ -94,7 +94,7 @@ class ElementAttributeProperty(val defaultValue: String? = null) : ReadWriteProp
 /**
  * Inserts [newNode] as a child, right before an [existingNode].
  */
-fun Element.insertBefore(newNode: Element, existingNode: Element) {
+public fun Element.insertBefore(newNode: Element, existingNode: Element) {
     val parent: Element = requireNotNull(existingNode.parent) { "$existingNode has no parent element" }
     require(parent == this) { "$existingNode is not nested in $this" }
     insertChild(indexOfChild(existingNode), newNode)

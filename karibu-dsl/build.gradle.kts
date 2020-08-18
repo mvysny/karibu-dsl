@@ -37,5 +37,9 @@ dependencies {
     implementation("org.glassfish:javax.el:3.0.1-b11")
 }
 
+kotlin {
+    explicitApi()
+}
+
 val configureBintray = ext["configureBintray"] as (artifactId: String) -> Unit
 configureBintray("karibu-dsl")

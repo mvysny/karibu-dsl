@@ -12,12 +12,14 @@ import kotlin.reflect.KClass
 /**
  * Navigates to given view: `navigateToView<AdminView>()`
  */
-inline fun <reified T: Component> navigateToView() = navigateToView(T::class)
+public inline fun <reified T: Component> navigateToView() {
+    navigateToView(T::class)
+}
 
 /**
  * Navigates to given view: `navigateToView(AdminView::class)`
  */
-fun navigateToView(viewType: KClass<out Component>) {
+public fun navigateToView(viewType: KClass<out Component>) {
     UI.getCurrent().navigate(viewType.java)
 }
 
@@ -25,14 +27,14 @@ fun navigateToView(viewType: KClass<out Component>) {
  * Navigates to given view with parameters: `navigateToView(DocumentView::class, 25L)`.
  * @param param typically a non-null parameter, but may be null in case of view's optional parameter.
  */
-fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Component, T: HasUrlParameter<C> {
+public fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Component, T: HasUrlParameter<C> {
     // don't use this fun with reified C - when there is a parameter T, that would require the user to write something like this:
     // navigateToView<Long, EditArticleView>(article.id!!)   // note the Long
     UI.getCurrent().navigate(viewType.java, param)
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
+public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
                                           block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
     val link = RouterLink(null, viewType.java)
     if (icon != null) link.icon(icon)
@@ -43,7 +45,7 @@ fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String
 
 @JvmName("routerLinkWithParam")
 @VaadinDsl
-fun <T, C> (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out C>,
+public fun <T, C> (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out C>,
                                           parameter: T, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink where C: Component, C: HasUrlParameter<T> {
     val link = RouterLink(null, viewType.java, parameter)
     if (icon != null) link.icon(icon)
@@ -60,7 +62,7 @@ fun <T, C> (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text:
 
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
+public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
     // a RouterLink for which the navigation target is not yet known and is set lazily, perhaps in HasUrlParameter.setParameter()
     val link = RouterLink()
     if (icon != null) link.icon(icon)
@@ -85,28 +87,30 @@ private fun getRouter(): Router {
 /**
  * Set the [navigationTarget] for this link.
  */
-fun RouterLink.setRoute(navigationTarget: KClass<out Component>) = setRoute(getRouter(), navigationTarget.java)
+public fun RouterLink.setRoute(navigationTarget: KClass<out Component>) {
+    setRoute(getRouter(), navigationTarget.java)
+}
 /**
  * Set the [navigationTarget] for this link.
  * @param parameter url parameter for navigation target
  * @param T url parameter type
  * @param C navigation target type
  */
-fun <T, C> RouterLink.setRoute(navigationTarget: KClass<out C>, parameter: T) where C: Component, C: HasUrlParameter<T> {
+public fun <T, C> RouterLink.setRoute(navigationTarget: KClass<out C>, parameter: T) where C: Component, C: HasUrlParameter<T> {
     setRoute(getRouter(), navigationTarget.java, parameter)
 }
 
 /**
  * Returns the navigated-to view class.
  */
-val AfterNavigationEvent.viewClass: Class<out Component>? get() =
+public val AfterNavigationEvent.viewClass: Class<out Component>? get() =
     (activeChain.first() as Component).javaClass
 
 /**
  * Finds a view mapped to this location.
  * @param router router to use, defaults to [UI.getRouter]/[VaadinService.router].
  */
-fun Location.getViewClass(router: Router = getRouter()): Class<out Component>? {
+public fun Location.getViewClass(router: Router = getRouter()): Class<out Component>? {
     val navigationTarget: Optional<NavigationState> =
             router.resolveNavigationTarget("/$path", queryParameters.parameters.mapValues { it.value.toTypedArray() })
     return navigationTarget.orElse(null)?.navigationTarget

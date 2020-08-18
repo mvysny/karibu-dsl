@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.*
  * @param classNames optional additional class names, space-separated
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).flexLayout(classNames: String = "", block: (@VaadinDsl FlexLayout).() -> Unit = {}): @VaadinDsl FlexLayout {
+public fun (@VaadinDsl HasComponents).flexLayout(classNames: String = "", block: (@VaadinDsl FlexLayout).() -> Unit = {}): @VaadinDsl FlexLayout {
     val layout = FlexLayout()
     classNames.feedClassNamesTo(layout)
     return init(layout, block)
@@ -29,7 +29,7 @@ fun (@VaadinDsl HasComponents).flexLayout(classNames: String = "", block: (@Vaad
  * @return the vertical layout, added to the parent.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).verticalLayout(
+public fun (@VaadinDsl HasComponents).verticalLayout(
         isPadding: Boolean = true,
         isSpacing: Boolean = true,
         classNames: String = "",
@@ -56,7 +56,7 @@ fun (@VaadinDsl HasComponents).verticalLayout(
  * @return the horizontal layout, added to the parent.
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).horizontalLayout(
+public fun (@VaadinDsl HasComponents).horizontalLayout(
         isPadding: Boolean = false,
         isSpacing: Boolean = true,
         classNames: String = "",
@@ -90,7 +90,7 @@ fun (@VaadinDsl HasComponents).horizontalLayout(
  *
  * Warning: in case of [Grid.Column] it returns/sets the value of [Grid.Column.setFlexGrow].
  */
-var (@VaadinDsl Component).flexGrow: Double?
+public var (@VaadinDsl Component).flexGrow: Double?
     get() {
         if (this is Grid.Column<*>) return this.flexGrow.toDouble()
         val value: String? = element.style.get("flexGrow")
@@ -118,7 +118,7 @@ var (@VaadinDsl Component).flexGrow: Double?
  * Checks if the component expands when nested in [FlexComponent]. Alias for
  * setting [flexGrow] to 1.0; see [flexGrow] for more information.
  */
-var (@VaadinDsl Component).isExpand: Boolean
+public var (@VaadinDsl Component).isExpand: Boolean
     get() {
         return (flexGrow ?: 0.0) > 0
     }
@@ -133,7 +133,7 @@ var (@VaadinDsl Component).isExpand: Boolean
  *
  * Get more information at [flex-shrink](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink)
  */
-var (@VaadinDsl Component).flexShrink: Double?
+public var (@VaadinDsl Component).flexShrink: Double?
     get() = element.style.get("flexShrink")?.toDouble()
     set(value) {
         // don't rely on the default flex-shrink value of 1:
@@ -150,7 +150,7 @@ var (@VaadinDsl Component).flexShrink: Double?
  *
  * If set to `0`, the extra space around content isn't factored in. If set to `auto`, the extra space is distributed based on its flex-grow value.
  */
-var (@VaadinDsl Component).flexBasis: String?
+public var (@VaadinDsl Component).flexBasis: String?
     get() = element.style.get("flexBasis")
     set(value) {
         element.style.set("flexBasis", value)
@@ -161,7 +161,7 @@ var (@VaadinDsl Component).flexBasis: String?
  *
  * Please see the [FlexComponent.getAlignItems] explanation to understand the available values.
  */
-var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment?
+public var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment?
     get() = (parent.get() as FlexComponent<*>).getAlignSelf(this)
     set(value) {
         (parent.get() as FlexComponent<*>).setAlignSelf(value, this)
@@ -171,7 +171,7 @@ var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment?
  * This aligns a flex container's lines within when there is extra space in the cross-axis, similar to how [FlexComponent.getJustifyContentMode] aligns individual
  * items within the main-axis.
  */
-var (@VaadinDsl FlexLayout).alignContent: AlignContent
+public var (@VaadinDsl FlexLayout).alignContent: AlignContent
     get() = (this as FlexComponent<*>).alignContent
     set(value) {
         (this as FlexComponent<*>).alignContent = value
@@ -184,7 +184,7 @@ private var (@VaadinDsl FlexComponent<*>).alignContent: AlignContent
         element.style.set("alignContent", value.flexValue)
     }
 
-enum class AlignContent(val flexValue: String) {
+public enum class AlignContent(public val flexValue: String) {
     /**
      * lines packed to the start of the container
      */
@@ -210,8 +210,8 @@ enum class AlignContent(val flexValue: String) {
      */
     Stretch("stretch");
 
-    companion object {
-        fun fromFlexValue(flexValue: String?): AlignContent =
+    public companion object {
+        public fun fromFlexValue(flexValue: String?): AlignContent =
                 values().firstOrNull { it.flexValue == flexValue } ?: Stretch
     }
 }
@@ -230,7 +230,7 @@ enum class AlignContent(val flexValue: String) {
  *
  * Note: this only works with [HorizontalLayout] - it will throw an exception if this component is nested in any other type of layout.
  */
-var (@VaadinDsl Component).verticalAlignSelf: FlexComponent.Alignment
+public var (@VaadinDsl Component).verticalAlignSelf: FlexComponent.Alignment
     get() = (parent.get() as HorizontalLayout).getVerticalComponentAlignment(this)
     set(value) {
         (parent.get() as HorizontalLayout).setVerticalComponentAlignment(value, this)
@@ -247,13 +247,13 @@ var (@VaadinDsl Component).verticalAlignSelf: FlexComponent.Alignment
  *
  * Note: this only works with [VerticalLayout] - it will throw an exception if this component is nested in any other type of layout.
  */
-var (@VaadinDsl Component).horizontalAlignSelf: FlexComponent.Alignment
+public var (@VaadinDsl Component).horizontalAlignSelf: FlexComponent.Alignment
     get() = (parent.get() as VerticalLayout).getHorizontalComponentAlignment(this)
     set(value) {
         (parent.get() as VerticalLayout).setHorizontalComponentAlignment(value, this)
     }
 
-class HorizontalLayoutContent(private val owner: HorizontalLayout) {
+public class HorizontalLayoutContent(private val owner: HorizontalLayout) {
     /**
      * This aligns the container's components within when there is extra space. See [justify-content](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#article-header-id-6)
      * for more details.
@@ -261,7 +261,7 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
      * Note: contrary to [verticalAlignment] this setting can not be overridden by individual children. This is a limitation of
      * the flex layout. Calling [horizontalAlignSelf] on children will throw an exception.
      */
-    var horizontalAlignment: FlexComponent.JustifyContentMode
+    public var horizontalAlignment: FlexComponent.JustifyContentMode
         get() = owner.justifyContentMode
         set(value) {
             owner.justifyContentMode = value
@@ -278,7 +278,7 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
      *
      * It's the same as the [HorizontalLayout.getDefaultVerticalComponentAlignment] method.
      */
-    var verticalAlignment: FlexComponent.Alignment
+    public var verticalAlignment: FlexComponent.Alignment
         get() = owner.defaultVerticalComponentAlignment
         set(value) {
             owner.defaultVerticalComponentAlignment = value
@@ -287,62 +287,62 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
     /**
      * Items are positioned to the top of the available space.
      */
-    val top inline get() = FlexComponent.Alignment.START
+    public val top: FlexComponent.Alignment inline get() = FlexComponent.Alignment.START
 
     /**
      * Children are positioned to the bottom of the available space.
      */
-    val bottom inline get() = FlexComponent.Alignment.END
+    public val bottom: FlexComponent.Alignment inline get() = FlexComponent.Alignment.END
 
     /**
      * Children are positioned vertically in the middle of the available space.
      */
-    val middle inline get() = FlexComponent.Alignment.CENTER
+    public val middle: FlexComponent.Alignment inline get() = FlexComponent.Alignment.CENTER
 
     /**
      * Children are stretched to fit the container's height.
      */
-    val stretch inline get() = FlexComponent.Alignment.STRETCH
+    public val stretch: FlexComponent.Alignment inline get() = FlexComponent.Alignment.STRETCH
 
     /**
      * Children are positioned at the baseline of the container.
      */
-    val baseline inline get() = FlexComponent.Alignment.BASELINE
+    public val baseline: FlexComponent.Alignment inline get() = FlexComponent.Alignment.BASELINE
 
     /**
      * Children are positioned to the left of the available space.
      */
-    val left inline get() = FlexComponent.JustifyContentMode.START
+    public val left: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.START
 
     /**
      * Children are positioned to the right of the available space.
      */
-    val right inline get() = FlexComponent.JustifyContentMode.END
+    public val right: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.END
 
     /**
      * Children are positioned at the horizontal center of the container.
      */
-    val center inline get() = FlexComponent.JustifyContentMode.CENTER
+    public val center: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.CENTER
 
     /**
      * Children are positioned with space between the lines.
      */
-    val between inline get() = FlexComponent.JustifyContentMode.BETWEEN
+    public val between: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.BETWEEN
 
     /**
      * Children are positioned with space before, between, and after the lines.
      */
-    val around inline get() = FlexComponent.JustifyContentMode.AROUND
+    public val around: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.AROUND
 
     /**
      * Children have equal space around them.
      */
-    val evenly inline get() = FlexComponent.JustifyContentMode.EVENLY
+    public val evenly: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.EVENLY
 
     /**
      * Centers all children inside of the layout. Equal to setting [center] and [middle].
      */
-    fun center() {
+    public fun center() {
         align(center, middle)
     }
 
@@ -353,7 +353,7 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
      * @param verticalAlignment use one of [top], [bottom], [stretch], [middle], [baseline],
      * which are shortcuts for [FlexComponent.Alignment].
      */
-    fun align(horizontalAlignment: FlexComponent.JustifyContentMode, verticalAlignment: FlexComponent.Alignment) {
+    public fun align(horizontalAlignment: FlexComponent.JustifyContentMode, verticalAlignment: FlexComponent.Alignment) {
         this.horizontalAlignment = horizontalAlignment
         this.verticalAlignment = verticalAlignment
     }
@@ -383,14 +383,14 @@ class HorizontalLayoutContent(private val owner: HorizontalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
-inline fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.() -> Unit) {
+public inline fun (@VaadinDsl HorizontalLayout).content(block: HorizontalLayoutContent.() -> Unit) {
     // the only reason why this is done as a builder, is that the HorizontalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
     HorizontalLayoutContent(this).block()
 }
 
 @VaadinDsl
-class VerticalLayoutContent(private val owner: VerticalLayout) {
+public class VerticalLayoutContent(private val owner: VerticalLayout) {
     /**
      * The default horizontal alignment to be used by all components without
      * individual alignments inside the layout. Individual components can be
@@ -402,7 +402,7 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
      *
      * It's the same as the [VerticalLayout.setDefaultHorizontalComponentAlignment] method.
      */
-    var horizontalAlignment: FlexComponent.Alignment
+    public var horizontalAlignment: FlexComponent.Alignment
         get() = owner.defaultHorizontalComponentAlignment
         set(value) {
             owner.defaultHorizontalComponentAlignment = value
@@ -415,7 +415,7 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
      * Note: contrary to [horizontalAlignment] this setting can not be overridden by individual children. This is a limitation of
      * the flex layout. Calling [verticalAlignSelf] on children will throw an exception.
      */
-    var verticalAlignment: FlexComponent.JustifyContentMode
+    public var verticalAlignment: FlexComponent.JustifyContentMode
         get() = owner.justifyContentMode
         set(value) {
             owner.justifyContentMode = value
@@ -424,57 +424,57 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
     /**
      * Children are positioned to the left of the available space.
      */
-    val left inline get() = FlexComponent.Alignment.START
+    public val left: FlexComponent.Alignment inline get() = FlexComponent.Alignment.START
 
     /**
      * Children are positioned to the right of the available space.
      */
-    val right inline get() = FlexComponent.Alignment.END
+    public val right: FlexComponent.Alignment inline get() = FlexComponent.Alignment.END
 
     /**
      * Children are positioned at the horizontal center of the container.
      */
-    val center inline get() = FlexComponent.Alignment.CENTER
+    public val center: FlexComponent.Alignment inline get() = FlexComponent.Alignment.CENTER
 
     /**
      * Children are stretched to fit the container's width.
      */
-    val stretch inline get() = FlexComponent.Alignment.STRETCH
+    public val stretch: FlexComponent.Alignment inline get() = FlexComponent.Alignment.STRETCH
 
     /**
      * Items are positioned to the top of the available space.
      */
-    val top inline get() = FlexComponent.JustifyContentMode.START
+    public val top: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.START
 
     /**
      * Children are positioned to the bottom of the available space.
      */
-    val bottom inline get() = FlexComponent.JustifyContentMode.END
+    public val bottom: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.END
 
     /**
      * Children are positioned vertically in the middle of the available space.
      */
-    val middle inline get() = FlexComponent.JustifyContentMode.CENTER
+    public val middle: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.CENTER
 
     /**
      * Items are positioned with space between the lines.
      */
-    val between inline get() = FlexComponent.JustifyContentMode.BETWEEN
+    public val between: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.BETWEEN
 
     /**
      * Items are positioned with space before, between, and after the lines.
      */
-    val around inline get() = FlexComponent.JustifyContentMode.AROUND
+    public val around: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.AROUND
 
     /**
      * Items have equal space around them.
      */
-    val evenly inline get() = FlexComponent.JustifyContentMode.EVENLY
+    public val evenly: FlexComponent.JustifyContentMode inline get() = FlexComponent.JustifyContentMode.EVENLY
 
     /**
      * Centers all children inside of the layout. Equal to setting [center] and [middle].
      */
-    fun center() {
+    public fun center() {
         align(center, middle)
     }
 
@@ -485,7 +485,7 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
      * @param verticalAlignment one of [top], [bottom], [middle], [between], [around], [evenly],
      * which are aliases for [FlexComponent.JustifyContentMode].
      */
-    fun align(horizontalAlignment: FlexComponent.Alignment, verticalAlignment: FlexComponent.JustifyContentMode) {
+    public fun align(horizontalAlignment: FlexComponent.Alignment, verticalAlignment: FlexComponent.JustifyContentMode) {
         this.horizontalAlignment = horizontalAlignment
         this.verticalAlignment = verticalAlignment
     }
@@ -515,7 +515,7 @@ class VerticalLayoutContent(private val owner: VerticalLayout) {
  * * [flexShrink] - when there is not enough room for all children then they are shrank
  * * [flexBasis]
  */
-inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.() -> Unit) {
+public inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.() -> Unit) {
     // the only reason why this is done as a builder, is that the VerticalLayoutContent.* constants are constrained to the block
     // and not defined as global variables.
     VerticalLayoutContent(this).block()
@@ -524,7 +524,7 @@ inline fun (@VaadinDsl VerticalLayout).content(block: VerticalLayoutContent.() -
 /**
  * By default, flex items will all try to fit onto one line. You can change that and allow the items to wrap as needed with this property.
  */
-enum class FlexWrap(val flexValue: String) {
+public enum class FlexWrap(public val flexValue: String) {
     /**
      * nowrap (default): all flex items will be on one line
      */
@@ -538,8 +538,8 @@ enum class FlexWrap(val flexValue: String) {
      */
     WrapReverse("wrap-reverse");
 
-    companion object {
-        fun findByFlex(flexValue: String?) = when {
+    public companion object {
+        public fun findByFlex(flexValue: String?): FlexWrap? = when {
             flexValue == null -> null
             else -> values().firstOrNull { it.flexValue == flexValue }
         }
@@ -549,7 +549,7 @@ enum class FlexWrap(val flexValue: String) {
 /**
  * By default, flex items will all try to fit onto one line. You can change that and allow the items to wrap as needed with this property.
  */
-var (@VaadinDsl FlexLayout).flexWrap: FlexWrap
+public var (@VaadinDsl FlexLayout).flexWrap: FlexWrap
     get() = FlexWrap.findByFlex(element.style.get("flexWrap")) ?: FlexWrap.Wrap
     set(value) {
         when (value) {

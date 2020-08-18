@@ -27,29 +27,29 @@ import com.vaadin.flow.component.grid.contextmenu.GridMenuItem
  * ```
  */
 @VaadinDsl
-fun (@VaadinDsl Component).contextMenu(block: ContextMenu.()->Unit = {}): ContextMenu {
+public fun (@VaadinDsl Component).contextMenu(block: ContextMenu.()->Unit = {}): ContextMenu {
     val menu = ContextMenu(this)
     menu.block()
     return menu
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasMenuItems).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
+public fun (@VaadinDsl HasMenuItems).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
                                           block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         addItem(text, clickListener).apply { block() }
 
 @VaadinDsl
-fun (@VaadinDsl MenuItem).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
+public fun (@VaadinDsl MenuItem).item(text: String, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
                                           block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         subMenu.item(text, clickListener, block)
 
 @VaadinDsl
-fun (@VaadinDsl HasMenuItems).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
+public fun (@VaadinDsl HasMenuItems).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
                                           block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         addItem(component, clickListener).apply { block() }
 
 @VaadinDsl
-fun (@VaadinDsl MenuItem).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
+public fun (@VaadinDsl MenuItem).item(component: Component, clickListener: ((ClickEvent<MenuItem>)->Unit)? = null,
                                block: (@VaadinDsl MenuItem).()->Unit = {}): MenuItem =
         subMenu.item(component, clickListener, block)
 
@@ -68,7 +68,7 @@ fun (@VaadinDsl MenuItem).item(component: Component, clickListener: ((ClickEvent
  * those will show on right click and will overlap.
  */
 @VaadinDsl
-fun <T> (@VaadinDsl Grid<T>).gridContextMenu(block: GridContextMenu<T>.()->Unit = {}): GridContextMenu<T> {
+public fun <T> (@VaadinDsl Grid<T>).gridContextMenu(block: GridContextMenu<T>.()->Unit = {}): GridContextMenu<T> {
     val menu = addContextMenu()
     menu.block()
     return menu
@@ -84,45 +84,45 @@ private val <T> (((T?)->Unit)?).toListener: ComponentEventListener<GridContextMe
  * empty space in the grid.
  */
 @VaadinDsl
-fun <T> (@VaadinDsl GridContextMenu<T>).item(text: String, clickListener: ((T?)->Unit)? = null,
+public fun <T> (@VaadinDsl GridContextMenu<T>).item(text: String, clickListener: ((T?)->Unit)? = null,
                                    block: (@VaadinDsl GridMenuItem<T>).()->Unit = {}): GridMenuItem<T> =
         addItem(text, clickListener.toListener).apply { block() }
 
 @VaadinDsl
-fun <T> (@VaadinDsl GridMenuItem<T>).item(text: String, clickListener: ((T?)->Unit)? = null,
+public fun <T> (@VaadinDsl GridMenuItem<T>).item(text: String, clickListener: ((T?)->Unit)? = null,
                                block: (@VaadinDsl GridMenuItem<T>).()->Unit = {}): GridMenuItem<T> =
         subMenu.addItem(text, clickListener.toListener).apply { block() }
 
 @VaadinDsl
-fun <T> (@VaadinDsl GridContextMenu<T>).item(component: Component, clickListener: ((T?)->Unit)? = null,
+public fun <T> (@VaadinDsl GridContextMenu<T>).item(component: Component, clickListener: ((T?)->Unit)? = null,
                                    block: (@VaadinDsl GridMenuItem<T>).()->Unit = {}): GridMenuItem<T> =
         addItem(component, clickListener.toListener).apply { block() }
 
 @VaadinDsl
-fun <T> (@VaadinDsl GridMenuItem<T>).item(component: Component, clickListener: ((T?)->Unit)? = null,
+public fun <T> (@VaadinDsl GridMenuItem<T>).item(component: Component, clickListener: ((T?)->Unit)? = null,
                                block: (@VaadinDsl GridMenuItem<T>).()->Unit = {}): GridMenuItem<T> =
         subMenu.addItem(component, clickListener.toListener).apply { block() }
 
 @VaadinDsl
-fun (@VaadinDsl MenuItem).separator() {
+public fun (@VaadinDsl MenuItem).separator() {
     // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }
 
 @VaadinDsl
-fun (@VaadinDsl GridMenuItem<*>).separator() {
+public fun (@VaadinDsl GridMenuItem<*>).separator() {
     // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }
 
 @VaadinDsl
-fun (@VaadinDsl ContextMenu).separator() {
+public fun (@VaadinDsl ContextMenu).separator() {
     // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }
 
 @VaadinDsl
-fun (@VaadinDsl GridContextMenu<*>).separator() {
+public fun (@VaadinDsl GridContextMenu<*>).separator() {
     // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }

@@ -5,7 +5,7 @@ import com.vaadin.flow.component.ironlist.IronList
 import com.vaadin.flow.data.provider.DataProvider
 
 @VaadinDsl
-fun <T : Any?> (@VaadinDsl HasComponents).ironList(
+public fun <T : Any?> (@VaadinDsl HasComponents).ironList(
         dataProvider: DataProvider<T, *>? = null,
         block: (@VaadinDsl IronList<T>).() -> Unit = {}
 ): IronList<T> {
@@ -19,4 +19,6 @@ fun <T : Any?> (@VaadinDsl HasComponents).ironList(
 /**
  * Refreshes the component and re-polls for data.
  */
-fun (@VaadinDsl IronList<*>).refresh() = dataProvider.refreshAll()
+public fun (@VaadinDsl IronList<*>).refresh() {
+    dataProvider.refreshAll()
+}
