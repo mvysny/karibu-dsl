@@ -18,4 +18,5 @@ private class CalendarEventClassList(val calendarEvent: CalendarEvent) : Abstrac
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl CalendarEvent).styleNames: ClassList get() = CalendarEventClassList(this)
+public val (@VaadinDsl CalendarEvent).styleNames: ClassList
+    get() = CalendarEventClassList(this)

@@ -30,8 +30,8 @@ import java.text.DateFormat
 import java.util.*
 import java.util.Calendar
 
-data class NumberInterval<T : Number>(val lessThanValue: T?, val greaterThanValue: T?, val equalsValue: T?) : Serializable {
-    fun toFilter(propertyId: Any?): Container.Filter? {
+public data class NumberInterval<T : Number>(val lessThanValue: T?, val greaterThanValue: T?, val equalsValue: T?) : Serializable {
+    public fun toFilter(propertyId: Any?): Container.Filter? {
         if (equalsValue != null) return Compare.Equal(propertyId, equalsValue)
         if (lessThanValue != null && greaterThanValue != null) {
             return And(Compare.Less(propertyId, lessThanValue), Compare.Greater(propertyId, greaterThanValue))
@@ -49,7 +49,7 @@ data class NumberInterval<T : Number>(val lessThanValue: T?, val greaterThanValu
  * A filter component which allows the user to filter numeric value which is greater than, equal, or less than a value which user enters.
  * Stolen from Teppo Kurki's FilterTable.
  */
-class NumberFilterPopup : CustomField<NumberInterval<Double>?>() {
+public class NumberFilterPopup : CustomField<NumberInterval<Double>?>() {
     @Suppress("UNCHECKED_CAST")
     override fun getType(): Class<out NumberInterval<Double>>? = NumberInterval::class.java as Class<NumberInterval<Double>>
 
@@ -160,7 +160,7 @@ class NumberFilterPopup : CustomField<NumberInterval<Double>?>() {
  * @property container The container on which the filtering will be performed, not null.
  * @author mvy, stolen from Teppo Kurki's FilterTable.
  */
-abstract class FilterFieldFactory(protected val container: Container.Filterable) {
+public abstract class FilterFieldFactory(protected val container: Container.Filterable) {
     /**
      * Creates the filtering component. The component may not necessarily produce values of given data types - for example,
      * if the data type is a Double, the filtering component may produce a DoubleRange object which requires given value to be contained in a numeric range.
@@ -170,7 +170,7 @@ abstract class FilterFieldFactory(protected val container: Container.Filterable)
      * @return A field that can be assigned to the given fieldType and that is
      * *         capable of filtering given type of data. May return null if filtering of given data type with given field type is unsupported.
      */
-    abstract fun createField(propertyId: Any?): Field<*>?
+    public abstract fun createField(propertyId: Any?): Field<*>?
 
     /**
      * Returns the type of the values present in given column.
@@ -206,7 +206,7 @@ abstract class FilterFieldFactory(protected val container: Container.Filterable)
      * the field's value to a filter.
      * @param propertyId The column (property) ID of the container, on which the filtering will be performed, not null.
      */
-    fun bind(field: Field<*>, propertyId: Any?) {
+    public fun bind(field: Field<*>, propertyId: Any?) {
         val filterFieldWatcher = FilterFieldWatcher(field, propertyId)
         if (field is AbstractTextField) {
             field.addTextChangeListener(filterFieldWatcher)
@@ -255,11 +255,11 @@ abstract class FilterFieldFactory(protected val container: Container.Filterable)
     }
 }
 
-data class DateInterval(val from: Date?, val to: Date?) : Serializable {
+public data class DateInterval(val from: Date?, val to: Date?) : Serializable {
     val isEmpty: Boolean
         get() = from == null && to == null
 
-    fun toFilter(container: Container.Filterable, propertyId: Any?): Container.Filter? {
+    public fun toFilter(container: Container.Filterable, propertyId: Any?): Container.Filter? {
         if (isEmpty) return null
         var actualFrom = from
         var actualTo = to
@@ -281,13 +281,13 @@ data class DateInterval(val from: Date?, val to: Date?) : Serializable {
     }
 }
 
-class DateFilterPopup: CustomField<DateInterval?>() {
+public class DateFilterPopup: CustomField<DateInterval?>() {
     private val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, UI.getCurrent().locale ?: Locale.getDefault())
     private lateinit var fromField: DateField
     private lateinit var toField: DateField
     private lateinit var set: Button
     private lateinit var clear: Button
-    val resolution: Resolution = Resolution.DAY
+    private val resolution: Resolution = Resolution.DAY
 
     init {
         styleName = "datefilterpopup"
@@ -387,7 +387,7 @@ class DateFilterPopup: CustomField<DateInterval?>() {
  * Supports filter fields for dates, numbers and strings.
  * @author mvy, stolen from Teppo Kurki's FilterTable.
  */
-class DefaultFilterFieldFactory(container: Container.Filterable) : FilterFieldFactory(container) {
+public class DefaultFilterFieldFactory(container: Container.Filterable) : FilterFieldFactory(container) {
     /**
      * If true, number filters will be shown as a popup, which allows the user to set eq, less-than and greater-than fields.
      * If false, a simple in-place editor will be shown, which only allows to enter the eq number.
@@ -441,9 +441,9 @@ class DefaultFilterFieldFactory(container: Container.Filterable) : FilterFieldFa
         return textField
     }
 
-    protected fun createDateField(propertyId: Any?): DateFilterPopup = DateFilterPopup()
+    protected fun createDateField(propertyId: Any?): AbstractField<DateInterval?> = DateFilterPopup()
 
-    protected fun createNumericField(type: Class<*>, propertyId: Any?) = NumberFilterPopup()
+    protected fun createNumericField(type: Class<*>, propertyId: Any?): AbstractField<NumberInterval<Double>?> = NumberFilterPopup()
 
     private fun createBooleanField(propertyId: Any?): AbstractField<*> {
         val booleanSelect = ComboBox()
@@ -485,7 +485,7 @@ class DefaultFilterFieldFactory(container: Container.Filterable) : FilterFieldFa
  * @param grid the owner grid.
  * @param filterFieldFactory used to create the filters themselves. If null, [DefaultFilterFieldFactory] is used.
  */
-fun (@VaadinDsl Grid.HeaderRow).generateFilterComponents(grid: Grid, filterFieldFactory: FilterFieldFactory = DefaultFilterFieldFactory(grid.containerDataSource as Container.Filterable)) {
+public fun (@VaadinDsl Grid.HeaderRow).generateFilterComponents(grid: Grid, filterFieldFactory: FilterFieldFactory = DefaultFilterFieldFactory(grid.containerDataSource as Container.Filterable)) {
     for (propertyId in grid.containerDataSource.containerPropertyIds) {
         val field = if (grid.containerDataSource.isGenerated(propertyId)) null else filterFieldFactory.createField(propertyId)
         val cell = getCell(propertyId)

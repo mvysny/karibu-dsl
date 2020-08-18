@@ -18,7 +18,8 @@ import kotlin.reflect.KProperty
 
 @Deprecated("Use Grid from Vaadin 8")
 @VaadinDsl
-fun HasComponents.grid7(caption: String? = null, dataSource: Container.Indexed? = null, block: Grid.() -> Unit = {}) = init(Grid(caption, dataSource), block)
+public fun HasComponents.grid7(caption: String? = null, dataSource: Container.Indexed? = null, block: Grid.() -> Unit = {}): Grid =
+        init(Grid(caption, dataSource), block)
 
 private val gridColumnGrid: Field = Grid.Column::class.java.getDeclaredField("grid").apply { isAccessible = true }
 
@@ -26,30 +27,30 @@ private val gridColumnGrid: Field = Grid.Column::class.java.getDeclaredField("gr
  * Owner grid.
  */
 @Deprecated("Use Vaadin8 Grid")
-val (@VaadinDsl Grid.Column).grid: Grid
+public val (@VaadinDsl Grid.Column).grid: Grid
     get() = gridColumnGrid.get(this) as Grid
 
 private val propertyGenerators: Field = GeneratedPropertyContainer::class.java.getDeclaredField("propertyGenerators").apply { isAccessible = true }
 
 @Suppress("UNCHECKED_CAST")
 @Deprecated("Use Vaadin8 Grid")
-fun (@VaadinDsl GeneratedPropertyContainer).isGenerated(propertyId: Any?): Boolean = (propertyGenerators.get(this) as Map<Any, *>).containsKey(propertyId)
+public fun (@VaadinDsl GeneratedPropertyContainer).isGenerated(propertyId: Any?): Boolean = (propertyGenerators.get(this) as Map<Any, *>).containsKey(propertyId)
 
 @Deprecated("Use Vaadin8 Grid")
-fun (@VaadinDsl Container).isGenerated(propertyId: Any?): Boolean = if (this is GeneratedPropertyContainer) isGenerated(propertyId) else false
+public fun (@VaadinDsl Container).isGenerated(propertyId: Any?): Boolean = if (this is GeneratedPropertyContainer) isGenerated(propertyId) else false
 
 /**
  * True if this column is a generated column (part of the [GeneratedPropertyContainer]).
  */
 @Deprecated("Use Vaadin8 Grid")
-val (@VaadinDsl Grid.Column).isGenerated: Boolean
+public val (@VaadinDsl Grid.Column).isGenerated: Boolean
     get() = grid.containerDataSource.isGenerated(propertyId)
 
 /**
  * Starts adding of the columns into the grid.
  */
 @Deprecated("Use Vaadin8 Grid")
-fun (@VaadinDsl Grid).cols(block: GridColumnBuilder.()->Unit): Unit {
+public fun (@VaadinDsl Grid).cols(block: GridColumnBuilder.()->Unit) {
     val adder = GridColumnBuilder(this)
     adder.block()
     setColumns(*adder.columnProperties.toTypedArray())
@@ -57,14 +58,14 @@ fun (@VaadinDsl Grid).cols(block: GridColumnBuilder.()->Unit): Unit {
 
 @Deprecated("Use Vaadin8 Grid")
 @VaadinDsl
-class GridColumnBuilder(val grid: Grid) {
+public class GridColumnBuilder(public val grid: Grid) {
     internal val columnProperties = LinkedList<Any?>()
 
     /**
      * Adds a column which shows JPA Bean's property values. Applicable only when the Grid is backed by [JPAContainer].
      * @param property the JPA bean property (field)
      */
-    fun column(property: KProperty<*>, block: Grid.Column.()->Unit = {}) {
+    public fun column(property: KProperty<*>, block: Grid.Column.()->Unit = {}) {
         column(property.name, block)
     }
 
@@ -72,7 +73,7 @@ class GridColumnBuilder(val grid: Grid) {
      * Adds an arbitrary column to the Grid. The Container must provide property values for given propertyId.
      * @param propertyId the container property ID
      */
-    fun column(propertyId: Any?, block: Grid.Column.()->Unit = {}) {
+    public fun column(propertyId: Any?, block: Grid.Column.()->Unit = {}) {
         val column = grid.getColumn(propertyId) ?: throw IllegalArgumentException("No such column $propertyId, available columns: ${grid.columns}. You need to set the data source first.")
         columnProperties += propertyId
         column.block()
@@ -83,7 +84,7 @@ class GridColumnBuilder(val grid: Grid) {
      * @param propertyId the generated column propertyId, for example "edit"
      * @param generator generates values for the cells
      */
-    fun generated(propertyId: Any?, generator: PropertyValueGenerator<*>, block: Grid.Column.()->Unit = {}) {
+    public fun generated(propertyId: Any?, generator: PropertyValueGenerator<*>, block: Grid.Column.()->Unit = {}) {
         if (grid.containerDataSource !is GeneratedPropertyContainer) grid.containerDataSource = GeneratedPropertyContainer(grid.containerDataSource)
         (grid.containerDataSource as GeneratedPropertyContainer).addGeneratedProperty(propertyId, generator)
         column(propertyId, block)
@@ -95,7 +96,7 @@ class GridColumnBuilder(val grid: Grid) {
      * @param caption all buttons will have this caption
      * @param onClick invoked when the button is clicked. The [RendererClickEvent.itemId] is the ID of the JPA bean.
      */
-    fun button(propertyId: Any?, caption: String, onClick: (ClickableRenderer.RendererClickEvent)->Unit, block: Grid.Column.()->Unit = {}) {
+    public fun button(propertyId: Any?, caption: String, onClick: (ClickableRenderer.RendererClickEvent)->Unit, block: Grid.Column.()->Unit = {}) {
         generated(propertyId, object : PropertyValueGenerator<String>() {
             override fun getValue(item: Item?, itemId: Any?, propertyId: Any?): String? = caption
             override fun getType(): Class<String>? = String::class.java
