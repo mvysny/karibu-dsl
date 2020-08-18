@@ -10,13 +10,13 @@ import java.util.*
  * @property root the root object of the tree
  * @property children for given node, returns a list of its children.
  */
-class TreeIterator<out T>(private val root: T, private val children: (T) -> Iterable<T>) : Iterator<T> {
+public class TreeIterator<out T>(private val root: T, private val children: (T) -> Iterable<T>) : Iterator<T> {
     /**
      * The items to iterate over. Gradually filled with children, until there are no more items to iterate over.
      */
     private val queue: Queue<T> = LinkedList<T>(listOf(root))
 
-    override fun hasNext() = !queue.isEmpty()
+    override fun hasNext(): Boolean = !queue.isEmpty()
 
     override fun next(): T {
         if (!hasNext()) throw NoSuchElementException()
@@ -30,6 +30,6 @@ class TreeIterator<out T>(private val root: T, private val children: (T) -> Iter
  * Walks over this component and all descendants of this component, breadth-first.
  * @return iterable which iteratively walks over this component and all of its descendants.
  */
-fun (@VaadinDsl Component).walk(): Iterable<Component> = Iterable {
+public fun (@VaadinDsl Component).walk(): Iterable<Component> = Iterable {
     TreeIterator(this) { component -> component as? HasComponents ?: listOf() }
 }

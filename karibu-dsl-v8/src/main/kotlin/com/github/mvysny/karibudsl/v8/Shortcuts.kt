@@ -8,24 +8,24 @@ import com.vaadin.ui.Button
 import com.vaadin.ui.Component
 import java.io.Serializable
 
-enum class ModifierKey(val value: Int) {
+public enum class ModifierKey(public val value: Int) {
     Shift(ShortcutAction.ModifierKey.SHIFT),
     Ctrl(ShortcutAction.ModifierKey.CTRL),
     Alt(ShortcutAction.ModifierKey.ALT),
     Meta(ShortcutAction.ModifierKey.META);
 
-    infix operator fun plus(other: ModifierKey) = setOf(this, other)
-    infix operator fun plus(key: Int) = KeyShortcut(key, setOf(this))
+    public infix operator fun plus(other: ModifierKey): Set<ModifierKey> = setOf(this, other)
+    public infix operator fun plus(key: Int): KeyShortcut = KeyShortcut(key, setOf(this))
 }
 
-infix operator fun Set<ModifierKey>.plus(key: Int) = KeyShortcut(key, this)
+public infix operator fun Set<ModifierKey>.plus(key: Int): KeyShortcut = KeyShortcut(key, this)
 
 /**
  * Denotes a keyboard shortcut, such as [ModifierKey.Ctrl]+[ModifierKey.Alt]+[ShortcutAction.KeyCode.C]`. When properly imported, this
  * becomes `Ctrl+Alt+C` ;)
  * @property keyCode one of the ShortcutAction.KeyCode.* constants.
  */
-data class KeyShortcut(val keyCode: Int, val modifierKeys: Set<ModifierKey> = setOf()) : Serializable {
+public data class KeyShortcut(val keyCode: Int, val modifierKeys: Set<ModifierKey> = setOf()) : Serializable {
     val vaadinModifiers: IntArray = modifierKeys.map { it.value }.toIntArray()
 }
 
@@ -42,7 +42,7 @@ private fun shortcutListener(shortcut: KeyShortcut, block: () -> Unit): Shortcut
  * @param shortcut the shortcut, e.g. `ModifierKey.Ctrl + ModifierKey.Alt + ShortcutAction.KeyCode.C`.
  * When you properly import `ModifierKey.*` and `ShortcutAction.KeyCode.*`, this expression can be written as `Ctrl + Alt + C`
  */
-fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): Registration {
+public fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, action: () -> Unit): Registration {
     val listener = shortcutListener(shortcut, action)
     return (this as AbstractComponent).addShortcutListener(listener)
 }
@@ -52,7 +52,8 @@ fun (@VaadinDsl Component).addGlobalShortcutListener(shortcut: KeyShortcut, acti
  * Panel, UI or Window.
  * @param keyCode the key code, e.g. [ShortcutAction.KeyCode.C]
  */
-fun (@VaadinDsl Component).addGlobalShortcutListener(keyCode: Int, action: () -> Unit) = addGlobalShortcutListener(KeyShortcut(keyCode), action)
+public fun (@VaadinDsl Component).addGlobalShortcutListener(keyCode: Int, action: () -> Unit): Registration =
+        addGlobalShortcutListener(KeyShortcut(keyCode), action)
 
 /**
  * Makes it possible to invoke a click on this button by pressing the given
@@ -62,6 +63,6 @@ fun (@VaadinDsl Component).addGlobalShortcutListener(keyCode: Int, action: () ->
  * Example of shortcut expression: `ModifierKey.Ctrl + ModifierKey.Alt + ShortcutAction.KeyCode.C`.
  * When you properly import `ModifierKey.*` and `ShortcutAction.KeyCode.*`, this expression can be written as `Ctrl + Alt + C`.
  */
-var (@VaadinDsl Button).clickShortcut: KeyShortcut
+public var (@VaadinDsl Button).clickShortcut: KeyShortcut
     get() = throw RuntimeException("Property is write-only")
     set(shortcut) = setClickShortcut(shortcut.keyCode, *shortcut.vaadinModifiers)

@@ -34,7 +34,7 @@ import com.vaadin.ui.themes.ValoTheme
  * }
  * ```
  */
-open class ValoMenu: HorizontalLayout(), ViewDisplay {
+public open class ValoMenu: HorizontalLayout(), ViewDisplay {
     /**
      * Tracks the registered menu items associated with view; when a view is shown, highlight appropriate menu item button.
      */
@@ -54,7 +54,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
      * primaryStyleName = "valo-content"; setSizeFull(); expandRatio = 1f
      * ```
      */
-    var viewPlaceholder: HasComponents = CssLayout()
+    public var viewPlaceholder: HasComponents = CssLayout()
     set(value) {
         removeComponent(field)
         field = value
@@ -64,7 +64,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
     /**
      * The application title. Warning - may contain html; html is not escaped and is sent to the browser as-is.
      */
-    var appTitle: String
+    public var appTitle: String
     get() = titleLabel.value
     set(value) { titleLabel.html(value) }
 
@@ -74,12 +74,14 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
      * The user menu is a popup menu, displayed when the user's photo/name is clicked. You can add typical user-related items here,
      * like user details, change password, logout etc.
      */
-    fun userMenu(block: MenuBar.()->Unit) = userMenu.block()
+    public fun userMenu(block: MenuBar.()->Unit) {
+        userMenu.block()
+    }
 
     /**
      * All [menu buttons][menuButton] and [sections][section] are nested in this layout.
      */
-    lateinit var navigationButtonLayout: CssLayout
+    public lateinit var navigationButtonLayout: CssLayout
         private set
     init {
         setSizeFull(); isSpacing = false; styleName = "valo-menu-responsive"
@@ -127,7 +129,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
      *
      * All sections are nested in [navigationButtonLayout].
      */
-    fun section(caption: String, badge: String? = null, block: Label.()->Unit = {}): Label = navigationButtonLayout.label {
+    public fun section(caption: String, badge: String? = null, block: Label.()->Unit = {}): Label = navigationButtonLayout.label {
         if (badge == null) {
             this.caption = caption
         } else {
@@ -147,7 +149,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
      * @param view optional view; if not null, clicking this menu button will launch this view with no parameters; also the button will be marked selected
      * when the view is shown.
      */
-    fun menuButton(caption: String, icon: Resource? = null, badge: String? = null, view: Class<out View>? = null, block: MenuButton.()->Unit = {}): MenuButton = navigationButtonLayout.menuButton {
+    public fun menuButton(caption: String, icon: Resource? = null, badge: String? = null, view: Class<out View>? = null, block: MenuButton.()->Unit = {}): MenuButton = navigationButtonLayout.menuButton {
         this.icon = icon
         this.badge = badge
         this.caption = caption
@@ -175,7 +177,7 @@ open class ValoMenu: HorizontalLayout(), ViewDisplay {
     }
 }
 
-class MenuButton : Button() {
+public class MenuButton : Button() {
     init {
         primaryStyleName = ValoTheme.MENU_ITEM
     }
@@ -183,7 +185,7 @@ class MenuButton : Button() {
     /**
      * The button badge (usually a number, say, number of new messages), attached to the menu.
      */
-    var badge: String? = null
+    public var badge: String? = null
     set(value) {
         field = value; updateCaption()
     }
@@ -191,7 +193,7 @@ class MenuButton : Button() {
     /**
      * Whether the menu button is drawn as selected.
      */
-    var isSelected: Boolean
+    public var isSelected: Boolean
     get() = hasStyleName("selected")
     set(value) { toggleStyleName("selected", value) }
 
@@ -210,7 +212,7 @@ class MenuButton : Button() {
 
 private fun (@VaadinDsl HasComponents).menuButton(block: (@VaadinDsl MenuButton).()->Unit = {}) = init(MenuButton(), block)
 
-fun (@VaadinDsl UI).valoMenu(block: (@VaadinDsl ValoMenu).()->Unit = {}): ValoMenu {
+public fun (@VaadinDsl UI).valoMenu(block: (@VaadinDsl ValoMenu).()->Unit = {}): ValoMenu {
     Responsive.makeResponsive(this)
     return init(ValoMenu(), block)
 }

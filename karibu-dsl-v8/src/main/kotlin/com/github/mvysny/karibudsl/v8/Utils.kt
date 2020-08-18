@@ -3,7 +3,7 @@ package com.github.mvysny.karibudsl.v8
 import java.net.URI
 import java.util.*
 
-fun Iterable<String?>.filterNotBlank(): List<String> = filterNotNull().filter { it.isNotBlank() }
+public fun Iterable<String?>.filterNotBlank(): List<String> = filterNotNull().filter { it.isNotBlank() }
 
 /**
  * Parses the [URI.query] string and returns a map of all query parameters. Since a key may be present multiple times in the query,
@@ -11,7 +11,7 @@ fun Iterable<String?>.filterNotBlank(): List<String> = filterNotNull().filter { 
  *
  * To retrieve the query map from Vaadin, just use `Page.getCurrent().location.queryMap`.
  */
-val URI.queryMap: Map<String, List<String>>
+public val URI.queryMap: Map<String, List<String>>
     get() {
         val keyValueList: List<Pair<String, String>> = (query ?: "")
                 .split('&')
@@ -27,7 +27,7 @@ val URI.queryMap: Map<String, List<String>>
         return result
     }
 
-fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
+public fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
 
 private val messages = mapOf("cantConvertToInteger" to "Can't convert to integer",
         "cantConvertToDecimal" to "Can't convert to decimal number",
@@ -38,4 +38,4 @@ private val messages = mapOf("cantConvertToInteger" to "Can't convert to integer
 /**
  * Change this function to provide a proper i18n for your apps. For a list of all keys used by Karibu-DSL see [messages].
  */
-var karibuDslI18n: (key: String) -> String = { key -> messages[key] ?: key }
+public var karibuDslI18n: (key: String) -> String = { key -> messages[key] ?: key }

@@ -9,7 +9,7 @@ import java.io.Serializable
  * @param size the size, may be negative for undefined/wrapContent size.
  * @param units states the size units.
  */
-data class Size(val size: Float, val units: Sizeable.Unit) : Serializable {
+public data class Size(val size: Float, val units: Sizeable.Unit) : Serializable {
     /**
      * true if this size is set to 100% and the component fills its parent in this dimension.
      */
@@ -31,7 +31,7 @@ data class Size(val size: Float, val units: Sizeable.Unit) : Serializable {
     val isUndefined: Boolean
         get() = isWrapContent
 
-    override fun toString() = "$size${units.symbol}"
+    override fun toString(): String = "$size${units.symbol}"
 
     val isPixels: Boolean get() = units == Sizeable.Unit.PIXELS
 
@@ -48,35 +48,35 @@ data class Size(val size: Float, val units: Sizeable.Unit) : Serializable {
  * Tells the component to wrap-content in particular direction. Typing `w = wrapContent` is equal to calling [Sizeable.setWidthUndefined]
  * or setWidth(null) or setWidth(-1, Sizeable.Unit.PIXELS).
  */
-val wrapContent = (-1).px
+public val wrapContent: Size = (-1).px
 /**
  * Tells the component to fill-parent in particular direction. Typing `w = fillParent` is equal to calling setWidth("100%").
  */
-val fillParent = 100.perc
+public val fillParent: Size = 100.perc
 
-val Int.px: Size
+public val Int.px: Size
     get() = toFloat().px
-val Float.px: Size
+public val Float.px: Size
     get() = Size(this, Sizeable.Unit.PIXELS)
-val Int.perc: Size
+public val Int.perc: Size
     get() = toFloat().perc
-val Float.perc: Size
+public val Float.perc: Size
     get() = Size(this, Sizeable.Unit.PERCENTAGE)
-val Int.em: Size
+public val Int.em: Size
     get() = toFloat().em
-val Float.em: Size
+public val Float.em: Size
     get() = Size(this, Sizeable.Unit.EM)
-var (@VaadinDsl Sizeable).w: Size
+public var (@VaadinDsl Sizeable).w: Size
     get() = Size(width, widthUnits)
     set(value) {
         setWidth(value.size, value.units)
     }
-var (@VaadinDsl Sizeable).h: Size
+public var (@VaadinDsl Sizeable).h: Size
     get() = Size(height, heightUnits)
     set(value) = setHeight(value.size, value.units)
 
 /**
  * true if both the component width and height is set to 100%
  */
-val (@VaadinDsl Sizeable).isSizeFull: Boolean
+public val (@VaadinDsl Sizeable).isSizeFull: Boolean
     get() = w.isFillParent && h.isFillParent

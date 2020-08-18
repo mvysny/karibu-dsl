@@ -4,7 +4,7 @@ import com.vaadin.ui.Accordion
 import com.vaadin.ui.Component
 import com.vaadin.ui.HasComponents
 
-class _Accordion : Accordion() {
+public open class _Accordion : Accordion() {
     /**
      * Allows you to access the current tab from the DSL:
      * ```kotlin
@@ -18,8 +18,10 @@ class _Accordion : Accordion() {
      * ```
      */
     @get:JvmName("getTab2")
-    val (@VaadinDsl Component).tab: Tab get() = this@_Accordion.getTab(this) ?: throw IllegalStateException("$this is not child of ${this@_Accordion}")
+    public val (@VaadinDsl Component).tab: Tab
+        get() = this@_Accordion.getTab(this) ?: throw IllegalStateException("$this is not child of ${this@_Accordion}")
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).accordion(block: _Accordion.()->Unit = {}) = init(_Accordion(), block)
+public fun (@VaadinDsl HasComponents).accordion(block: _Accordion.()->Unit = {}): _Accordion =
+        init(_Accordion(), block)

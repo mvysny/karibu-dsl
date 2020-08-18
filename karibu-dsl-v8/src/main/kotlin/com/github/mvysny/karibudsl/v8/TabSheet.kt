@@ -4,7 +4,7 @@ import com.vaadin.ui.Component
 import com.vaadin.ui.HasComponents
 import com.vaadin.ui.TabSheet
 
-class _TabSheet : TabSheet() {
+public class _TabSheet : TabSheet() {
     /**
      * Allows you to access the current tab from the DSL:
      * ```kotlin
@@ -18,10 +18,11 @@ class _TabSheet : TabSheet() {
      * ```
      */
     @get:JvmName("getTab2")
-    val (@VaadinDsl Component).tab: Tab get() = this@_TabSheet.getTab(this) ?: throw IllegalStateException("$this is not child of ${this@_TabSheet}")
+    public val (@VaadinDsl Component).tab: Tab get() = this@_TabSheet.getTab(this) ?: throw IllegalStateException("$this is not child of ${this@_TabSheet}")
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).tabSheet(block: _TabSheet.()->Unit = {}) = init(_TabSheet(), block)
+public fun (@VaadinDsl HasComponents).tabSheet(block: _TabSheet.()->Unit = {}): _TabSheet =
+        init(_TabSheet(), block)
 // lastTab is intended to be called from a child of TabSheet; don't annotate with @VaadinDsl
-val TabSheet.lastTab: TabSheet.Tab get() = getTab(componentCount - 1)
+public val TabSheet.lastTab: TabSheet.Tab get() = getTab(componentCount - 1)

@@ -13,15 +13,16 @@ import java.time.format.FormatStyle
  * @property to the maximum accepted value, inclusive. If `null` then the date range has no upper limit.
  * @property from the minimum accepted value, inclusive. If `null` then the date range has no lower limit.
  */
-data class DateInterval(var from: LocalDateTime?, var to: LocalDateTime?) : Serializable {
+public data class DateInterval(var from: LocalDateTime?, var to: LocalDateTime?) : Serializable {
     /**
      * True if the interval includes all possible dates (both [from] and [to] are `null`).
      */
     val isUniversalSet: Boolean
         get() = from == null && to == null
 
-    companion object {
-        fun now(zoneId: ZoneId = browserTimeZone) = DateInterval(LocalDateTime.now(zoneId), LocalDateTime.now(zoneId))
+    public companion object {
+        public fun now(zoneId: ZoneId = browserTimeZone): DateInterval =
+                DateInterval(LocalDateTime.now(zoneId), LocalDateTime.now(zoneId))
     }
 }
 
@@ -32,7 +33,7 @@ data class DateInterval(var from: LocalDateTime?, var to: LocalDateTime?) : Seri
  *
  * The current date range is also displayed as the caption of the button.
  */
-class DateRangePopup: CustomField<DateInterval?>() {
+public class DateRangePopup: CustomField<DateInterval?>() {
     private val formatter get() = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withLocale(UI.getCurrent().locale!!)
     private lateinit var fromField: InlineDateTimeField
     private lateinit var toField: InlineDateTimeField
@@ -41,7 +42,7 @@ class DateRangePopup: CustomField<DateInterval?>() {
     /**
      * The desired resolution of this filter popup, defaults to [DateTimeResolution.MINUTE].
      */
-    var resolution: DateTimeResolution = DateTimeResolution.MINUTE
+    public var resolution: DateTimeResolution = DateTimeResolution.MINUTE
         set(value) {
             field = value
             updateFields()
@@ -68,7 +69,7 @@ class DateRangePopup: CustomField<DateInterval?>() {
         }
     }
 
-    override fun getValue() = internalValue?.copy()
+    override fun getValue(): DateInterval? = internalValue?.copy()
 
     private fun format(date: LocalDateTime?) = if (date == null) "" else formatter.format(date)
 
@@ -161,7 +162,7 @@ class DateRangePopup: CustomField<DateInterval?>() {
         }
     }
 
-    var isPopupVisible: Boolean
+    public var isPopupVisible: Boolean
         get() = (content as KPopupView).isPopupVisible
         set(value) {
             (content as KPopupView).isPopupVisible = value
@@ -169,7 +170,8 @@ class DateRangePopup: CustomField<DateInterval?>() {
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).dateRangePopup(value: DateInterval? = null, block: (@VaadinDsl DateRangePopup).()->Unit = {}) = init(DateRangePopup()) {
-    if (value != null) this.value = value
-    block()
+public fun (@VaadinDsl HasComponents).dateRangePopup(value: DateInterval? = null, block: (@VaadinDsl DateRangePopup).()->Unit = {}): DateRangePopup {
+    val popup = DateRangePopup()
+    if (value != null) popup.value = value
+    return init(popup, block)
 }

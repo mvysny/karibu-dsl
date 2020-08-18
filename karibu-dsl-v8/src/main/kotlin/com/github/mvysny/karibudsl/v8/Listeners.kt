@@ -34,7 +34,7 @@ private fun Component.getAscendantLayoutWithLayoutClickNotifier(): LayoutEvents.
  * Removes any previously attached layout click listeners
  * @param listener the click listener.
  */
-fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).onLayoutClick(listener: (LayoutEvents.LayoutClickEvent)->Unit) {
+public fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).onLayoutClick(listener: (LayoutEvents.LayoutClickEvent)->Unit) {
     (this as AbstractClientConnector).getListeners(LayoutEvents.LayoutClickEvent::class.java).toList().forEach {
         @Suppress("DEPRECATION")
         removeLayoutClickListener(it as LayoutEvents.LayoutClickListener)
@@ -49,7 +49,7 @@ fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).onLayoutClick(listener: (Layou
  * Only left mouse button clicks are reported; double-clicks are ignored.
  * @param listener the click listener.
  */
-fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).addChildClickListener(listener: (LayoutEvents.LayoutClickEvent) -> Unit) {
+public fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).addChildClickListener(listener: (LayoutEvents.LayoutClickEvent) -> Unit) {
     (this as Component).addStyleName("clickable")
     addLayoutClickListener { event ->
         if (event.button != MouseEventDetails.MouseButton.LEFT) {
@@ -72,7 +72,7 @@ fun (@VaadinDsl LayoutEvents.LayoutClickNotifier).addChildClickListener(listener
  * Replaces any click listeners with this one.
  * @param listener the listener to set. Only called on left-click.
  */
-fun (@VaadinDsl Button).onLeftClick(listener: (Button.ClickEvent)->Unit) {
+public fun (@VaadinDsl Button).onLeftClick(listener: (Button.ClickEvent)->Unit) {
     getListeners(Button.ClickEvent::class.java).toList().forEach {
         @Suppress("DEPRECATION")
         removeClickListener(it as Button.ClickListener)
@@ -85,7 +85,7 @@ fun (@VaadinDsl Button).onLeftClick(listener: (Button.ClickEvent)->Unit) {
  * Replaces any click listeners with this one.
  * @param listener the listener to set. Only called on left-click.
  */
-fun (@VaadinDsl Image).onLeftClick(listener: (MouseEvents.ClickEvent)->Unit): Unit {
+public fun (@VaadinDsl Image).onLeftClick(listener: (MouseEvents.ClickEvent)->Unit) {
     // warning, here we may receive listeners for ContextClickEvents!
     getListeners(MouseEvents.ClickEvent::class.java).filterIsInstance<MouseEvents.ClickListener>().forEach {
         @Suppress("DEPRECATION")

@@ -8,20 +8,20 @@ import org.jsoup.Jsoup
  * Unescapes [ErrorMessage.getFormattedHtmlMessage] and converts it to sane string. E.g.
  * `The&#32;user&#32;does&#32;not&#32;exist` is converted to `The user does not exist`.
  */
-val ErrorMessage.message: String get() = Jsoup.parse(formattedHtmlMessage).text()
+public val ErrorMessage.message: String get() = Jsoup.parse(formattedHtmlMessage).text()
 
 /**
  * Finds component's parent, parent's parent (etc) which satisfies given [predicate].
  * Returns null if there is no such parent.
  */
-fun Component.findAncestor(predicate: (Component) -> Boolean): Component? =
+public fun Component.findAncestor(predicate: (Component) -> Boolean): Component? =
         findAncestorOrSelf { it != this && predicate(it) }
 
 /**
  * Finds component, component's parent, parent's parent (etc) which satisfies given [predicate].
  * Returns null if no component on the ancestor-or-self axis satisfies.
  */
-tailrec fun Component.findAncestorOrSelf(predicate: (Component) -> Boolean): Component? {
+public tailrec fun Component.findAncestorOrSelf(predicate: (Component) -> Boolean): Component? {
     if (predicate(this)) {
         return this
     }
@@ -32,5 +32,5 @@ tailrec fun Component.findAncestorOrSelf(predicate: (Component) -> Boolean): Com
 /**
  * Checks if this component is nested in [potentialAncestor].
  */
-fun Component.isNestedIn(potentialAncestor: Component) =
+public fun Component.isNestedIn(potentialAncestor: Component): Boolean =
         findAncestor { it == potentialAncestor } != null

@@ -5,25 +5,42 @@ import java.lang.IllegalStateException
 import java.lang.reflect.Method
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).verticalLayout(block: (@VaadinDsl VerticalLayout).()->Unit = {}) = init(VerticalLayout(), block)
-
-@VaadinDsl
-fun (@VaadinDsl HasComponents).horizontalLayout(block: (@VaadinDsl HorizontalLayout).()->Unit = {}) = init(HorizontalLayout(), block)
-
-@VaadinDsl
-fun (@VaadinDsl HasComponents).formLayout(block: (@VaadinDsl FormLayout).()->Unit = {}) = init(FormLayout(), block)
-
-@VaadinDsl
-fun (@VaadinDsl HasComponents).absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}) = init(AbsoluteLayout(), block)
-
-@VaadinDsl
-fun (@VaadinDsl HasComponents).cssLayout(caption: String? = null, block: (@VaadinDsl CssLayout).()->Unit = {}) = init(CssLayout()) {
-    this.caption = caption
-    block()
+public fun (@VaadinDsl HasComponents).verticalLayout(isMargin: Boolean = true, isSpacing: Boolean = true, block: (@VaadinDsl VerticalLayout).()->Unit = {}): VerticalLayout {
+    val layout = VerticalLayout()
+    layout.isSpacing = isSpacing
+    layout.isMargin = isMargin
+    return init(layout, block)
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}) = init(GridLayout(columns, rows), block)
+public fun (@VaadinDsl HasComponents).horizontalLayout(isMargin: Boolean = false, isSpacing: Boolean = true, block: (@VaadinDsl HorizontalLayout).()->Unit = {}): HorizontalLayout {
+    val layout = HorizontalLayout()
+    layout.isMargin = isMargin
+    layout.isSpacing = isSpacing
+    return init(layout, block)
+}
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).formLayout(isSpacing: Boolean = true, block: (@VaadinDsl FormLayout).()->Unit = {}): FormLayout {
+    val layout = FormLayout()
+    layout.isSpacing = isSpacing
+    return init(layout, block)
+}
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).absoluteLayout(block: (@VaadinDsl AbsoluteLayout).()->Unit = {}): AbsoluteLayout =
+        init(AbsoluteLayout(), block)
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).cssLayout(caption: String? = null, block: (@VaadinDsl CssLayout).()->Unit = {}): CssLayout {
+    val layout = CssLayout()
+    layout.caption = caption
+    return init(layout, block)
+}
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block: (@VaadinDsl GridLayout).()->Unit = {}): GridLayout =
+        init(GridLayout(columns, rows), block)
 
 /**
  * Adds a [child] to this component. Only concrete subclasses are supported:
@@ -39,7 +56,7 @@ fun (@VaadinDsl HasComponents).gridLayout(columns: Int = 1, rows: Int = 1, block
  *
  * For custom containers just implement the [SpecialContainer] interface.
  */
-fun (@VaadinDsl HasComponents).addChild(child: Component) {
+public fun (@VaadinDsl HasComponents).addChild(child: Component) {
     @Suppress("DEPRECATION")
     when (this) {
         is ComponentContainer -> addComponent(child)
@@ -62,7 +79,7 @@ fun (@VaadinDsl HasComponents).addChild(child: Component) {
 /**
  * Removes [child] from this container. Does nothing if child has no parent or it is nested in some other container.
  */
-fun (@VaadinDsl HasComponents).removeChild(child: Component) {
+public fun (@VaadinDsl HasComponents).removeChild(child: Component) {
     @Suppress("DEPRECATION")
     when (this) {
         is ComponentContainer -> removeComponent(child)
@@ -85,7 +102,7 @@ fun (@VaadinDsl HasComponents).removeChild(child: Component) {
 /**
  * Removes the component from its parent. Does nothing if the component is not currently nested inside of a parent.
  */
-fun Component.removeFromParent() {
+public fun Component.removeFromParent() {
     parent?.removeChild(this)
 }
 
@@ -99,7 +116,7 @@ private val compositeSetCompositionRoot: Method = Composite::class.java.getDecla
 /**
  * Removes all components from given container.
  */
-fun (@VaadinDsl HasComponents).removeAllComponents() {
+public fun (@VaadinDsl HasComponents).removeAllComponents() {
     @Suppress("DEPRECATION")
     when (this) {
         is ComponentContainer -> removeAllComponents()
@@ -121,7 +138,7 @@ fun (@VaadinDsl HasComponents).removeAllComponents() {
  * Returns the child component count for this container. O(1) for [ComponentContainer] and [SingleComponentContainer]; falls back to
  * counting items in [HasComponents.iterator] otherwise - O(n).
  */
-fun HasComponents.getComponentCount() = when (this) {
+public fun HasComponents.getComponentCount(): Int = when (this) {
     is ComponentContainer -> componentCount
     is SingleComponentContainer -> componentCount
     else -> count()
@@ -130,7 +147,7 @@ fun HasComponents.getComponentCount() = when (this) {
 /**
  * Returns true if this container hosts no child components. Optimized for [ComponentContainer] and [SingleComponentContainer]. O(1).
  */
-val HasComponents.isEmpty: Boolean get() = when (this) {
+public val HasComponents.isEmpty: Boolean get() = when (this) {
     is ComponentContainer -> componentCount == 0
     is SingleComponentContainer -> componentCount == 0
     else -> !iterator().hasNext()
@@ -139,14 +156,14 @@ val HasComponents.isEmpty: Boolean get() = when (this) {
 /**
  * Returns true if this container contains any components. Optimized for [ComponentContainer] and [SingleComponentContainer]. O(1).
  */
-val HasComponents.isNotEmpty: Boolean get() = !isEmpty
+public val HasComponents.isNotEmpty: Boolean get() = !isEmpty
 
 /**
  * Sets the expand ratio of this component with respect to its parent layout. See [AbstractOrderedLayout.setExpandRatio] for more details.
  *
  * Fails if this component is not nested inside [AbstractOrderedLayout].
  */
-var (@VaadinDsl Component).expandRatio: Float
+public var (@VaadinDsl Component).expandRatio: Float
     get() = parent.asAbstractOrderedLayout().getExpandRatio(this)
     set(value) = parent.asAbstractOrderedLayout().setExpandRatio(this, value)
 
@@ -162,7 +179,7 @@ private fun HasComponents?.asAbstractOrderedLayout(): AbstractOrderedLayout {
  *
  * Fails if this component is not nested inside [AbstractOrderedLayout].
  */
-var (@VaadinDsl Component).isExpanded: Boolean
+public var (@VaadinDsl Component).isExpanded: Boolean
     get() = expandRatio > 0f
     set(value) { expandRatio = if (value) 1f else 0f }
 
@@ -170,14 +187,14 @@ var (@VaadinDsl Component).isExpanded: Boolean
  * Sets or gets alignment for this component with respect to its parent layout. Use
  * predefined alignments from Alignment class. Fails if the component is not nested inside Layout, that implement [Layout.AlignmentHandler]
  */
-var (@VaadinDsl Component).alignment: Alignment
+public var (@VaadinDsl Component).alignment: Alignment
     get() = (parent as Layout.AlignmentHandler).getComponentAlignment(this)
     set(value) = (parent as Layout.AlignmentHandler).setComponentAlignment(this, value)
 
 /**
  * Sets [AbsoluteLayout.ComponentPosition.zIndex]. Fails if this component is not nested inside [AbsoluteLayout]
  */
-var (@VaadinDsl Component).zIndex: Int
+public var (@VaadinDsl Component).zIndex: Int
     get() = absolutePosition.zIndex
     set(value) {
         absolutePosition.zIndex = value
@@ -192,24 +209,24 @@ private fun HasComponents?.asAbsoluteLayout(): AbsoluteLayout {
 /**
  * Returns the [AbsoluteLayout.ComponentPosition] of this component. Fails if this component is not nested inside [AbsoluteLayout]
  */
-val (@VaadinDsl Component).absolutePosition: AbsoluteLayout.ComponentPosition
+public val (@VaadinDsl Component).absolutePosition: AbsoluteLayout.ComponentPosition
     get() = parent.asAbsoluteLayout().getPosition(this)
-var (@VaadinDsl AbsoluteLayout.ComponentPosition).top: Size
+public var (@VaadinDsl AbsoluteLayout.ComponentPosition).top: Size
     get() = Size(topValue, topUnits)
     set(value) {
         topValue = value.size; topUnits = value.units
     }
-var (@VaadinDsl AbsoluteLayout.ComponentPosition).bottom: Size
+public var (@VaadinDsl AbsoluteLayout.ComponentPosition).bottom: Size
     get() = Size(bottomValue, bottomUnits)
     set(value) {
         bottomValue = value.size; bottomUnits = value.units
     }
-var (@VaadinDsl AbsoluteLayout.ComponentPosition).left: Size
+public var (@VaadinDsl AbsoluteLayout.ComponentPosition).left: Size
     get() = Size(leftValue, leftUnits)
     set(value) {
         leftValue = value.size; leftUnits = value.units
     }
-var (@VaadinDsl AbsoluteLayout.ComponentPosition).right: Size
+public var (@VaadinDsl AbsoluteLayout.ComponentPosition).right: Size
     get() = Size(rightValue, rightUnits)
     set(value) {
         rightValue = value.size; rightUnits = value.units
@@ -218,7 +235,7 @@ var (@VaadinDsl AbsoluteLayout.ComponentPosition).right: Size
 /**
  * Sets all four margins to given value.
  */
-var (@VaadinDsl AbstractOrderedLayout).isMargin: Boolean
+public var (@VaadinDsl AbstractOrderedLayout).isMargin: Boolean
     get() = margin.hasAll()
     set(value) { setMargin(value) }
 
@@ -227,7 +244,7 @@ var (@VaadinDsl AbstractOrderedLayout).isMargin: Boolean
  * [ComponentContainer].
  * @throws IndexOutOfBoundsException If the index is out of range.
  */
-fun (@VaadinDsl ComponentContainer).getComponentAt(index: Int): Component = when (this) {
+public fun (@VaadinDsl ComponentContainer).getComponentAt(index: Int): Component = when (this) {
     is CssLayout -> this.getComponent(index)
     is AbstractOrderedLayout -> this.getComponent(index)
     else -> toList()[index]
@@ -238,20 +255,21 @@ fun (@VaadinDsl ComponentContainer).getComponentAt(index: Int): Component = when
  * [ComponentContainer].
  * @throws IndexOutOfBoundsException If the index is out of range.
  */
-fun (@VaadinDsl ComponentContainer).removeComponentAt(index: Int) {
+public fun (@VaadinDsl ComponentContainer).removeComponentAt(index: Int) {
     removeComponent(getComponentAt(index))
 }
 
 /**
  * Returns an [IntRange] of the valid component indices for this container.
  */
-val (@VaadinDsl ComponentContainer).indices: IntRange get() = 0 until componentCount
+public val (@VaadinDsl ComponentContainer).indices: IntRange get() = 0 until componentCount
 
 /**
  * Removes components with given indices from the container.
  */
-fun (@VaadinDsl ComponentContainer).removeComponentsAt(indexRange: IntRange) {
+public fun (@VaadinDsl ComponentContainer).removeComponentsAt(indexRange: IntRange) {
     if (indexRange.isEmpty()) {
+        // do nothing
     } else if (indexRange == indices) {
         removeAllComponents()
     } else if (this is CssLayout || this is AbstractOrderedLayout) {
@@ -264,4 +282,6 @@ fun (@VaadinDsl ComponentContainer).removeComponentsAt(indexRange: IntRange) {
 /**
  * Removes [components] from the container.
  */
-fun (@VaadinDsl ComponentContainer).removeAll(components: Iterable<Component>) = components.forEach { removeComponent(it) }
+public fun (@VaadinDsl ComponentContainer).removeAll(components: Iterable<Component>) {
+    components.forEach { removeComponent(it) }
+}

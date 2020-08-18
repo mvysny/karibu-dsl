@@ -47,8 +47,8 @@ private fun String.shouldPrependHyphen(i: Int): Boolean =
  * see [autoViewProvider] for more details.
  */
 @HandlesTypes(AutoView::class)
-class AutoViewProvider : ServletContainerInitializer {
-    companion object : ViewProvider {
+public class AutoViewProvider : ServletContainerInitializer {
+    public companion object : ViewProvider {
         override fun getViewName(viewAndParameters: String): String? {
             val viewName = parseViewName(viewAndParameters)
             return if (viewNameToClass.containsKey(viewName)) viewName else null
@@ -60,7 +60,7 @@ class AutoViewProvider : ServletContainerInitializer {
             return viewName.substring(0..(if(firstSlash < 0) viewName.length - 1 else firstSlash - 1))
         }
 
-        override fun getView(viewName: String): View? = viewNameToClass[viewName]?.newInstance()
+        override fun getView(viewName: String): View? = viewNameToClass[viewName]?.getDeclaredConstructor()?.newInstance()
 
         /**
          * Maps view name to the view class.
@@ -68,7 +68,7 @@ class AutoViewProvider : ServletContainerInitializer {
         private val viewNameToClass = mutableMapOf<String, Class<out View>>()
         private val classToViewName = mutableMapOf<Class<out View>, String>()
 
-        fun <T: View> getMapping(clazz: Class<T>): String =
+        public fun <T: View> getMapping(clazz: Class<T>): String =
                 classToViewName[clazz] ?: throw IllegalArgumentException("$clazz is not registered as a view class. Available view classes: ${viewNameToClass.values.joinToString(transform = { it.name })}")
 
         @JvmStatic
@@ -114,7 +114,7 @@ class AutoViewProvider : ServletContainerInitializer {
  * To navigate to a view, just call the [navigateToView] helper method which will generate the correct URI fragment and will navigate.
  * You can parse the parameters back later on in your [View.enter], by calling `event.parameterList`.
  */
-val autoViewProvider = AutoViewProvider
+public val autoViewProvider: AutoViewProvider.Companion = AutoViewProvider
 
 private const val VIEW_NAME_USE_DEFAULT = "USE_DEFAULT"
 
@@ -130,7 +130,7 @@ private const val VIEW_NAME_USE_DEFAULT = "USE_DEFAULT"
  * @param params an optional list of string params. The View will receive the params via
  * [View.enter]'s [ViewChangeListener.ViewChangeEvent], use [parameterList] to parse them back in.
  */
-fun navigateToView(view: Class<out View>, vararg params: String) {
+public fun navigateToView(view: Class<out View>, vararg params: String) {
     require(view.findAnnotation(AutoView::class.java) != null) { "$view is not annotated with @AutoView; unfortunately all views must be annotated directly, otherwise ServletContainerInitializer won't auto-discover it for us" }
     val mapping = AutoViewProvider.getMapping(view)
     val param = if (params.isEmpty()) "" else params.map { URLEncoder.encode(it, "UTF-8") }.joinToString("/", "/")
@@ -146,7 +146,7 @@ internal fun <T: Annotation> Class<*>.findAnnotation(ac: Class<T>): T? {
 }
 
 /**
- * Asks the current UI navigator to navigate to given [view], with optional [params].
+ * Asks the current UI navigator to navigate to given [View], with optional [params].
  *
  * Only works with views annotated with [AutoView] and [autoViewProvider].
  * If you need to use a different a different navigator, you have to call [com.vaadin.navigator.Navigator.navigateTo] directly.
@@ -157,7 +157,9 @@ internal fun <T: Annotation> Class<*>.findAnnotation(ac: Class<T>): T? {
  * @param params an optional list of string params. The View will receive the params via
  * [View.enter]'s [ViewChangeListener.ViewChangeEvent], use [parameterList] to parse them back in.
  */
-inline fun <reified V : View> navigateToView(vararg params: String) = navigateToView(V::class.java, *params)
+public inline fun <reified V : View> navigateToView(vararg params: String) {
+    navigateToView(V::class.java, *params)
+}
 
 /**
  * Parses the parameters back from the URI fragment. See [navigateToView] for details. Call in [ViewChangeListener.ViewChangeEvent] provided to you in the
@@ -168,7 +170,7 @@ inline fun <reified V : View> navigateToView(vararg params: String) = navigateTo
  * To obtain a particular parameter or null if the URL has no such parameter, just call [Map.get].
  * @return list of parameters, empty if there are no parameters.
  */
-val ViewChangeListener.ViewChangeEvent.parameterList: Map<Int, String>
+public val ViewChangeListener.ViewChangeEvent.parameterList: Map<Int, String>
     get() = parameters.trim().split('/').map { URLDecoder.decode(it, "UTF-8")!! } .filterNot(String::isEmpty).mapIndexed { i, param -> i to param }.toMap()
 
 /**
@@ -184,7 +186,7 @@ val ViewChangeListener.ViewChangeEvent.parameterList: Map<Int, String>
  */
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
-annotation class AutoView(val value: String = VIEW_NAME_USE_DEFAULT)
+public annotation class AutoView(val value: String = VIEW_NAME_USE_DEFAULT)
 
 /**
  * Auto-discovers views and register them to [autoViewProvider]. Can be called multiple times.
@@ -193,7 +195,7 @@ annotation class AutoView(val value: String = VIEW_NAME_USE_DEFAULT)
  * This function is intended to be used in tests only.
  * @param packageName set the package name for the detector to be faster; or provide null to scan the whole classpath, but this is quite slow.
  */
-fun autoDiscoverViews(packageName: String? = null) {
+public fun autoDiscoverViews(packageName: String? = null) {
     val entities = mutableListOf<Class<*>>()
     val detector = AnnotationDetector(object : AnnotationDetector.TypeReporter {
         override fun reportTypeAnnotation(annotation: Class<out Annotation>?, className: String?) {

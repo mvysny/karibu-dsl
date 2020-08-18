@@ -17,7 +17,7 @@ import kotlin.reflect.KMutableProperty1
  * such person can no longer log in from his PC unless he explicitely types in the space.
  * @param blanksToNulls if true then a blank String value is passed as `null` to the model. Defaults to false.
  */
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(blanksToNulls: Boolean = false): Binder.BindingBuilder<BEAN, String?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(blanksToNulls: Boolean = false): Binder.BindingBuilder<BEAN, String?> =
         withConverter(object : Converter<String?, String?> {
             override fun convertToModel(value: String?, context: ValueContext?): Result<String?> {
                 var trimmedValue: String? = value?.trim()
@@ -33,18 +33,18 @@ fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(blanksToNulls:
             }
         })
 
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(StringToIntegerConverter(karibuDslI18n("cantConvertToInteger")))
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(): Binder.BindingBuilder<BEAN, Double?> =
         withConverter(StringToDoubleConverter(karibuDslI18n("cantConvertToDecimal")))
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(StringToLongConverter(karibuDslI18n("cantConvertToInteger")))
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withConverter(StringToBigDecimalConverter(karibuDslI18n("cantConvertToDecimal")))
-fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter(karibuDslI18n("cantConvertToInteger")))
 
-val WebBrowser.timeZone: ZoneId
+public val WebBrowser.timeZone: ZoneId
     get() = if (!timeZoneId.isNullOrBlank()) {
         // take into account zone ID. This is important for historical dates, to properly compute date with daylight savings.
         ZoneId.of(timeZoneId)
@@ -53,31 +53,31 @@ val WebBrowser.timeZone: ZoneId
         ZoneOffset.ofTotalSeconds(timezoneOffset / 1000)
     }
 
-val browserTimeZone: ZoneId get() = Page.getCurrent().webBrowser.timeZone
+public val browserTimeZone: ZoneId get() = Page.getCurrent().webBrowser.timeZone
 
 /**
  * Returns the current date and time at browser's current time zone.
  */
-val WebBrowser.currentDateTime: LocalDateTime
+public val WebBrowser.currentDateTime: LocalDateTime
     get() =
         LocalDateTime.now(ZoneOffset.ofTotalSeconds(timezoneOffset / 1000))
 
-fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(browserTimeZone))
 @JvmName("localDateTimeToDate")
-fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateTimeToDateConverter(browserTimeZone))
-fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
     withConverter(LocalDateToInstantConverter(browserTimeZone))
 
 @JvmName("localDateTimeToInstant")
-fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
+public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
     withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
 
 /**
  * Allows you to create [BeanValidationBinder] like this: `beanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
  */
-inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = BeanValidationBinder(T::class.java)
+public inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = BeanValidationBinder(T::class.java)
 
 /**
  * Allows you to bind the component directly in the component's definition. E.g.
@@ -87,7 +87,7 @@ inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = B
  * }
  * ```
  */
-fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
+public fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
     var builder = binder.forField(this)
     @Suppress("UNCHECKED_CAST")
     if (this is AbstractTextField) builder = builder.withNullRepresentation("" as FIELDVALUE)
@@ -98,17 +98,18 @@ fun <BEAN, FIELDVALUE> HasValue<FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.B
  * A type-safe binding which binds only to a property of given type, found on given bean.
  * @param prop the bean property
  */
-fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KMutableProperty1<BEAN, out FIELDVALUE?>): Binder.Binding<BEAN, FIELDVALUE?> =
+public fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop: KMutableProperty1<BEAN, out FIELDVALUE?>): Binder.Binding<BEAN, FIELDVALUE?> {
 // oh crap, don't use binding by getter and setter - validations won't work!
 // we need to use bind(String) even though that will use undebuggable crappy Java 8 lambdas :-(
 //        bind({ bean -> prop.get(bean) }, { bean, value -> prop.set(bean, value) })
-        bind(prop.name)
+    return bind(prop.name)
+}
 
 /**
  * A converter that converts between [LocalDate] and [Instant].
  * @property zoneId the time zone id to use.
  */
-class LocalDateToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Converter<LocalDate?, Instant?> {
+public class LocalDateToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDate?, Instant?> {
     override fun convertToModel(localDate: LocalDate?, context: ValueContext): Result<Instant?> =
         Result.ok(localDate?.atStartOfDay(zoneId)?.toInstant())
 
@@ -120,7 +121,7 @@ class LocalDateToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Conver
  * A converter that converts between [LocalDateTime] and [Instant].
  * @property zoneId the time zone to use
  */
-class LocalDateTimeToInstantConverter(val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
+public class LocalDateTimeToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
     override fun convertToModel(localDate: LocalDateTime?, context: ValueContext): Result<Instant?> =
         Result.ok(localDate?.atZone(zoneId)?.toInstant())
 

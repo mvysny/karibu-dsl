@@ -30,12 +30,14 @@ import kotlin.reflect.KProperty
  * @property C the component type to which the extension is attached.
  * @property emptyValue optional additional empty value that causes this class to remove the extension from the owner component. Defaults to `null`.
  */
-class ExtensionPropertyDelegate<C : AbstractClientConnector, E : Extension, T>(val extensionClass: Class<E>,
-                                                                               val extensionProperty: KMutableProperty1<E, T>,
-                                                                               val extensionConstructor: (C) -> E,
-                                                                               val emptyValue: T? = null) : ReadWriteProperty<C, T?> {
+public class ExtensionPropertyDelegate<C : AbstractClientConnector, E : Extension, T>(
+        public val extensionClass: Class<E>,
+        public val extensionProperty: KMutableProperty1<E, T>,
+        public val extensionConstructor: (C) -> E,
+        public val emptyValue: T? = null) : ReadWriteProperty<C, T?> {
     override fun getValue(thisRef: C, property: KProperty<*>): T? {
-        val extensionInstance: E = thisRef.extensions.filterIsInstance(extensionClass).firstOrNull() ?: return emptyValue
+        val extensionInstance: E = thisRef.extensions.filterIsInstance(extensionClass).firstOrNull()
+                ?: return emptyValue
         return extensionProperty.get(extensionInstance)
     }
 

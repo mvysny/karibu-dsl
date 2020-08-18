@@ -6,23 +6,23 @@ import com.vaadin.shared.Registration
 import com.vaadin.ui.*
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).popupViewOld(small: String? = null, block: (@VaadinDsl PopupView).() -> Unit = {}): PopupView {
+public fun (@VaadinDsl HasComponents).popupViewOld(small: String? = null, block: (@VaadinDsl PopupView).() -> Unit = {}): PopupView {
     val result = init(PopupView(SimpleContent.EMPTY), block)
     if (small != null) result.minimizedValueAsHTML = small
     return result
 }
 
 @Deprecated("Use KPopupView")
-data class SimpleContent(val small: String, val large: Component) : PopupView.Content {
-    companion object {
-        val EMPTY = SimpleContent("", Label(""))
+public data class SimpleContent(val small: String, val large: Component) : PopupView.Content {
+    public companion object {
+        public val EMPTY: SimpleContent = SimpleContent("", Label(""))
     }
 
-    constructor(content: PopupView.Content) : this(content.minimizedValueAsHTML, content.popupComponent)
+    public constructor(content: PopupView.Content) : this(content.minimizedValueAsHTML, content.popupComponent)
 
     override fun getPopupComponent(): Component? = large
 
-    override fun getMinimizedValueAsHTML() = small
+    override fun getMinimizedValueAsHTML(): String = small
 }
 
 @Deprecated("Use KPopupView")
@@ -39,7 +39,7 @@ private var (@VaadinDsl PopupView).simpleContent: SimpleContent
  * Allows you to set the popup component directly, without changing [minimizedValueAsHTML]
  */
 @Deprecated("Use KPopupView")
-var (@VaadinDsl PopupView).popupComponent: Component
+public var (@VaadinDsl PopupView).popupComponent: Component
     get() = content.popupComponent
     set(value) {
         content = simpleContent.copy(large = value)
@@ -49,7 +49,7 @@ var (@VaadinDsl PopupView).popupComponent: Component
  * Allows you to set the minimized text directly, without changing [popupComponent]
  */
 @Deprecated("Use KPopupView")
-var (@VaadinDsl PopupView).minimizedValueAsHTML: String
+public var (@VaadinDsl PopupView).minimizedValueAsHTML: String
     get() = content.minimizedValueAsHTML
     set(value) {
         content = simpleContent.copy(small = value)
@@ -71,7 +71,7 @@ var (@VaadinDsl PopupView).minimizedValueAsHTML: String
  * }
  * ```
  */
-class KPopupView : Composite(), SpecialContainer {
+public class KPopupView : Composite(), SpecialContainer {
     private val popup = PopupView()
     private var popupContents: Component? = null
     private var popupContentsLazyInitializer: (() -> Component)? = null
@@ -93,7 +93,7 @@ class KPopupView : Composite(), SpecialContainer {
         }
     }
 
-    var minimizedValueAsHTML: String = ""
+    public var minimizedValueAsHTML: String = ""
         set(value) {
             field = value
             popup.markAsDirty() // to pick up the new value of this property
@@ -124,7 +124,7 @@ class KPopupView : Composite(), SpecialContainer {
      * ```
      */
     @VaadinDsl
-    fun lazy(block: (@VaadinDsl HasComponents).() -> Unit) {
+    public fun lazy(block: (@VaadinDsl HasComponents).() -> Unit) {
         check(popupContentsLazyInitializer == null) { "lazy initializer has already been set" }
         check(popupContents == null) { "popup contents had been already set eagerly" }
         popupContentsLazyInitializer = {
@@ -138,7 +138,7 @@ class KPopupView : Composite(), SpecialContainer {
      * Gets/sets the visibility of the popup. Does not hide the minimal
      * representation.
      */
-    var isPopupVisible: Boolean
+    public var isPopupVisible: Boolean
         get() = popup.isPopupVisible
         set(value) {
             popup.isPopupVisible = value
@@ -149,7 +149,7 @@ class KPopupView : Composite(), SpecialContainer {
      * out of the popup area? If this is false, the user must click outside the
      * popup to close it. The default is true.
      */
-    var isHideOnMouseOut: Boolean
+    public var isHideOnMouseOut: Boolean
         get() = popup.isHideOnMouseOut
         set(value) {
             popup.isHideOnMouseOut = value
@@ -161,11 +161,12 @@ class KPopupView : Composite(), SpecialContainer {
      * @param listener the listener to add, not null
      * @return a registration object for removing the listener
      */
-    fun addPopupVisibilityListener(listener: PopupView.PopupVisibilityListener): Registration = popup.addPopupVisibilityListener(listener)
+    public fun addPopupVisibilityListener(listener: PopupView.PopupVisibilityListener): Registration = popup.addPopupVisibilityListener(listener)
 }
 
 @VaadinDsl
-fun (@VaadinDsl HasComponents).popupView(minimizedValueAsHTML: String = "", block: (@VaadinDsl KPopupView).() -> Unit = {}): KPopupView = init(KPopupView()) {
-    this.minimizedValueAsHTML = minimizedValueAsHTML
-    block()
+public fun (@VaadinDsl HasComponents).popupView(minimizedValueAsHTML: String = "", block: (@VaadinDsl KPopupView).() -> Unit = {}): KPopupView {
+    val view = KPopupView()
+    view.minimizedValueAsHTML = minimizedValueAsHTML
+    return init(view, block)
 }

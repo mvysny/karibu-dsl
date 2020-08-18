@@ -14,14 +14,14 @@ import com.vaadin.ui.TextField
  * @param value the optional value
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).textField(caption: String? = null, value: String = "", block: (@VaadinDsl TextField).() -> Unit = {}): TextField = init(TextField(caption, value), block)
+public fun (@VaadinDsl HasComponents).textField(caption: String? = null, value: String = "", block: (@VaadinDsl TextField).() -> Unit = {}): TextField = init(TextField(caption, value), block)
 
 /**
  * Creates a [TextArea] and attaches it to this component.
  * @param caption optional caption
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).textArea(caption: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}): TextArea = init(TextArea(caption), block)
+public fun (@VaadinDsl HasComponents).textArea(caption: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}): TextArea = init(TextArea(caption), block)
 
 /**
  * Simply sets the `type` HTML attribute to the `<input>` element represented by the [TextField] Vaadin component. Instead of
@@ -30,9 +30,9 @@ fun (@VaadinDsl HasComponents).textArea(caption: String? = null, block: (@Vaadin
  * See [AbstractTextField.type] for documentation.
  */
 @JavaScript("type-extension.js")
-class TypeExtension(textField: AbstractTextField) : AbstractJavaScriptExtension(textField) {
+public class TypeExtension(textField: AbstractTextField) : AbstractJavaScriptExtension(textField) {
 
-    var type: String
+    public var type: String
         get() = getState(false).type
         set(value) {
             state.type = value
@@ -41,9 +41,9 @@ class TypeExtension(textField: AbstractTextField) : AbstractJavaScriptExtension(
     override fun getState(): TypeExtensionState = super.getState() as TypeExtensionState
     override fun getState(markAsDirty: Boolean): TypeExtensionState = super.getState(markAsDirty) as TypeExtensionState
 
-    class TypeExtensionState : JavaScriptExtensionState() {
+    public class TypeExtensionState : JavaScriptExtensionState() {
         @JvmField
-        var type: String = ""
+        public var type: String = ""
     }
 }
 
@@ -70,7 +70,7 @@ class TypeExtension(textField: AbstractTextField) : AbstractJavaScriptExtension(
  * * No Vaadin component for `"time"`
  * * No Vaadin component for `"week"`
  */
-var AbstractTextField.type: String? by ExtensionPropertyDelegate(TypeExtension::class.java, TypeExtension::type, { TypeExtension(it) }, "text")
+public var AbstractTextField.type: String? by ExtensionPropertyDelegate(TypeExtension::class.java, TypeExtension::type, { TypeExtension(it) }, "text")
 
 /**
  * Creates a [TextField] with the [type] of `"email"` and attaches it to this component.
@@ -78,7 +78,7 @@ var AbstractTextField.type: String? by ExtensionPropertyDelegate(TypeExtension::
  * @param value the optional value
  */
 @VaadinDsl
-fun (@VaadinDsl HasComponents).emailField(caption: String? = null, value: String = "", block: (@VaadinDsl TextField).() -> Unit = {}) = textField(caption, value) {
+public fun (@VaadinDsl HasComponents).emailField(caption: String? = null, value: String = "", block: (@VaadinDsl TextField).() -> Unit = {}): TextField = textField(caption, value) {
     type = "email"
     block()
 }

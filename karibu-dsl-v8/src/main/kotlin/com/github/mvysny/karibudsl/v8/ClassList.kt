@@ -10,7 +10,7 @@ import java.io.Serializable
 /**
  * Represents a mutable class list (or style names as Vaadin calls them).
  */
-interface ClassList : MutableSet<String>, Serializable {
+public interface ClassList : MutableSet<String>, Serializable {
 
     /**
      * Sets or removes the given class name, based on the `set` parameter.
@@ -20,7 +20,7 @@ interface ClassList : MutableSet<String>, Serializable {
      * @return true if the class list was modified (class name added or
      * removed), false otherwise
      */
-    fun set(className: String, set: Boolean): Boolean {
+    public fun set(className: String, set: Boolean): Boolean {
         require(!className.containsWhitespace()) { "'$className' cannot contain whitespace" }
         return if (set) {
             add(className)
@@ -33,13 +33,13 @@ interface ClassList : MutableSet<String>, Serializable {
      * Toggles given [className] (removes it if it's present, or adds it if it's absent).
      * @param className the class name to toggle, cannot contain spaces.
      */
-    fun toggle(className: String) {
+    public fun toggle(className: String) {
         require(!className.containsWhitespace()) { "'$className' cannot contain whitespace" }
         set(className, !contains(className))
     }
 }
 
-abstract class AbstractStringBasedClassList : AbstractMutableSet<String>(), ClassList {
+public abstract class AbstractStringBasedClassList : AbstractMutableSet<String>(), ClassList {
     /**
      * Returns a space-separated list of style names.
      */
@@ -113,12 +113,12 @@ private class ComponentClassList(val component: Component) : AbstractStringBased
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl Component).styleNames: ClassList get() = ComponentClassList(this)
+public val (@VaadinDsl Component).styleNames: ClassList get() = ComponentClassList(this)
 
 /**
  * Adds or removes given [style] from the component, depending on the value of the [isPresent] parameter.
  */
-fun (@VaadinDsl Component).toggleStyleName(style: String, isPresent: Boolean) {
+public fun (@VaadinDsl Component).toggleStyleName(style: String, isPresent: Boolean) {
     if (isPresent) addStyleName(style) else removeStyleName(style)
 }
 
@@ -126,7 +126,7 @@ fun (@VaadinDsl Component).toggleStyleName(style: String, isPresent: Boolean) {
  * Checks whether the component has given [style] (or multiple styles if the string contains space).
  * @param style if contains a space, this is considered to be a list of styles. In such case, all styles must be present on the component.
  */
-fun (@VaadinDsl Component).hasStyleName(style: String): Boolean {
+public fun (@VaadinDsl Component).hasStyleName(style: String): Boolean {
     if (style.contains(' ')) return style.split(' ').filterNotBlank().all { hasStyleName(style) }
     return styleNames.contains(style)
 }
@@ -141,7 +141,7 @@ private class NotificationClassList(val notification: Notification) : AbstractSt
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl Notification).styleNames: ClassList get() = NotificationClassList(this)
+public val (@VaadinDsl Notification).styleNames: ClassList get() = NotificationClassList(this)
 
 private class HasStylesClassList(val hasStyles: HasStyleNames) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = hasStyles.styleName
@@ -153,7 +153,7 @@ private class HasStylesClassList(val hasStyles: HasStyleNames) : AbstractStringB
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl HasStyleNames).styleNames: ClassList get() = HasStylesClassList(this)
+public val (@VaadinDsl HasStyleNames).styleNames: ClassList get() = HasStylesClassList(this)
 
 private class TabClassList(val tab: TabSheet.Tab) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = tab.styleName ?: ""
@@ -165,7 +165,7 @@ private class TabClassList(val tab: TabSheet.Tab) : AbstractStringBasedClassList
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl TabSheet.Tab).styleNames: ClassList get() = TabClassList(this)
+public val (@VaadinDsl TabSheet.Tab).styleNames: ClassList get() = TabClassList(this)
 
 private class MenuItemClassList(val menuItem: MenuBar.MenuItem) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = menuItem.styleName ?: ""
@@ -177,7 +177,7 @@ private class MenuItemClassList(val menuItem: MenuBar.MenuItem) : AbstractString
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl MenuBar.MenuItem).styleNames: ClassList get() = MenuItemClassList(this)
+public val (@VaadinDsl MenuBar.MenuItem).styleNames: ClassList get() = MenuItemClassList(this)
 
 private class FooterCellClassList(val footerCell: FooterCell) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = footerCell.styleName ?: ""
@@ -189,7 +189,7 @@ private class FooterCellClassList(val footerCell: FooterCell) : AbstractStringBa
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl FooterCell).styleNames: ClassList get() = FooterCellClassList(this)
+public val (@VaadinDsl FooterCell).styleNames: ClassList get() = FooterCellClassList(this)
 
 private class FooterRowClassList(val footerRow: FooterRow) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = footerRow.styleName ?: ""
@@ -201,7 +201,7 @@ private class FooterRowClassList(val footerRow: FooterRow) : AbstractStringBased
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl FooterRow).styleNames: ClassList get() = FooterRowClassList(this)
+public val (@VaadinDsl FooterRow).styleNames: ClassList get() = FooterRowClassList(this)
 
 private class HeaderRowClassList(val headerRow: HeaderRow) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = headerRow.styleName ?: ""
@@ -213,7 +213,7 @@ private class HeaderRowClassList(val headerRow: HeaderRow) : AbstractStringBased
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl HeaderRow).styleNames: ClassList get() = HeaderRowClassList(this)
+public val (@VaadinDsl HeaderRow).styleNames: ClassList get() = HeaderRowClassList(this)
 
 private class HeaderCellClassList(val headerCell: HeaderCell) : AbstractStringBasedClassList() {
     override fun getStyleName(): String = headerCell.styleName ?: ""
@@ -225,4 +225,4 @@ private class HeaderCellClassList(val headerCell: HeaderCell) : AbstractStringBa
 /**
  * Returns a mutable set of styles currently present on the component.
  */
-val (@VaadinDsl HeaderCell).styleNames: ClassList get() = HeaderCellClassList(this)
+public val (@VaadinDsl HeaderCell).styleNames: ClassList get() = HeaderCellClassList(this)
