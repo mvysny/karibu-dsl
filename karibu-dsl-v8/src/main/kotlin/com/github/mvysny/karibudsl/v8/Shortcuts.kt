@@ -30,7 +30,7 @@ public data class KeyShortcut(val keyCode: Int, val modifierKeys: Set<ModifierKe
 }
 
 private fun shortcutListener(shortcut: KeyShortcut, block: () -> Unit): ShortcutListener =
-        object : ShortcutListener(null, null, shortcut.keyCode, shortcut.vaadinModifiers) {
+        object : ShortcutListener(null, null, shortcut.keyCode, *shortcut.vaadinModifiers) {
             override fun handleAction(sender: Any?, target: Any?) {
                 block()
             }
