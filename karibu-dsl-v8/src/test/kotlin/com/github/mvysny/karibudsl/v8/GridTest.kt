@@ -14,6 +14,16 @@ class GridTest : DynaTest({
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
 
+    group("grid dsl") {
+        test("simple") {
+            UI.getCurrent().grid<Person>()
+        }
+        test("with generified item") {
+            data class TestingClass<T>(var item: T? = null)
+            UI.getCurrent().grid<TestingClass<String>>()
+        }
+    }
+    
     group("addColumnFor tests") {
         test("grid addColumnFor works both for nullable and non-null properties") {
             data class TestingClass(var foo: String?, var bar: String)

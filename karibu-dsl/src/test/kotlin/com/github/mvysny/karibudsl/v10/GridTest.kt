@@ -20,12 +20,19 @@ class GridTest : DynaTest({
     afterEach { MockVaadin.tearDown() }
 
     group("grid dsl") {
+        test("simple") {
+            UI.getCurrent().grid<Person>()
+        }
         test("basic properties") {
             val grid: Grid<String> = UI.getCurrent().grid<String>()
             // TODO commented out until the Grid row situation is resolved. See [Grid.hotfixMissingHeaderRow] for more details.
             //expect(1) { grid.headerRows.size }
             expect(0) { grid.columns.size }
             expect(String::class.java) { grid.beanType }
+        }
+        test("with generified item") {
+            data class TestingClass<T>(var item: T? = null)
+            UI.getCurrent().grid<TestingClass<String>>()
         }
     }
 
