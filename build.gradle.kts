@@ -70,11 +70,8 @@ subprojects {
         }
 
         val javadocJar = task("javadocJar", Jar::class) {
-            val javadoc: DokkaTask = tasks["dokkaJavadoc"] as DokkaTask
-            javadoc.outputDirectory = "$buildDir/javadoc"
-            dependsOn(javadoc)
+            from(tasks["dokkaJavadoc"])
             archiveClassifier.set("javadoc")
-            from(javadoc.outputDirectory)
         }
 
         publishing {
