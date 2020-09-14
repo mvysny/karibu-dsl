@@ -254,7 +254,22 @@ and `DateTimePicker`.
 In order to do that, it's recommended to call `fetchTimeZoneFromBrowser()` when
 [Vaadin Session is being initialized](https://vaadin.com/docs/v14/flow/advanced/tutorial-application-lifecycle.html).
 
-## Launching the example project in Intellij IDEA:
+### CustomField
+
+Use this example to populate the contents of the CustomField in a DSL manner:
+
+```kotlin
+class DateTimeField: CustomField<DateInterval>() {
+  private val content = content {
+    horizontalLayout {
+      dateField()
+      timeField()
+    }
+  }
+}
+```
+
+## Launching the example project in Intellij IDEA
 
 ### Gradle's Gretty appRun
 

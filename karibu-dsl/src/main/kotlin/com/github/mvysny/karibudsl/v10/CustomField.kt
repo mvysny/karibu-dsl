@@ -11,7 +11,7 @@ private val customFieldAddMethod: Method = CustomField::class.java.getDeclaredMe
 }
 
 /**
- * Allows you to set the contents of your [CustomField] as follows (since it's not [HasComponents] anymore since Vaadin 13.0.0.beta3):
+ * Allows you to set the contents of your [CustomField] as follows:
  * ```
  * class DateRangePopup: CustomField<DateInterval>() {
  *   private val content: Button = content {
