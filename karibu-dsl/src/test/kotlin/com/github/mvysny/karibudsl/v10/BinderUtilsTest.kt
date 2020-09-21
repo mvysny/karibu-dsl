@@ -121,7 +121,7 @@ class BinderUtilsTest : DynaTest({
     test("guessIsReadOnly") {
         val binder = Binder<Person>(Person::class.java)
         expect(false) { binder.guessIsReadOnly }
-        val form = Form2(binder)
+        Form2(binder)
         expect(false) { binder.guessIsReadOnly }
         binder.setReadOnly(true)
         expect(true) { binder.guessIsReadOnly }

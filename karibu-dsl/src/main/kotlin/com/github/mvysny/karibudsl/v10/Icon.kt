@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
@@ -13,9 +14,13 @@ import java.io.Serializable
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).icon(icon: VaadinIcon, block: (@VaadinDsl Icon).() -> Unit = {}): Icon =
         init(Icon(icon), block)
+
+@Suppress("DEPRECATION")
+@Deprecated("Use ironIcon()")
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).icon(collection: String, icon: String, block: (@VaadinDsl Icon).() -> Unit = {}): Icon =
         init(Icon(collection, icon), block)
+
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).ironIcon(collection: String, icon: String, block: (@VaadinDsl IronIcon).() -> Unit = {}): IronIcon =
         init(IronIcon(collection, icon), block)
@@ -30,9 +35,12 @@ public data class IconName(val collection: String, val name: String) : Serializa
     }
 
     /**
-     * Creates a new [Icon] component for this icon.
+     * Creates a new component for this icon - either [Icon] or [IronIcon].
      */
-    public fun toIcon(): Icon = Icon(collection, name)
+    public fun createComponent(): Component = when {
+        isVaadinIcon -> Icon(name)
+        else -> IronIcon(collection, name)
+    }
 
     /**
      * Checks whether this icon represents a [VaadinIcon]. Use [asVaadinIcon] to obtain

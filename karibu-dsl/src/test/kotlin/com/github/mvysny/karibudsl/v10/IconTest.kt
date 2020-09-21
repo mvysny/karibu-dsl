@@ -14,6 +14,7 @@ class IconTest : DynaTest({
 
     test("smoke") {
         expect(IconName("foo", "bar")) {
+            @Suppress("DEPRECATION")
             Icon("foo", "bar").iconName
         }
     }

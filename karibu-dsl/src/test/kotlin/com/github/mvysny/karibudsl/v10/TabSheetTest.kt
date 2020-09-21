@@ -92,9 +92,8 @@ class TabSheetTest : DynaTest({
     }
 
     test("Removing all tabs clears selection") {
-        lateinit var tab: Tab
         val th = UI.getCurrent().tabSheet {
-            tab = tab("foo") { span("it works!") }
+            tab("foo") { span("it works!") }
         }
         th.removeAll()
 
@@ -117,14 +116,14 @@ class TabSheetTest : DynaTest({
     group("tab contents") {
         test("non-empty contents") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
         }
         test("clearing contents") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
@@ -153,9 +152,8 @@ class TabSheetTest : DynaTest({
     }
     group("findTabContaining") {
         test("empty tab") {
-            lateinit var tab: Tab
             val th = UI.getCurrent().tabSheet {
-                tab = tab("foo")
+                tab("foo")
             }
             expect(null) { th.findTabContaining(Span("bar")) }
         }

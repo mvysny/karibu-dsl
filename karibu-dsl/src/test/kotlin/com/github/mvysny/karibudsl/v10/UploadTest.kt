@@ -16,7 +16,7 @@ class UploadTest : DynaTest({
         UI.getCurrent().upload {  }
         _expectOne<Upload>()
         UI.getCurrent().removeAll()
-        UI.getCurrent().upload(Receiver { fileName, mimeType -> ByteArrayOutputStream() })
+        UI.getCurrent().upload(Receiver { _, _ -> ByteArrayOutputStream() })
         _expectOne<Upload>()
     }
 })
