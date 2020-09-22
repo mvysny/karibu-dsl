@@ -99,14 +99,6 @@ public fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (
         = init(DatePicker(label), block)
 
 /**
- * Creates a [Vaadin Dialog](https://vaadin.com/elements/vaadin-dialog). See the HTML Examples link for a list
- * of possible alternative themes.
- */
-@VaadinDsl
-public fun (@VaadinDsl HasComponents).dialog(block: (@VaadinDsl Dialog).() -> Unit = {}): Dialog
-        = init(Dialog(), block)
-
-/**
  * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
  * of possible alternative themes.
  */
