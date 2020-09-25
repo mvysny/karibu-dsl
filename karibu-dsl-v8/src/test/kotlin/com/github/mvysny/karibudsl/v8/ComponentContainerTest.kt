@@ -128,7 +128,7 @@ fun DynaNodeGroup.containerBattery(containerClazz: Class<out ComponentContainer>
     }
 
     lateinit var container: ComponentContainer
-    beforeEach { container = containerClazz.newInstance() }
+    beforeEach { container = containerClazz.getDeclaredConstructor().newInstance() }
 
     group("test ${containerClazz.simpleName}") {
 
