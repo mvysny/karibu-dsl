@@ -107,8 +107,13 @@ public fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout
         = init(SplitLayout(), block)
 
 @VaadinDsl
-public fun (@VaadinDsl HasComponents).tabs(block: (@VaadinDsl Tabs).() -> Unit = {}): Tabs =
-        init(Tabs(), block)
+public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null, block: (@VaadinDsl Tabs).() -> Unit = {}): Tabs {
+    val component = Tabs()
+    if (orientation != null) {
+        component.orientation = orientation
+    }
+    return init(component, block)
+}
 
 @VaadinDsl
 public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab =
