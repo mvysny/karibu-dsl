@@ -139,4 +139,4 @@ public fun HasOrderedComponents<*>.insertBefore(newComponent: Component, existin
  * Return the location of the currently shown view. The function will report the current (old)
  * view in [com.vaadin.flow.router.BeforeLeaveEvent] and [com.vaadin.flow.router.BeforeEnterEvent].
  */
-public val UI.currentLocation: Location get() = internals.activeViewLocation
+public val UI.currentViewLocation: Location get() = internals.activeViewLocation
