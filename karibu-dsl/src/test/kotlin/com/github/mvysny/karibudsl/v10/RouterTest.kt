@@ -137,4 +137,24 @@ class RouterTest : DynaTest({
             expect(null) { Location("nonexisting").getViewClass() }
         }
     }
+
+    test("UI.currentLocation") {
+        var expectedLocation = "."
+        var expectedLocationBefore = "."
+        UI.getCurrent().addBeforeLeaveListener {
+            expect(expectedLocationBefore) { UI.getCurrent().currentLocation.pathWithQueryParameters }
+        }
+        UI.getCurrent().addBeforeEnterListener {
+            expect(expectedLocationBefore) { UI.getCurrent().currentLocation.pathWithQueryParameters }
+        }
+        UI.getCurrent().addAfterNavigationListener {
+            expect(expectedLocation) { UI.getCurrent().currentLocation.pathWithQueryParameters }
+        }
+        expect(expectedLocation) { UI.getCurrent().currentLocation.pathWithQueryParameters }
+
+        expectedLocation = "testing"
+        navigateToView<TestingView>()
+        expect("testing") { UI.getCurrent().currentLocation.pathWithQueryParameters }
+        expectedLocationBefore = "testing"
+    }
 })

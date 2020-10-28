@@ -5,6 +5,7 @@ import com.vaadin.flow.dom.ClassList
 import com.vaadin.flow.dom.DomEventListener
 import com.vaadin.flow.dom.DomListenerRegistration
 import com.vaadin.flow.dom.Element
+import com.vaadin.flow.router.Location
 
 /**
  * Fires given event on the component.
@@ -133,3 +134,9 @@ public fun HasOrderedComponents<*>.insertBefore(newComponent: Component, existin
     require(parent == this) { "$existing is not nested in $this" }
     addComponentAtIndex(indexOf(existing), newComponent)
 }
+
+/**
+ * Return the location of the currently shown view. The function will report the current (old)
+ * view in [com.vaadin.flow.router.BeforeLeaveEvent] and [com.vaadin.flow.router.BeforeEnterEvent].
+ */
+public val UI.currentLocation: Location get() = internals.activeViewLocation
