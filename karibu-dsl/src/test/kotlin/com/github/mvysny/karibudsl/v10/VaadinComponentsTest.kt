@@ -46,6 +46,8 @@ class VaadinComponentsTest : DynaTest({
             dateTimePicker()
             listBox<String>()
             multiSelectListBox<String>()
+            progressBar {}
+            progressBar(indeterminate = true)
         }
     }
 
