@@ -12,6 +12,7 @@ import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.listbox.ListBox
 import com.vaadin.flow.component.listbox.MultiSelectListBox
 import com.vaadin.flow.component.orderedlayout.Scroller
+import com.vaadin.flow.component.progressbar.ProgressBar
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.tabs.Tab
@@ -196,3 +197,16 @@ public fun <T : Any?> (@VaadinDsl HasComponents).listBox(block: (@VaadinDsl List
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).multiSelectListBox(block: (@VaadinDsl MultiSelectListBox<T>).() -> Unit = {}): MultiSelectListBox<T>
         = init(MultiSelectListBox(), block)
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).progressBar(
+        min: Double = 0.0,
+        max: Double = 1.0,
+        value: Double = min,
+        indeterminate: Boolean = false,
+        block: (@VaadinDsl ProgressBar).() -> Unit = {}
+): ProgressBar {
+    val component = ProgressBar(min, max, value)
+    component.isIndeterminate = indeterminate
+    return init(component, block)
+}
