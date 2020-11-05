@@ -12,6 +12,8 @@ import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.dom.DomEventListener
+import java.io.File
+import java.util.*
 import kotlin.streams.toList
 import kotlin.test.expect
 
@@ -142,4 +144,16 @@ class VaadinUtilsTest : DynaTest({
         l.insertBefore(Span("third"), first)
         expect("second, third, first") { l.children.toList().map { it._text } .joinToString() }
     }
+
+    test("vaadin version") {
+        val gradleProps: Properties = File("../gradle.properties").loadAsProperties()
+        val expectedVaadinVersion: String = gradleProps["vaadin10_version"] as String
+        expect(expectedVaadinVersion) { vaadinVersion }
+    }
 })
+
+fun File.loadAsProperties(): Properties {
+    val p = Properties()
+    absoluteFile.reader().use { p.load(it.buffered()) }
+    return p
+}

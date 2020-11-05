@@ -1,11 +1,13 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
+import com.vaadin.flow.component.dependency.NpmPackage
 import com.vaadin.flow.dom.ClassList
 import com.vaadin.flow.dom.DomEventListener
 import com.vaadin.flow.dom.DomListenerRegistration
 import com.vaadin.flow.dom.Element
 import com.vaadin.flow.router.Location
+import com.vaadin.shrinkwrap.VaadinCoreShrinkWrap
 
 /**
  * Fires given event on the component.
@@ -140,3 +142,11 @@ public fun HasOrderedComponents<*>.insertBefore(newComponent: Component, existin
  * view in [com.vaadin.flow.router.BeforeLeaveEvent] and [com.vaadin.flow.router.BeforeEnterEvent].
  */
 public val UI.currentViewLocation: Location get() = internals.activeViewLocation
+
+/**
+ * Returns the Vaadin version in use, e.g. "14.4.2".
+ */
+public val vaadinVersion: String? get() {
+    val annotation: NpmPackage? = VaadinCoreShrinkWrap::class.java.getAnnotation(NpmPackage::class.java)
+    return annotation?.version
+}
