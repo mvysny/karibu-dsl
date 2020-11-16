@@ -96,6 +96,10 @@ public var Icon.iconName: IconName?
         element.setAttribute("icon", value?.toString() ?: "")
     }
 
+public fun Icon.setIcon(icon: VaadinIcon?) {
+    iconName = if (icon == null) null else IconName.of(icon)
+}
+
 /**
  * Returns the icon name and collection from the [IronIcon] component. Returns null
  * if no icon is set.
@@ -108,3 +112,7 @@ public var IronIcon.iconName: IconName?
     set(value: IconName?) {
         element.setAttribute("icon", value?.toString() ?: "")
     }
+
+public fun IronIcon.setIcon(icon: VaadinIcon?) {
+    iconName = if (icon == null) null else IconName.of(icon)
+}
