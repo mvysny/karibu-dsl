@@ -33,6 +33,8 @@ public class KFormLayout : FormLayout() {
 /**
  * Creates a [Form Layout](https://vaadin.com/elements/vaadin-form-layout). See the HTML Examples link for a list
  * of possible alternative themes for the layout.
+ *
+ * Call [responsiveSteps] to configure the layout for fluent resizing.
  * @param classNames optional additional class names, space-separated
  */
 @VaadinDsl
