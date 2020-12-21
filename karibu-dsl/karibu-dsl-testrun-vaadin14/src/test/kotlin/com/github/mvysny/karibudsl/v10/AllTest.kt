@@ -13,7 +13,7 @@ class AllTest : DynaTest({
 
     test("vaadin version 2") {
         val gradleProps: Properties = File("../../gradle.properties").loadAsProperties()
-        val expectedVaadinVersion: String = gradleProps["vaadin10_version"] as String
+        val expectedVaadinVersion: String = gradleProps["vaadin14_version"] as String
         expect(expectedVaadinVersion) { vaadinVersion }
     }
 

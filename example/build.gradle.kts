@@ -15,7 +15,7 @@ gretty {
 dependencies {
     implementation(project(":karibu-dsl"))
     // Vaadin 14
-    implementation("com.vaadin:vaadin-core:${properties["vaadin10_version"]}") {
+    implementation("com.vaadin:vaadin-core:${properties["vaadin14_version"]}") {
         // Webjars are only needed when running in Vaadin 13 compatibility mode
         listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
                 "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
