@@ -2,6 +2,14 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.expectThrows
+import java.io.Serializable
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.time.Instant
+import java.time.LocalDate
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.PastOrPresent
+import javax.validation.constraints.Size
 import kotlin.test.expect
 
 class UtilsTest : DynaTest({
@@ -13,3 +21,31 @@ class UtilsTest : DynaTest({
         }
     }
 })
+
+private data class Person(@field:NotNull
+                  @field:Size(min = 3, max = 200)
+                  var fullName: String? = null,
+
+                  @field:NotNull
+                  @field:PastOrPresent
+                  var dateOfBirth: LocalDate? = null,
+
+                  @field:NotNull
+                  var alive: Boolean = false,
+
+                  var testBoolean: Boolean? = null,
+
+                  var comment: String? = null,
+
+                  var testDouble: Double? = null,
+
+                  var testInt: Int? = null,
+
+                  var testLong: Long? = null,
+
+                  var testBD: BigDecimal? = null,
+
+                  var testBI: BigInteger? = null,
+
+                  var created: Instant? = null
+) : Serializable
