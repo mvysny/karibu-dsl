@@ -293,15 +293,29 @@ public var FooterRow.FooterCell.component: Component?
         setComponent(value)
     }
 
-private val gridSorterComponentRendererClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
+private val gridSorterComponentRendererClass: Class<*>? = try {
+    Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
+} catch (e: ClassNotFoundException) {
+    // Vaadin 18.0.3+ doesn't contain this class anymore and simply uses ComponentRenderer
+    null
+}
 
+/**
+ * Returns or sets the component in grid's header cell. Returns `null` if the cell contains String, something else than a component or nothing at all.
+ */
+@Suppress("UNCHECKED_CAST")
 public var HeaderRow.HeaderCell.component: Component?
     get() {
         val r: Renderer<*>? = renderer
-        if (!gridSorterComponentRendererClass.isInstance(r)) return null
-        val componentField = gridSorterComponentRendererClass.getDeclaredField("component")
-        componentField.isAccessible = true
-        return componentField.get(r) as Component?
+        if (gridSorterComponentRendererClass != null && gridSorterComponentRendererClass.isInstance(r)) {
+            val componentField = gridSorterComponentRendererClass.getDeclaredField("component")
+            componentField.isAccessible = true
+            return componentField.get(r) as Component?
+        }
+        if (r is ComponentRenderer<*, *>) {
+            return (r as ComponentRenderer<*, Any?>).createComponent(null)
+        }
+        return null
     }
     set(value) {
         setComponent(value)
