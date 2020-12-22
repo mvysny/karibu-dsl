@@ -24,16 +24,5 @@ dependencies {
                 .forEach { exclude(group = it) }
     }
     compileOnly("javax.servlet:javax.servlet-api:3.1.0")
-
-    // IDEA language injections
-    api("com.intellij:annotations:12.0")
-
-    // always include support for bean validation
-    api("javax.validation:validation-api:2.0.1.Final")  // so that the BeanFieldGroup will perform JSR303 validations
-    implementation("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}") {
-        exclude(module = "jakarta.validation-api")
-    }
-    // EL is required: http://hibernate.org/validator/documentation/getting-started/
-    implementation("org.glassfish:javax.el:3.0.1-b11")
 }
 
