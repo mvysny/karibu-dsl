@@ -42,11 +42,11 @@ public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).()
  * ```
  */
 @VaadinDsl
-public fun (@VaadinDsl AppLayout).navbar(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
-            addToNavbar(*components)
+            addToNavbar(touchOptimized, *components)
         }
     }
     dummy.block()
