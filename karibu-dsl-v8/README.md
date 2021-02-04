@@ -13,7 +13,7 @@ simply by including appropriate Gradle dependency:
 
 ```groovy
 repositories {
-    jcenter()  // or mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
