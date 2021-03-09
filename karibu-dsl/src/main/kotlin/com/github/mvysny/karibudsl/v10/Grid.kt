@@ -15,6 +15,7 @@ import com.vaadin.flow.data.selection.SelectionModel
 import com.vaadin.flow.shared.util.SharedUtil
 import java.lang.reflect.Method
 import java.util.*
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 @VaadinDsl
@@ -23,6 +24,27 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
         noinline block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
     val grid = Grid<T>(T::class.java, false)
+    return initGrid(grid, dataProvider, block)
+}
+
+@VaadinDsl
+public fun <T : Any> (@VaadinDsl HasComponents).grid(
+    klass: KClass<T>,
+    dataProvider: DataProvider<T, *>?,
+    block: (@VaadinDsl Grid<T>).() -> Unit
+): Grid<T> {
+    val grid = Grid(klass.java, false)
+    return initGrid(grid, dataProvider, block)
+}
+
+/**
+ * Internal, do not use. Automatically called from [grid] and [treeGrid].
+ */
+public fun <T : Any?> (@VaadinDsl HasComponents).initGrid(
+    grid: @VaadinDsl Grid<T>,
+    dataProvider: DataProvider<T, *>?,
+    block: (@VaadinDsl Grid<T>).() -> Unit
+): Grid<T> {
     if (dataProvider != null) {
         grid.dataProvider = dataProvider
     }
