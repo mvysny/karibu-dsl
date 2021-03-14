@@ -23,8 +23,7 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
         dataProvider: DataProvider<T, *>? = null,
         noinline block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
-    val grid = Grid<T>(T::class.java, false)
-    return initGrid(grid, dataProvider, block)
+    return grid(T::class.java, dataProvider, block)
 }
 
 @VaadinDsl
@@ -33,18 +32,16 @@ public fun <T : Any> (@VaadinDsl HasComponents).grid(
     dataProvider: DataProvider<T, *>?,
     block: (@VaadinDsl Grid<T>).() -> Unit
 ): Grid<T> {
-    val grid = Grid(klass.java, false)
-    return initGrid(grid, dataProvider, block)
+    return grid(klass.java, dataProvider, block)
 }
 
-/**
- * Internal, do not use. Automatically called from [grid].
- */
-public fun <T : Any?> (@VaadinDsl HasComponents).initGrid(
-    grid: @VaadinDsl Grid<T>,
+@VaadinDsl
+public fun <T : Any?> (@VaadinDsl HasComponents).grid(
+    clazz: Class<T>,
     dataProvider: DataProvider<T, *>?,
     block: (@VaadinDsl Grid<T>).() -> Unit
 ): Grid<T> {
+    val grid = Grid(clazz, false)
     if (dataProvider != null) {
         grid.dataProvider = dataProvider
     }
@@ -72,8 +69,7 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
         dataProvider: HierarchicalDataProvider<T, *>? = null,
         noinline block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
 ): TreeGrid<T> {
-    val grid = TreeGrid<T>(T::class.java)
-    return initTreeGrid(grid, dataProvider, block)
+    return treeGrid(T::class.java, dataProvider, block)
 }
 
 @VaadinDsl
@@ -82,18 +78,15 @@ public fun <T : Any> (@VaadinDsl HasComponents).treeGrid(
     dataProvider: HierarchicalDataProvider<T, *>? = null,
     block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
 ): TreeGrid<T> {
-    val grid = TreeGrid(klass.java)
-    return initTreeGrid<T>(grid, dataProvider, block)
+    return treeGrid(klass.java, dataProvider, block)
 }
 
-/**
- * Internal, do not use. Automatically called from [treeGrid].
- */
-public fun <T : Any?> @VaadinDsl HasComponents.initTreeGrid(
-    grid: TreeGrid<T>,
+public fun <T : Any?> @VaadinDsl HasComponents.treeGrid(
+    clazz: Class<T>,
     dataProvider: HierarchicalDataProvider<T, *>?,
     block: (@VaadinDsl TreeGrid<T>).() -> Unit
 ): TreeGrid<T> {
+    val grid = TreeGrid(clazz)
     grid.removeAllColumns() // workaround for https://github.com/vaadin/vaadin-grid-flow/issues/973
     if (dataProvider != null) {
         (grid as Grid<T>).dataProvider = dataProvider
