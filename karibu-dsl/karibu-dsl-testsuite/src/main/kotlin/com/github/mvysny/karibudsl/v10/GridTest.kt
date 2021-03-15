@@ -23,6 +23,7 @@ fun DynaNodeGroup.gridTest() {
     group("grid dsl") {
         test("simple") {
             UI.getCurrent().grid<Person>()
+            _expectOne<Grid<*>>()
         }
         test("basic properties") {
             val grid: Grid<String> = UI.getCurrent().grid<String>()
@@ -34,6 +35,14 @@ fun DynaNodeGroup.gridTest() {
         test("with generified item") {
             data class TestingClass<T>(var item: T? = null)
             UI.getCurrent().grid<TestingClass<String>>()
+        }
+        test("class") {
+            UI.getCurrent().grid(Person::class.java)
+            _expectOne<Grid<*>>()
+        }
+        test("kclass") {
+            UI.getCurrent().grid(Person::class)
+            _expectOne<Grid<*>>()
         }
     }
 
@@ -168,6 +177,14 @@ fun DynaNodeGroup.gridTest() {
             expect(1) { grid.headerRows.size }
             expect(0) { grid.columns.size }
             expect(String::class.java) { grid.beanType }
+        }
+        test("class") {
+            UI.getCurrent().treeGrid(Person::class.java)
+            _expectOne<Grid<*>>()
+        }
+        test("kclass") {
+            UI.getCurrent().treeGrid(Person::class)
+            _expectOne<Grid<*>>()
         }
     }
 }

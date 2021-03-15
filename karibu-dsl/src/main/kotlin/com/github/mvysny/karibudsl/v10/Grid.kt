@@ -29,8 +29,8 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
 @VaadinDsl
 public fun <T : Any> (@VaadinDsl HasComponents).grid(
     klass: KClass<T>,
-    dataProvider: DataProvider<T, *>?,
-    block: (@VaadinDsl Grid<T>).() -> Unit
+    dataProvider: DataProvider<T, *>? = null,
+    block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
     return grid(klass.java, dataProvider, block)
 }
@@ -38,8 +38,8 @@ public fun <T : Any> (@VaadinDsl HasComponents).grid(
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).grid(
     clazz: Class<T>,
-    dataProvider: DataProvider<T, *>?,
-    block: (@VaadinDsl Grid<T>).() -> Unit
+    dataProvider: DataProvider<T, *>? = null,
+    block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
     val grid = Grid(clazz, false)
     if (dataProvider != null) {
@@ -83,8 +83,8 @@ public fun <T : Any> (@VaadinDsl HasComponents).treeGrid(
 
 public fun <T : Any?> @VaadinDsl HasComponents.treeGrid(
     clazz: Class<T>,
-    dataProvider: HierarchicalDataProvider<T, *>?,
-    block: (@VaadinDsl TreeGrid<T>).() -> Unit
+    dataProvider: HierarchicalDataProvider<T, *>? = null,
+    block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
 ): TreeGrid<T> {
     val grid = TreeGrid(clazz)
     grid.removeAllColumns() // workaround for https://github.com/vaadin/vaadin-grid-flow/issues/973
