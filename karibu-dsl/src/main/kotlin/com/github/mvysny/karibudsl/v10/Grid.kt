@@ -28,20 +28,20 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
 
 @VaadinDsl
 public fun <T : Any> (@VaadinDsl HasComponents).grid(
-    klass: KClass<T>,
+    klass: KClass<T>?,
     dataProvider: DataProvider<T, *>? = null,
     block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
-    return grid(klass.java, dataProvider, block)
+    return grid(klass?.java, dataProvider, block)
 }
 
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).grid(
-    clazz: Class<T>,
+    clazz: Class<T>?,
     dataProvider: DataProvider<T, *>? = null,
     block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
-    val grid = Grid(clazz, false)
+    val grid = if (clazz == null) Grid() else Grid(clazz, false)
     if (dataProvider != null) {
         grid.dataProvider = dataProvider
     }
@@ -74,19 +74,19 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
 
 @VaadinDsl
 public fun <T : Any> (@VaadinDsl HasComponents).treeGrid(
-    klass: KClass<T>,
+    klass: KClass<T>?,
     dataProvider: HierarchicalDataProvider<T, *>? = null,
     block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
 ): TreeGrid<T> {
-    return treeGrid(klass.java, dataProvider, block)
+    return treeGrid(klass?.java, dataProvider, block)
 }
 
 public fun <T : Any?> @VaadinDsl HasComponents.treeGrid(
-    clazz: Class<T>,
+    clazz: Class<T>?,
     dataProvider: HierarchicalDataProvider<T, *>? = null,
     block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
 ): TreeGrid<T> {
-    val grid = TreeGrid(clazz)
+    val grid = if (clazz == null) TreeGrid() else TreeGrid(clazz)
     grid.removeAllColumns() // workaround for https://github.com/vaadin/vaadin-grid-flow/issues/973
     if (dataProvider != null) {
         (grid as Grid<T>).dataProvider = dataProvider

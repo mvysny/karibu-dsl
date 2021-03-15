@@ -1,7 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
@@ -42,6 +41,14 @@ fun DynaNodeGroup.gridTest() {
         }
         test("kclass") {
             UI.getCurrent().grid(Person::class)
+            _expectOne<Grid<*>>()
+        }
+        test("null kclass") {
+            UI.getCurrent().grid<Person>(klass = null)
+            _expectOne<Grid<*>>()
+        }
+        test("null class") {
+            UI.getCurrent().grid<Person>(clazz = null)
             _expectOne<Grid<*>>()
         }
     }
@@ -184,6 +191,14 @@ fun DynaNodeGroup.gridTest() {
         }
         test("kclass") {
             UI.getCurrent().treeGrid(Person::class)
+            _expectOne<Grid<*>>()
+        }
+        test("null kclass") {
+            UI.getCurrent().treeGrid<Person>(klass = null)
+            _expectOne<Grid<*>>()
+        }
+        test("null class") {
+            UI.getCurrent().treeGrid<Person>(clazz = null)
             _expectOne<Grid<*>>()
         }
     }
