@@ -33,6 +33,10 @@ public fun <C, T> navigateToView(viewType: KClass<out T>, param: C?) where T: Co
     UI.getCurrent().navigate(viewType.java, param)
 }
 
+public fun navigateToView(routerLink: RouterLink) {
+    UI.getCurrent().navigate(routerLink.href)
+}
+
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
                                           block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
