@@ -24,6 +24,12 @@ In order to launch the suite, simply navigate to the `karibu-dsl/karibu-dsl-test
 project in your Intellij, then right-click the `test` folder and select
 *Run All Tests*.
 
+You can run all tests with all Vaadin versions simply by running Gradle from the command-line:
+
+```
+./gradlew test
+```
+
 ### Writing Tests
 
 The tests themselves are present in the `karibu-dsl/karibu-dsl-testsuite` project,
