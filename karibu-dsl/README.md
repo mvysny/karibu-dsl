@@ -8,7 +8,8 @@ Compatibility chart:
 |------------------------|----------|
 | 0.5.x | Vaadin 10, Vaadin 11, Vaadin 12 |
 | 0.6.x | Vaadin 13+ |
-| 0.7.x, 1.x.y | Vaadin 14+ |
+| 0.7.x | Vaadin 14+ (recommended) |
+| 1.x.y (recommended) | Vaadin 14+ |
 
 > Note: 0.7.x works with Vaadin 13 as well, with some limitations
   as outlined in [Issue #19](https://github.com/mvysny/karibu-dsl/issues/19).
@@ -267,6 +268,25 @@ class DateTimeField: CustomField<DateInterval>() {
     }
   }
 }
+```
+
+### Grid
+
+Any of the following DSLs work and will pass the class of the item to Grid's constructor.
+In order for you to be in control and create the columns
+in a controlled DSL manner, no columns are auto-created.
+
+```kotlin
+grid<Person> {}
+grid(Person::class) {}
+grid(Person::class.java) {}
+```
+
+Alternatively, you can decide not to pass the item class into Grid's constructor:
+
+```kotlin
+grid<Person>(klass = null) {}
+grid<Person>(clazz = null) {}
 ```
 
 ## Launching the example project in Intellij IDEA
