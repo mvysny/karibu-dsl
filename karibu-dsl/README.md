@@ -8,7 +8,7 @@ Compatibility chart:
 |------------------------|----------|
 | 0.5.x | Vaadin 10, Vaadin 11, Vaadin 12 |
 | 0.6.x | Vaadin 13+ |
-| 0.7.x | Vaadin 14+ (recommended) |
+| 0.7.x | Vaadin 14+ |
 | 1.x.y (recommended) | Vaadin 14+ |
 
 > Note: 0.7.x works with Vaadin 13 as well, with some limitations
