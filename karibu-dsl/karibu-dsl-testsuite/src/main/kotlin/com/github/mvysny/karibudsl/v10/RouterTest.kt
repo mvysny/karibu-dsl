@@ -80,6 +80,10 @@ fun DynaNodeGroup.routerTest() {
         test("parametrized target") {
             expect("testingp/1") { UI.getCurrent().routerLink(null, "foo", TestingParametrizedView::class, 1L).href }
         }
+        test("navigateTo") {
+			UI.getCurrent().routerLink(null, "foo", TestingView::class).navigateTo()
+			_expectOne<TestingView>()
+        }
     }
 
     group("viewClass") {
