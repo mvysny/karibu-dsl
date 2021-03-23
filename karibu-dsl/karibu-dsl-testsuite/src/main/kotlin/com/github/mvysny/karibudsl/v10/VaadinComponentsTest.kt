@@ -63,6 +63,17 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         scroller.content { span("Bar") }
     }
 
+    group("button") {
+        test("text") {
+            val button = UI.getCurrent().button("Hello world")
+            expect("Hello world") { button.text }
+        }
+        test("id") {
+            val button = UI.getCurrent().button("Hello world", id = "helloWorld")
+            expect("helloWorld") { button.id_ }
+        }
+    }
+
     group("flex") {
         test("setting flexGrow on component sets it to the parent VerticalLayout correctly") {
             val vl = VerticalLayout().apply {

@@ -8,7 +8,6 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.datetimepicker.DateTimePicker
-import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.listbox.ListBox
 import com.vaadin.flow.component.listbox.MultiSelectListBox
 import com.vaadin.flow.component.orderedlayout.Scroller
@@ -31,7 +30,12 @@ import com.vaadin.flow.shared.Registration
  * @param block runs the block with the button as a receiver.
  */
 @VaadinDsl
-public fun (@VaadinDsl HasComponents).button(text: String? = null, icon: Component? = null, block: (@VaadinDsl Button).() -> Unit = {}): Button = init(Button(text, icon), block)
+public fun (@VaadinDsl HasComponents).button(
+    text: String? = null,
+    icon: Component? = null,
+    id: String? = null,
+    block: (@VaadinDsl Button).() -> Unit = {}
+): Button = init(Button(text, icon), id, block)
 
 /**
  * Utility method which creates a [Vaadin Button](https://vaadin.com/elements/vaadin-button) which

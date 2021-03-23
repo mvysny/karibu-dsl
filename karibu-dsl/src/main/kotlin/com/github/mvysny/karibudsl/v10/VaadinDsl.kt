@@ -20,7 +20,24 @@ public annotation class VaadinDsl
  * @param block optional block to run over the component, allowing you to add children to the [component]
  */
 @VaadinDsl
-public fun <T : Component> (@VaadinDsl HasComponents).init(component: T, block: T.() -> Unit = {}): T {
+public fun <T : Component> (@VaadinDsl HasComponents).init(
+    component: T,
+    id: String?,
+    block: T.() -> Unit = {}
+): T {
+    if (id != null) {
+        component.setId(id)
+    }
+    add(component)
+    component.block()
+    return component
+}
+
+@VaadinDsl
+public fun <T : Component> (@VaadinDsl HasComponents).init(
+    component: T,
+    block: T.() -> Unit = {}
+): T {
     add(component)
     component.block()
     return component
