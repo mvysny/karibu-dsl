@@ -44,7 +44,7 @@ public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text:
     if (icon != null) link.icon(icon)
     if (text != null) link.text(text)
     init(link, block)
-    return link////
+    return link
 }
 
 @JvmName("routerLinkWithParam")
