@@ -332,7 +332,7 @@ public var FooterRow.FooterCell.component: Component?
 private val gridSorterComponentRendererClass: Class<*>? = try {
     Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
 } catch (e: ClassNotFoundException) {
-    // Vaadin 18.0.3+ doesn't contain this class anymore and simply uses ComponentRenderer
+    // Vaadin 18.0.3+ and Vaadin 14.5.0+ doesn't contain this class anymore and simply uses ComponentRenderer
     null
 }
 
