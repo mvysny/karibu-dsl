@@ -17,6 +17,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        jcenter() // because of Gretty
         maven { setUrl("https://maven.vaadin.com/vaadin-prereleases/") }
     }
 
