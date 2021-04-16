@@ -150,3 +150,13 @@ public val vaadinVersion: String? get() {
     val annotation: NpmPackage? = VaadinCoreShrinkWrap::class.java.getAnnotation(NpmPackage::class.java)
     return annotation?.version
 }
+
+/**
+ * True when the component has any children.
+ */
+public val HasComponents.isNotEmpty: Boolean get() = (this as Component).children.findFirst().isPresent
+
+/**
+ * True when the component has no children.
+ */
+public val HasComponents.isEmpty: Boolean get() = !isNotEmpty

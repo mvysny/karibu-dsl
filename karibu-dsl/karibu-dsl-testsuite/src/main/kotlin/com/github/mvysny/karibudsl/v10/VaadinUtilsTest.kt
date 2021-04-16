@@ -1,7 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._text
@@ -144,6 +143,24 @@ fun DynaNodeGroup.vaadinUtilsTest() {
         expect("second, first") { l.children.toList().map { it._text } .joinToString() }
         l.insertBefore(Span("third"), first)
         expect("second, third, first") { l.children.toList().map { it._text } .joinToString() }
+    }
+
+    test("isNotEmpty") {
+        val l = HorizontalLayout()
+        expect(false) { l.isNotEmpty }
+        l.addComponentAsFirst(Span("first"))
+        expect(true) { l.isNotEmpty }
+        l.removeAll()
+        expect(false) { l.isNotEmpty }
+    }
+
+    test("isEmpty") {
+        val l = HorizontalLayout()
+        expect(true) { l.isEmpty }
+        l.addComponentAsFirst(Span("first"))
+        expect(false) { l.isEmpty }
+        l.removeAll()
+        expect(true) { l.isEmpty }
     }
 }
 
