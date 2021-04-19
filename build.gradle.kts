@@ -13,7 +13,7 @@ defaultTasks("clean", "build")
 
 allprojects {
     group = "com.github.mvysny.karibudsl"
-    version = "1.0.6"
+    version = "1.0.7-SNAPSHOT"
 
     repositories {
         mavenCentral()
