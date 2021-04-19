@@ -50,6 +50,11 @@ subprojects {
         }
     }
 
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
     // creates a reusable function which configures proper deployment to Maven Central
     ext["configureBintray"] = { artifactId: String ->
 
