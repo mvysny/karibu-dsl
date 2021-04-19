@@ -30,6 +30,3 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
-vaadin {
-    pnpmEnable = true
-}
