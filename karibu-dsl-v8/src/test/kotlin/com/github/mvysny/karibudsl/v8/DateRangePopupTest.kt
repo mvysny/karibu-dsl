@@ -6,6 +6,8 @@ import com.github.mvysny.kaributesting.v8.*
 import com.vaadin.shared.ui.datefield.DateTimeResolution
 import com.vaadin.ui.*
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
 import kotlin.test.expect
 
 class DateRangePopupTest : DynaTest({
@@ -41,7 +43,7 @@ class DateRangePopupTest : DynaTest({
     test("setting value while popup is visible will update the text fields as well") {
         UI.getCurrent().dateRangePopup {
             isPopupVisible = true
-            val now = LocalDateTime.now()
+            val now: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
             value = DateInterval(now, now)
             val fields = _find<InlineDateTimeField> { count = 2..2 }
             expect(now) { fields[0]._value }
