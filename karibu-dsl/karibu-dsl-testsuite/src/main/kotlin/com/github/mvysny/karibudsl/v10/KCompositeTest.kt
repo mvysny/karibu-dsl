@@ -56,13 +56,6 @@ fun DynaNodeGroup.kcompositeTest() {
         _expectOne<Button> { caption = "ok" }
     }
 
-    test("serialize") {
-        UI.getCurrent().apply {
-            buttonBar()
-        }
-        UI.getCurrent().cloneBySerialization()
-    }
-
     test("uninitialized composite fails with informative exception") {
         expectThrows(IllegalStateException::class, "The content has not yet been initialized") {
             UI.getCurrent().add(object : KComposite() {})

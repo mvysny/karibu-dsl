@@ -19,11 +19,4 @@ fun DynaNodeGroup.ironListTest() {
             il.expectRows(0)
         }
     }
-
-    test("serialization") {
-        val il: IronList<Person> = IronList<Person>().apply {
-            setRenderer { it.toString() }
-        }
-        il.cloneBySerialization()
-    }
 }

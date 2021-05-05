@@ -72,7 +72,6 @@ fun DynaNodeGroup.vaadinUtilsTest() {
         b.onLeftClick { clicked++ }
         b.serverClick()
         expect(1) { clicked }
-        b.cloneBySerialization()
     }
 
     test("tooltip") {
