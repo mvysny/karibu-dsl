@@ -167,7 +167,7 @@ fun DynaNodeGroup.gridTest() {
     }
 
     test("serialization") {
-        val grid = Grid<Person>().apply {
+        Grid<Person>().apply {
             addColumnFor(Person::fullName)
             appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
         }

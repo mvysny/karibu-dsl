@@ -56,7 +56,7 @@ public data class IconName(val collection: String, val name: String) : Serializa
         if (!isVaadinIcon) {
             return null
         }
-        val enumName: String = name.toUpperCase().replace('-', '_')
+        val enumName: String = name.uppercase().replace('-', '_')
         return VaadinIcon.valueOf(enumName)
     }
 
@@ -70,7 +70,7 @@ public data class IconName(val collection: String, val name: String) : Serializa
          * Gets the icon name from given [vaadinIcon].
          */
         public fun of(vaadinIcon: VaadinIcon): IconName =
-                IconName("vaadin", vaadinIcon.name.toLowerCase().replace('_', '-'))
+                IconName("vaadin", vaadinIcon.name.lowercase().replace('_', '-'))
 
         /**
          * Parses the [toString] string representation. Returns null if the [iconName] is not in the expected format.

@@ -73,7 +73,7 @@ class CommonElementsView : Composite(), View {
                     menuBar {
                         caption = "Type"; styleName = ValoTheme.MENUBAR_SMALL
                         fun setType(type: Notification.Type) {
-                            items.forEach { item -> item.isChecked = item.text.toLowerCase() == type.style }
+                            items.forEach { item -> item.isChecked = item.text.lowercase() == type.style }
                             Notification.Type.values().forEach { notification.styleNames.set(it.style, it == type) }
                         }
                         Notification.Type.values().forEach { type ->
@@ -84,7 +84,7 @@ class CommonElementsView : Composite(), View {
                     menuBar {
                         caption = "Additional style"; styleName = ValoTheme.MENUBAR_SMALL
                         val styleCommand = MenuBar.Command {
-                            val styleName: String = it.text.toLowerCase()
+                            val styleName: String = it.text.lowercase()
                             notification.styleNames.toggle(styleName)
                         }
                         addItem("Dark", styleCommand).isCheckable = true

@@ -46,7 +46,7 @@ object ReviewService {
      * @return          the list of matching reviews
      */
     fun findReviews(filter: String): List<Review> {
-        val normalizedFilter = filter.trim().toLowerCase()
+        val normalizedFilter = filter.trim().lowercase()
         return reviews.values
                 .filter { review -> filterTextOf(review).any { it.contains(normalizedFilter, ignoreCase = true) } }
                 .sortedBy { it.id }
@@ -110,7 +110,7 @@ object ReviewService {
      * @return the total sum, 0 or greater.
      */
     fun getTotalCountForReviewsInCategory(categoryId: Long): Int =
-            reviews.values.filter { it.category?.id == categoryId } .sumBy { it.count }
+            reviews.values.filter { it.category?.id == categoryId } .sumOf { it.count }
 
     fun deleteAll() {
         reviews.clear()
