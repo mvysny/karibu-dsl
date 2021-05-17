@@ -4,9 +4,12 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.FooterRow
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridSortOrder
 import com.vaadin.flow.component.grid.HeaderRow
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.DataProvider
+import com.vaadin.flow.data.provider.QuerySortOrder
+import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
@@ -179,7 +182,7 @@ public var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
  */
 public fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
     getColumnByKey(property.name)
-            ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.map { it.key }.filterNotNull()}")
+            ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.mapNotNull { it.key }}")
 
 /**
  * Returns a [Comparator] which compares values of given property name.
@@ -356,3 +359,68 @@ public var HeaderRow.HeaderCell.component: Component?
     set(value) {
         setComponent(value)
     }
+
+/**
+ * Forces a defined sort [order] for the columns in the Grid. Setting
+ * empty list resets the ordering of all columns.
+ * Columns not mentioned in the list are reset to the unsorted state.
+ *
+ * For Grids with multi-sorting, the index of a given column inside the list
+ * defines the sort priority. For example, the column at index 0 of the list
+ * is sorted first, then on the index 1, and so on.
+ *
+ * Exampe of usage:
+ * ```
+ * grid<Person> {
+ *   val nameColumn = addColumnFor(Person::name)
+ *   sort(nameColumn.asc)
+ * }
+ * ```
+ * @param order
+ *            the list of sort orders to set on the client, or
+ *            <code>null</code> to reset any sort orders.
+ * @see [Grid.setMultiSort]
+ * @see [Grid.getSortOrder]
+*/
+public fun <T> Grid<T>.sort(vararg order: GridSortOrder<T>) {
+    sort(order.toList())
+}
+
+/**
+ * Alias for [sort].
+ */
+public fun <T> Grid<T>.setSortOrder(order: List<GridSortOrder<T>>) {
+    sort(order)
+}
+
+/**
+ * Forces a defined sort [criteria] for the columns in the Grid. Setting
+ * empty list resets the ordering of all columns.
+ * Columns not mentioned in the list are reset to the unsorted state.
+ *
+ * For Grids with multi-sorting, the index of a given column inside the list
+ * defines the sort priority. For example, the column at index 0 of the list
+ * is sorted first, then on the index 1, and so on.
+ *
+ * Exampe of usage:
+ * ```
+ * grid<Person> {
+ *   addColumnFor(Person::name)
+ *   sort(Person::name.asc)
+ * }
+ * ```
+ */
+public fun <T> Grid<T>.sort(vararg criteria: QuerySortOrder) {
+    // check that columns are sortable
+    val crit: List<GridSortOrder<T>> = criteria.map { sortOrder ->
+        val col: Grid.Column<T> = getColumnByKey(sortOrder.sorted)
+            ?: throw IllegalArgumentException("No column with key ${sortOrder.sorted}; available column keys: ${columns.mapNotNull { it.key }}")
+        require(col.isSortable) { "Column for ${sortOrder.sorted} is not marked sortable" }
+        GridSortOrder(col, sortOrder.direction)
+    }
+
+    sort(crit)
+}
+
+public val <T> Grid.Column<T>.asc: GridSortOrder<T> get() = GridSortOrder(this, SortDirection.ASCENDING)
+public val <T> Grid.Column<T>.desc: GridSortOrder<T> get() = GridSortOrder(this, SortDirection.DESCENDING)

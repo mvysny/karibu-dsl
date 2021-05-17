@@ -102,8 +102,17 @@ fun DynaNodeGroup.gridTest() {
             grid.sort(Person::fullName.desc)
             expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, 1000).map { it.fullName } }
         }
-    }
 
+        test("sorting by column also works with in-memory container 3") {
+            val grid = Grid<Person>().apply {
+                val fullNameColumn = addColumnFor(Person::fullName)
+                setItems2((0..9).map { Person(fullName = it.toString()) })
+                sort(fullNameColumn.desc)
+            }
+            expect<Class<*>>(ListDataProvider2::class.java) { grid.dataProvider.javaClass }
+            expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, 1000).map { it.fullName } }
+        }
+    }
 
     test("column isExpand") {
         val grid = Grid<Person>()
@@ -206,20 +215,6 @@ fun DynaNodeGroup.gridTest() {
             _expectOne<Grid<*>>()
         }
     }
-}
-
-/**
- * Enforces a particular sorting upon a grid.
- */
-fun <T> Grid<T>.sort(vararg criteria: QuerySortOrder) {
-    // check that columns are sortable
-    val crit: List<GridSortOrder<T>> = criteria.map {
-        val col: Grid.Column<T> = getColumnByKey(it.sorted)
-        require(col.isSortable) { "Column for ${it.sorted} is not marked sortable" }
-        GridSortOrder(col, it.direction)
-    }
-
-    sort(crit)
 }
 
 fun <T> Grid<T>.setItems2(items: Collection<T>) {
