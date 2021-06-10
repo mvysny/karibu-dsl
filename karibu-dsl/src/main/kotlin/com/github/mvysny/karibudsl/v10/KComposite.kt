@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.HasSize
 import com.vaadin.flow.dom.Element
 
 /**
@@ -35,9 +36,13 @@ import com.vaadin.flow.dom.Element
  *   private fun cancelClicked() {}
  * }
  * ```
- * @param root You can alternatively specify the content straight in the constructor if it is known upfront.
+ * Implements [HasSize] since you almost always need to control the
+ * component size when placing into a parent layout.
+ * @param root You can optionally specify the content straight in the constructor if it is known upfront.
+ * Defaults to `null`: in such case the content is expected to
+ * be provided either via [ui] or [initContent].
  */
-public abstract class KComposite(private var root: Component? = null) : Composite<Component>() {
+public abstract class KComposite(private var root: Component? = null) : Composite<Component>(), HasSize {
     final override fun initContent(): Component = checkNotNull(root) {
         "The content has not yet been initialized, please call the ui() function in the constructor"
     }
