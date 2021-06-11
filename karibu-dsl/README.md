@@ -152,6 +152,24 @@ use `VerticalLayout`/`HorizontalLayout`.
 Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms-v10.html) tutorial
 for more information.
 
+### FormLayout
+
+Thanks to Kotlin DSL extensions, you can write the responsive-steps configuration in a
+much more condensed form as
+```kotlin
+responsiveSteps { "0px"(1, top); "30em"(2, aside) }
+```
+
+You can also use the `colspan` extension property to set colspan for child fields:
+
+```kotlin
+formLayout {
+  textArea {
+    colspan = 2
+  }
+}
+```
+
 ### Writing your own components
 
 Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.
