@@ -170,6 +170,27 @@ formLayout {
 }
 ```
 
+### TabSheet
+
+Vaadin provides the [Tabs](https://vaadin.com/components/vaadin-tabs) component,
+but that's just the tab bar without any contents. That's exactly what the TabSheet
+Karibu-DSL component solves.
+
+You can add and populate tabs in two ways:
+* eagerly, by calling either `tab()` or `addTab()` function.
+* lazily, by calling `addLazyTab()`.
+
+Example code:
+```
+tabSheet {
+  tab("DSL-style tab") {
+    span("Hello")
+  }
+  addTab("Old-school style", Span("Hi"))
+  addLazyTab("Populated when first selected") { Span("Lazy") }
+}
+```
+
 ### Writing your own components
 
 Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.

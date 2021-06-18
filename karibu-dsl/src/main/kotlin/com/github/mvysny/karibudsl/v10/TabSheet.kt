@@ -9,6 +9,21 @@ import com.vaadin.flow.shared.Registration
 
 /**
  * A TabSheet - shows both the [Tabs] component and the tab contents.
+ *
+ * You can add and populate tabs in two ways:
+ * * eagerly, by calling either [tab] or [addTab] function,
+ * * lazily, by calling [addLazyTab].
+ *
+ * Example code:
+ * ```
+ * tabSheet {
+ *   tab("DSL-style tab") {
+ *     span("Hello")
+ *   }
+ *   addTab("Old-school style", Span("Hi"))
+ *   addLazyTab("Populated when first selected") { Span("Lazy") }
+ * }
+ * ```
  */
 public class TabSheet : KComposite(), HasStyle, HasSize {
     private lateinit var tabsComponent: Tabs
@@ -44,6 +59,17 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
 
     /**
      * Adds a new tab to the tab host, with optional [label] and optional contents.
+     *
+     * Example:
+     * ```
+     * tabSheet {
+     *   tab("Hello") {
+     *     verticalLayout {
+     *       span("Hello, world!")
+     *     }
+     *   }
+     * }
+     * ```
      */
     @VaadinDsl
     public fun tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Component? = { null }): Tab {
@@ -62,7 +88,12 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
     }
 
     /**
-     * Adds a new tab to the tab host, with optional [label] and optional contents.
+     * Adds a new tab to the tab host, with optional [label] and optional [contents].
+     *
+     * You can either provide the tab contents eagerly, or you can populate the tab
+     * later on, by calling [setTabContents] or
+     * [Tab.contents]. To make the tab populate itself automatically when it's shown
+     * for the first time, use [addLazyTab].
      */
     public fun addTab(label: String? = null, contents: Component? = null): Tab {
         val tab: Tab = tabsComponent.tab(label)
@@ -73,7 +104,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
 
     /**
      * Adds a new tab to the tab host, with optional [label]. The tab contents is
-     * constructed lazily when the tab is first shown.
+     * constructed lazily when the tab is selected for the first time.
      */
     public fun addLazyTab(label: String? = null, contentsProvider: ()->Component): Tab {
         val tab: Tab = tabsComponent.tab(label)
