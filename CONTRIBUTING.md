@@ -55,5 +55,5 @@ To release the library to Maven Central:
 5. Run `./gradlew clean build publish`
 6. Continue to the [OSSRH Nexus](https://oss.sonatype.org/#stagingRepositories) and follow the [release procedure](https://central.sonatype.org/pages/releasing-the-deployment.html).
 7. Add the `-SNAPSHOT` back to the `version=` while increasing the version to something which will be released in the future,
-   e.g. 1.2.14, then commit with the commit message "1.2.14-SNAPSHOT" and push.
+   e.g. 1.2.14-SNAPSHOT, then commit with the commit message "1.2.14-SNAPSHOT" and push.
 
