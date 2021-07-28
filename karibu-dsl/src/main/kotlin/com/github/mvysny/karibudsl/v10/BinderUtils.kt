@@ -206,7 +206,7 @@ public class LocalDateToInstantConverter(public val zoneId: ZoneId = browserTime
 }
 
 /**
- * A converter that converts from [LocalDateTime] [datePicker] to [Instant] bean field.
+ * A converter that converts from [LocalDateTime] [dateTimePicker] to [Instant] bean field.
  * @property zoneId the time zone to use
  */
 public class LocalDateTimeToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
