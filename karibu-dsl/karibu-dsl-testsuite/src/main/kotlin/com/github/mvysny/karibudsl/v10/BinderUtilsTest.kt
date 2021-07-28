@@ -240,6 +240,8 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
         comment.value = ""
         dateOfBirth.value = null
         isAlive.value = false
+        testInstant.value = null
+        testCalendar.value = null
     }
 }
 
