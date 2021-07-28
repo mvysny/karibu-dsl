@@ -149,7 +149,7 @@ use `VerticalLayout`/`HorizontalLayout`.
 
 ### Forms
 
-Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms-v10.html) tutorial
+Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms) tutorial
 for more information.
 
 ### FormLayout
