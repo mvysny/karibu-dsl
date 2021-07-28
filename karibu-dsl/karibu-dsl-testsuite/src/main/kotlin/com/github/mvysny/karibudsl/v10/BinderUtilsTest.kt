@@ -9,6 +9,7 @@ import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.datepicker.DatePicker
+import com.vaadin.flow.component.datetimepicker.DateTimePicker
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.NumberField
 import com.vaadin.flow.component.textfield.TextArea
@@ -18,7 +19,10 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.chrono.ChronoZonedDateTime
+import java.util.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.PastOrPresent
 import javax.validation.constraints.Size
@@ -44,6 +48,8 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect("") { form.testBD.value }
         expect("") { form.testBI.value }
         expect("") { form.testLong.value }
+        expect(null) { form.testInstant.value }
+        expect(null) { form.testCalendar.value }
     }
 
     test("WriteBeanWithNullFields") {
@@ -67,11 +73,13 @@ fun DynaNodeGroup.binderUtilsTest() {
         form.testBD.value = "77.11"
         form.testBoolean.value = true
         form.testInstant.value = LocalDate.of(2015, 1, 25)
+        form.testCalendar.value = LocalDateTime.of(2015, 1, 25, 6, 10, 20)
         val person = Person()
         expect(true) { binder.writeBeanIfValid(person) }
         val instant = LocalDate.of(2015, 1, 25).atStartOfDay(ZoneId.of("UTC")).toInstant()
+        val cal = LocalDateTime.of(2015, 1, 25, 6, 10, 20).atZone(ZoneId.of("UTC")).toCalendar()
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, true, "some comment",
-                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"), instant)) { person }
+                25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"), instant, cal)) { person }
     }
 
     test("ValidatingBindings") {
@@ -182,6 +190,7 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
     val testBD: TextField
     val testBI: TextField
     val testInstant: DatePicker
+    val testCalendar: DateTimePicker
     init {
         fullName = textField("Full Name:") {
             // binding to a BeanValidationBinder will also validate the value automatically.
@@ -221,6 +230,9 @@ private class Form(binder: Binder<Person>): VerticalLayout() {
         testInstant = datePicker("Created:") {
             bind(binder).toInstant().bind(Person::created)
         }
+        testCalendar = dateTimePicker("Test Calendar:") {
+            bind(binder).toCalendar().bind(Person::testCalendar)
+        }
     }
 
     fun clear() {
@@ -256,5 +268,19 @@ data class Person(@field:NotNull
 
                   var testBI: BigInteger? = null,
 
-                  var created: Instant? = null
+                  var created: Instant? = null,
+
+                  var testCalendar: Calendar? = null
 ) : Serializable
+
+fun Instant.toDate() = Date(toEpochMilli())
+
+fun Date.toCalendar(): Calendar {
+    val cal = Calendar.getInstance()
+    cal.time = this
+    return cal
+}
+
+fun Instant.toCalendar() = toDate().toCalendar()
+
+fun ChronoZonedDateTime<*>.toCalendar() = toInstant().toCalendar()

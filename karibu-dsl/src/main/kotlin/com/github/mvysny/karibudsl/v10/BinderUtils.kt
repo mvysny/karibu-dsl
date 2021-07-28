@@ -146,6 +146,19 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binde
         withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
 
 /**
+ * Converts [LocalDate] from [datePicker] to [Calendar]-typed bean field. Uses [browserTimeZone].
+ */
+public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toCalendar(): Binder.BindingBuilder<BEAN, Calendar?> =
+    toDate().withConverter(DateToCalendarConverter)
+
+/**
+ * Converts [LocalDateTime] from [dateTimePicker] to [Calendar]-typed bean field. Uses [browserTimeZone].
+ */
+@JvmName("localDateTimeToCalendar")
+public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toCalendar(): Binder.BindingBuilder<BEAN, Calendar?> =
+    toDate().withConverter(DateToCalendarConverter)
+
+/**
  * Allows you to create [BeanValidationBinder] like this: `beanValidationBinder<Person>()` instead of `BeanValidationBinder(Person::class.java)`
  */
 public inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder<T> = BeanValidationBinder(T::class.java)
@@ -251,6 +264,23 @@ public object DoubleToBigIntegerConverter : Converter<Double?, BigInteger?> {
         val bi = if (value == null) null else BigInteger(value.toLong().toString())
         return Result.ok(bi)
     }
+}
+
+/**
+ * Converts [Date] to [Calendar]-typed bean field. Append to [LocalDateTimeToDateConverter] or
+ * [LocalDateToDateConverter] to allow for LocalDate-to-Calendar conversions.
+ */
+public object DateToCalendarConverter : Converter<Date?, Calendar?> {
+    override fun convertToModel(value: Date?, context: ValueContext?): Result<Calendar?> = when (value) {
+        null -> Result.ok(null)
+        else -> {
+            val calendar = Calendar.getInstance()
+            calendar.time = value
+            Result.ok(calendar)
+        }
+    }
+
+    override fun convertToPresentation(value: Calendar?, context: ValueContext?): Date? = value?.time
 }
 
 public class StringNotBlankValidator(public val errorMessage: String = "must not be blank") : Validator<String?> {
