@@ -3,10 +3,12 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.github.mvysny.kaributesting.v10._value
 import com.vaadin.flow.component.AbstractField
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue
+import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.NumberField
@@ -117,6 +119,19 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(555.0) { form.testLong.value }
         expect(123.0) { form.testBI.value }
         expect(77.11) { form.testBD.value }
+    }
+
+    test("intToLong") {
+        val binder = Binder<Person>(Person::class.java)
+        val field = UI.getCurrent().integerField("Test Long") {
+            bind(binder).toLong().bind("testLong")
+        }
+        binder.bean = Person()
+        expect(null) { field._value }
+        field._value = 25
+        expect(25L) { binder.bean.testLong }
+        binder.readBean(Person(testLong = 555L))
+        expect(555) { field._value }
     }
 
     test("guessIsReadOnly") {

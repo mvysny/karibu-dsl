@@ -73,10 +73,19 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(
 
 /**
  * Converts [Double] from [numberField] to [Long]-typed bean field.
+ *
+ * It's probably better to use [integerField] and int-to-long conversion instead.
  */
 @JvmName("doubleToLong")
 public fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(DoubleToLongConverter)
+
+/**
+ * Converts [Int] from [integerField] to [Long]-typed bean field.
+ */
+@JvmName("intToLong")
+public fun <BEAN> Binder.BindingBuilder<BEAN, Int?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
+    withConverter(IntToLongConverter)
 
 /**
  * Converts [String] from [textField] to [BigDecimal]-typed bean field.
@@ -207,12 +216,17 @@ public object DoubleToIntConverter : Converter<Double?, Int?> {
 
 /**
  * Converts [Double] from [numberField] to [Long]-typed bean field.
+ *
+ * It's probably better to use [integerField] and int-to-long conversion instead.
  */
 public object DoubleToLongConverter : Converter<Double?, Long?> {
     override fun convertToPresentation(value: Long?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<Long?> = Result.ok(value?.toLong())
 }
 
+/**
+ * Converts [Int] from [integerField] to [Long]-typed bean field.
+ */
 public object IntToLongConverter : Converter<Int?, Long?> {
     override fun convertToPresentation(value: Long?, context: ValueContext?): Int? = value?.toInt()
     override fun convertToModel(value: Int?, context: ValueContext?): Result<Long?> = Result.ok(value?.toLong())
