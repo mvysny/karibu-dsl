@@ -273,7 +273,7 @@ data class Person(@field:NotNull
                   var testCalendar: Calendar? = null
 ) : Serializable
 
-fun Instant.toDate() = Date(toEpochMilli())
+fun Instant.toDate(): Date = Date.from(this)
 
 fun Date.toCalendar(): Calendar {
     val cal = Calendar.getInstance()
