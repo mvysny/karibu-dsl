@@ -38,53 +38,100 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(blanksT
             }
         })
 
+/**
+ * Converts [String] from [textField] to [Int]-typed bean field.
+ *
+ * It's probably better to use [integerField] directly instead.
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(StringToIntegerConverter(karibuDslI18n("cantConvertToInteger")))
 
+/**
+ * Converts [Double] from [numberField] to [Int]-typed bean field.
+ *
+ * It's probably better to use [integerField] directly instead.
+ */
 @JvmName("doubleToInt")
 public fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toInt(): Binder.BindingBuilder<BEAN, Int?> =
         withConverter(DoubleToIntConverter)
 
+/**
+ * Converts [String] from [textField] to [Double]-typed bean field.
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toDouble(
         errorMessage: String = karibuDslI18n("cantConvertToDecimal")
 ): Binder.BindingBuilder<BEAN, Double?> =
         withConverter(StringToDoubleConverter(errorMessage))
 
+/**
+ * Converts [String] from [textField] to [Long]-typed bean field.
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toLong(
         errorMessage: String = karibuDslI18n("cantConvertToInteger")
 ): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(StringToLongConverter(errorMessage))
 
+/**
+ * Converts [Double] from [numberField] to [Long]-typed bean field.
+ */
 @JvmName("doubleToLong")
 public fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toLong(): Binder.BindingBuilder<BEAN, Long?> =
         withConverter(DoubleToLongConverter)
 
+/**
+ * Converts [String] from [textField] to [BigDecimal]-typed bean field.
+ *
+ * It's probably better to use [bigDecimalField] directly instead.
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigDecimal(
         errorMessage: String = karibuDslI18n("cantConvertToDecimal")
 ): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withConverter(StringToBigDecimalConverter(errorMessage))
 
+/**
+ * Converts [Double] from [numberField] to [BigDecimal]-typed bean field.
+ *
+ * It's probably better to use [bigDecimalField] directly instead.
+ */
 @JvmName("doubleToBigDecimal")
 public fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigDecimal(): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withConverter(DoubleToBigDecimalConverter)
 
+/**
+ * Converts [String] from [textField] to [BigInteger]-typed bean field.
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(StringToBigIntegerConverter(karibuDslI18n("cantConvertToInteger")))
 
+/**
+ * Converts [Double] from [numberField] to [BigInteger]-typed bean field.
+ */
 @JvmName("doubleToBigInteger")
 public fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigInteger(): Binder.BindingBuilder<BEAN, BigInteger?> =
         withConverter(DoubleToBigIntegerConverter)
 
+/**
+ * Converts [LocalDate] from [datePicker] to [Date]-typed bean field. Uses [browserTimeZone].
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateToDateConverter(browserTimeZone))
 
+/**
+ * Converts [LocalDateTime] from [dateTimePicker] to [Date]-typed bean field. Uses [browserTimeZone].
+ */
 @JvmName("localDateTimeToDate")
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
         withConverter(LocalDateTimeToDateConverter(browserTimeZone))
 
+/**
+ * Converts [LocalDate] from [datePicker] to [Instant]-typed bean field. Uses [browserTimeZone].
+ */
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
         withConverter(LocalDateToInstantConverter(browserTimeZone))
 
+/**
+ * Converts [LocalDateTime] from [dateTimePicker] to [Instant]-typed bean field. Uses [browserTimeZone].
+ */
 @JvmName("localDateTimeToInstant")
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
         withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
@@ -98,7 +145,7 @@ public inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder
  * Allows you to bind the component directly in the component's definition. E.g.
  * ```
  * textField("Name:") {
- *   bind(binder).trimmingConverter().bind(Person::name)
+ *   bind(binder).bind(Person::name)
  * }
  * ```
  */
@@ -125,7 +172,7 @@ public fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop:
 }
 
 /**
- * A converter that converts between [LocalDate] and [Instant].
+ * A converter that converts from [LocalDate] [datePicker] to [Instant] bean field.
  * @property zoneId the time zone id to use.
  */
 public class LocalDateToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDate?, Instant?> {
@@ -137,7 +184,7 @@ public class LocalDateToInstantConverter(public val zoneId: ZoneId = browserTime
 }
 
 /**
- * A converter that converts between [LocalDateTime] and [Instant].
+ * A converter that converts from [LocalDateTime] [datePicker] to [Instant] bean field.
  * @property zoneId the time zone to use
  */
 public class LocalDateTimeToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
@@ -148,21 +195,42 @@ public class LocalDateTimeToInstantConverter(public val zoneId: ZoneId = browser
             date?.atZone(zoneId)?.toLocalDateTime()
 }
 
+/**
+ * Converts [Double] from [numberField] to [Int]-typed bean field.
+ *
+ * It's probably better to use [integerField] directly instead.
+ */
 public object DoubleToIntConverter : Converter<Double?, Int?> {
     override fun convertToPresentation(value: Int?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<Int?> = Result.ok(value?.toInt())
 }
 
+/**
+ * Converts [Double] from [numberField] to [Long]-typed bean field.
+ */
 public object DoubleToLongConverter : Converter<Double?, Long?> {
     override fun convertToPresentation(value: Long?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<Long?> = Result.ok(value?.toLong())
 }
 
+public object IntToLongConverter : Converter<Int?, Long?> {
+    override fun convertToPresentation(value: Long?, context: ValueContext?): Int? = value?.toInt()
+    override fun convertToModel(value: Int?, context: ValueContext?): Result<Long?> = Result.ok(value?.toLong())
+}
+
+/**
+ * Converts [Double] from [numberField] to [BigDecimal]-typed bean field.
+ *
+ * It's probably better to use [bigDecimalField] directly instead.
+ */
 public object DoubleToBigDecimalConverter : Converter<Double?, BigDecimal?> {
     override fun convertToPresentation(value: BigDecimal?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<BigDecimal?> = Result.ok(value?.toBigDecimal())
 }
 
+/**
+ * Converts [Double] from [numberField] to [BigInteger]-typed bean field.
+ */
 public object DoubleToBigIntegerConverter : Converter<Double?, BigInteger?> {
     override fun convertToPresentation(value: BigInteger?, context: ValueContext?): Double? = value?.toDouble()
     override fun convertToModel(value: Double?, context: ValueContext?): Result<BigInteger?> {
