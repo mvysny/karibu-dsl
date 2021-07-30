@@ -49,6 +49,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
             multiSelectListBox<String>()
             progressBar {}
             progressBar(indeterminate = true)
+            radioButtonGroup<String>()
         }
     }
 

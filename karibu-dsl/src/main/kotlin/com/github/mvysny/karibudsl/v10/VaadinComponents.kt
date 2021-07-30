@@ -12,6 +12,7 @@ import com.vaadin.flow.component.listbox.ListBox
 import com.vaadin.flow.component.listbox.MultiSelectListBox
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.progressbar.ProgressBar
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.tabs.Tab
@@ -212,5 +213,21 @@ public fun (@VaadinDsl HasComponents).progressBar(
 ): ProgressBar {
     val component = ProgressBar(min, max, value)
     component.isIndeterminate = indeterminate
+    return init(component, block)
+}
+
+/**
+ * Creates a [Vaadin Radio Button](https://vaadin.com/components/vaadin-radio-button). See the HTML Examples link for a list
+ * of possible alternative themes.
+ */
+@VaadinDsl
+public fun <T : Any?> (@VaadinDsl HasComponents).radioButtonGroup(
+    label: String? = null,
+    block: (@VaadinDsl RadioButtonGroup<T>).() -> Unit = {}
+): RadioButtonGroup<T> {
+    val component = RadioButtonGroup<T>()
+    if (label != null) {
+        component.label = label
+    }
     return init(component, block)
 }
