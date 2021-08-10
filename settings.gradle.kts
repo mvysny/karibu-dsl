@@ -8,6 +8,5 @@ include(
 	"example",
 	"karibu-dsl:karibu-dsl-testsuite",
 	"karibu-dsl:karibu-dsl-testrun-vaadin14",
-	"karibu-dsl:karibu-dsl-testrun-vaadin19",
 	"karibu-dsl:karibu-dsl-testrun-vaadin20"
 	)
