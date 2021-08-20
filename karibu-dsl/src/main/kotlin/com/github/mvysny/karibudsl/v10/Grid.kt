@@ -11,6 +11,7 @@ import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.provider.QuerySortOrder
 import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
+import com.vaadin.flow.data.provider.hierarchy.HierarchicalQuery
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
@@ -20,6 +21,7 @@ import java.lang.reflect.Method
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+import kotlin.streams.toList
 
 @VaadinDsl
 public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
@@ -424,3 +426,15 @@ public fun <T> Grid<T>.sort(vararg criteria: QuerySortOrder) {
 
 public val <T> Grid.Column<T>.asc: GridSortOrder<T> get() = GridSortOrder(this, SortDirection.ASCENDING)
 public val <T> Grid.Column<T>.desc: GridSortOrder<T> get() = GridSortOrder(this, SortDirection.DESCENDING)
+
+@Suppress("UNCHECKED_CAST")
+public fun <T> TreeGrid<T>.getRootItems(): List<T> =
+    dataProvider.fetch(HierarchicalQuery(null, null)).toList()
+
+/**
+ * Expands all nodes. May invoke massive data loading.
+ */
+@JvmOverloads
+public fun <T> TreeGrid<T>.expandAll(depth: Int = 100) {
+    expandRecursively(getRootItems(), depth)
+}
