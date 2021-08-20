@@ -17,6 +17,7 @@ import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.data.selection.SelectionEvent
 import com.vaadin.flow.data.selection.SelectionModel
 import com.vaadin.flow.shared.util.SharedUtil
+import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.util.*
 import kotlin.reflect.KClass
@@ -86,7 +87,8 @@ public fun <T : Any> (@VaadinDsl HasComponents).treeGrid(
     return treeGrid(klass?.java, dataProvider, block)
 }
 
-public fun <T : Any?> @VaadinDsl HasComponents.treeGrid(
+@VaadinDsl
+public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
     clazz: Class<T>?,
     dataProvider: HierarchicalDataProvider<T, *>? = null,
     block: (@VaadinDsl TreeGrid<T>).() -> Unit = {}
@@ -258,25 +260,22 @@ public inline fun <reified T, reified V> Grid<T>.addColumnFor(
  */
 @Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
 internal val HeaderRow.HeaderCell.column: Any
-    get() {
-        val getColumn: Method = abstractCellClass.getDeclaredMethod("getColumn")
-        getColumn.isAccessible = true
-        return getColumn.invoke(this)
-    }
+    get() = _AbstractCell_getColumn.invoke(this)
 
 private val abstractCellClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractRow\$AbstractCell")
 private val abstractColumnClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractColumn")
+private val _AbstractCell_getColumn: Method by lazy {
+    val m: Method = abstractCellClass.getDeclaredMethod("getColumn")
+    m.isAccessible = true
+    m
+}
 
 /**
  * Returns `com.vaadin.flow.component.grid.AbstractColumn`
  */
 @Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
 private val FooterRow.FooterCell.column: Any
-    get() {
-        val getColumn = abstractCellClass.getDeclaredMethod("getColumn")
-        getColumn.isAccessible = true
-        return getColumn.invoke(this)
-    }
+    get() = _AbstractCell_getColumn.invoke(this)
 
 /**
  * Retrieves the cell for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
@@ -289,12 +288,16 @@ public fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
     return cell
 }
 
+private val _AbstractColumn_getBottomLevelColumn: Method by lazy {
+    val method: Method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
+    method.isAccessible = true
+    method
+}
+
 private val Any.columnKey: String?
 get() {
     abstractColumnClass.cast(this)
-    val method: Method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
-    method.isAccessible = true
-    val gridColumn: Grid.Column<*> = method.invoke(this) as Grid.Column<*>
+    val gridColumn: Grid.Column<*> = _AbstractColumn_getBottomLevelColumn.invoke(this) as Grid.Column<*>
     return gridColumn.key
 }
 
@@ -309,19 +312,25 @@ public fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
     return cell
 }
 
+private val _AbstractColumn_getHeaderRenderer: Method by lazy {
+    val method: Method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
+    method.isAccessible = true
+    method
+}
 public val HeaderRow.HeaderCell.renderer: Renderer<*>?
     get() {
-        val method: Method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
-        method.isAccessible = true
-        val renderer = method.invoke(column)
+        val renderer: Any = _AbstractColumn_getHeaderRenderer.invoke(column)
         return renderer as Renderer<*>?
     }
 
+private val _AbstractColumn_getFooterRenderer: Method by lazy {
+    val method: Method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
+    method.isAccessible = true
+    method
+}
 public val FooterRow.FooterCell.renderer: Renderer<*>?
     get() {
-        val method: Method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
-        method.isAccessible = true
-        val renderer = method.invoke(column)
+        val renderer = _AbstractColumn_getFooterRenderer.invoke(column)
         return renderer as Renderer<*>?
     }
 
@@ -340,6 +349,12 @@ private val gridSorterComponentRendererClass: Class<*>? = try {
     // Vaadin 18.0.3+ and Vaadin 14.5.0+ doesn't contain this class anymore and simply uses ComponentRenderer
     null
 }
+private val _GridSorterComponentRenderer_component: Field? =
+    if (gridSorterComponentRendererClass == null) { null } else {
+        val field = gridSorterComponentRendererClass.getDeclaredField("component")
+        field.isAccessible = true
+        field
+    }
 
 /**
  * Returns or sets the component in grid's header cell. Returns `null` if the cell contains String, something else than a component or nothing at all.
@@ -349,9 +364,7 @@ public var HeaderRow.HeaderCell.component: Component?
     get() {
         val r: Renderer<*>? = renderer
         if (gridSorterComponentRendererClass != null && gridSorterComponentRendererClass.isInstance(r)) {
-            val componentField = gridSorterComponentRendererClass.getDeclaredField("component")
-            componentField.isAccessible = true
-            return componentField.get(r) as Component?
+            return _GridSorterComponentRenderer_component!!.get(r) as Component?
         }
         if (r is ComponentRenderer<*, *>) {
             return (r as ComponentRenderer<*, Any?>).createComponent(null)
