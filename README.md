@@ -12,22 +12,26 @@ Please visit [Vaadin-on-Kotlin](http://www.vaadinonkotlin.eu/) pages for the Get
 This library:
 
 * Allows you to create Vaadin UI designs in the structured code way; the idea behind the library
-  is explained in the [DSLs: Explained for Vaadin](https://www.vaadinonkotlin.eu/dsl_explained-v10.html) article
-  (or for older Vaadin 8: [DSLs: Explained for Vaadin 8](https://www.vaadinonkotlin.eu/dsl_explained.html)).
+  is explained in the [DSLs: Explained for Vaadin](https://www.vaadinonkotlin.eu//dsl_explained/) article.
   The general DSL idea is explained in [Kotlin Type-Safe Builders](https://kotlinlang.org/docs/reference/type-safe-builders.html).
-* (Vaadin 8 only): Auto-discovery and auto-mapping of Views via a custom Navigator
 * Additional useful methods which Vaadin lacks
 
-The documentation differs for Vaadin 14 and for older Vaadin 8:
+## Documentation/Tutorial
 
-* [Karibu-DSL Vaadin 13, 14, 15+ tutorial](karibu-dsl)
-* [Karibu-DSL Vaadin 8 tutorial](karibu-dsl-v8)
+Please read the [Karibu-DSL Vaadin 14+ tutorial](karibu-dsl).
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
-means *welcome*. 
+means *welcome*.
 
 > Note: For Groovy Vaadin DSL please see the [Vaadin Groovy Builder](https://github.com/mvysny/vaadin-groovy-builder) library.
+
+## Vaadin 8
+
+Vaadin 8 is no longer supported starting from Karibu-DSL 1.1+. If you're still
+using Vaadin 8, please use Karibu-DSL 1.0.x. Please find the documentation for
+Karibu-DSL Vaadin 8 in the [1.0.x README.md](tree/1.0.x). Also see [Issue #35](https://github.com/mvysny/karibu-dsl/issues/35)
+for more details.
 
 ## Why DSL?
 
@@ -39,10 +43,7 @@ Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-
 * The code is more readable and much shorter and concise
 * You can more easily copy parts of the UI and paste it into your project
 
-Supports:
-
-* [Vaadin 13/14/15+](https://vaadin.com/)
-* Older [Vaadin 8](https://vaadin.com/vaadin-8) (including support for v7 compatibility package)
+Supports [Vaadin 14+](https://vaadin.com/).
 
 ## Example Projects
 
@@ -51,16 +52,6 @@ Vaadin 14:
 * Simple one-page-one-button example app: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
 * A simple database-backed one-page task list app: [vaadin-kotlin-pwa](https://github.com/mvysny/vaadin-kotlin-pwa)
 * Two-page app demoing grids and database: [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
-
-Vaadin 8:
-
-* Simple one-page-one-button example app: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
-* Component palette: demoes all components and their usage: [Component Palette](https://github.com/mvysny/karibu-dsl/tree/master/karibu-dsl-v8#component-palette-app)
-
-## Upgrading
-
-To upgrade to 1.0.0 from 0.x.y:
-* Change the `karibu-dsl-v10` dependency to just `karibu-dsl`.
 
 # License
 
