@@ -371,7 +371,7 @@ public class HorizontalLayoutContent(private val owner: HorizontalLayout) {
  * Important notes:
  * * [HorizontalLayout] only supports one row of components; if you have multiple rows you need to use [FlexLayout].
  * * Never use [com.vaadin.flow.component.HasSize.setSizeFull] nor set the [com.vaadin.flow.component.HasSize.setWidth] to `100%` - it will
- * not work as you expect. With Vaadin 8 the child would fill the slot allocated by HorizontalLayout. However with Vaadin 10 and flex layout
+ * not work as you expect. With Vaadin 8 the child would fill the slot allocated by HorizontalLayout. However, with Vaadin 10 and flex layout
  * there are no slots; setting the width to `100%` would make the component match the width of parent - it would set it to be as wide as
  * the HorizontalLayout is.
  *
@@ -503,7 +503,7 @@ public class VerticalLayoutContent(private val owner: VerticalLayout) {
  * Important notes:
  * * [VerticalLayout] only supports one row of components; if you have multiple columns you need to use [FlexLayout].
  * * Never use [com.vaadin.flow.component.HasSize.setSizeFull] nor set the [com.vaadin.flow.component.HasSize.setHeight] to `100%` - it will
- * not work as you expect. With Vaadin 8 the child would fill the slot allocated by VerticalLayout. However with Vaadin 10 and flex layout
+ * not work as you expect. With Vaadin 8 the child would fill the slot allocated by VerticalLayout. However, with Vaadin 10 and flex layout
  * there are no slots; setting the height to `100%` would make the component match the height of parent - it would set it to be as tall as
  * the VerticalLayout is.
  *
