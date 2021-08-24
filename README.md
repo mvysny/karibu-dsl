@@ -26,7 +26,7 @@ means *welcome*.
 
 > Note: For Groovy Vaadin DSL please see the [Vaadin Groovy Builder](https://github.com/mvysny/vaadin-groovy-builder) library.
 
-## Vaadin 8
+## Vaadin 8 Unsupported
 
 Vaadin 8 is no longer supported starting from Karibu-DSL 1.1+. If you're still
 using Vaadin 8, please use Karibu-DSL 1.0.x. Please find the documentation for
