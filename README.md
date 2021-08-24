@@ -30,7 +30,7 @@ means *welcome*.
 
 Vaadin 8 is no longer supported starting from Karibu-DSL 1.1+. If you're still
 using Vaadin 8, please use Karibu-DSL 1.0.x. Please find the documentation for
-Karibu-DSL Vaadin 8 in the [1.0.x README.md](tree/1.0.x). Also see [Issue #35](https://github.com/mvysny/karibu-dsl/issues/35)
+Karibu-DSL Vaadin 8 in the [1.0.x README.md](https://github.com/mvysny/karibu-dsl/tree/1.0.x). Also see [Issue #35](https://github.com/mvysny/karibu-dsl/issues/35)
 for more details.
 
 ## Why DSL?
