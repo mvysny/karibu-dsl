@@ -2,17 +2,7 @@
 
 # Vaadin 14 DSL
 
-Compatibility chart:
-
-| Karibu-DSL version | Supports |
-|------------------------|----------|
-| 0.5.x | Vaadin 10, Vaadin 11, Vaadin 12 |
-| 0.6.x | Vaadin 13+ |
-| 0.7.x | Vaadin 14+ |
-| 1.x.y (recommended) | Vaadin 14+ |
-
-> Note: 0.7.x works with Vaadin 13 as well, with some limitations
-  as outlined in [Issue #19](https://github.com/mvysny/karibu-dsl/issues/19).
+Karibu-DSL supports Vaadin 14+.
 
 ## Using in your projects
 
