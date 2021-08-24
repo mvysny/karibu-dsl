@@ -102,8 +102,8 @@ article.
 
 ### VerticalLayout / HorizontalLayout
 
-Vaadin 8 layouting used to depend extensively on the usage of `VerticalLayout` and `HorizontalLayout`. However, the layouting
-in Vaadin 10 has been changed radically and it now employs the so-called *flex layout*. Vaadin 10 still
+The layouting
+in Vaadin 14 employs the so-called *flex layout*. Vaadin 14 still
 does provide `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts,
 however they use flex layout under the hood and hence there are very important differences.
 
