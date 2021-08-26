@@ -1,7 +1,9 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.dynatest.expectThrows
+import com.vaadin.flow.router.QueryParameters
 import java.io.Serializable
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -18,6 +20,23 @@ class UtilsTest : DynaTest({
         expect("getAlive") { Person::class.java.getGetter("alive").name }
         expectThrows(IllegalArgumentException::class, "No such field 'foo' in class com.github.mvysny.karibudsl.v10.Person; available properties: alive, class, comment, created, dateOfBirth, fullName, testBD, testBI, testBoolean, testDouble, testInt, testLong") {
             Person::class.java.getGetter("foo")
+        }
+    }
+
+    group("QueryParameters") {
+        test("get") {
+            expect(null) { QueryParameters.empty()["foo"] }
+            expect("bar") { QueryParameters("foo=bar")["foo"] }
+        }
+        test("get fails with multiple parameters") {
+            expectThrows(IllegalStateException::class, "Multiple values present for foo: [bar, baz]") {
+                QueryParameters("foo=bar&foo=baz")["foo"]
+            }
+        }
+        test("getValues") {
+            expectList() { QueryParameters.empty().getValues("foo") }
+            expectList("bar") { QueryParameters("foo=bar").getValues("foo") }
+            expectList("bar", "baz") { QueryParameters("foo=bar&foo=baz").getValues("foo") }
         }
     }
 })
