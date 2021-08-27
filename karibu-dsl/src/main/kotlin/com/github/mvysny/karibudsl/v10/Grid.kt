@@ -264,7 +264,7 @@ internal val HeaderRow.HeaderCell.column: Any
 
 private val abstractCellClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractRow\$AbstractCell")
 private val abstractColumnClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractColumn")
-private val _AbstractCell_getColumn: Method by lazy {
+private val _AbstractCell_getColumn: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
     val m: Method = abstractCellClass.getDeclaredMethod("getColumn")
     m.isAccessible = true
     m
@@ -288,7 +288,7 @@ public fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
     return cell
 }
 
-private val _AbstractColumn_getBottomLevelColumn: Method by lazy {
+private val _AbstractColumn_getBottomLevelColumn: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
     val method: Method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
     method.isAccessible = true
     method
@@ -312,7 +312,7 @@ public fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
     return cell
 }
 
-private val _AbstractColumn_getHeaderRenderer: Method by lazy {
+private val _AbstractColumn_getHeaderRenderer: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
     val method: Method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
     method.isAccessible = true
     method
@@ -323,7 +323,7 @@ public val HeaderRow.HeaderCell.renderer: Renderer<*>?
         return renderer as Renderer<*>?
     }
 
-private val _AbstractColumn_getFooterRenderer: Method by lazy {
+private val _AbstractColumn_getFooterRenderer: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
     val method: Method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
     method.isAccessible = true
     method
