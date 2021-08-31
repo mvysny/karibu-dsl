@@ -323,6 +323,16 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, BigInteger?>.validateInRange(range
 public fun <BEAN> Binder.BindingBuilder<BEAN, BigDecimal?>.validateInRange(range: ClosedRange<BigDecimal>): Binder.BindingBuilder<BEAN, BigDecimal?> =
         withValidator(BigDecimalRangeValidator("must be in $range", range.start, range.endInclusive))
 
+private val _Binder_getBindings: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
+    val m: Method = Binder::class.java.getDeclaredMethod("getBindings")
+    m.isAccessible = true
+    m
+}
+
+@Suppress("UNCHECKED_CAST", "ConflictingExtensionProperty")
+private val <BEAN> Binder<BEAN>.bindings: Collection<Binder.Binding<BEAN, *>>
+    get() = _Binder_getBindings.invoke(this) as Collection<Binder.Binding<BEAN, *>>
+
 /**
  * Guesses whether the binder has been configured with read-only.
  *
@@ -330,9 +340,4 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, BigDecimal?>.validateInRange(range
  */
 @Suppress("UNCHECKED_CAST")
 public val Binder<*>.guessIsReadOnly: Boolean
-    get() {
-        val bindingsGetter: Method = Binder::class.java.getDeclaredMethod("getBindings")
-        bindingsGetter.isAccessible = true
-        val bindings: Collection<Binder.Binding<*, *>> = bindingsGetter.invoke(this) as Collection<Binder.Binding<*, *>>
-        return bindings.any { it.setter != null && it.isReadOnly }
-    }
+    get() = bindings.any { it.setter != null && it.isReadOnly }
