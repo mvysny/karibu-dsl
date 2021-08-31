@@ -31,7 +31,7 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, String?>.trimmingConverter(blanksT
                 return Result.ok(trimmedValue)
             }
 
-            override fun convertToPresentation(value: String?, context: ValueContext?): String? {
+            override fun convertToPresentation(value: String?, context: ValueContext?): String {
                 // must not return null here otherwise TextField will fail with NPE:
                 // workaround for https://github.com/vaadin/framework/issues/8664
                 return value ?: ""

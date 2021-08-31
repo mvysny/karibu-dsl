@@ -54,7 +54,7 @@ public fun Component.addShortcut(shortcut: KeyShortcut, block: ()->Unit): Shortc
                 .listenOn(this)
 
 /**
- * Allows to add shortcut on a single key, e.g.
+ * Allows adding shortcut on a single key, e.g.
  * ```
  * addShortcut(Key.ENTER.shortcut) { login() }
  * addShortcut(ENTER.shortcut) { login() }
