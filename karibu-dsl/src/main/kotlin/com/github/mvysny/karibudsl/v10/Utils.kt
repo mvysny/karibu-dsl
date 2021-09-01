@@ -5,7 +5,7 @@ import java.beans.Introspector
 import java.beans.PropertyDescriptor
 import java.lang.reflect.Method
 
-public fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
+internal fun String.containsWhitespace(): Boolean = any { it.isWhitespace() }
 
 private val regexWhitespace = Regex("\\s+")
 internal fun String.splitByWhitespaces(): List<String> = split(regexWhitespace).filterNot { it.isBlank() }
