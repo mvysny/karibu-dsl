@@ -27,9 +27,6 @@ fun DynaNodeGroup.allTests() {
     group("Details test") {
         detailsTest()
     }
-    group("Dialogs test") {
-        dialogsTest()
-    }
     group("Element test") {
         elementTest()
     }
@@ -71,9 +68,6 @@ fun DynaNodeGroup.allTests() {
     }
     group("TabSheet test") {
         tabSheetTest()
-    }
-    group("TreeIterator test") {
-        treeIteratorTest()
     }
     group("Upload test") {
         uploadTest()

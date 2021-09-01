@@ -1,5 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.findAncestor
+import com.github.mvysny.kaributools.findAncestorOrSelf
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.tabs.Tab

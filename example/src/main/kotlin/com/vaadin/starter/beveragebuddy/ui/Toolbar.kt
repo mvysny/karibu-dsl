@@ -1,7 +1,8 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
-import com.github.mvysny.karibudsl.v10.ModifierKey.Alt
+import com.github.mvysny.kaributools.ModifierKey.*
+import com.github.mvysny.kaributools.addClickShortcut
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Key.KEY_N
 import com.vaadin.flow.component.html.Div

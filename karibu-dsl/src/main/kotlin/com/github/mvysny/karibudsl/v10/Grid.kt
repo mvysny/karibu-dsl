@@ -1,28 +1,15 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.vaadin.flow.component.Component
+import com.github.mvysny.kaributools.addColumnFor
 import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.grid.FooterRow
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridSortOrder
-import com.vaadin.flow.component.grid.HeaderRow
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.DataProvider
-import com.vaadin.flow.data.provider.QuerySortOrder
-import com.vaadin.flow.data.provider.SortDirection
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
-import com.vaadin.flow.data.provider.hierarchy.HierarchicalQuery
-import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
-import com.vaadin.flow.data.selection.SelectionEvent
-import com.vaadin.flow.data.selection.SelectionModel
-import com.vaadin.flow.shared.util.SharedUtil
-import java.lang.reflect.Field
-import java.lang.reflect.Method
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
-import kotlin.streams.toList
 
 @VaadinDsl
 public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
@@ -103,17 +90,6 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
 }
 
 /**
- * Refreshes the Grid and re-polls for data.
- */
-public fun (@VaadinDsl Grid<*>).refresh() {
-    dataProvider.refreshAll()
-}
-
-public val Grid<*>.isMultiSelect: Boolean get() = selectionModel is SelectionModel.Multi<*, *>
-public val Grid<*>.isSingleSelect: Boolean get() = selectionModel is SelectionModel.Single<*, *>
-public val SelectionEvent<*, *>.isSelectionEmpty: Boolean get() = !firstSelectedItem.isPresent
-
-/**
  * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
  * using [getColumnBy]. The column is also by default set to sortable
  * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
@@ -127,12 +103,9 @@ public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
     property: KProperty1<T, V?>,
     sortable: Boolean = true,
     converter: (V?) -> Any? = { it },
-    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit
 ): Grid.Column<T> =
-    addColumn { converter(property.get(it)) }.apply {
-        key = property.name
-        if (sortable) sortProperty = property
-        setHeader(SharedUtil.camelCaseToHumanFriendly(property.name))
+    addColumnFor(property, sortable, converter).apply {
         block()
     }
 
@@ -150,51 +123,11 @@ public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
     property: KProperty1<T, V?>,
     renderer: Renderer<T>,
     sortable: Boolean = true,
-    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit
 ): Grid.Column<T> =
-    addColumn(renderer).apply {
-        key = property.name
-        if (sortable) sortProperty = property
-        setHeader(SharedUtil.camelCaseToHumanFriendly(property.name))
+    addColumnFor(property, renderer, sortable).apply {
         block()
     }
-
-/**
- * Sets the property by which this column will sort. Setting this property will automatically make the column sortable.
- * You can use the [addColumnFor] which also sets the column by default to sortable.
- *
- * Example of usage:
- * ```
- * grid<Person> {
- *     addColumn({ it.name }).apply {
- *         setHeader("Name")
- *         sortProperty = Person::name
- *     }
- * }
- * ```
- */
-public var <T> Grid.Column<T>.sortProperty: KProperty1<T, *>
-    @Deprecated("Cannot read this property", level = DeprecationLevel.ERROR)
-    get() = throw UnsupportedOperationException("Unsupported")
-    set(value) {
-        setSortProperty(value.name)
-    }
-
-/**
- * Retrieves the column for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
- * @throws IllegalArgumentException if no such column exists.
- */
-public fun <T> Grid<T>.getColumnBy(property: KProperty1<T, *>): Grid.Column<T> =
-    getColumnByKey(property.name)
-            ?: throw IllegalArgumentException("No column with key $property; available column keys: ${columns.mapNotNull { it.key }}")
-
-/**
- * Returns a [Comparator] which compares values of given property name.
- */
-public fun <T> Class<T>.getPropertyComparator(propertyName: String): Comparator<T> {
-    val getter: Method = getGetter(propertyName)
-    return compareBy { if (it == null) null else getter.invoke(it) as Comparable<*> }
-}
 
 /**
  * Adds a column for given [propertyName]. The column key is set to the property name, so that you can look up the column
@@ -213,19 +146,9 @@ public inline fun <reified T, reified V> Grid<T>.addColumnFor(
     propertyName: String,
     sortable: Boolean = true,
     noinline converter: (V?) -> Any? = { it },
-    block: Grid.Column<T>.() -> Unit = {}
-): Grid.Column<T> {
-    val getter: Method = T::class.java.getGetter(propertyName)
-    val column: Grid.Column<T> = addColumn { converter(V::class.java.cast(getter.invoke(it))) }
-    return column.apply {
-        key = propertyName
-        if (sortable) {
-            setSortProperty(propertyName)
-        }
-        setHeader(SharedUtil.camelCaseToHumanFriendly(propertyName))
-        block()
-    }
-}
+    block: Grid.Column<T>.() -> Unit
+): Grid.Column<T> =
+    addColumnFor(propertyName, sortable, converter).apply { block() }
 
 /**
  * Adds a column for given [propertyName], using given [renderer]. The column key is set to the property name, so that you can look up the column
@@ -244,210 +167,6 @@ public inline fun <reified T, reified V> Grid<T>.addColumnFor(
     propertyName: String,
     renderer: Renderer<T>,
     sortable: Boolean = true,
-    block: Grid.Column<T>.() -> Unit = {}
+    block: Grid.Column<T>.() -> Unit
 ): Grid.Column<T> =
-    addColumn(renderer).apply {
-        key = propertyName
-        if (sortable) {
-            setSortProperty(propertyName)
-        }
-        setHeader(SharedUtil.camelCaseToHumanFriendly(propertyName))
-        block()
-    }
-
-/**
- * Returns `com.vaadin.flow.component.grid.AbstractColumn`
- */
-@Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
-internal val HeaderRow.HeaderCell.column: Any
-    get() = _AbstractCell_getColumn.invoke(this)
-
-private val abstractCellClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractRow\$AbstractCell")
-private val abstractColumnClass: Class<*> = Class.forName("com.vaadin.flow.component.grid.AbstractColumn")
-private val _AbstractCell_getColumn: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
-    val m: Method = abstractCellClass.getDeclaredMethod("getColumn")
-    m.isAccessible = true
-    m
-}
-
-/**
- * Returns `com.vaadin.flow.component.grid.AbstractColumn`
- */
-@Suppress("ConflictingExtensionProperty")  // conflicting property is "protected"
-private val FooterRow.FooterCell.column: Any
-    get() = _AbstractCell_getColumn.invoke(this)
-
-/**
- * Retrieves the cell for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
- * @return the corresponding cell
- * @throws IllegalArgumentException if no such column exists.
- */
-public fun HeaderRow.getCell(property: KProperty1<*, *>): HeaderRow.HeaderCell {
-    val cell: HeaderRow.HeaderCell? = cells.firstOrNull { it.column.columnKey == property.name }
-    require(cell != null) { "This grid has no property named ${property.name}: $cells" }
-    return cell
-}
-
-private val _AbstractColumn_getBottomLevelColumn: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
-    val method: Method = abstractColumnClass.getDeclaredMethod("getBottomLevelColumn")
-    method.isAccessible = true
-    method
-}
-
-private val Any.columnKey: String?
-get() {
-    abstractColumnClass.cast(this)
-    val gridColumn: Grid.Column<*> = _AbstractColumn_getBottomLevelColumn.invoke(this) as Grid.Column<*>
-    return gridColumn.key
-}
-
-/**
- * Retrieves the cell for given [property]; it matches [Grid.Column.getKey] to [KProperty1.name].
- * @return the corresponding cell
- * @throws IllegalArgumentException if no such column exists.
- */
-public fun FooterRow.getCell(property: KProperty1<*, *>): FooterRow.FooterCell {
-    val cell: FooterRow.FooterCell? = cells.firstOrNull { it.column.columnKey == property.name }
-    require(cell != null) { "This grid has no property named ${property.name}: $cells" }
-    return cell
-}
-
-private val _AbstractColumn_getHeaderRenderer: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
-    val method: Method = abstractColumnClass.getDeclaredMethod("getHeaderRenderer")
-    method.isAccessible = true
-    method
-}
-public val HeaderRow.HeaderCell.renderer: Renderer<*>?
-    get() {
-        val renderer: Any = _AbstractColumn_getHeaderRenderer.invoke(column)
-        return renderer as Renderer<*>?
-    }
-
-private val _AbstractColumn_getFooterRenderer: Method by lazy(LazyThreadSafetyMode.PUBLICATION) {
-    val method: Method = abstractColumnClass.getDeclaredMethod("getFooterRenderer")
-    method.isAccessible = true
-    method
-}
-public val FooterRow.FooterCell.renderer: Renderer<*>?
-    get() {
-        val renderer = _AbstractColumn_getFooterRenderer.invoke(column)
-        return renderer as Renderer<*>?
-    }
-
-public var FooterRow.FooterCell.component: Component?
-    get() {
-        val cr: ComponentRenderer<*, *> = (renderer as? ComponentRenderer<*, *>) ?: return null
-        return cr.createComponent(null)
-    }
-    set(value) {
-        setComponent(value)
-    }
-
-private val gridSorterComponentRendererClass: Class<*>? = try {
-    Class.forName("com.vaadin.flow.component.grid.GridSorterComponentRenderer")
-} catch (e: ClassNotFoundException) {
-    // Vaadin 18.0.3+ and Vaadin 14.5.0+ doesn't contain this class anymore and simply uses ComponentRenderer
-    null
-}
-private val _GridSorterComponentRenderer_component: Field? =
-    if (gridSorterComponentRendererClass == null) { null } else {
-        val field = gridSorterComponentRendererClass.getDeclaredField("component")
-        field.isAccessible = true
-        field
-    }
-
-/**
- * Returns or sets the component in grid's header cell. Returns `null` if the cell contains String, something else than a component or nothing at all.
- */
-@Suppress("UNCHECKED_CAST")
-public var HeaderRow.HeaderCell.component: Component?
-    get() {
-        val r: Renderer<*>? = renderer
-        if (gridSorterComponentRendererClass != null && gridSorterComponentRendererClass.isInstance(r)) {
-            return _GridSorterComponentRenderer_component!!.get(r) as Component?
-        }
-        if (r is ComponentRenderer<*, *>) {
-            return (r as ComponentRenderer<*, Any?>).createComponent(null)
-        }
-        return null
-    }
-    set(value) {
-        setComponent(value)
-    }
-
-/**
- * Forces a defined sort [order] for the columns in the Grid. Setting
- * empty list resets the ordering of all columns.
- * Columns not mentioned in the list are reset to the unsorted state.
- *
- * For Grids with multi-sorting, the index of a given column inside the list
- * defines the sort priority. For example, the column at index 0 of the list
- * is sorted first, then on the index 1, and so on.
- *
- * Exampe of usage:
- * ```
- * grid<Person> {
- *   val nameColumn = addColumnFor(Person::name)
- *   sort(nameColumn.asc)
- * }
- * ```
- * @param order
- *            the list of sort orders to set on the client, or
- *            <code>null</code> to reset any sort orders.
- * @see [Grid.setMultiSort]
- * @see [Grid.getSortOrder]
-*/
-public fun <T> Grid<T>.sort(vararg order: GridSortOrder<T>) {
-    sort(order.toList())
-}
-
-/**
- * Alias for [sort].
- */
-public fun <T> Grid<T>.setSortOrder(order: List<GridSortOrder<T>>) {
-    sort(order)
-}
-
-/**
- * Forces a defined sort [criteria] for the columns in the Grid. Setting
- * empty list resets the ordering of all columns.
- * Columns not mentioned in the list are reset to the unsorted state.
- *
- * For Grids with multi-sorting, the index of a given column inside the list
- * defines the sort priority. For example, the column at index 0 of the list
- * is sorted first, then on the index 1, and so on.
- *
- * Exampe of usage:
- * ```
- * grid<Person> {
- *   addColumnFor(Person::name)
- *   sort(Person::name.asc)
- * }
- * ```
- */
-public fun <T> Grid<T>.sort(vararg criteria: QuerySortOrder) {
-    // check that columns are sortable
-    val crit: List<GridSortOrder<T>> = criteria.map { sortOrder ->
-        val col: Grid.Column<T> = getColumnByKey(sortOrder.sorted)
-            ?: throw IllegalArgumentException("No column with key ${sortOrder.sorted}; available column keys: ${columns.mapNotNull { it.key }}")
-        require(col.isSortable) { "Column for ${sortOrder.sorted} is not marked sortable" }
-        GridSortOrder(col, sortOrder.direction)
-    }
-
-    sort(crit)
-}
-
-public val <T> Grid.Column<T>.asc: GridSortOrder<T> get() = GridSortOrder(this, SortDirection.ASCENDING)
-public val <T> Grid.Column<T>.desc: GridSortOrder<T> get() = GridSortOrder(this, SortDirection.DESCENDING)
-
-@Suppress("UNCHECKED_CAST")
-public fun <T> TreeGrid<T>.getRootItems(): List<T> =
-    dataProvider.fetch(HierarchicalQuery(null, null)).toList()
-
-/**
- * Expands all nodes. May invoke massive data loading.
- */
-@JvmOverloads
-public fun <T> TreeGrid<T>.expandAll(depth: Int = 100) {
-    expandRecursively(getRootItems(), depth)
-}
+    addColumnFor<T, V>(propertyName, renderer, sortable).apply { block() }

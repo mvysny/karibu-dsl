@@ -1,20 +1,13 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
-import com.github.mvysny.kaributesting.v10._text
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Tag
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.dependency.HtmlImport
-import com.vaadin.flow.component.html.Div
-import com.vaadin.flow.component.html.Span
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout
-import com.vaadin.flow.dom.Element
-import kotlin.streams.toList
 import kotlin.test.expect
 
 @Tag("my-test-element")
@@ -80,16 +73,5 @@ fun DynaNodeGroup.elementTest() {
         t.myAttr = null
         expect(null) { t.myAttr }
         expect(null) { t.element.getAttribute("my-attr") }
-    }
-
-    test("insertBefore") {
-        val l = Div().element
-        val first: Element = Span("first").element
-        l.appendChild(first)
-        val second: Element = Span("second").element
-        l.insertBefore(second, first)
-        expect("second, first") { l.children.toList().joinToString { it.text } }
-        l.insertBefore(Span("third").element, first)
-        expect("second, third, first") { l.children.toList().joinToString { it.text } }
     }
 }

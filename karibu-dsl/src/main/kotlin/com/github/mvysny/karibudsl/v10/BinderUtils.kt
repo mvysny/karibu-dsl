@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.BrowserTimeZone
 import com.vaadin.flow.data.binder.*
 import com.vaadin.flow.data.converter.*
 import com.vaadin.flow.component.HasValue
@@ -123,27 +124,27 @@ public fun <BEAN> Binder.BindingBuilder<BEAN, Double?>.toBigInteger(): Binder.Bi
  * Converts [LocalDate] from [datePicker] to [Date]-typed bean field. Uses [browserTimeZone].
  */
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
-        withConverter(LocalDateToDateConverter(browserTimeZone))
+        withConverter(LocalDateToDateConverter(BrowserTimeZone.get))
 
 /**
  * Converts [LocalDateTime] from [dateTimePicker] to [Date]-typed bean field. Uses [browserTimeZone].
  */
 @JvmName("localDateTimeToDate")
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toDate(): Binder.BindingBuilder<BEAN, Date?> =
-        withConverter(LocalDateTimeToDateConverter(browserTimeZone))
+        withConverter(LocalDateTimeToDateConverter(BrowserTimeZone.get))
 
 /**
  * Converts [LocalDate] from [datePicker] to [Instant]-typed bean field. Uses [browserTimeZone].
  */
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDate?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
-        withConverter(LocalDateToInstantConverter(browserTimeZone))
+        withConverter(LocalDateToInstantConverter(BrowserTimeZone.get))
 
 /**
  * Converts [LocalDateTime] from [dateTimePicker] to [Instant]-typed bean field. Uses [browserTimeZone].
  */
 @JvmName("localDateTimeToInstant")
 public fun <BEAN> Binder.BindingBuilder<BEAN, LocalDateTime?>.toInstant(): Binder.BindingBuilder<BEAN, Instant?> =
-        withConverter(LocalDateTimeToInstantConverter(browserTimeZone))
+        withConverter(LocalDateTimeToInstantConverter(BrowserTimeZone.get))
 
 /**
  * Converts [LocalDate] from [datePicker] to [Calendar]-typed bean field. Uses [browserTimeZone].
@@ -197,7 +198,7 @@ public fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop:
  * A converter that converts from [LocalDate] [datePicker] to [Instant] bean field.
  * @property zoneId the time zone id to use.
  */
-public class LocalDateToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDate?, Instant?> {
+public class LocalDateToInstantConverter(public val zoneId: ZoneId = BrowserTimeZone.get) : Converter<LocalDate?, Instant?> {
     override fun convertToModel(localDate: LocalDate?, context: ValueContext): Result<Instant?> =
             Result.ok(localDate?.atStartOfDay(zoneId)?.toInstant())
 
@@ -209,7 +210,7 @@ public class LocalDateToInstantConverter(public val zoneId: ZoneId = browserTime
  * A converter that converts from [LocalDateTime] [dateTimePicker] to [Instant] bean field.
  * @property zoneId the time zone to use
  */
-public class LocalDateTimeToInstantConverter(public val zoneId: ZoneId = browserTimeZone) : Converter<LocalDateTime?, Instant?> {
+public class LocalDateTimeToInstantConverter(public val zoneId: ZoneId = BrowserTimeZone.get) : Converter<LocalDateTime?, Instant?> {
     override fun convertToModel(localDate: LocalDateTime?, context: ValueContext): Result<Instant?> =
             Result.ok(localDate?.atZone(zoneId)?.toInstant())
 

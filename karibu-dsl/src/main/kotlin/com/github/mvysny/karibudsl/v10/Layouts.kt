@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.addClassNames2
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
@@ -13,7 +14,7 @@ import com.vaadin.flow.component.orderedlayout.*
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).flexLayout(classNames: String = "", block: (@VaadinDsl FlexLayout).() -> Unit = {}): @VaadinDsl FlexLayout {
     val layout = FlexLayout()
-    classNames.feedClassNamesTo(layout)
+    layout.addClassNames2(classNames)
     return init(layout, block)
 }
 
@@ -38,7 +39,7 @@ public fun (@VaadinDsl HasComponents).verticalLayout(
     val layout: VerticalLayout = VerticalLayout().apply {
         this.isPadding = isPadding
         this.isSpacing = isSpacing
-        classNames.feedClassNamesTo(this)
+        addClassNames2(classNames)
         content { align(left, top) }
     }
     return init(layout, block)
@@ -65,7 +66,7 @@ public fun (@VaadinDsl HasComponents).horizontalLayout(
     val layout: HorizontalLayout = HorizontalLayout().apply {
         this.isPadding = isPadding
         this.isSpacing = isSpacing
-        classNames.feedClassNamesTo(this)
+        addClassNames2(classNames)
         content { align(left, baseline) }
     }
     return init(layout, block)

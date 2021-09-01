@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.addClassNames2
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.*
 import com.vaadin.flow.server.AbstractStreamResource
@@ -15,7 +16,7 @@ import org.jsoup.nodes.TextNode
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).div(classNames: String = "", block: (@VaadinDsl Div).() -> Unit = {}): Div {
     val div = Div()
-    classNames.feedClassNamesTo(div)
+    div.addClassNames2(classNames)
     return init(div, block)
 }
 

@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.addClassNames2
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.formlayout.FormLayout
@@ -40,7 +41,7 @@ public class KFormLayout : FormLayout() {
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).formLayout(classNames: String = "", block: (KFormLayout).() -> Unit = {}): KFormLayout {
     val layout = KFormLayout()
-    classNames.feedClassNamesTo(layout)
+    layout.addClassNames2(classNames)
     return init(layout, block)
 }
 

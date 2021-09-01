@@ -16,7 +16,8 @@
 package com.vaadin.starter.beveragebuddy.ui.categories
 
 import com.github.mvysny.karibudsl.v10.*
-import com.github.mvysny.karibudsl.v10.ModifierKey.*
+import com.github.mvysny.kaributools.ModifierKey.*
+import com.github.mvysny.kaributools.addShortcut
 import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant

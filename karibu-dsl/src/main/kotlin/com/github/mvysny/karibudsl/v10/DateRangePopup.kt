@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.BrowserTimeZone
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
@@ -28,7 +29,7 @@ public data class DateInterval(override val start: LocalDate?, override val endI
         /**
          * Produces a degenerate date interval that only contains [LocalDate.now].
          */
-        public fun now(zoneId: ZoneId = browserTimeZone): DateInterval =
+        public fun now(zoneId: ZoneId = BrowserTimeZone.get): DateInterval =
                 DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
         public fun of(localDate: LocalDate): DateInterval = DateInterval(localDate, localDate)
     }

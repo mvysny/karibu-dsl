@@ -1,5 +1,6 @@
 dependencies {
     api(kotlin("stdlib-jdk8"))
+    api("com.github.mvysny.karibu-tools:karibu-tools:${properties["karibu_tools_version"]}")
 
     testImplementation("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
     testImplementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
