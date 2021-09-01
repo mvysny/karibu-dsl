@@ -8,8 +8,6 @@ import com.vaadin.flow.component.menubar.MenuBar
 import com.vaadin.flow.component.menubar.MenuBarVariant
 import com.vaadin.flow.dom.Element
 import java.lang.RuntimeException
-import java.util.stream.Stream
-import kotlin.streams.toList
 
 /**
  * A popup button: a button with a caption, which, upon clicking, will show a
