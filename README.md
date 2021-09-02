@@ -14,7 +14,8 @@ This library:
 * Allows you to create Vaadin UI designs in the structured code way; the idea behind the library
   is explained in the [DSLs: Explained for Vaadin](https://www.vaadinonkotlin.eu//dsl_explained/) article.
   The general DSL idea is explained in [Kotlin Type-Safe Builders](https://kotlinlang.org/docs/reference/type-safe-builders.html).
-* Additional useful methods which Vaadin lacks
+* Includes useful components like `PopupButton` and `TabSheet`
+* Contains additional useful methods which Vaadin lacks; see [karibu-tools](https://github.com/mvysny/karibu-tools)
 
 ## Documentation/Tutorial
 
