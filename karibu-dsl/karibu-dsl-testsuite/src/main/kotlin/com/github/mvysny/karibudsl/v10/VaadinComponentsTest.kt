@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.html.Span
@@ -100,5 +101,11 @@ fun DynaNodeGroup.vaadinComponentsTest() {
             }
             expect(1.0) { vl.getFlexGrow(vl.getComponentAt(0)) }
         }
+    }
+
+    test("text") {
+        val t: Text = UI.getCurrent().text("foo")
+        expect("foo") { t.text }
+        expect(UI.getCurrent()) { t.parent.get() }
     }
 }

@@ -230,3 +230,10 @@ public fun <T : Any?> (@VaadinDsl HasComponents).radioButtonGroup(
     }
     return init(component, block)
 }
+
+/**
+ * Appends a text node with given [text] to the component.
+ */
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).text(text: String, block: (@VaadinDsl Text).() -> Unit = {}): Text =
+    init(Text(text), block)

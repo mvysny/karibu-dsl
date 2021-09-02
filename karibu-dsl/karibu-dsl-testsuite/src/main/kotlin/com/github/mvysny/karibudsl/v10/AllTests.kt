@@ -75,7 +75,4 @@ fun DynaNodeGroup.allTests() {
     group("VaadinComponents test") {
         vaadinComponentsTest()
     }
-    group("VaadinUtils test") {
-        vaadinUtilsTest()
-    }
 }
