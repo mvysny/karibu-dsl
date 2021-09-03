@@ -20,9 +20,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
 
     test("smoke") {
         UI.getCurrent().apply {
-            button("Foo") {
-                setPrimary()
-            }
+            button("Foo") {}
             iconButton(VaadinIcon.LEVEL_LEFT.create()) {
                 onLeftClick {  }
             }
