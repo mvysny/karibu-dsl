@@ -16,6 +16,7 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.kaributools.setPrimary
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog

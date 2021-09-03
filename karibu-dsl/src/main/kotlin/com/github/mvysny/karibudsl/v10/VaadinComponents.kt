@@ -53,14 +53,6 @@ public fun (@VaadinDsl HasComponents).iconButton(icon: Component, block: (@Vaadi
 }
 
 /**
- * Sets the button as primary. It effectively adds the [ButtonVariant.LUMO_PRIMARY] theme variant.
- */
-@Deprecated("moved to karibu-tools")
-public fun (@VaadinDsl Button).setPrimary() {
-    addThemeVariants(ButtonVariant.LUMO_PRIMARY)
-}
-
-/**
  * Adds a [leftClickListener].
  */
 public fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener: ((ClickEvent<T>) -> Unit)): Registration
