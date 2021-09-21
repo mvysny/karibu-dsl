@@ -3,8 +3,8 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.kaributools.desc
-import com.github.mvysny.kaributools.getColumnBy
+import com.github.mvysny.kaributesting.v10.getCell
+import com.github.mvysny.kaributools.*
 import com.github.mvysny.kaributools.sort
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.grid.Grid
