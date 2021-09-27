@@ -25,8 +25,6 @@ import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.router.HighlightConditions
 import com.vaadin.flow.router.RouterLayout
-import com.vaadin.flow.server.InitialPageSettings
-import com.vaadin.flow.server.PageConfigurator
 import com.vaadin.flow.theme.Theme
 import com.vaadin.flow.theme.lumo.Lumo
 import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
@@ -40,7 +38,7 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 @CssImport("frontend://styles/shared-styles.css")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(Lumo::class)
-class MainLayout : KComposite(), RouterLayout, PageConfigurator {
+class MainLayout : KComposite(), RouterLayout {
 
     private val root: VerticalLayout = ui {
         verticalLayout(false, classNames = "main-layout") {
@@ -66,10 +64,5 @@ class MainLayout : KComposite(), RouterLayout, PageConfigurator {
     override fun showRouterLayoutContent(content: HasElement) {
         root.add(content as Component)
         content.isExpand = true
-    }
-
-    override fun configurePage(settings: InitialPageSettings) {
-        settings.addMetaTag("apple-mobile-web-app-capable", "yes")
-        settings.addMetaTag("apple-mobile-web-app-status-bar-style", "black")
     }
 }
