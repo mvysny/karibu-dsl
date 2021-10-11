@@ -38,23 +38,7 @@ public fun <T : Any?> (@VaadinDsl HasComponents).grid(
     if (dataProvider != null) {
         grid.dataProvider = dataProvider
     }
-    grid.hotfixMissingHeaderRow()
     return init(grid, block)
-}
-
-/**
- * Workaround for https://github.com/vaadin/vaadin-grid-flow/issues/912
- *
- * Internal, do not use. Automatically called from [grid] and [treeGrid].
- */
-public fun Grid<*>.hotfixMissingHeaderRow() {
-    // don't do this yet: it's not yet possible to remove the header row: https://github.com/vaadin/vaadin-grid-flow/issues/480
-    // also https://github.com/vaadin/vaadin-grid-flow/issues/912
-/*
-    if (headerRows.size == 0) {
-        appendHeaderRow()
-    }
-*/
 }
 
 @VaadinDsl
@@ -85,7 +69,6 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
     if (dataProvider != null) {
         (grid as Grid<T>).dataProvider = dataProvider
     }
-    grid.hotfixMissingHeaderRow()
     return init(grid, block)
 }
 
