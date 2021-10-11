@@ -62,18 +62,18 @@ class CategoriesList : KComposite() {
             }
             header = h3()
             grid = grid {
-                isExpand = true
+                isExpand = true; addThemeName("row-dividers")
+
                 columnFor(Category::name) {
                     setHeader("Category")
                 }
                 addColumn { it.getReviewCount() }.setHeader("Beverages")
-                addColumn(ComponentRenderer<Button, Category>({ cat -> createEditButton(cat) })).apply {
+                addComponentColumn { cat -> createEditButton(cat) } .apply {
                     flexGrow = 0; key = "edit"
                 }
-                element.themeList.add("row-dividers")
 
                 gridContextMenu = gridContextMenu {
-                    item("New", { _ -> editorDialog.createNew() })
+                    item("New", { editorDialog.createNew() })
                     item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
                     item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
                 }

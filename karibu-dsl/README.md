@@ -318,6 +318,28 @@ grid<Person>(klass = null) {}
 grid<Person>(clazz = null) {}
 ```
 
+A more of a real-world example:
+
+```kotlin
+grid<Category> {
+    isExpand = true; addThemeName("row-dividers")
+
+    columnFor(Category::name) {
+        setHeader("Category")
+    }
+    addColumn { it.getReviewCount() }.setHeader("Beverages")
+    addComponentColumn { cat -> createEditButton(cat) } .apply {
+        flexGrow = 0; key = "edit"
+    }
+
+    gridContextMenu = gridContextMenu {
+        item("New", { editorDialog.createNew() })
+        item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+        item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
+    }
+}
+```
+
 ## Launching the example project in Intellij IDEA
 
 ### Gradle's Gretty appRun
