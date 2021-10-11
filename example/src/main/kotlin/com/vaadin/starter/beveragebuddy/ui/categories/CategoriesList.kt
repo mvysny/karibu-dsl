@@ -63,7 +63,7 @@ class CategoriesList : KComposite() {
             header = h3()
             grid = grid {
                 isExpand = true
-                addColumnFor(Category::name) {
+                columnFor(Category::name) {
                     setHeader("Category")
                 }
                 addColumn { it.getReviewCount() }.setHeader("Beverages")

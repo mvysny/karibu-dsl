@@ -74,7 +74,7 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
 
 /**
  * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
- * using [getColumnBy]. The column is also by default set to sortable
+ * using `Grid.getColumnBy()`. The column is also by default set to sortable
  * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
  * @param converter optionally converts the property value [V] to something else, typically to a String. Use this for formatting of the value.
  * @param block runs given block on the column.
@@ -82,11 +82,11 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
+public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     property: KProperty1<T, V?>,
     sortable: Boolean = true,
     converter: (V?) -> Any? = { it },
-    block: (@VaadinDsl Grid.Column<T>).() -> Unit
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
     addColumnFor(property, sortable, converter).apply {
         block()
@@ -102,11 +102,11 @@ public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
-public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
+public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     property: KProperty1<T, V?>,
     renderer: Renderer<T>,
     sortable: Boolean = true,
-    block: (@VaadinDsl Grid.Column<T>).() -> Unit
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
     addColumnFor(property, renderer, sortable).apply {
         block()
@@ -125,11 +125,11 @@ public fun <T, V> (@VaadinDsl Grid<T>).addColumnFor(
  * @param V the value that the column will display.
  * @return the newly created column
  */
-public inline fun <reified T, reified V> Grid<T>.addColumnFor(
+public inline fun <reified T, reified V> Grid<T>.columnFor(
     propertyName: String,
     sortable: Boolean = true,
     noinline converter: (V?) -> Any? = { it },
-    block: Grid.Column<T>.() -> Unit
+    block: Grid.Column<T>.() -> Unit = {}
 ): Grid.Column<T> =
     addColumnFor(propertyName, sortable, converter).apply { block() }
 
@@ -146,10 +146,10 @@ public inline fun <reified T, reified V> Grid<T>.addColumnFor(
  * @param V the value that the column will display, deduced from the type of the [propertyName].
  * @return the newly created column
  */
-public inline fun <reified T, reified V> Grid<T>.addColumnFor(
+public inline fun <reified T, reified V> Grid<T>.columnFor(
     propertyName: String,
     renderer: Renderer<T>,
     sortable: Boolean = true,
-    block: Grid.Column<T>.() -> Unit
+    block: Grid.Column<T>.() -> Unit = {}
 ): Grid.Column<T> =
     addColumnFor<T, V>(propertyName, renderer, sortable).apply { block() }

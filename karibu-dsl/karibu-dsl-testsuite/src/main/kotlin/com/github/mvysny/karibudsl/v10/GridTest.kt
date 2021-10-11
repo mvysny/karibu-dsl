@@ -53,19 +53,19 @@ fun DynaNodeGroup.gridTest() {
         }
     }
 
-    group("addColumnFor tests") {
-        test("grid addColumnFor works both for nullable and non-null properties") {
+    group("columnFor() tests") {
+        test("grid columnFor() works both for nullable and non-null properties") {
             data class TestingClass(var foo: String?, var bar: String, var nonComparable: List<String>)
             Grid<TestingClass>().apply {
-                addColumnFor(TestingClass::foo) {}   // this must compile
-                addColumnFor(TestingClass::bar) {}   // this must compile
-                addColumnFor(TestingClass::nonComparable) {}  // this must compile
+                columnFor(TestingClass::foo)   // this must compile
+                columnFor(TestingClass::bar) {}   // this must compile
+                columnFor(TestingClass::nonComparable) {}  // this must compile
             }
         }
 
         test("sets column by default to sortable") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
+                columnFor(Person::fullName)
             }
             expectList("fullName") {
                 grid.getColumnBy(Person::fullName).getSortOrder(SortDirection.ASCENDING).toList().map { it.sorted }
@@ -74,9 +74,9 @@ fun DynaNodeGroup.gridTest() {
 
         test("column header is set properly") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
-                addColumnFor(Person::alive) {}
-                addColumnFor(Person::dateOfBirth) {}
+                columnFor(Person::fullName)
+                columnFor(Person::alive)
+                columnFor(Person::dateOfBirth)
             }
             expect("Full Name") { grid.getColumnBy(Person::fullName).header2 }
             expect("Alive") { grid.getColumnBy(Person::alive).header2 }
@@ -85,7 +85,7 @@ fun DynaNodeGroup.gridTest() {
 
         test("sorting by column also works with in-memory container") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
+                columnFor(Person::fullName)
                 setItems2((0..9).map { Person(fullName = it.toString()) })
             }
             expect<Class<*>>(ListDataProvider2::class.java) { grid.dataProvider.javaClass }
@@ -95,7 +95,7 @@ fun DynaNodeGroup.gridTest() {
 
         test("sorting by column also works with in-memory container 2") {
             val grid = Grid<Person>().apply {
-                addColumnFor<Person, String>("fullName") {}
+                columnFor<Person, String>("fullName")
                 setItems2((0..9).map { Person(fullName = it.toString()) })
             }
             expect<Class<*>>(ListDataProvider2::class.java) { grid.dataProvider.javaClass }
@@ -105,7 +105,7 @@ fun DynaNodeGroup.gridTest() {
 
         test("sorting by column also works with in-memory container 3") {
             val grid = Grid<Person>().apply {
-                val fullNameColumn = addColumnFor(Person::fullName) {}
+                val fullNameColumn = columnFor(Person::fullName)
                 setItems2((0..9).map { Person(fullName = it.toString()) })
                 sort(fullNameColumn.desc)
             }
@@ -116,9 +116,9 @@ fun DynaNodeGroup.gridTest() {
 
     test("column isExpand") {
         val grid = Grid<Person>()
-        val col = grid.addColumnFor(Person::alive) {}
+        val col = grid.columnFor(Person::alive)
         expect(1) { col.flexGrow }  // by default the flexGrow is 1
-        val col2 = grid.addColumnFor(Person::fullName) { isExpand = false }
+        val col2 = grid.columnFor(Person::fullName) { isExpand = false }
         expect(0) { col2.flexGrow }
     }
 
@@ -126,7 +126,7 @@ fun DynaNodeGroup.gridTest() {
     group("header cell retrieval test") {
         test("one component") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
+                columnFor(Person::fullName)
                 appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
             }
             expect("Foo!") {
@@ -138,7 +138,7 @@ fun DynaNodeGroup.gridTest() {
         }
         test("two components") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
+                columnFor(Person::fullName)
                 appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
                 appendHeaderRow().getCell(Person::fullName).component = TextField("Bar!")
             }
@@ -152,7 +152,7 @@ fun DynaNodeGroup.gridTest() {
     group("footer cell retrieval test") {
         test("one component") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
+                columnFor(Person::fullName)
                 appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
             }
             expect("Foo!") {
@@ -164,7 +164,7 @@ fun DynaNodeGroup.gridTest() {
         }
         test("two components") {
             val grid = Grid<Person>().apply {
-                addColumnFor(Person::fullName) {}
+                columnFor(Person::fullName)
                 appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
                 appendFooterRow().getCell(Person::fullName).component = TextField("Bar!")
             }
@@ -177,7 +177,7 @@ fun DynaNodeGroup.gridTest() {
 
     test("serialization") {
         Grid<Person>().apply {
-            addColumnFor(Person::fullName) {}
+            columnFor(Person::fullName)
             appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
         }
         // Kotlin 1.5.0 lambdas are no longer serializable: https://youtrack.jetbrains.com/issue/KT-46373
