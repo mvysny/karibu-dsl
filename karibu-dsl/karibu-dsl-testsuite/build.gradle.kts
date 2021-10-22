@@ -1,7 +1,7 @@
 dependencies {
     api(project(":karibu-dsl"))
 
-    api("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
+    api("com.github.mvysny.dynatest:dynatest:${properties["dynatest_version"]}")
     api("com.github.mvysny.kaributesting:karibu-testing-v10:${properties["kaributesting_version"]}")
     api("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 
