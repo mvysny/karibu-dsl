@@ -26,7 +26,7 @@ dependencies {
     }
 
     // IDEA language injections
-    api("com.intellij:annotations:12.0")
+    api("org.jetbrains:annotations:22.0.0")
 
     // always include support for bean validation
     api("javax.validation:validation-api:2.0.1.Final")  // so that the BeanFieldGroup will perform JSR303 validations
