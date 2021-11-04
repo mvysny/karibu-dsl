@@ -3,6 +3,7 @@
 [![GitHub tag](https://img.shields.io/github/tag/mvysny/karibu-dsl.svg)](https://github.com/mvysny/karibu-dsl/tags)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.mvysny.karibudsl/karibu-dsl-v8/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.mvysny.karibudsl/karibu-dsl-v8)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=karibu-uitest&style=flat&svg=1)](https://karibu-uitest.herokuapp.com/)
+[![CI](https://github.com/mvysny/karibu-dsl/actions/workflows/gradle.yml/badge.svg)](https://github.com/mvysny/karibu-dsl/actions/workflows/gradle.yml)
 
 # Karibu-DSL (Vaadin Kotlin Extensions)
 
