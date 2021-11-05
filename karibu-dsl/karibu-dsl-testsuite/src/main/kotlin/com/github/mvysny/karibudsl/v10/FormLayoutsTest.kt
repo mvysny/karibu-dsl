@@ -31,7 +31,7 @@ fun DynaNodeGroup.formLayoutsTest() {
             formItem("Name:") { textField() }
         }
         expect("""└── FormLayout[]
-    └── KFormItem[caption='Name:']
+    └── KFormItem[label='Name:']
         ├── Label[slot='label', text='Name:']
         └── TextField[value='']""") { layout.toPrettyTree().trim() }
     }
