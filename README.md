@@ -55,6 +55,22 @@ Vaadin 14:
 * A simple database-backed one-page task list app: [vaadin-kotlin-pwa](https://github.com/mvysny/vaadin-kotlin-pwa)
 * Two-page app demoing grids and database: [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
 
+## Vaadin 8 UITest / Component Palette
+
+Back in the days there was a Vaadin 8 project called UITest (or Component Palette) which
+demoed all Vaadin 8 components along with all of ValoTheme styles. The project
+is no longer around officially, but there's a karibu-dsl fork of the project. To
+run it quickly, follow these steps:
+
+```bash
+git clone https://github.com/mvysny/karibu-dsl
+cd karibu-dsl
+git checkout 1.0.x
+./gradlew clean build example-v8:appRun
+```
+
+You may need JDK 11 or JDK 8 to run the demo; JDK 17 support is not known.
+
 # License
 
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
