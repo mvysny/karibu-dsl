@@ -284,8 +284,15 @@ fun DynaNodeGroup.tabSheetTest() {
         val ts = UI.getCurrent().tabSheet {
             tab = tab("foo") { span("it works!") }
         }
-        expect(ts) { tab.ownerTabSheet }
         expect(ts._get<Tabs>()) { tab.owner }
+    }
+
+    test("ownerTabSheet") {
+        lateinit var tab: Tab
+        val ts = UI.getCurrent().tabSheet {
+            tab = tab("foo") { span("it works!") }
+        }
+        expect(ts) { tab.ownerTabSheet }
     }
 
     group("tab contents") {
