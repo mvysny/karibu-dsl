@@ -198,8 +198,11 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
             tabsComponent.orientation = value
         }
 
+    private val selectedTabContent: Component?
+        get() = tabsContainer.children.findFirst().orElse(null)
+
     private fun update() {
-        val currentTabContent: Component? = tabsContainer.children.findFirst().orElse(null)
+        val currentTabContent = selectedTabContent
         val selectedTab1: Tab? = selectedTab
 
         var newTabContent: Component?

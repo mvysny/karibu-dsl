@@ -391,5 +391,25 @@ fun DynaNodeGroup.tabSheetTest() {
             expect(producedLabel) { ts.selectedTab!!.contents }
             ts._expectOne<Label>()
         }
+
+        test("lazy tab computed exactly once") {
+            val ts = UI.getCurrent().tabSheet {}
+            val tab1 = ts.addTab("bar")
+            var callCount = 0
+            val tab2 = ts.addLazyTab("foo") {
+                if (callCount++ > 1) {
+                    fail("Called 2 times")
+                }
+                Label("foo")
+            }
+
+            expect(0) { callCount }
+            ts.selectedTab = tab2
+            expect(1) { callCount }
+            ts.selectedTab = tab1
+            expect(1) { callCount }
+            ts.selectedTab = tab2
+            expect(1) { callCount }
+        }
     }
 }
