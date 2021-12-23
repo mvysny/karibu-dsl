@@ -109,6 +109,12 @@ fun DynaNodeGroup.tabSheetTest() {
 
             expect(0) { th.tabCount }
         }
+        test("Adding a tab with null contents works") {
+            val th = UI.getCurrent().tabSheet {
+                addTab("foo")
+            }
+            expect(1) { th.tabCount }
+        }
     }
 
     group("selectedIndex") {
@@ -150,6 +156,12 @@ fun DynaNodeGroup.tabSheetTest() {
             th.removeAll()
 
             expect(-1) { th.selectedIndex }
+        }
+        test("Adding a tab with null contents works") {
+            val th = UI.getCurrent().tabSheet {
+                addTab("foo")
+            }
+            expect(0) { th.selectedIndex }
         }
     }
 
@@ -195,6 +207,13 @@ fun DynaNodeGroup.tabSheetTest() {
             th.removeAll()
 
             expect(null) { th.selectedTab }
+        }
+        test("Adding a tab with null contents works") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = addTab("foo")
+            }
+            expect(tab) { th.selectedTab }
         }
     }
 
@@ -246,24 +265,18 @@ fun DynaNodeGroup.tabSheetTest() {
 
             expectList() { th.tabs }
         }
-    }
-
-    test("Adding a tab with null contents works") {
-        lateinit var tab: Tab
-        val th = UI.getCurrent().tabSheet {
-            tab = addTab("foo")
+        test("Adding a tab with null contents adds the tab") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = addTab("foo")
+            }
+            expectList(tab) { th.tabs }
         }
-        expect(0) { th.selectedIndex }
-        expect(tab) { th.selectedTab }
-        expect(null) { th.getTabContents(tab) }
-        expectList(tab) { th.tabs }
-        expect(1) { th.tabCount }
-        expect(0) { tab.index }
-
-        val span = Span("it works!")
-        th.setTabContents(tab, span)
-        _expectOne<Span> { text = "it works!" }
-        expect(span) { th.getTabContents(tab) }
+        test("Adding lazy tabs") {
+            val ts = TabSheet()
+            val tabs = (0..9).map { ts.addLazyTab("lazy $it") { Span("foo") } }
+            expect(tabs) { ts.tabs }
+        }
     }
 
     test("owner") {
@@ -293,17 +306,6 @@ fun DynaNodeGroup.tabSheetTest() {
             tab.contents = null
             _expectNone<Span>()
             expect(null) { tab.contents }
-        }
-
-        test("clearing contents 2") {
-            lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
-                tab = addTab("foo", Span("it works!"))
-            }
-            expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
-
-            th.setTabContents(tab, null)
-            expect(null) { th.getTabContents(tab) }
         }
     }
     group("find contents") {
@@ -358,27 +360,30 @@ fun DynaNodeGroup.tabSheetTest() {
 
     group("lazy tabs") {
         test("addFirstLazyTabImmediatelyInvokesClosure") {
-            val th = UI.getCurrent().tabSheet {}
+            val ts = UI.getCurrent().tabSheet {}
             val producedLabel = Label("baz")
-            th.addLazyTab("foo") { producedLabel }
-            expect(producedLabel) { th.selectedTab!!.contents }
+            ts.addLazyTab("foo") { producedLabel }
+            expect(producedLabel) { ts.selectedTab!!.contents }
+            expect(producedLabel) { ts._get<Label>() }
         }
 
         test("addSecondLazyTabDelaysClosure") {
-            val th = UI.getCurrent().tabSheet {}
+            val ts = UI.getCurrent().tabSheet {}
             val producedLabel = Label("baz")
             var allowInvoking = false
-            val tab1 = th.addTab("bar")
-            val tab2 = th.addLazyTab("foo") {
+            val tab1 = ts.addTab("bar")
+            val tab2 = ts.addLazyTab("foo") {
                 if (!allowInvoking) fail("Should not invoke")
                 producedLabel
             }
-            expect(tab1) { th.selectedTab }
-            allowInvoking = true
+            expect(tab1) { ts.selectedTab }
+            ts._expectNone<Label>()
 
-            th.selectedTab = tab2
-            expect(tab2) { th.selectedTab!! }
-            expect(producedLabel) { th.selectedTab!!.contents }
+            allowInvoking = true
+            ts.selectedTab = tab2
+            expect(tab2) { ts.selectedTab!! }
+            expect(producedLabel) { ts.selectedTab!!.contents }
+            ts._expectOne<Label>()
         }
     }
 }
