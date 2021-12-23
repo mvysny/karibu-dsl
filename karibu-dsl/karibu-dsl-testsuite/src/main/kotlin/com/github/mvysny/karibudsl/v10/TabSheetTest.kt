@@ -1,8 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaNodeTest
-import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectNone
 import com.github.mvysny.kaributesting.v10._expectOne
@@ -49,9 +47,11 @@ fun DynaNodeGroup.tabSheetTest() {
     test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
         lateinit var tab: Tab
         lateinit var tab2: Tab
+        lateinit var tab1Contents: Span
         val th = UI.getCurrent().tabSheet {
             tab = tab("foo") {
-                span("it works!")
+                tab1Contents = span("it works!")
+                tab1Contents
             }
             tab2 = tab("bar") {
                 span("it works 2!")
@@ -62,6 +62,7 @@ fun DynaNodeGroup.tabSheetTest() {
         expectList(tab, tab2) { th.tabs }
         expect(2) { th.tabCount }
         _expectOne<Span> { text = "it works!" }
+        expect(tab1Contents) { th.getTabContents(tab) }
     }
 
     test("Adding a tab with null contents works") {
@@ -71,12 +72,15 @@ fun DynaNodeGroup.tabSheetTest() {
         }
         expect(0) { th.selectedIndex }
         expect(tab) { th.selectedTab }
+        expect(null) { th.getTabContents(tab) }
         expectList(tab) { th.tabs }
         expect(1) { th.tabCount }
         expect(0) { tab.index }
 
-        th.setTabContents(tab, Span("it works!"))
+        val span = Span("it works!")
+        th.setTabContents(tab, span)
         _expectOne<Span> { text = "it works!" }
+        expect(span) { th.getTabContents(tab) }
     }
 
     test("Removing last tab clears selection") {
@@ -123,6 +127,7 @@ fun DynaNodeGroup.tabSheetTest() {
             }
             expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
         }
+
         test("clearing contents") {
             lateinit var tab: Tab
             UI.getCurrent().tabSheet {
@@ -132,6 +137,17 @@ fun DynaNodeGroup.tabSheetTest() {
             tab.contents = null
             _expectNone<Span>()
             expect(null) { tab.contents }
+        }
+
+        test("clearing contents 2") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = addTab("foo", Span("it works!"))
+            }
+            expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
+
+            th.setTabContents(tab, null)
+            expect(null) { th.getTabContents(tab) }
         }
     }
     group("find contents") {

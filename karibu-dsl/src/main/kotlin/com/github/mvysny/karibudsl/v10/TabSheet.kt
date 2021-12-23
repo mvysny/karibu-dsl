@@ -49,8 +49,8 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
             tabsContainer = div {
                 setWidthFull()
                 // when TabSheet's height is defined, the following rules allow the container to grow or shrink as necessary.
-                isExpand = true; flexShrink = 1.0; minHeight = "0px"
-                element.classList.add("tabsheet-container")
+                isExpand = true; flexShrink = 1.0; minHeight = "0"
+                addClassName("tabsheet-container")
             }
         }
     }
@@ -143,7 +143,8 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
     }
 
     /**
-     * Returns the contents of given [tab].
+     * Returns the contents of given [tab]. May return null if the tab has no contents,
+     * or the tab has lazy contents and hasn't been displayed yet.
      */
     public fun getTabContents(tab: Tab): Component? {
         checkOurTab(tab)
