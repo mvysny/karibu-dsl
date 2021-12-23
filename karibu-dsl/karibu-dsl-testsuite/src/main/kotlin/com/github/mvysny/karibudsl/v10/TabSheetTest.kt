@@ -22,47 +22,147 @@ fun DynaNodeGroup.tabSheetTest() {
         _expectOne<TabSheet>()
     }
 
-    test("Initially empty") {
-        val th = TabSheet()
-        expect(-1) { th.selectedIndex }
-        expect(null) { th.selectedTab }
-        expectList() { th.tabs }
-        expect(0) { th.tabCount }
+    group("content population") {
+        test("Initially empty") {
+            val th = TabSheet()
+            th._expectNone<Tab>()
+        }
+        test("Adding a tab to an empty TabSheet shows it immediately") {
+            val th = UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                }
+            }
+            _expectOne<Span> { text = "it works!" }
+        }
+        test("Adding a tab to a non-empty TabSheet doesn't change the currently shown tab") {
+            val th = UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                }
+                tab("bar") {
+                    span("it works 2!")
+                }
+            }
+            _expectOne<Span> { text = "it works!" }
+            _expectNone<Span>() { text = "it works 2!" }
+        }
     }
 
-    test("Adding a tab to an empty TabSheet selects it immediately") {
-        lateinit var tab: Tab
-        val th = UI.getCurrent().tabSheet {
-            tab = tab("foo") {
-                span("it works!")
-            }
+    group("tabCount") {
+        test("zero when empty") {
+            expect(0) { TabSheet().tabCount }
         }
-        expect(0) { th.selectedIndex }
-        expect(tab) { th.selectedTab }
-        expectList(tab) { th.tabs }
-        expect(1) { th.tabCount }
-        _expectOne<Span> { text = "it works!" }
+        test("adding 1 tab") {
+            val ts = UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                }
+            }
+            expect(1) { ts.tabCount }
+        }
+        test("two tabs") {
+            val ts = UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                }
+                tab("bar") {
+                    span("it works 2!")
+                }
+            }
+            expect(2) { ts.tabCount }
+        }
+        test("10 tabs") {
+            val ts = UI.getCurrent().tabSheet()
+            (0..9).map { ts.addTab("tab $it") }
+            expect(10) { ts.tabCount }
+        }
     }
 
-    test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
-        lateinit var tab: Tab
-        lateinit var tab2: Tab
-        lateinit var tab1Contents: Span
-        val th = UI.getCurrent().tabSheet {
-            tab = tab("foo") {
-                tab1Contents = span("it works!")
-                tab1Contents
-            }
-            tab2 = tab("bar") {
-                span("it works 2!")
-            }
+    group("selectedIndex") {
+        test("-1 when empty") {
+            expect(-1) { TabSheet().selectedIndex }
         }
-        expect(0) { th.selectedIndex }
-        expect(tab) { th.selectedTab }
-        expectList(tab, tab2) { th.tabs }
-        expect(2) { th.tabCount }
-        _expectOne<Span> { text = "it works!" }
-        expect(tab1Contents) { th.getTabContents(tab) }
+        test("Adding a tab to an empty TabSheet selects it immediately") {
+            val th = UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                }
+            }
+            expect(0) { th.selectedIndex }
+        }
+        test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
+            val th = UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                }
+                tab("bar") {
+                    span("it works 2!")
+                }
+            }
+            expect(0) { th.selectedIndex }
+        }
+    }
+
+    group("selectedTab") {
+        test("null when empty") {
+            expect(null) { TabSheet().selectedTab }
+        }
+        test("Adding a tab to an empty TabSheet selects it immediately") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = tab("foo") {
+                    span("it works!")
+                }
+            }
+            expect(tab) { th.selectedTab }
+        }
+        test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
+            lateinit var tab: Tab
+            lateinit var tab2: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = tab("foo") {
+                    span("it works!")
+                }
+                tab2 = tab("bar") {
+                    span("it works 2!")
+                }
+            }
+            expect(tab) { th.selectedTab }
+        }
+    }
+
+    group("tabs") {
+        test("empty when no tabs") {
+            expectList() { TabSheet().tabs }
+        }
+        test("adding 1 tab") {
+            lateinit var tab: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = tab("foo") {
+                    span("it works!")
+                }
+            }
+            expectList(tab) { th.tabs }
+        }
+        test("two tabs") {
+            lateinit var tab: Tab
+            lateinit var tab2: Tab
+            val th = UI.getCurrent().tabSheet {
+                tab = tab("foo") {
+                    span("it works!")
+                }
+                tab2 = tab("bar") {
+                    span("it works 2!")
+                }
+            }
+            expectList(tab, tab2) { th.tabs }
+        }
+        test("10 tabs") {
+            val th = UI.getCurrent().tabSheet()
+            val tabs = (0..9).map { th.addTab("tab $it") }
+            expect(tabs) { th.tabs }
+        }
     }
 
     test("Adding a tab with null contents works") {
