@@ -255,21 +255,19 @@ fun DynaNodeGroup.tabSheetTest() {
             val tabs = (0..9).map { ts.addTab("tab $it") }
             expect(tabs) { ts.tabs }
         }
-        test("Removing last tab clears selection") {
+        test("Removing last tab clears the tab list") {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
             ts.remove(tab)
-
             expectList() { ts.tabs }
         }
-        test("Removing all tabs clears selection") {
+        test("Removing all tabs clears the tab list") {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
             ts.removeAll()
-
             expectList() { ts.tabs }
         }
         test("Adding a tab with null contents adds the tab") {
