@@ -176,7 +176,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
         }
 
     /**
-     * Returns the 0-based index of the currently selected tab.
+     * Returns the 0-based index of the currently selected tab. -1 if no tab is selected.
      */
     public var selectedIndex: Int
         get() = tabsComponent.selectedIndex
@@ -187,7 +187,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Returns the current number of tabs.
      */
-    public val tabCount: Int get() = tabsToComponents.keys.count()
+    public val tabCount: Int get() = tabsToComponents.keys.size
 
     /**
      * The [orientation] of this tab sheet. Defaults to [Tabs.Orientation.HORIZONTAL].
