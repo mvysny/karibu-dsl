@@ -51,7 +51,6 @@ fun DynaNodeGroup.tabSheetTest() {
                 tab = tab("foo") { span("it works!") }
             }
             ts.remove(tab)
-
             _expectNone<Span> { text = "it works!" }
         }
         test("Removing all tabs clears the TabSheet contents") {
@@ -59,7 +58,6 @@ fun DynaNodeGroup.tabSheetTest() {
                 tab("foo") { span("it works!") }
             }
             ts.removeAll()
-
             _expectNone<Span> { text = "it works!" }
         }
     }
@@ -98,7 +96,6 @@ fun DynaNodeGroup.tabSheetTest() {
                 tab = tab("foo") { span("it works!") }
             }
             ts.remove(tab)
-
             expect(0) { ts.tabCount }
         }
         test("Removing all tabs brings count to 0") {
@@ -106,7 +103,6 @@ fun DynaNodeGroup.tabSheetTest() {
                 tab("foo") { span("it works!") }
             }
             ts.removeAll()
-
             expect(0) { ts.tabCount }
         }
         test("Adding a tab with null contents works") {
@@ -160,7 +156,6 @@ fun DynaNodeGroup.tabSheetTest() {
                 tab("foo") { span("it works!") }
             }
             ts.removeAll()
-
             expect(-1) { ts.selectedIndex }
         }
         test("Adding a tab with null contents works") {
