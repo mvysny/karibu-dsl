@@ -34,12 +34,12 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Maps [Tab] to the contents of the tab.
      */
-    private val tabsToComponents: MutableMap<Tab, Component?> = mutableMapOf()
+    private val tabsToContents: MutableMap<Tab, Component?> = mutableMapOf()
 
     /**
      * Maps [Tab] to the provider of the contents of the tab.
      */
-    private val tabsToComponentProvider: MutableMap<Tab, ()->Component> = mutableMapOf()
+    private val tabsToContentProvider: MutableMap<Tab, ()->Component> = mutableMapOf()
 
     private val root = ui {
         verticalLayout(false, false) {
@@ -99,7 +99,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      */
     public fun addTab(label: String? = null, contents: Component? = null): Tab {
         val tab: Tab = tabsComponent.tab(label)
-        tabsToComponents[tab] = contents
+        tabsToContents[tab] = contents
         update()
         return tab
     }
@@ -110,8 +110,8 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      */
     public fun addLazyTab(label: String? = null, contentsProvider: ()->Component): Tab {
         val tab: Tab = tabsComponent.tab(label)
-        tabsToComponents[tab] = null
-        tabsToComponentProvider[tab] = contentsProvider
+        tabsToContents[tab] = null
+        tabsToContentProvider[tab] = contentsProvider
         update()
         return tab
     }
@@ -121,8 +121,8 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      */
     public fun setTabContents(tab: Tab, newContents: Component?) {
         checkOurTab(tab)
-        tabsToComponents[tab] = newContents
-        tabsToComponentProvider.remove(tab)
+        tabsToContents[tab] = newContents
+        tabsToContentProvider.remove(tab)
         update()
     }
 
@@ -131,13 +131,13 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      * such tab.
      */
     public fun findTabWithContents(contents: Component): Tab? =
-            tabsToComponents.entries.firstOrNull { it.value == contents } ?.key
+            tabsToContents.entries.firstOrNull { it.value == contents } ?.key
 
     /**
      * Finds a tab which transitively contains given [component].
      */
     public fun findTabContaining(component: Component): Tab? {
-        val contentComponents: Set<Component> = tabsToComponents.values.filterNotNull().toSet()
+        val contentComponents: Set<Component> = tabsToContents.values.filterNotNull().toSet()
         val contents: Component = component.findAncestorOrSelf { contentComponents.contains(it) } ?: return null
         return findTabWithContents(contents)
     }
@@ -148,11 +148,11 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      */
     public fun getTabContents(tab: Tab): Component? {
         checkOurTab(tab)
-        return tabsToComponents[tab]
+        return tabsToContents[tab]
     }
 
     private fun checkOurTab(tab: Tab) {
-        require(tabsToComponents.containsKey(tab)) {
+        require(tabsToContents.containsKey(tab)) {
             "Tab $tab is not hosted in this TabSheet"
         }
     }
@@ -161,7 +161,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      * Removes a [tab]. If the tab is selected, another tab is selected automatically (if possible).
      */
     public fun remove(tab: Tab) {
-        tabsToComponents.remove(tab)
+        tabsToContents.remove(tab)
         tabsComponent.remove(tab)
         update()
     }
@@ -187,7 +187,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
     /**
      * Returns the current number of tabs.
      */
-    public val tabCount: Int get() = tabsToComponents.keys.size
+    public val tabCount: Int get() = tabsToContents.keys.size
 
     /**
      * The [orientation] of this tab sheet. Defaults to [Tabs.Orientation.HORIZONTAL].
@@ -199,28 +199,28 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
         }
 
     private fun update() {
-        val currentTabComponent: Component? = tabsContainer.children.findFirst().orElse(null)
+        val currentTabContent: Component? = tabsContainer.children.findFirst().orElse(null)
         val selectedTab1: Tab? = selectedTab
 
-        var newTabComponent: Component?
+        var newTabContent: Component?
         if (selectedTab1 == null) {
-            newTabComponent = null
+            newTabContent = null
         } else {
-            newTabComponent = tabsToComponents[selectedTab1]
-            if (newTabComponent == null) {
-                val provider = tabsToComponentProvider[selectedTab1]
+            newTabContent = tabsToContents[selectedTab1]
+            if (newTabContent == null) {
+                val provider = tabsToContentProvider[selectedTab1]
                 if (provider != null) {
-                    newTabComponent = provider()
-                    tabsToComponentProvider.remove(selectedTab1)
-                    tabsToComponents[selectedTab1] = newTabComponent
+                    newTabContent = provider()
+                    tabsToContentProvider.remove(selectedTab1)
+                    tabsToContents[selectedTab1] = newTabContent
                 }
             }
         }
 
-        if (currentTabComponent != newTabComponent) {
+        if (currentTabContent != newTabContent) {
             tabsContainer.removeAll()
-            if (newTabComponent != null) {
-                tabsContainer.add(newTabComponent)
+            if (newTabContent != null) {
+                tabsContainer.add(newTabContent)
             }
         }
     }
@@ -229,7 +229,7 @@ public class TabSheet : KComposite(), HasStyle, HasSize {
      * Removes all tabs.
      */
     public fun removeAll() {
-        tabsToComponents.clear()
+        tabsToContents.clear()
         tabsComponent.removeAll()
         update()
     }
