@@ -45,7 +45,7 @@ fun DynaNodeGroup.tabSheetTest() {
             _expectOne<Span> { text = "it works!" }
             _expectNone<Span>() { text = "it works 2!" }
         }
-        test("Removing last tab clears selection") {
+        test("Removing last tab clears the TabSheet contents") {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
@@ -54,7 +54,7 @@ fun DynaNodeGroup.tabSheetTest() {
 
             _expectNone<Span> { text = "it works!" }
         }
-        test("Removing all tabs clears selection") {
+        test("Removing all tabs clears the TabSheet contents") {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
@@ -92,7 +92,7 @@ fun DynaNodeGroup.tabSheetTest() {
             (0..9).map { ts.addTab("tab $it") }
             expect(10) { ts.tabCount }
         }
-        test("Removing last tab clears selection") {
+        test("Removing last tab brings count to 0") {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
@@ -101,7 +101,7 @@ fun DynaNodeGroup.tabSheetTest() {
 
             expect(0) { ts.tabCount }
         }
-        test("Removing all tabs clears selection") {
+        test("Removing all tabs brings count to 0") {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
@@ -112,6 +112,12 @@ fun DynaNodeGroup.tabSheetTest() {
         test("Adding a tab with null contents works") {
             val ts = UI.getCurrent().tabSheet {
                 addTab("foo")
+            }
+            expect(1) { ts.tabCount }
+        }
+        test("Add a lazy tab") {
+            val ts = UI.getCurrent().tabSheet {
+                addLazyTab("foo") { Span("foo") }
             }
             expect(1) { ts.tabCount }
         }
@@ -211,6 +217,13 @@ fun DynaNodeGroup.tabSheetTest() {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = addTab("foo")
+            }
+            expect(tab) { ts.selectedTab }
+        }
+        test("Add lazy tab") {
+            lateinit var tab: Tab
+            val ts = UI.getCurrent().tabSheet {
+                tab = addLazyTab("foo") { Span("foo") }
             }
             expect(tab) { ts.selectedTab }
         }
