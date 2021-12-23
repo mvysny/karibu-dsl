@@ -22,8 +22,8 @@ fun DynaNodeGroup.tabSheetTest() {
 
     group("content population") {
         test("Initially empty") {
-            val th = TabSheet()
-            th._expectNone<Tab>()
+            val ts = TabSheet()
+            ts._expectNone<Tab>()
         }
         test("Adding a tab to an empty TabSheet shows it immediately") {
             UI.getCurrent().tabSheet {
@@ -47,18 +47,18 @@ fun DynaNodeGroup.tabSheetTest() {
         }
         test("Removing last tab clears selection") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            th.remove(tab)
+            ts.remove(tab)
 
             _expectNone<Span> { text = "it works!" }
         }
         test("Removing all tabs clears selection") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
-            th.removeAll()
+            ts.removeAll()
 
             _expectNone<Span> { text = "it works!" }
         }
@@ -94,26 +94,26 @@ fun DynaNodeGroup.tabSheetTest() {
         }
         test("Removing last tab clears selection") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            th.remove(tab)
+            ts.remove(tab)
 
-            expect(0) { th.tabCount }
+            expect(0) { ts.tabCount }
         }
         test("Removing all tabs clears selection") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
-            th.removeAll()
+            ts.removeAll()
 
-            expect(0) { th.tabCount }
+            expect(0) { ts.tabCount }
         }
         test("Adding a tab with null contents works") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 addTab("foo")
             }
-            expect(1) { th.tabCount }
+            expect(1) { ts.tabCount }
         }
     }
 
@@ -122,15 +122,15 @@ fun DynaNodeGroup.tabSheetTest() {
             expect(-1) { TabSheet().selectedIndex }
         }
         test("Adding a tab to an empty TabSheet selects it immediately") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
                 }
             }
-            expect(0) { th.selectedIndex }
+            expect(0) { ts.selectedIndex }
         }
         test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
                 }
@@ -138,30 +138,30 @@ fun DynaNodeGroup.tabSheetTest() {
                     span("it works 2!")
                 }
             }
-            expect(0) { th.selectedIndex }
+            expect(0) { ts.selectedIndex }
         }
         test("Removing last tab clears selection") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            th.remove(tab)
+            ts.remove(tab)
 
-            expect(-1) { th.selectedIndex }
+            expect(-1) { ts.selectedIndex }
         }
         test("Removing all tabs clears selection") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
-            th.removeAll()
+            ts.removeAll()
 
-            expect(-1) { th.selectedIndex }
+            expect(-1) { ts.selectedIndex }
         }
         test("Adding a tab with null contents works") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 addTab("foo")
             }
-            expect(0) { th.selectedIndex }
+            expect(0) { ts.selectedIndex }
         }
     }
 
@@ -171,16 +171,16 @@ fun DynaNodeGroup.tabSheetTest() {
         }
         test("Adding a tab to an empty TabSheet selects it immediately") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     span("it works!")
                 }
             }
-            expect(tab) { th.selectedTab }
+            expect(tab) { ts.selectedTab }
         }
         test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     span("it works!")
                 }
@@ -188,31 +188,31 @@ fun DynaNodeGroup.tabSheetTest() {
                     span("it works 2!")
                 }
             }
-            expect(tab) { th.selectedTab }
+            expect(tab) { ts.selectedTab }
         }
         test("Removing last tab clears selection") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            th.remove(tab)
+            ts.remove(tab)
 
-            expect(null) { th.selectedTab }
+            expect(null) { ts.selectedTab }
         }
         test("Removing all tabs clears selection") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
-            th.removeAll()
+            ts.removeAll()
 
-            expect(null) { th.selectedTab }
+            expect(null) { ts.selectedTab }
         }
         test("Adding a tab with null contents works") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = addTab("foo")
             }
-            expect(tab) { th.selectedTab }
+            expect(tab) { ts.selectedTab }
         }
     }
 
@@ -222,17 +222,17 @@ fun DynaNodeGroup.tabSheetTest() {
         }
         test("adding 1 tab") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     span("it works!")
                 }
             }
-            expectList(tab) { th.tabs }
+            expectList(tab) { ts.tabs }
         }
         test("two tabs") {
             lateinit var tab: Tab
             lateinit var tab2: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     span("it works!")
                 }
@@ -240,36 +240,36 @@ fun DynaNodeGroup.tabSheetTest() {
                     span("it works 2!")
                 }
             }
-            expectList(tab, tab2) { th.tabs }
+            expectList(tab, tab2) { ts.tabs }
         }
         test("10 tabs") {
-            val th = UI.getCurrent().tabSheet()
-            val tabs = (0..9).map { th.addTab("tab $it") }
-            expect(tabs) { th.tabs }
+            val ts = UI.getCurrent().tabSheet()
+            val tabs = (0..9).map { ts.addTab("tab $it") }
+            expect(tabs) { ts.tabs }
         }
         test("Removing last tab clears selection") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            th.remove(tab)
+            ts.remove(tab)
 
-            expectList() { th.tabs }
+            expectList() { ts.tabs }
         }
         test("Removing all tabs clears selection") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
-            th.removeAll()
+            ts.removeAll()
 
-            expectList() { th.tabs }
+            expectList() { ts.tabs }
         }
         test("Adding a tab with null contents adds the tab") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = addTab("foo")
             }
-            expectList(tab) { th.tabs }
+            expectList(tab) { ts.tabs }
         }
         test("Adding lazy tabs") {
             val ts = TabSheet()
@@ -317,41 +317,41 @@ fun DynaNodeGroup.tabSheetTest() {
     group("find contents") {
         test("empty tab") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo")
             }
             expect(null) { tab.contents }
-            expect(null) { th.findTabWithContents(Span("bar")) }
+            expect(null) { ts.findTabWithContents(Span("bar")) }
         }
         
         test("simple test") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            expect(tab) { th.findTabWithContents(tab.contents!!) }
+            expect(tab) { ts.findTabWithContents(tab.contents!!) }
         }
     }
     group("findTabContaining") {
         test("empty tab") {
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab("foo")
             }
-            expect(null) { th.findTabContaining(Span("bar")) }
+            expect(null) { ts.findTabContaining(Span("bar")) }
         }
 
         test("simple test") {
             lateinit var tab: Tab
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
             }
-            expect(tab) { th.findTabContaining(tab.contents!!) }
+            expect(tab) { ts.findTabContaining(tab.contents!!) }
         }
 
         test("complex test") {
             lateinit var tab: Tab
             lateinit var nested: Button
-            val th = UI.getCurrent().tabSheet {
+            val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     div {
                         div {
@@ -360,7 +360,7 @@ fun DynaNodeGroup.tabSheetTest() {
                     }
                 }
             }
-            expect(tab) { th.findTabContaining(nested) }
+            expect(tab) { ts.findTabContaining(nested) }
         }
     }
 
@@ -416,7 +416,7 @@ fun DynaNodeGroup.tabSheetTest() {
     group("Tab.index") {
         test("0 for 1st tab") {
             lateinit var t: Tab
-            val ts = UI.getCurrent().tabSheet {
+            UI.getCurrent().tabSheet {
                 t = tab("foo") {
                     span("it works!")
                 }
