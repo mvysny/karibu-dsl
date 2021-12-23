@@ -412,4 +412,30 @@ fun DynaNodeGroup.tabSheetTest() {
             expect(1) { callCount }
         }
     }
+
+    group("Tab.index") {
+        test("0 for 1st tab") {
+            lateinit var t: Tab
+            val ts = UI.getCurrent().tabSheet {
+                t = tab("foo") {
+                    span("it works!")
+                }
+            }
+            expect(0) { t.index }
+        }
+        test("two tabs") {
+            lateinit var t1: Tab
+            lateinit var t2: Tab
+            UI.getCurrent().tabSheet {
+                t1 = tab("foo") {
+                    span("it works!")
+                }
+                t2 = tab("bar") {
+                    span("it works 2!")
+                }
+            }
+            expect(0) { t1.index }
+            expect(1) { t2.index }
+        }
+    }
 }
