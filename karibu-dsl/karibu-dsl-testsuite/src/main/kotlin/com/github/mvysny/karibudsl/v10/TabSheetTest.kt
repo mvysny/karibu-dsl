@@ -26,7 +26,7 @@ fun DynaNodeGroup.tabSheetTest() {
             th._expectNone<Tab>()
         }
         test("Adding a tab to an empty TabSheet shows it immediately") {
-            val th = UI.getCurrent().tabSheet {
+            UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
                 }
@@ -34,7 +34,7 @@ fun DynaNodeGroup.tabSheetTest() {
             _expectOne<Span> { text = "it works!" }
         }
         test("Adding a tab to a non-empty TabSheet doesn't change the currently shown tab") {
-            val th = UI.getCurrent().tabSheet {
+            UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
                 }
@@ -180,12 +180,11 @@ fun DynaNodeGroup.tabSheetTest() {
         }
         test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
             lateinit var tab: Tab
-            lateinit var tab2: Tab
             val th = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
                     span("it works!")
                 }
-                tab2 = tab("bar") {
+                tab("bar") {
                     span("it works 2!")
                 }
             }
