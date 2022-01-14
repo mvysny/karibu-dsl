@@ -3,12 +3,14 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.textfield.TextField
 import kotlin.test.expect
 import kotlin.test.fail
 
+@DynaTestDsl
 fun DynaNodeGroup.numberRangePopupTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

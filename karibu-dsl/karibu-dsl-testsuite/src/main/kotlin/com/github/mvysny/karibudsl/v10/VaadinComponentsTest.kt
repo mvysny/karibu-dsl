@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.html.Div
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import kotlin.test.expect
 
+@DynaTestDsl
 fun DynaNodeGroup.vaadinComponentsTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

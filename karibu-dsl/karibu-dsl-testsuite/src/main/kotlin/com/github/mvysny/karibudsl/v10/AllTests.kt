@@ -1,8 +1,10 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
+import com.github.mvysny.dynatest.DynaTestDsl
 import java.util.*
 
+@DynaTestDsl
 fun DynaNodeGroup.allTests() {
     beforeEach {
         // make sure that Validator produces messages in English

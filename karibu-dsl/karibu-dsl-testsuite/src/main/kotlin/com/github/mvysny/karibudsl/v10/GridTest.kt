@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributesting.v10.getCell
@@ -15,6 +16,7 @@ import com.vaadin.flow.data.provider.SortDirection
 import kotlin.streams.toList
 import kotlin.test.expect
 
+@DynaTestDsl
 fun DynaNodeGroup.gridTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

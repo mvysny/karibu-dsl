@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.vaadin.flow.component.UI
@@ -9,6 +10,7 @@ import com.vaadin.flow.component.upload.Upload
 import java.io.ByteArrayOutputStream
 import kotlin.test.expect
 
+@DynaTestDsl
 fun DynaNodeGroup.uploadTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
@@ -13,6 +14,7 @@ import com.vaadin.flow.component.html.Span
 import kotlin.streams.toList
 import kotlin.test.expect
 
+@DynaTestDsl
 fun DynaNodeGroup.detailsTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

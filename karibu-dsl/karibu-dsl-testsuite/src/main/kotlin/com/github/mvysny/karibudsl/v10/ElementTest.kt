@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.dynatest.DynaNodeGroup
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.Component
@@ -21,6 +22,7 @@ class MyTest : Component() {
 @VaadinDsl
 fun (@VaadinDsl HasComponents).myTest(block: (@VaadinDsl MyTest).() -> Unit = {}) = init(MyTest(), block)
 
+@DynaTestDsl
 fun DynaNodeGroup.elementTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }

@@ -3,11 +3,13 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTest
+import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.formlayout.FormLayout
 import kotlin.test.expect
 
+@DynaTestDsl
 fun DynaNodeGroup.formLayoutsTest() {
     beforeEach { MockVaadin.setup() }
     afterEach { MockVaadin.tearDown() }
