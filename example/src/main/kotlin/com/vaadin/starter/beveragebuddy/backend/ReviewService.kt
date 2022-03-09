@@ -1,6 +1,5 @@
 package com.vaadin.starter.beveragebuddy.backend
 
-import com.vaadin.flow.templatemodel.ModelEncoder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -53,12 +52,11 @@ object ReviewService {
     }
 
     private fun filterTextOf(review: Review): List<String> {
-        val dateConverter = LocalDateToStringConverter()
         return setOf(review.name,
                 review.category?.name,
                 review.score.toString(),
                 review.count.toString(),
-                dateConverter.encode(review.date)).filterNotNull()
+                format(review.date)).filterNotNull()
     }
 
     /**
@@ -117,15 +115,5 @@ object ReviewService {
     }
 }
 
-/**
- * Converts between DateTime-objects and their String-representations
- */
-class LocalDateToStringConverter : ModelEncoder<LocalDate, String> {
-
-    override fun decode(value: String?): LocalDate? = if (value == null) null else LocalDate.parse(value, DATE_FORMAT)
-    override fun encode(modelValue: LocalDate?): String? = modelValue?.format(DATE_FORMAT)
-
-    companion object {
-        private val DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-    }
-}
+private fun format(value: LocalDate?): String? = value?.format(DATE_FORMAT)
+private val DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy")

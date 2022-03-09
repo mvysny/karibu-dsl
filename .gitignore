@@ -9,6 +9,7 @@ styles.css.gz
 out
 
 target
-node_modules
-webpack.generated.js
-example/pnpmfile.js
+example/node_modules
+example/webpack.generated.js
+example/.npmrc
+example/frontend/generated
