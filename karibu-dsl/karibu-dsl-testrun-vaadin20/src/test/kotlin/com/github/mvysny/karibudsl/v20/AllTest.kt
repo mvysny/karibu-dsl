@@ -7,7 +7,7 @@ import kotlin.test.expect
 
 class AllTest : DynaTest({
     test("vaadin version") {
-        expect(22) { VaadinVersion.get.major }
+        expect(23) { VaadinVersion.get.major }
     }
 
     allTests()
