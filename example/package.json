@@ -402,6 +402,7 @@
     "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
     "@vaadin/common-frontend": "$@vaadin/common-frontend",
     "lit": "$lit",
-    "chokidar": "$chokidar"
+    "chokidar": "$chokidar",
+    "date-fns": "$date-fns"
   }
 }

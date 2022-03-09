@@ -33,7 +33,7 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
  * child views below that.
  */
 @BodySize(width = "100vw", height = "100vh")
-@CssImport("frontend://styles/shared-styles.css")
+@CssImport("./styles/shared-styles.css")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 class MainLayout : KComposite(), RouterLayout {
 
