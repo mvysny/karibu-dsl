@@ -1,19 +1,11 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-// workaround for https://github.com/vaadin/flow/issues/13723
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { setUrl("https://plugins.gradle.org/m2/") }
-    }
-}
-
 plugins {
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.7.0"
     id("org.gretty") version "3.0.6"
     `maven-publish`
-    id("com.vaadin") version "23.0.9" apply(false)
+    id("com.vaadin") version "23.1.0" apply(false)
     signing
 }
 
@@ -25,7 +17,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven { setUrl("https://maven.vaadin.com/vaadin-prereleases/") }
     }
 
     tasks {
