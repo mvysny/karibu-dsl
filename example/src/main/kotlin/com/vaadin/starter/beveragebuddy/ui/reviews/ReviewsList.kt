@@ -59,11 +59,11 @@ class ReviewsList : KComposite() {
                 isExpand = true
                 addClassName("reviews")
                 addThemeVariants(GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_NO_BORDER)
-                addColumn(ComponentRenderer<ReviewItem, Review>({ review ->
+                addColumn(ComponentRenderer<ReviewItem, Review> { review ->
                     val item = ReviewItem(review)
                     item.onEdit = { editDialog.edit(ReviewService.get(review.id!!)) }
                     item
-                }))
+                })
             }
         }
     }
