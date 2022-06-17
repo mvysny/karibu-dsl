@@ -37,9 +37,9 @@ for more details.
 
 ## Why DSL?
 
-Just compare the Kotlin-based [CommonElementsView](example-v8/src/main/kotlin/com/example/v8/uitest/example/CommonElementsView.kt)
-with the original Java [CommonParts](https://github.com/vaadin/framework/blob/master/uitest/src/main/java/com/vaadin/tests/themes/valo/CommonParts.java).
-Both render the [Common UI Elements](https://karibu-uitest.herokuapp.com/common-elements) page, yet with Kotlin DSL:
+Just compare the Kotlin-based [CategoriesList](example/src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/categories/CategoriesList.kt)
+with the original Java [CategoriesList](https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/ui/views/categorieslist/CategoriesList.java).
+Both render the [Beverage Buddy: Categories](https://beverage-buddy-vok.herokuapp.com/categories) page, yet with Kotlin DSL:
 
 * The UI structure is immediately visible
 * The code is more readable and much shorter and concise
