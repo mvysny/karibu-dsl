@@ -13,9 +13,9 @@ gretty {
 }
 
 dependencies {
-    implementation(project(":karibu-dsl"))
+    implementation(project(":karibu-dsl-v23"))
     // Vaadin
-    implementation("com.vaadin:vaadin-core:${properties["vaadin20_version"]}")
+    implementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
     providedCompile("javax.servlet:javax.servlet-api:4.0.1")
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 

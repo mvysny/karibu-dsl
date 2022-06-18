@@ -19,6 +19,8 @@ dependencies {
 }
 ```
 
+For Vaadin 23 use `karibu-dsl-v23` instead (starting with Karibu-DSL 1.1.3).
+
 > Note: obtain the newest version from the latest tag name above
 
 Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a dependency:
@@ -34,6 +36,8 @@ Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a 
     </dependencies>
 </project>
 ```
+
+For Vaadin 23 use `karibu-dsl-v23` instead (starting with Karibu-DSL 1.1.3).
 
 To quickly test out Karibu DSL you can simply start with one
 of the example applications below.
