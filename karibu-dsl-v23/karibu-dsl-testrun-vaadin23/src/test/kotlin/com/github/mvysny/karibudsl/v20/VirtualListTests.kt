@@ -16,7 +16,9 @@ fun DynaNodeGroup.virtualListTests() {
 
     test("dsl syntax test") {
         UI.getCurrent().virtualList<String>()
-        UI.getCurrent().virtualList<String> {  }
+        UI.getCurrent().virtualList<String> {
+            setItems("a", "b", "c")
+        }
         UI.getCurrent().virtualList<String>(ListDataProvider(listOf()))
         UI.getCurrent().virtualList<String>(ListDataProvider(listOf())) {  }
     }
