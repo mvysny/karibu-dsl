@@ -346,10 +346,24 @@ grid<Category> {
 
 ### VirtualList
 
-Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module.
+Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
 
 ```kotlin
 virtualList<Person> {}
+```
+
+### Dialogs
+
+Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
+
+```kotlin
+Dialog().apply {
+    header { h3("Header") }
+    footer { 
+      button("Save")
+      button("Cancel")
+    }
+}.open()
 ```
 
 ## Launching the example project in Intellij IDEA
