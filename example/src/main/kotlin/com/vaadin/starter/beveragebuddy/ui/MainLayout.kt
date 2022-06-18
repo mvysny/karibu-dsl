@@ -38,7 +38,7 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 class MainLayout : KComposite(), RouterLayout {
 
     private val root: VerticalLayout = ui {
-        verticalLayout(false, classNames = "main-layout") {
+        verticalLayout(false, false, classNames = "main-layout") {
             setSizeFull(); content { align(stretch, top) }
             div("main-layout__header") { // header
                 h2("Beverage Buddy") {
