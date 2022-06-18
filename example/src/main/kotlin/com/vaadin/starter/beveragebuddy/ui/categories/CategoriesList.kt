@@ -95,7 +95,7 @@ class CategoriesList : KComposite() {
     private fun createEditButton(category: Category): Button =
         Button("Edit").apply {
             icon = Icon(VaadinIcon.EDIT)
-            addClassName("review__edit")
+            addClassName("category__edit")
             addThemeVariants(ButtonVariant.LUMO_TERTIARY)
             onLeftClick { edit(category) }
         }

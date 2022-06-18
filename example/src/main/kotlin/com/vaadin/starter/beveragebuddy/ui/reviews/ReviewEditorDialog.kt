@@ -87,8 +87,13 @@ class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val o
     }
 
     private fun maybeDelete(frame: EditorDialogFrame<Review>, item: Review) {
-        ConfirmationDialog().open("""Delete beverage "${item.name}"?""", "", "",
-                "Delete", true) {
+        ConfirmationDialog().open(
+            "Delete beverage",
+            "Are you sure you want to delete beverage '${item.name}'?",
+            "",
+            "Delete",
+            true
+        ) {
             frame.close()
             onDeleteItem(item)
         }

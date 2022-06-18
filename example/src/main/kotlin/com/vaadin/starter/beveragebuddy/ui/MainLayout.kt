@@ -21,6 +21,7 @@ import com.vaadin.flow.component.HasElement
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.page.AppShellConfigurator
 import com.vaadin.flow.component.page.BodySize
 import com.vaadin.flow.component.page.Viewport
 import com.vaadin.flow.router.HighlightConditions
@@ -32,9 +33,6 @@ import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
-@BodySize(width = "100vw", height = "100vh")
-@CssImport("./styles/shared-styles.css")
-@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 class MainLayout : KComposite(), RouterLayout {
 
     private val root: VerticalLayout = ui {
@@ -63,3 +61,8 @@ class MainLayout : KComposite(), RouterLayout {
         content.isExpand = true
     }
 }
+
+@BodySize(width = "100vw", height = "100vh")
+@CssImport("./styles/shared-styles.css")
+@Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
+class AppShell: AppShellConfigurator
