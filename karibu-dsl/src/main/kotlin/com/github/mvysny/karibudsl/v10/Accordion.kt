@@ -10,11 +10,16 @@ import com.vaadin.flow.component.accordion.AccordionPanel
  * ```
  * accordion {
  *   panel("lorem ipsum") {
- *     content { label("dolor sit amet") }
+ *     content { span("dolor sit amet") }
  *   }
+ * }
+ * ```
+ * or
+ * ```
+ * accordion {
  *   panel {
  *     summary { checkBox("More Lorem Ipsum?") }
- *     content { label("dolor sit amet") }
+ *     content { span("dolor sit amet") }
  *   }
  * }
  *  ```
