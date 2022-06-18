@@ -134,7 +134,7 @@ body {
     padding: var(--lumo-space-wide-xl);
     padding-right: var(--lumo-space-m);
     box-sizing: border-box;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
     background-color: var(--lumo-base-color);
     box-shadow: 0 0 0 1px var(--lumo-shade-5pct), 0 2px 5px 0 var(--lumo-shade-10pct);
     border-radius: var(--lumo-border-radius);
@@ -263,18 +263,16 @@ body {
 }
 
 .review__edit {
-    align-self: flex-start;
-    flex: none;
     margin: 0 0 0 auto;
-    width: 5em;
+    width: 6em;
+}
+
+.category__edit {
+    margin: 0 0 0 auto;
 }
 
 .reviews {
-    background-color: transparent;
-}
-
-.reviews vaadin-grid-cell-content {
-    background-color: var(--lumo-contrast-5pct);
+    padding: 0 4px;
 }
 
 .reviews__no-matches {
@@ -301,45 +299,12 @@ body {
     }
 }
 
-<
-/
-style >
-< dom-module id
-
-=
-"my-dialog-styles"
-theme-for
-
-=
-"vaadin-dialog-overlay"
->
-< template >
-< style include
-
-=
-"lumo-color lumo-typography"
->
 h3 {
     margin-top: 0;
 }
 
 vaadin-form-layout {
     max-width: 30em;
-}
-
-.buttons {
-    padding: var(--lumo-space-s) var(--lumo-space-l);
-    margin: calc(var(--lumo-space-l) * -1);
-    margin-top: var(--lumo-space-l);
-    border-top: 1px solid var(--lumo-contrast-10pct);
-}
-
-.buttons > :last-child {
-    margin-left: auto;
-}
-
-.buttons > :nth-last-child(2) {
-    margin-right: var(--lumo-space-m);
 }
 
 .confirm-buttons {
