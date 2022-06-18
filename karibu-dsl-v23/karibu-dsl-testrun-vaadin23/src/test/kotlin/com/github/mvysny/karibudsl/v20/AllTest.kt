@@ -15,4 +15,8 @@ class AllTest : DynaTest({
     group("VirtualList") {
         virtualListTests()
     }
+
+    group("Dialog 23.1") {
+        dialog23_1Tests()
+    }
 })
