@@ -18,4 +18,4 @@ import com.vaadin.flow.component.menubar.MenuBar
  * ```
  */
 @VaadinDsl
-public fun (@VaadinDsl HasComponents).menuBar(block: MenuBar.()->Unit = {}): MenuBar = init(MenuBar(), block)
+public fun (@VaadinDsl HasComponents).menuBar(block: (@VaadinDsl MenuBar).()->Unit = {}): MenuBar = init(MenuBar(), block)
