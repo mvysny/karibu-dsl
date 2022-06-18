@@ -344,6 +344,14 @@ grid<Category> {
 }
 ```
 
+### VirtualList
+
+Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module.
+
+```kotlin
+virtualList<Person> {}
+```
+
 ## Launching the example project in Intellij IDEA
 
 ### Gradle's Gretty appRun
