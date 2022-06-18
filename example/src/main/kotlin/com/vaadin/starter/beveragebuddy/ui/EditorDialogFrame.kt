@@ -17,15 +17,16 @@ package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.setPrimary
+import com.vaadin.flow.component.Component
+import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.formlayout.FormLayout
-import com.vaadin.flow.component.html.H2
+import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.notification.Notification
-import com.vaadin.flow.component.notification.NotificationVariant
 import com.vaadin.flow.data.binder.Binder
-import com.vaadin.flow.data.binder.BinderValidationStatus
+import com.vaadin.flow.dom.Element
 import com.vaadin.flow.shared.Registration
 import java.io.Serializable
 
@@ -60,7 +61,7 @@ interface EditorForm<T : Serializable> {
  */
 class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dialog() {
 
-    private val titleField: H2
+    private lateinit var titleField: H3
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private lateinit var deleteButton: Button
@@ -87,7 +88,9 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         isCloseOnEsc = true
         isCloseOnOutsideClick = false
 
-        titleField = h2()
+        header {
+            titleField = h3()
+        }
         div {
             // form layout wrapper
             addClassName("has-padding")
@@ -95,15 +98,13 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
             add(form.component)
             form.component.apply {
                 setResponsiveSteps(
-                        FormLayout.ResponsiveStep("0", 1),
-                        FormLayout.ResponsiveStep("50em", 2)
+                    FormLayout.ResponsiveStep("0", 1),
+                    FormLayout.ResponsiveStep("50em", 2)
                 )
                 addClassName("no-padding")
             }
         }
-        horizontalLayout {
-            // button bar
-            className = "buttons"
+        footer {
             saveButton = button("Save") {
                 isAutofocus = true
                 setPrimary()
@@ -128,7 +129,9 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
         currentItem = item
         val operation = if (creating) "Add new" else "Edit"
         titleField.text = "$operation ${form.itemType}"
-        registrationForSave?.remove()
+        if (registrationForSave != null) {
+            registrationForSave!!.remove()
+        }
         registrationForSave = saveButton.addClickListener { saveClicked() }
         form.binder.readBean(currentItem)
 
@@ -141,8 +144,8 @@ class EditorDialogFrame<T : Serializable>(private val form: EditorForm<T>) : Dia
             onSaveItem(currentItem!!)
             close()
         } else {
-            Notification.show("Please correct the errors in the form", 2000, Notification.Position.MIDDLE)
-                    .addThemeVariants(NotificationVariant.LUMO_ERROR)
+            val status = form.binder.validate()
+            Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
         }
     }
 }

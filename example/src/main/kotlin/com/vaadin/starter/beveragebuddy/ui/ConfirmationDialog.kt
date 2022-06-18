@@ -20,7 +20,7 @@ import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Div
-import com.vaadin.flow.component.html.H2
+import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.shared.Registration
 
 /**
@@ -28,7 +28,7 @@ import com.vaadin.flow.shared.Registration
  */
 internal class ConfirmationDialog : Dialog() {
 
-    private val titleField: H2
+    private lateinit var titleField: H3
     private lateinit var messageLabel: Div
     private lateinit var extraMessageLabel: Div
     private lateinit var confirmButton: Button
@@ -40,8 +40,8 @@ internal class ConfirmationDialog : Dialog() {
         isCloseOnEsc = true
         isCloseOnOutsideClick = false
 
-        titleField = h2 {
-            className = "confirm-dialog-heading"
+        header {
+            titleField = h3()
         }
         div {
             // labels
@@ -49,9 +49,7 @@ internal class ConfirmationDialog : Dialog() {
             messageLabel = div()
             extraMessageLabel = div()
         }
-        horizontalLayout {
-            // button bar
-            className = "confirm-dialog-buttons"
+        footer {
             confirmButton = button {
                 addClickListener { close() }
                 isAutofocus = true
