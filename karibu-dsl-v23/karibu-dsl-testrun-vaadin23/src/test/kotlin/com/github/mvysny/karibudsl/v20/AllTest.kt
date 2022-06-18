@@ -11,4 +11,8 @@ class AllTest : DynaTest({
     }
 
     allTests()
+
+    group("VirtualList") {
+        virtualListTests()
+    }
 })

@@ -142,12 +142,15 @@ public fun (@VaadinDsl HasComponents).dd(text: String? = null, block: (@VaadinDs
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).dt(text: String? = null, block: (@VaadinDsl DescriptionList.Term).() -> Unit = {}): DescriptionList.Term
         = init(if (text == null) DescriptionList.Term() else DescriptionList.Term(text), block)
-@VaadinDsl
-public fun (@VaadinDsl HasComponents).footer(block: (@VaadinDsl Footer).() -> Unit = {}): Footer
-        = init(Footer(), block)
-@VaadinDsl
-public fun (@VaadinDsl HasComponents).header(block: (@VaadinDsl Header).() -> Unit = {}): Header
-        = init(Header(), block)
+
+// Don't add support for these HTML elements. They are really rarely used and will collide with Vaadin 23.1 Dialog footer()/header() DSL.
+//@VaadinDsl
+//public fun (@VaadinDsl HasComponents).footer(block: (@VaadinDsl Footer).() -> Unit = {}): Footer
+//        = init(Footer(), block)
+//@VaadinDsl
+//public fun (@VaadinDsl HasComponents).header(block: (@VaadinDsl Header).() -> Unit = {}): Header
+//        = init(Header(), block)
+
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).pre(text: String? = null, block: (@VaadinDsl Pre).() -> Unit = {}): Pre
         = init(if (text == null) Pre() else Pre(text), block)

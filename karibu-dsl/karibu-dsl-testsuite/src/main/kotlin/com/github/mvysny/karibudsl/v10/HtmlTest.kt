@@ -45,8 +45,6 @@ fun DynaNodeGroup.htmlTest() {
             dl()
             dd()
             dt()
-            footer()
-            header()
             pre()
             ul()
         }
