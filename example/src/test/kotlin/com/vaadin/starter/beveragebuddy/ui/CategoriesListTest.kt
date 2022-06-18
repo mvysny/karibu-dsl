@@ -73,7 +73,7 @@ class CategoriesListTest : DynaTest({
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='review__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         grid._clickRenderer(0, "edit")
 
         // make sure that the "Edit Category" dialog is opened
@@ -86,7 +86,7 @@ class CategoriesListTest : DynaTest({
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='review__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Edit (Alt+E)", cat)
 
         // make sure that the "Edit Category" dialog is opened
@@ -99,7 +99,7 @@ class CategoriesListTest : DynaTest({
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
         val grid = _get<Grid<Category>>()
-        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='review__edit', @theme='tertiary']")
+        grid.expectRow(0, "Beers", "0", "Button[caption='Edit', icon='vaadin:edit', @class='category__edit', @theme='tertiary']")
         _get<CategoriesList>().gridContextMenu._clickItemWithCaption("Delete", cat)
         expectList() { CategoryService.findAll() }
         _get<Grid<Category>>().expectRows(0)
