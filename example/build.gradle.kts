@@ -19,7 +19,7 @@ dependencies {
     providedCompile("javax.servlet:javax.servlet-api:4.0.1")
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:${properties["kaributesting_version"]}")
+    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:${properties["kaributesting_version"]}")
     testImplementation("com.github.mvysny.dynatest:dynatest:${properties["dynatest_version"]}")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
