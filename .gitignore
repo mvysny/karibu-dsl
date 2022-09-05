@@ -10,6 +10,6 @@ out
 
 target
 example/node_modules
-example/webpack.generated.js
+example/vite.generated.ts
 example/.npmrc
 example/frontend/generated
