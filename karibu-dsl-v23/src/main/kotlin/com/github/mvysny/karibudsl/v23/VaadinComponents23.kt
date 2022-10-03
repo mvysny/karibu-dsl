@@ -12,7 +12,7 @@ import com.vaadin.flow.data.provider.DataProvider
  * of possible alternative themes.
  */
 @VaadinDsl
-public fun <T : Any?> (@VaadinDsl HasComponents).multiselectComboBox(label: String? = null, block: (@VaadinDsl MultiSelectComboBox<T>).() -> Unit = {}): MultiSelectComboBox<T>
+public fun <T : Any?> (@VaadinDsl HasComponents).multiSelectComboBox(label: String? = null, block: (@VaadinDsl MultiSelectComboBox<T>).() -> Unit = {}): MultiSelectComboBox<T>
         = init(MultiSelectComboBox(label), block)
 
 @VaadinDsl

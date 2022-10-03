@@ -2,7 +2,7 @@ package com.github.mvysny.karibudsl.v20
 
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.karibudsl.v23.multiselectComboBox
+import com.github.mvysny.karibudsl.v23.multiSelectComboBox
 import com.github.mvysny.karibudsl.v23.virtualList
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
@@ -34,17 +34,17 @@ fun DynaNodeGroup.vaadinComponents23Tests() {
 
     group("MultiselectComboBox") {
         test("smoke") {
-            UI.getCurrent().multiselectComboBox<String>()
+            UI.getCurrent().multiSelectComboBox<String>()
             _expectOne<MultiSelectComboBox<*>>()
         }
         test("dsl syntax") {
-            UI.getCurrent().multiselectComboBox<String>()
-            UI.getCurrent().multiselectComboBox<String> {}
-            UI.getCurrent().multiselectComboBox<String> {
+            UI.getCurrent().multiSelectComboBox<String>()
+            UI.getCurrent().multiSelectComboBox<String> {}
+            UI.getCurrent().multiSelectComboBox<String> {
                 setItems("a", "b", "c")
             }
-            UI.getCurrent().multiselectComboBox<String>("Foo")
-            UI.getCurrent().multiselectComboBox<String>("Foo") {
+            UI.getCurrent().multiSelectComboBox<String>("Foo")
+            UI.getCurrent().multiSelectComboBox<String>("Foo") {
                 pageSize = 60
             }
         }
