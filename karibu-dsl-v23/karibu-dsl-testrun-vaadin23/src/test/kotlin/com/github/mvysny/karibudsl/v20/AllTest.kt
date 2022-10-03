@@ -12,8 +12,8 @@ class AllTest : DynaTest({
 
     allTests()
 
-    group("VirtualList") {
-        virtualListTests()
+    group("Components Vaadin 23") {
+        vaadinComponents23Tests()
     }
 
     group("Dialog 23.1") {
