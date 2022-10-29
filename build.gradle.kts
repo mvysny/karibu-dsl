@@ -3,9 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.20"
-    id("org.gretty") version "3.0.6"
-    `maven-publish`
     id("com.vaadin") version "23.2.6" apply(false)
+    `maven-publish`
     signing
 }
 
@@ -13,7 +12,7 @@ defaultTasks("clean", "build")
 
 allprojects {
     group = "com.github.mvysny.karibudsl"
-    version = "1.1.4-SNAPSHOT"
+    version = "1.2.0-SNAPSHOT"
 
     repositories {
         mavenCentral()
@@ -29,7 +28,7 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     tasks.withType<Test> {
@@ -41,8 +40,8 @@ subprojects {
     }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     // creates a reusable function which configures proper deployment to Maven Central

@@ -2,21 +2,15 @@
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 plugins {
-    id("org.gretty")
-    war
     id("com.vaadin")
 }
 
-gretty {
-    contextPath = "/"
-    servletContainer = "jetty9.4"
-}
-
 dependencies {
-    implementation(project(":karibu-dsl-v23"))
     // Vaadin
+    implementation(project(":karibu-dsl-v23"))
     implementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
-    providedCompile("javax.servlet:javax.servlet-api:4.0.1")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.1")
+
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:${properties["kaributesting_version"]}")
