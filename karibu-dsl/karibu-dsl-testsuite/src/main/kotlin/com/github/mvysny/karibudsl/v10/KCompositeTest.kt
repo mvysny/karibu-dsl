@@ -4,6 +4,7 @@ import com.github.mvysny.dynatest.*
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10._get
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
@@ -41,6 +42,16 @@ fun (@VaadinDsl HasComponents).buttonBar(block: (@VaadinDsl ButtonBar).()->Unit 
 
 class MyButton : KComposite(Button("Click me!"))
 
+/**
+ * Demoes the possibility of overriding [initContent].
+ */
+class MyComponent : KComposite() {
+    private val content = Button("Click me!")
+    override fun initContent(): Component {
+        return content
+    }
+}
+
 @DynaTestDsl
 fun DynaNodeGroup.kcompositeTest() {
     beforeEach { MockVaadin.setup() }
@@ -63,6 +74,11 @@ fun DynaNodeGroup.kcompositeTest() {
     test("provide contents in constructor") {
         UI.getCurrent().add(MyButton())
         _expectOne<MyButton>()
+        _expectOne<Button> { text = "Click me!" }
+    }
+
+    test("provide contents in initContent()") {
+        UI.getCurrent().add(MyComponent())
         _expectOne<Button> { text = "Click me!" }
     }
 }

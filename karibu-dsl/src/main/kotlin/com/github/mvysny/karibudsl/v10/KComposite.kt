@@ -43,7 +43,7 @@ import com.vaadin.flow.dom.Element
  * be provided either via [ui] or [initContent].
  */
 public abstract class KComposite(private var root: Component? = null) : Composite<Component>(), HasSize {
-    final override fun initContent(): Component = checkNotNull(root) {
+    override fun initContent(): Component = checkNotNull(root) {
         "The content has not yet been initialized, please call the ui() function in the constructor"
     }
 
