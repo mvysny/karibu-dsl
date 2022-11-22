@@ -53,15 +53,15 @@ class CategoriesListTest : DynaTest({
 
     test("create new category") {
         UI.getCurrent().navigate("categories")
-        _get<Button> { caption = "New category (Alt+N)" } ._click()
+        _get<Button> { text = "New category (Alt+N)" } ._click()
 
         // make sure that the "New Category" dialog is opened
         _expectOne<EditorDialogFrame<*>>()
 
         // do the happy flow: fill in the form with valid values and click "Save"
-        _get<TextField> { caption = "Category Name" } .value = "Beer"
+        _get<TextField> { label = "Category Name" } .value = "Beer"
         clearNotifications()
-        _get<Button> { caption = "Save" } ._click()
+        _get<Button> { text = "Save" } ._click()
         expectNotifications("Category successfully added.")
 
         _expectNone<EditorDialogFrame<*>>()     // expect the dialog to close
@@ -78,7 +78,7 @@ class CategoriesListTest : DynaTest({
 
         // make sure that the "Edit Category" dialog is opened
         _expectOne<EditorDialogFrame<*>>()
-        expect(cat.name) { _get<TextField> { caption = "Category Name" } ._value }
+        expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
     test("edit existing category via context menu") {
@@ -91,7 +91,7 @@ class CategoriesListTest : DynaTest({
 
         // make sure that the "Edit Category" dialog is opened
         _expectOne<EditorDialogFrame<*>>()
-        expect(cat.name) { _get<TextField> { caption = "Category Name" } ._value }
+        expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
     test("delete existing category via context menu") {

@@ -64,7 +64,7 @@ fun DynaNodeGroup.numberRangePopupTest() {
             component.addValueChangeListener {
                 fail("No listener must be fired")
             }
-            _get<Button> { caption = "Clear" } ._click()
+            _get<Button> { text = "Clear" } ._click()
             expect(null) { component.value }
             _expectNone<Dialog>()  // the Clear button must close the dialog
         }
@@ -83,7 +83,7 @@ fun DynaNodeGroup.numberRangePopupTest() {
                 expect(null) { it.value }
                 wasCalled = true
             }
-            _get<Button> { caption = "Clear" } ._click()
+            _get<Button> { text = "Clear" } ._click()
             expect(true) { wasCalled }
             expect(null) { component.value }
             _expectNone<Dialog>()  // the Clear button must close the dialog
@@ -99,7 +99,7 @@ fun DynaNodeGroup.numberRangePopupTest() {
             }
             _get<TextField> { placeholder = "From (inclusive):" } .value = ""
             _get<TextField> { placeholder = "To (inclusive):" } .value = ""
-            _get<Button> { caption = "Set" } ._click()
+            _get<Button> { text = "Set" } ._click()
             expect(true) { wasCalled }
             expect(null) { component.value }
             _expectNone<Dialog>()  // the Set button must close the dialog
@@ -114,7 +114,7 @@ fun DynaNodeGroup.numberRangePopupTest() {
             }
             _get<TextField> { placeholder = "From (inclusive):" } .value = "25"
             _get<TextField> { placeholder = "To (inclusive):" } .value = "35"
-            _get<Button> { caption = "Set" } ._click()
+            _get<Button> { text = "Set" } ._click()
             expect(true) { wasCalled }
             expect(NumberInterval(25.0, 35.0)) { component.value }
             _expectNone<Dialog>()  // the Set button must close the dialog

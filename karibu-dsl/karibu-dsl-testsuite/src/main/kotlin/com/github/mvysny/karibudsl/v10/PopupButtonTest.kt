@@ -22,7 +22,7 @@ fun DynaNodeGroup.popupButtonTest() {
             }
         }
         _get<PopupButton>()
-        _get<Button> { caption = "Hello!" }
+        _get<Button> { text = "Hello!" }
     }
 
     test("content keeps its width and height") {

@@ -30,6 +30,6 @@ fun DynaNodeGroup.dialog23_1Tests() {
             footer { button("Save") }
         }.open()
         _expectOne<H3> { text = "Header" }
-        _expectOne<Button> { caption = "Save" }
+        _expectOne<Button> { text = "Save" }
     }
 }

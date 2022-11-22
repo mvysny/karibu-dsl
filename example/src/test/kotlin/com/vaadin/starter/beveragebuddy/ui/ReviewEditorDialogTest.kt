@@ -19,10 +19,10 @@ class ReviewEditorDialogTest : DynaTest({
     test("simple validation failure") {
         ReviewEditorDialog({}, {}).createNew()
         _expectOne<EditorDialogFrame<*>>()
-        _get<Button> { caption = "Save" } ._click()
+        _get<Button> { text = "Save" } ._click()
         _expectOne<EditorDialogFrame<*>>()
         expect("must not be blank") {
-            _get<TextField> { caption = "Beverage name"} .errorMessage
+            _get<TextField> { label = "Beverage name"} .errorMessage
         }
     }
 })

@@ -6,7 +6,8 @@ import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10._get
-import com.github.mvysny.kaributools.caption
+import com.github.mvysny.kaributesting.v10._text
+import com.github.mvysny.kaributools.label
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.details.Details
@@ -26,8 +27,8 @@ fun DynaNodeGroup.detailsTest() {
             }
         }
         _expectOne<Span> { text = "Hello" }
-        _expectOne<Button> { caption = "hi!" }
-        expect("hi!") { _get<Details>().content.toList().joinToString { it.caption } }
+        _expectOne<Button> { text = "hi!" }
+        expect("hi!") { _get<Details>().content.toList().joinToString { it._text!! } }
     }
 
     test("summary as component") {
@@ -36,8 +37,8 @@ fun DynaNodeGroup.detailsTest() {
                 button("hi!")
             }
         }
-        _expectOne<Button> { caption = "hi!" }
-        expect("hi!") { _get<Details>().summary.caption }
+        _expectOne<Button> { text = "hi!" }
+        expect("hi!") { _get<Details>().summary._text }
     }
 
     test("clear content") {

@@ -51,7 +51,7 @@ fun DynaNodeGroup.kcompositeTest() {
             buttonBar()
         }
         _expectOne<ButtonBar>()
-        _expectOne<Button> { caption = "ok" }
+        _expectOne<Button> { text = "ok" }
     }
 
     test("uninitialized composite fails with informative exception") {
@@ -63,6 +63,6 @@ fun DynaNodeGroup.kcompositeTest() {
     test("provide contents in constructor") {
         UI.getCurrent().add(MyButton())
         _expectOne<MyButton>()
-        _expectOne<Button> { caption = "Click me!" }
+        _expectOne<Button> { text = "Click me!" }
     }
 }

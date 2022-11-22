@@ -133,7 +133,7 @@ fun DynaNodeGroup.gridTest() {
             }
             expect("Foo!") {
                 val tf = grid.headerRows.last().getCell(Person::fullName).component
-                (tf as TextField).caption
+                (tf as TextField).label
             }
             grid.headerRows.last().getCell(Person::fullName).component = null
             expect(null) { grid.headerRows.last().getCell(Person::fullName).component }
@@ -146,7 +146,7 @@ fun DynaNodeGroup.gridTest() {
             }
             expect("Bar!") {
                 val tf = grid.headerRows.last().getCell(Person::fullName).component
-                (tf as TextField).caption
+                (tf as TextField).label
             }
         }
     }
@@ -159,7 +159,7 @@ fun DynaNodeGroup.gridTest() {
             }
             expect("Foo!") {
                 val tf = grid.footerRows.last().getCell(Person::fullName).component
-                (tf as TextField).caption
+                (tf as TextField).label
             }
             grid.footerRows.last().getCell(Person::fullName).component = null
             expect(null) { grid.footerRows.last().getCell(Person::fullName).component }
@@ -172,7 +172,7 @@ fun DynaNodeGroup.gridTest() {
             }
             expect("Bar!") {
                 val tf = grid.footerRows.last().getCell(Person::fullName).component
-                (tf as TextField).caption
+                (tf as TextField).label
             }
         }
     }

@@ -72,15 +72,15 @@ fun DynaNodeGroup.dateRangePopupTest() {
             component.addValueChangeListener {
                 fail("No listener must be fired")
             }
-            _get<Button> { caption = "Clear" } ._click()
+            _get<Button> { text = "Clear" } ._click()
             expect(null) { component.value }
             _expectNone<Dialog>()  // the Clear button must close the dialog
         }
 
         test("setting the value while the dialog is opened propagates the values to date fields") {
             component.value = DateInterval(LocalDate.of(2010, 1, 1), LocalDate.of(2012, 1, 1))
-            expect(LocalDate.of(2010, 1, 1)) { _get<DatePicker> { caption = "From (inclusive):" } .value }
-            expect(LocalDate.of(2012, 1, 1)) { _get<DatePicker> { caption = "To (inclusive):" } .value }
+            expect(LocalDate.of(2010, 1, 1)) { _get<DatePicker> { label = "From (inclusive):" } .value }
+            expect(LocalDate.of(2012, 1, 1)) { _get<DatePicker> { label = "To (inclusive):" } .value }
         }
 
         test("Clear properly sets the value to null") {
@@ -90,7 +90,7 @@ fun DynaNodeGroup.dateRangePopupTest() {
                 expect(null) { it.value }
                 wasCalled = true
             }
-            _get<Button> { caption = "Clear" } ._click()
+            _get<Button> { text = "Clear" } ._click()
             expect(true) { wasCalled }
             expect(null) { component.value }
             _expectNone<Dialog>()  // the Clear button must close the dialog
@@ -103,9 +103,9 @@ fun DynaNodeGroup.dateRangePopupTest() {
                 expect(null) { it.value }
                 wasCalled = true
             }
-            _get<DatePicker> { caption = "From (inclusive):" } .value = null
-            _get<DatePicker> { caption = "To (inclusive):" } .value = null
-            _get<Button> { caption = "Set" } ._click()
+            _get<DatePicker> { label = "From (inclusive):" } .value = null
+            _get<DatePicker> { label = "To (inclusive):" } .value = null
+            _get<Button> { text = "Set" } ._click()
             expect(true) { wasCalled }
             expect(null) { component.value }
             _expectNone<Dialog>()  // the Set button must close the dialog
@@ -117,9 +117,9 @@ fun DynaNodeGroup.dateRangePopupTest() {
                 expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { it.value }
                 wasCalled = true
             }
-            _get<DatePicker> { caption = "From (inclusive):" } .value = LocalDate.of(2010, 11, 1)
-            _get<DatePicker> { caption = "To (inclusive):" } .value = LocalDate.of(2012, 1, 1)
-            _get<Button> { caption = "Set" } ._click()
+            _get<DatePicker> { label = "From (inclusive):" } .value = LocalDate.of(2010, 11, 1)
+            _get<DatePicker> { label = "To (inclusive):" } .value = LocalDate.of(2012, 1, 1)
+            _get<Button> { text = "Set" } ._click()
             expect(true) { wasCalled }
             expect(DateInterval(LocalDate.of(2010, 11, 1), LocalDate.of(2012, 1, 1))) { component.value }
             _expectNone<Dialog>()  // the Set button must close the dialog
