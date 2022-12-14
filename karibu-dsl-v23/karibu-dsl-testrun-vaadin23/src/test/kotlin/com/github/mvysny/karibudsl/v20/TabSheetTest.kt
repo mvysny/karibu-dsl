@@ -2,18 +2,18 @@ package com.github.mvysny.karibudsl.v20
 
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTestDsl
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.div
 import com.github.mvysny.karibudsl.v10.span
 import com.github.mvysny.karibudsl.v23.*
 import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
-import com.vaadin.flow.component.html.Label
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.TabSheet
 import com.vaadin.flow.component.tabs.Tabs
 import kotlin.test.expect
-import kotlin.test.fail
 
 @DynaTestDsl
 fun DynaNodeGroup.tabSheetTest() {
@@ -259,41 +259,20 @@ fun DynaNodeGroup.tabSheetTest() {
             }
             expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
         }
-
-        test("clearing contents") {
-            lateinit var tab: Tab
-            UI.getCurrent().tabSheet {
-                tab = tab("foo") { span("it works!") }
-            }
-            expect<Class<*>>(Span::class.java) { tab.contents!!.javaClass }
-            tab.contents = null
-            _expectNone<Span>()
-            expect(null) { tab.contents }
-        }
     }
     group("find contents") {
-        test("empty tab") {
-            lateinit var tab: Tab
-            val ts = UI.getCurrent().tabSheet {
-                tab = tab("foo")
-            }
-            expect(null) { tab.contents }
-            expect(null) { ts.findTabWithContents(Span("bar")) }
-        }
-        
         test("simple test") {
             lateinit var tab: Tab
+            lateinit var s: Span
             val ts = UI.getCurrent().tabSheet {
-                tab = tab("foo") { span("it works!") }
+                tab = tab("foo") { s = span("it works!") }
             }
-            expect(tab) { ts.findTabWithContents(tab.contents!!) }
+            expect(tab) { ts.findTabWithContents(s) }
         }
     }
     group("findTabContaining") {
-        test("empty tab") {
-            val ts = UI.getCurrent().tabSheet {
-                tab("foo")
-            }
+        test("empty tabsheet") {
+            val ts = UI.getCurrent().tabSheet()
             expect(null) { ts.findTabContaining(Span("bar")) }
         }
 
@@ -318,55 +297,6 @@ fun DynaNodeGroup.tabSheetTest() {
                 }
             }
             expect(tab) { ts.findTabContaining(nested) }
-        }
-    }
-
-    group("lazy tabs") {
-        test("addFirstLazyTabImmediatelyInvokesClosure") {
-            val ts = UI.getCurrent().tabSheet {}
-            val producedLabel = Label("baz")
-            ts.addLazyTab("foo") { producedLabel }
-            expect(producedLabel) { ts.selectedTab!!.contents }
-            expect(producedLabel) { ts._get<Label>() }
-        }
-
-        test("addSecondLazyTabDelaysClosure") {
-            val ts = UI.getCurrent().tabSheet {}
-            val producedLabel = Label("baz")
-            var allowInvoking = false
-            val tab1 = ts.addTab("bar")
-            val tab2 = ts.addLazyTab("foo") {
-                if (!allowInvoking) fail("Should not invoke")
-                producedLabel
-            }
-            expect(tab1) { ts.selectedTab }
-            ts._expectNone<Label>()
-
-            allowInvoking = true
-            ts.selectedTab = tab2
-            expect(tab2) { ts.selectedTab!! }
-            expect(producedLabel) { ts.selectedTab!!.contents }
-            ts._expectOne<Label>()
-        }
-
-        test("lazy tab computed exactly once") {
-            val ts = UI.getCurrent().tabSheet {}
-            val tab1 = ts.addTab("bar")
-            var callCount = 0
-            val tab2 = ts.addLazyTab("foo") {
-                if (callCount++ > 1) {
-                    fail("Called 2 times")
-                }
-                Label("foo")
-            }
-
-            expect(0) { callCount }
-            ts.selectedTab = tab2
-            expect(1) { callCount }
-            ts.selectedTab = tab1
-            expect(1) { callCount }
-            ts.selectedTab = tab2
-            expect(1) { callCount }
         }
     }
 

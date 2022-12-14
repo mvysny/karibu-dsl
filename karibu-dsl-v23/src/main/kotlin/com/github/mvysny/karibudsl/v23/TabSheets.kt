@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v23
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.init
 import com.github.mvysny.kaributools.findAncestor
+import com.github.mvysny.kaributools.findAncestorOrSelf
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.tabs.Tab
@@ -71,7 +72,7 @@ public val Tab.contents: Component? get() = ownerTabSheet.tabToContent[this]?.co
  * ```
  */
 @VaadinDsl
-public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Component): Tab {
+public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Unit): Tab {
     var root: Component? = null
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
@@ -82,8 +83,8 @@ public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents)
             root = component
         }
     }
-    val content: Component = dummy.block()
-    return add(label, content)
+    dummy.block()
+    return add(label, root)
 }
 
 /**
@@ -106,4 +107,16 @@ public val TabSheet.tabs: List<Tab> get() = object : AbstractList<Tab>() {
         get() = tabCount
 
     override fun get(index: Int): Tab = tabsComponent.getComponentAt(index) as Tab
+}
+
+public fun TabSheet.findTabWithContents(content: Component): Tab? =
+    tabs.firstOrNull { it.contents == content }
+
+/**
+ * Finds a tab which transitively contains given [component].
+ */
+public fun TabSheet.findTabContaining(component: Component): Tab? {
+    val contentComponents: Set<Component> = tabToContent.values.mapNotNull {it.component.orElse(null) }.toSet()
+    val contents: Component = component.findAncestorOrSelf { contentComponents.contains(it) } ?: return null
+    return findTabWithContents(contents)
 }
