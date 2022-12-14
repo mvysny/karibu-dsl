@@ -19,4 +19,8 @@ class AllTest : DynaTest({
     group("Dialog 23.1") {
         dialog23_1Tests()
     }
+
+    group("TabSheet") {
+        tabSheetTest()
+    }
 })
