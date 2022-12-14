@@ -68,9 +68,6 @@ fun DynaNodeGroup.allTests() {
     group("Router test") {
         routerTest()
     }
-    group("TabSheet test") {
-        tabSheetTest()
-    }
     group("Upload test") {
         uploadTest()
     }
