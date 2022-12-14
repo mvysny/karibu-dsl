@@ -2,8 +2,8 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.20"
-    id("com.vaadin") version "23.2.11" apply(false)
+    kotlin("jvm") version "1.7.21"
+    id("com.vaadin") version "23.3.0" apply(false)
     `maven-publish`
     signing
 }
