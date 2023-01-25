@@ -9,7 +9,7 @@ dependencies {
     // Vaadin
     implementation(project(":karibu-dsl-v23"))
     implementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.1")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.3")
 
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 
