@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.8.0"
-    id("com.vaadin") version "23.3.6" apply(false)
+    id("com.vaadin") version "24.0.0.rc2" apply(false)
     `maven-publish`
     signing
 }
@@ -15,6 +15,7 @@ allprojects {
     version = "2.0.0-SNAPSHOT"
 
     repositories {
+        maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }  // remove when Vaadin 24 is released
         mavenCentral()
     }
 }
