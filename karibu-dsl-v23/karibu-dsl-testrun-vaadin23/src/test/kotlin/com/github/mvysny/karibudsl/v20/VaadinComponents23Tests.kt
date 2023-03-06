@@ -2,14 +2,11 @@ package com.github.mvysny.karibudsl.v20
 
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.karibudsl.v23.avatar
 import com.github.mvysny.karibudsl.v23.multiSelectComboBox
 import com.github.mvysny.karibudsl.v23.virtualList
 import com.github.mvysny.kaributesting.v10.MockVaadin
-import com.github.mvysny.kaributesting.v10._expect
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.vaadin.flow.component.UI
-import com.vaadin.flow.component.avatar.Avatar
 import com.vaadin.flow.component.combobox.MultiSelectComboBox
 import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.flow.data.provider.ListDataProvider
@@ -50,15 +47,6 @@ fun DynaNodeGroup.vaadinComponents23Tests() {
             UI.getCurrent().multiSelectComboBox<String>("Foo") {
                 pageSize = 60
             }
-        }
-    }
-
-    group("Avatar") {
-        test("smoke") {
-            UI.getCurrent().avatar()
-            UI.getCurrent().avatar("Hello")
-            UI.getCurrent().avatar("Hello", "http://foo.com")
-            _expect<Avatar>(3)
         }
     }
 }

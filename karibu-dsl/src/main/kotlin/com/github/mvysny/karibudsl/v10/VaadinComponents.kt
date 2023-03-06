@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
+import com.vaadin.flow.component.avatar.Avatar
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.checkbox.Checkbox
@@ -230,3 +231,16 @@ public fun <T : Any?> (@VaadinDsl HasComponents).radioButtonGroup(
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).text(text: String, block: (@VaadinDsl Text).() -> Unit = {}): Text =
     init(Text(text), block)
+
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).avatar(name: String? = null, imageUrl: String? = null, block: (@VaadinDsl Avatar).() -> Unit = {}): Avatar {
+    val avatar = Avatar()
+    if (name != null) {
+        avatar.name = name
+    }
+    if (imageUrl != null) {
+        avatar.image = imageUrl
+    }
+    return init(avatar, block)
+}
