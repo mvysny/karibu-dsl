@@ -13,3 +13,5 @@ example/node_modules
 example/vite.generated.ts
 example/.npmrc
 example/frontend/generated
+
+!example/src/main/dev-bundle/webapp/VAADIN/build
