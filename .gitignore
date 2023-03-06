@@ -14,4 +14,4 @@ example/vite.generated.ts
 example/.npmrc
 example/frontend/generated
 
-!example/src/main/dev-bundle/webapp/VAADIN/build
+!**/src/main/dev-bundle/webapp/VAADIN/build
