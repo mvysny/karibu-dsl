@@ -77,4 +77,7 @@ fun DynaNodeGroup.allTests() {
     group("Messages") {
         messagesTests()
     }
+    group("Badge") {
+        badgesTest()
+    }
 }
