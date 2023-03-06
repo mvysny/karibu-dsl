@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v23
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.init
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.avatar.Avatar
 import com.vaadin.flow.component.combobox.MultiSelectComboBox
 import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.flow.data.provider.DataProvider
@@ -25,4 +26,16 @@ public fun <T : Any?> (@VaadinDsl HasComponents).virtualList(
         vl.dataProvider = dataProvider
     }
     return init(vl, block)
+}
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).avatar(name: String? = null, imageUrl: String? = null, block: (@VaadinDsl Avatar).() -> Unit = {}): Avatar {
+    val avatar = Avatar()
+    if (name != null) {
+        avatar.name = name
+    }
+    if (imageUrl != null) {
+        avatar.image = imageUrl
+    }
+    return init(avatar, block)
 }
