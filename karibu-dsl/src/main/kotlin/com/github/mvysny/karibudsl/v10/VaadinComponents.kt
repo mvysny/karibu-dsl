@@ -114,8 +114,12 @@ public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null
 }
 
 @VaadinDsl
-public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab =
-        init(Tab(label), block)
+public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab {
+    val tab = Tab(label)
+    add(tab)
+    tab.block()
+    return tab
+}
 
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}): CheckboxGroup<T>
