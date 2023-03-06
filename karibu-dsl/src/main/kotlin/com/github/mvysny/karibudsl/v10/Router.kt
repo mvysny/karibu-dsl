@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
                                                  block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
-    val link = RouterLink(null, viewType.java)
+    val link = RouterLink(null as String?, viewType.java)
     if (icon != null) link.icon(icon)
     if (text != null) link.text(text)
     init(link, block)
@@ -21,7 +21,7 @@ public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text:
 @VaadinDsl
 public fun <T, C> (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out C>,
                                                         parameter: T, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink where C: Component, C: HasUrlParameter<T> {
-    val link = RouterLink(null, viewType.java, parameter)
+    val link = RouterLink(null as String?, viewType.java, parameter)
     if (icon != null) link.icon(icon)
     if (text != null) link.text(text)
     init(link, block)

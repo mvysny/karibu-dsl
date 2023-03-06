@@ -163,59 +163,10 @@ public var (@VaadinDsl Component).flexBasis: String?
  * Please see the [FlexComponent.getAlignItems] explanation to understand the available values.
  */
 public var (@VaadinDsl Component).alignSelf: FlexComponent.Alignment?
-    get() = (parent.get() as FlexComponent<*>).getAlignSelf(this)
+    get() = (parent.get() as FlexComponent).getAlignSelf(this)
     set(value) {
-        (parent.get() as FlexComponent<*>).setAlignSelf(value, this)
+        (parent.get() as FlexComponent).setAlignSelf(value, this)
     }
-
-/**
- * This aligns a flex container's lines within when there is extra space in the cross-axis, similar to how [FlexComponent.getJustifyContentMode] aligns individual
- * items within the main-axis.
- */
-public var (@VaadinDsl FlexLayout).alignContent: AlignContent
-    get() = (this as FlexComponent<*>).alignContent
-    set(value) {
-        (this as FlexComponent<*>).alignContent = value
-    }
-
-// private since it would confuse users of VerticalLayout and HorizontalLayout which also implement FlexComponent.
-private var (@VaadinDsl FlexComponent<*>).alignContent: AlignContent
-    get() = AlignContent.fromFlexValue(element.style.get("alignContent"))
-    set(value) {
-        element.style.set("alignContent", value.flexValue)
-    }
-
-public enum class AlignContent(public val flexValue: String) {
-    /**
-     * lines packed to the start of the container
-     */
-    Start("flex-start"),
-    /**
-     * lines packed to the end of the container
-     */
-    End("flex-end"),
-    /**
-     * lines packed to the center of the container
-     */
-    Center("center"),
-    /**
-     * lines evenly distributed; the first line is at the start of the container while the last one is at the end
-     */
-    SpaceBetween("space-between"),
-    /**
-     * lines evenly distributed with equal space around each line
-     */
-    SpaceAround("space-around"),
-    /**
-     * (default): lines stretch to take up the remaining space
-     */
-    Stretch("stretch");
-
-    public companion object {
-        public fun fromFlexValue(flexValue: String?): AlignContent =
-                values().firstOrNull { it.flexValue == flexValue } ?: Stretch
-    }
-}
 
 /**
  * Only to be used with children of [HorizontalLayout]: Gets or sets a vertical alignment for individual components inside the [HorizontalLayout].
