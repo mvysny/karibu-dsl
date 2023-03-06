@@ -15,5 +15,4 @@ dependencies {
 
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:${properties["kaributesting_version"]}")
     testImplementation("com.github.mvysny.dynatest:dynatest:${properties["dynatest_version"]}")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
