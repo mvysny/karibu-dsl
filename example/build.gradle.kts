@@ -8,7 +8,13 @@ plugins {
 dependencies {
     // Vaadin
     implementation(project(":karibu-dsl-v23"))
-    implementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
+    implementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}") {
+        afterEvaluate {
+            if (vaadin.productionMode) {
+                exclude(module = "vaadin-dev-server")
+            }
+        }
+    }
     implementation("com.github.mvysny.vaadin-boot:vaadin-boot:11.0-rc2")
 
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")

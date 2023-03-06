@@ -9,20 +9,8 @@ dependencies {
     // don't compile-depend on vaadin-core anymore: the app itself should manage Vaadin dependencies, for example
     // using the gradle-flow-plugin or direct dependency on vaadin-core. The reason is that the app may wish to use the
     // npm mode and exclude all webjars.
-    compileOnly("com.vaadin:vaadin-core:${properties["vaadin14_version"]}") {
-        // Webjars are only needed when running in Vaadin 13 compatibility mode
-        listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
-                "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
-                "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents")
-                .forEach { exclude(group = it) }
-    }
-    testImplementation("com.vaadin:vaadin-core:${properties["vaadin14_version"]}") {
-        // Webjars are only needed when running in Vaadin 13 compatibility mode
-        listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
-            "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
-            "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents")
-            .forEach { exclude(group = it) }
-    }
+    compileOnly("com.vaadin:vaadin-core:${properties["vaadin14_version"]}")
+    testImplementation("com.vaadin:vaadin-core:${properties["vaadin14_version"]}")
 
     // IDEA language injections
     api("org.jetbrains:annotations:23.1.0")
