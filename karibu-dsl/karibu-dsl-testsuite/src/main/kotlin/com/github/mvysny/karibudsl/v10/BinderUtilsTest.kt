@@ -24,9 +24,9 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.chrono.ChronoZonedDateTime
 import java.util.*
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.PastOrPresent
-import javax.validation.constraints.Size
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.PastOrPresent
+import jakarta.validation.constraints.Size
 import kotlin.test.expect
 
 @DynaTestDsl

@@ -8,11 +8,9 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Tag
 import com.vaadin.flow.component.UI
-import com.vaadin.flow.component.dependency.HtmlImport
 import kotlin.test.expect
 
 @Tag("my-test-element")
-@HtmlImport("bower_components/my-test-element/my-test-element.html")
 class MyTest : Component() {
     var userName: String by ElementStringProperty()
     var isDarkTheme: Boolean by ElementBooleanProperty(false)

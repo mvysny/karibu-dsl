@@ -14,7 +14,5 @@ fun DynaNodeGroup.iconTest() {
     test("smoke") {
         UI.getCurrent().icon(VaadinIcon.ABACUS)
         UI.getCurrent().icon(VaadinIcon.ABACUS) {}
-        UI.getCurrent().ironIcon("foo", "bar")
-        UI.getCurrent().ironIcon("foo", "bar") {}
     }
 }

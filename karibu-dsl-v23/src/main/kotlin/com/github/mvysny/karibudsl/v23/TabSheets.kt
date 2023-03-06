@@ -106,7 +106,7 @@ public val TabSheet.tabs: List<Tab> get() = object : AbstractList<Tab>() {
     override val size: Int
         get() = tabCount
 
-    override fun get(index: Int): Tab = tabsComponent.getComponentAt(index) as Tab
+    override fun get(index: Int): Tab = tabsComponent.getTabAt(index) as Tab
 }
 
 public fun TabSheet.findTabWithContents(content: Component): Tab? =

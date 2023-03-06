@@ -44,9 +44,6 @@ fun DynaNodeGroup.allTests() {
     group("Icon test") {
         iconTest()
     }
-    group("IronList test") {
-        ironListTest()
-    }
     group("KComposite test") {
         kcompositeTest()
     }
