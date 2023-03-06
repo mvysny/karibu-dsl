@@ -2,7 +2,7 @@ package com.vaadin.starter.beveragebuddy.backend
 
 import java.io.Serializable
 import java.time.LocalDate
-import javax.validation.constraints.*
+import jakarta.validation.constraints.*
 
 /**
  * Represents a beverage review.

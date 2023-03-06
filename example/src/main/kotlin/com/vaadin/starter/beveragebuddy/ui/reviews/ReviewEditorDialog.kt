@@ -41,7 +41,6 @@ class ReviewEditorForm : EditorForm<Review> {
         }
         textField("Times tasted") {
             pattern = "[0-9]*"
-            isPreventInvalidInput = true
             bind(binder).toInt().bind(Review::count)
         }
         comboBox<Category>("Choose a category") {
