@@ -5,6 +5,7 @@ import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.avatar.Avatar
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -105,5 +106,14 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         val t: Text = UI.getCurrent().text("foo")
         expect("foo") { t.text }
         expect(UI.getCurrent()) { t.parent.get() }
+    }
+
+    group("Avatar") {
+        test("smoke") {
+            UI.getCurrent().avatar()
+            UI.getCurrent().avatar("Hello")
+            UI.getCurrent().avatar("Hello", "http://foo.com")
+            _expect<Avatar>(3)
+        }
     }
 }
