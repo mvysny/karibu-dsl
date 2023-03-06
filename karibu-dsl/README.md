@@ -1,6 +1,6 @@
 [![GitHub tag](https://img.shields.io/github/tag/mvysny/karibu-dsl.svg)](https://github.com/mvysny/karibu-dsl/tags)
 
-# Vaadin 14 DSL
+# Vaadin Kotlin DSL
 
 Karibu-DSL supports Vaadin 14+.
 
@@ -19,7 +19,8 @@ dependencies {
 }
 ```
 
-For Vaadin 23 use `karibu-dsl-v23` instead (starting with Karibu-DSL 1.1.3).
+* For Vaadin 23 use `karibu-dsl-v23` instead (starting with Karibu-DSL 1.1.3).
+* For Vaadin 24 use `karibu-dsl-v24` instead (starting with Karibu-DSL 2.0.0).
 
 > Note: obtain the newest version from the latest tag name above
 
@@ -36,8 +37,6 @@ Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a 
     </dependencies>
 </project>
 ```
-
-For Vaadin 23 use `karibu-dsl-v23` instead (starting with Karibu-DSL 1.1.3).
 
 To quickly test out Karibu DSL you can simply start with one
 of the example applications below.

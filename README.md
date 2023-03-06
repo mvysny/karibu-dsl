@@ -17,6 +17,14 @@ This library:
 * Includes useful components like `PopupButton` and `TabSheet`
 * Contains additional useful methods which Vaadin lacks; see [karibu-tools](https://github.com/mvysny/karibu-tools)
 
+Compatibility chart:
+
+| Vaadin Version | Karibu DSL Version | Min. Java Version                 | Remarks            |
+|----------------|--------------------|-----------------------------------|--------------------|
+| 24+            | 2.0.0+             | 17                                | (not yet released) |
+| 14-23          | 1.x                | 8 for Vaadin 14, 11 for Vaadin 23 |                    |
+| 8              | 1.0.x              | 5                                 | Read more below    |
+
 ## Documentation/Tutorial
 
 Please read the [Karibu-DSL Vaadin 14+ tutorial](karibu-dsl).
