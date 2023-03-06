@@ -23,6 +23,4 @@ dependencies {
                 "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents")
                 .forEach { exclude(group = it) }
     }
-    compileOnly("javax.servlet:javax.servlet-api:3.1.0")
 }
-

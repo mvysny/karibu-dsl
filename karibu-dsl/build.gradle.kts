@@ -16,7 +16,6 @@ dependencies {
                 "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents")
                 .forEach { exclude(group = it) }
     }
-    compileOnly("javax.servlet:javax.servlet-api:4.0.1")
     testImplementation("com.vaadin:vaadin-core:${properties["vaadin14_version"]}") {
         // Webjars are only needed when running in Vaadin 13 compatibility mode
         listOf("com.vaadin.webjar", "org.webjars.bowergithub.insites",
@@ -26,15 +25,12 @@ dependencies {
     }
 
     // IDEA language injections
-    api("org.jetbrains:annotations:22.0.0")
+    api("org.jetbrains:annotations:23.1.0")
 
     // always include support for bean validation
-    api("javax.validation:validation-api:2.0.1.Final")  // so that the BeanFieldGroup will perform JSR303 validations
-    implementation("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}") {
-        exclude(module = "jakarta.validation-api")
-    }
+    implementation("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}")
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
-    implementation("org.glassfish:javax.el:3.0.1-b11")
+    implementation("org.glassfish:jakarta.el:4.0.2")
 }
 
 kotlin {

@@ -9,7 +9,6 @@ dependencies {
     // using the gradle-flow-plugin or direct dependency on vaadin-core. The reason is that the app may wish to use the
     // npm mode and exclude all webjars.
     compileOnly("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
-    compileOnly("javax.servlet:javax.servlet-api:4.0.1")
     testImplementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
 }
 
