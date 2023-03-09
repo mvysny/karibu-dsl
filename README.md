@@ -56,9 +56,9 @@ Supports [Vaadin 14+](https://vaadin.com/).
 
 ## Example Projects
 
-Vaadin 14:
+Vaadin 24:
 
-* Simple one-page-one-button example app: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
+* Simple one-page-one-button example app: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
 * A simple database-backed one-page task list app: [vaadin-kotlin-pwa](https://github.com/mvysny/vaadin-kotlin-pwa)
 * Two-page app demoing grids and database: [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
 
