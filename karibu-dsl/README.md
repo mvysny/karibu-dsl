@@ -19,10 +19,7 @@ dependencies {
 }
 ```
 
-* For Vaadin 23 use `karibu-dsl-v23` instead (starting with Karibu-DSL 1.1.3).
-* For Vaadin 24 use `karibu-dsl-v24` instead (starting with Karibu-DSL 2.0.0).
-
-> Note: obtain the newest version from the latest tag name above
+> Note: obtain the newest version from the latest tag name above. See the Compatibility Chart for version compatible with your Vaadin version
 
 Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a dependency:
 
@@ -43,15 +40,15 @@ of the example applications below.
 
 ### UI Basic Example Application
 
-A very simple Gradle-based example application is located here: [karibu10-helloworld-application](https://github.com/mvysny/karibu10-helloworld-application)
+A very simple Gradle-based example application is located here: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
 The project only shows a very simple Button, which makes it an ideal quick start application for experimenting
 and further development.
  
 To checkout the example app and run it:
   
 ```bash
-git clone https://github.com/mvysny/karibu10-helloworld-application
-cd karibu10-helloworld-application
+git clone https://github.com/mvysny/karibu-helloworld-application
+cd karibu-helloworld-application
 ./gradlew appRun
 ```
 
@@ -97,16 +94,16 @@ verticalLayout {
 }
 ```
 
-Please see the [Creating UIs](https://www.vaadinonkotlin.eu/creating_ui-v10.html) tutorial
-for more information, or the [DSLs Explained](https://www.vaadinonkotlin.eu/dsl_explained-v10.html) article.
+Please see the [Creating UIs](https://www.vaadinonkotlin.eu/creating_ui/) tutorial
+for more information, or the [DSLs Explained](https://www.vaadinonkotlin.eu/dsl_explained/) article.
 
-For technical explanation on how this works, please read the [Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
+For technical explanation on how this works, please read the
+[Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
 article.
 
 ### VerticalLayout / HorizontalLayout
 
-The layouting
-in Vaadin 14 employs the so-called *flex layout*. Vaadin 14 still
+Layouting in Vaadin 14 employs the so-called *flex layout*. Vaadin 14 still
 does provide `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts,
 however they use flex layout under the hood and hence there are very important differences.
 
@@ -367,30 +364,10 @@ Dialog().apply {
 
 ## Launching the example project in Intellij IDEA
 
-### Gradle's Gretty appRun
+Please see the [Vaadin Boot](https://github.com/mvysny/vaadin-boot#preparing-environment) documentation
+on how you run, develop and package this Vaadin-Boot-based app.
 
-You will need to download and install [Intellij Community Edition](https://www.jetbrains.com/idea/download/index.html).
-Then, import the project in question by telling Intellij to open the `build.gradle` file as Project.
-
-After the project is imported and all libraries are downloaded, just click the right-most tool window labeled "Gradle";
-in the tree just expand the "Tasks" / "gretty", right-click `appRun` and select the topmost option 'Debug ...' - that
-way you'll gain both the debugging possibilities and a very basic code redeployment.
-
-Disadvantages:
-
-* For proper code hot-redeployment you'll need JRebel since Java's default debugger hot-redeployment is pretty weak.
-  You can work around this by using Tomcat as said below, however that requires the Intellij Ultimate Edition. Luckily,
-  it's cheaper than JRebel :-D
-* You can also install the [DCEVM](http://ssw.jku.at/dcevm/) patches. It's very easy on Ubuntu - just install the `openjdk-8-jre-dcevm`
-  package and enable it by passing the `-dcevm` VM option.
-
-### Tomcat
-
-Please see https://github.com/mvysny/karibu-helloworld-application for tutorial on how to launch a WAR project in Tomcat in Intellij.
-Then:
-
-* Open this whole project in Intellij IDEA Ultimate, simply by File / Open... and clicking [build.gradle](build.gradle).
-* Navigate to the `example-v8` project and launch it as an exploded WAR in Tomcat
+Simply run `./gradlew example:run` from the command-line, or run the `main()` method in the `Main.kt` file.
 
 ## Testing
 

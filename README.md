@@ -46,7 +46,7 @@ for more details.
 
 Just compare the Kotlin-based [CategoriesList](example/src/main/kotlin/com/vaadin/starter/beveragebuddy/ui/categories/CategoriesList.kt)
 with the original Java [CategoriesList](https://github.com/vaadin/beverage-starter-flow/blob/master/src/main/java/com/vaadin/starter/beveragebuddy/ui/views/categorieslist/CategoriesList.java).
-Both render the [Beverage Buddy: Categories](https://beverage-buddy-vok.herokuapp.com/categories) page, yet with Kotlin DSL:
+Both render the [Beverage Buddy: Categories](https://v-herd.eu/beverage-buddy-vok/categories) page, yet with Kotlin DSL:
 
 * The UI structure is immediately visible
 * The code is more readable and much shorter and concise
