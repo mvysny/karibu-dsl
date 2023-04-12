@@ -16,7 +16,7 @@ dependencies {
     api("org.jetbrains:annotations:23.1.0")
 
     // always include support for bean validation
-    implementation("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}")
+    api("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}")
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
     implementation("org.glassfish:jakarta.el:4.0.2")
 }
