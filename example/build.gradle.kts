@@ -15,7 +15,7 @@ dependencies {
             }
         }
     }
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:11.1")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:11.3")
 
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 

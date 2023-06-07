@@ -4,7 +4,7 @@ import com.github.mvysny.kaributools.addClassNames2
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.formlayout.FormLayout
-import com.vaadin.flow.component.html.Label
+import com.vaadin.flow.component.html.NativeLabel
 
 /**
  * A [FormLayout] which allows to specify [colspan] for its children:
@@ -74,7 +74,7 @@ public fun (@VaadinDsl FormLayout).formItem(label: Component? = null, block: (@V
  */
 @VaadinDsl
 public fun (@VaadinDsl FormLayout).formItem(label: String, block: (@VaadinDsl FormLayout.FormItem).() -> Unit = {}): FormLayout.FormItem =
-        formItem(Label(label), block)
+        formItem(NativeLabel(label), block)
 
 /**
  * Builds a list of [com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep].

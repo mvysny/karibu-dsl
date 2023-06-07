@@ -15,6 +15,7 @@ allprojects {
     version = "2.0.1-SNAPSHOT"
 
     repositories {
+        maven { setUrl("https://maven.vaadin.com/vaadin-prereleases") }
         mavenCentral()
     }
 }
