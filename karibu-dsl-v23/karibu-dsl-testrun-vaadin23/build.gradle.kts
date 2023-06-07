@@ -3,5 +3,5 @@ dependencies {
     testImplementation(project(":karibu-dsl-v23"))
 
     // Vaadin
-    testImplementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}")
+    testImplementation("com.vaadin:vaadin-core:${properties["vaadin_version"]}")
 }
