@@ -8,7 +8,7 @@ plugins {
 dependencies {
     // Vaadin
     implementation(project(":karibu-dsl-v23"))
-    implementation("com.vaadin:vaadin-core:${properties["vaadin23_version"]}") {
+    implementation("com.vaadin:vaadin-core:${properties["vaadin_version"]}") {
         afterEvaluate {
             if (vaadin.productionMode) {
                 exclude(module = "vaadin-dev")
