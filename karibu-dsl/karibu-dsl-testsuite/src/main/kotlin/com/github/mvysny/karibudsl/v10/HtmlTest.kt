@@ -33,6 +33,7 @@ fun DynaNodeGroup.htmlTest() {
             image()
             image(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
             label()
+            nativeLabel()
             input()
             nativeButton()
             strong()

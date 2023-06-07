@@ -34,7 +34,7 @@ fun DynaNodeGroup.formLayoutsTest() {
         }
         expect("""└── FormLayout[]
     └── KFormItem[label='Name:']
-        ├── Label[text='Name:', @slot='label']
+        ├── NativeLabel[text='Name:', @slot='label']
         └── TextField[value='']""") { layout.toPrettyTree().trim() }
     }
     test("colspan") {

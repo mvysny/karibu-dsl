@@ -63,9 +63,19 @@ public fun (@VaadinDsl HasComponents).image(src: String = "", alt: String = "", 
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).image(src: AbstractStreamResource, alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}): Image
         = init(Image(src, alt), block)
+
+@Suppress("removal")
+@Deprecated("Replaced by nativeLabel{}. See Vaadin Label javadoc for more details")
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).label(text: String? = null, `for`: Component? = null, block: (@VaadinDsl Label).() -> Unit = {}): Label {
     val label = Label(text)
+    if (`for` != null) label.setFor(`for`)
+    return init(label, block)
+}
+
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).nativeLabel(text: String? = null, `for`: Component? = null, block: (@VaadinDsl NativeLabel).() -> Unit = {}): NativeLabel {
+    val label = NativeLabel(text)
     if (`for` != null) label.setFor(`for`)
     return init(label, block)
 }

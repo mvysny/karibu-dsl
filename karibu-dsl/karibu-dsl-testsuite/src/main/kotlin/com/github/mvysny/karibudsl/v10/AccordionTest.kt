@@ -14,13 +14,13 @@ fun DynaNodeGroup.accordionTest() {
         UI.getCurrent().accordion {
             panel("lorem ipsum") {
                 content {
-                    label("dolor sit amet")
+                    nativeLabel("dolor sit amet")
                 }
             }
             panel {
                 summary { checkBox("More Lorem Ipsum?") }
                 content {
-                    label("dolor sit amet")
+                    nativeLabel("dolor sit amet")
                 }
             }
         }
