@@ -7,9 +7,6 @@ local.properties
 out
 
 target
-example/node_modules
-example/vite.generated.ts
-example/.npmrc
 example/frontend/generated
 
 !**/src/main/dev-bundle/webapp/VAADIN/build
