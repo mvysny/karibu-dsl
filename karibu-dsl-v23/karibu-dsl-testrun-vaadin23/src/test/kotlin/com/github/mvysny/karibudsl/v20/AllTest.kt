@@ -23,4 +23,8 @@ class AllTest : DynaTest({
     group("TabSheet") {
         tabSheetTest()
     }
+
+    group("SideNav") {
+        sideNavTest()
+    }
 })
