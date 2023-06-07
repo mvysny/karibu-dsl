@@ -22,10 +22,12 @@ import com.vaadin.flow.component.tabs.TabSheet
 import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
+import org.myapp.DemoRoute
+import org.myapp.MainRoute
 import java.util.function.Predicate
 import kotlin.test.expect
 
-val routes = Routes().autoDiscoverViews("com.github.mvysny.karibudsl.v20")
+val routes = Routes().autoDiscoverViews("org.myapp")
 
 @DynaTestDsl
 fun DynaNodeGroup.sideNavTest() {
@@ -74,13 +76,6 @@ fun DynaNodeGroup.sideNavTest() {
         _expectNone<MainRoute>()
     }
 }
-
-@Route("foo")
-@PageTitle("Main")
-class MainRoute : Div()
-
-@Route("demo")
-class DemoRoute : Div()
 
 /**
  * Workaround for https://github.com/vaadin/flow/issues/16969
