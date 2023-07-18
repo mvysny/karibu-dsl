@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributools.VaadinVersion
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.details.Details
@@ -50,7 +51,11 @@ public fun (@VaadinDsl Details).summary(block: (@VaadinDsl HasComponents).() -> 
  * Removes all [content][Details.getContent] components from this [Details].
  */
 public fun Details.clearContent() {
-    setContent(null)
+    if (VaadinVersion.get.isAtLeast(24, 2)) {
+        Details::class.java.getMethod("removeAll").invoke(this)
+    } else {
+        setContent(null)
+    }
 }
 
 /**
