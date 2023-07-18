@@ -11,20 +11,5 @@ class AllTest : DynaTest({
     }
 
     allTests()
-
-    group("Components Vaadin 23") {
-        vaadinComponents23Tests()
-    }
-
-    group("Dialog 23.1") {
-        dialog23_1Tests()
-    }
-
-    group("TabSheet") {
-        tabSheetTest()
-    }
-
-    group("SideNav") {
-        sideNavTest()
-    }
+    allTests24()
 })

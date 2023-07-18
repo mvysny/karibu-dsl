@@ -4,6 +4,7 @@ include(
 	"example",
 	"karibu-dsl:karibu-dsl-testsuite",
 	"karibu-dsl:karibu-dsl-testrun-vaadin14",
-	"karibu-dsl-v23:karibu-dsl-testrun-vaadin23"
+	"karibu-dsl-v23:tests",
+	"karibu-dsl-v23:karibu-dsl-testrun-vaadin",
+	"karibu-dsl-v23:karibu-dsl-testrun-vaadin-next"
 )
-

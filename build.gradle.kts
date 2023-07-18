@@ -16,6 +16,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven(url = "https://maven.vaadin.com/vaadin-prereleases/")
     }
 }
 
