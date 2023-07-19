@@ -119,8 +119,16 @@ public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).
         init(Tab(label), block)
 
 @VaadinDsl
-public fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}): CheckboxGroup<T>
-        = init(CheckboxGroup(), block)
+public fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(
+    label: String? = null,
+    block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}
+): CheckboxGroup<T> {
+    val component = CheckboxGroup<T>()
+    if (label != null) {
+        component.label = label
+    }
+    return init(component, block)
+}
 
 /**
  * Creates a [Time Picker](https://vaadin.com/components/vaadin-time-picker) field.
