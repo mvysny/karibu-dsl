@@ -342,3 +342,17 @@ private val <BEAN> Binder<BEAN>.bindings: Collection<Binder.Binding<BEAN, *>>
 @Suppress("UNCHECKED_CAST")
 public val Binder<*>.guessIsReadOnly: Boolean
     get() = bindings.any { it.setter != null && it.isReadOnly }
+
+/**
+ * Workaround for [Flow #17277](https://github.com/vaadin/flow/issues/17277) and [#13](https://github.com/mvysny/karibu-dsl/issues/13).
+ * Always use this instead of [Binder.BindingBuilder.asRequired] until the ticket above is resolved.
+ */
+public fun <BEAN, VALUE> Binder.BindingBuilder<BEAN, VALUE>.asRequiredNotNull(errorMessage: String = ""): Binder.BindingBuilder<BEAN, VALUE> {
+    val validator = Validator<VALUE> { value, _ ->
+        when {
+            value == null || value == field.emptyValue -> ValidationResult.error(errorMessage)
+            else -> ValidationResult.ok()
+        }
+    }
+    return asRequired(validator)
+}

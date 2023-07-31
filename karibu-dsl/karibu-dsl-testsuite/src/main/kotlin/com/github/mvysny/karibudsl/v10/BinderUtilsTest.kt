@@ -101,6 +101,16 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(Person()) { person }  // make sure that no value has been written
     }
 
+    // https://github.com/vaadin/flow/issues/17277
+    // https://github.com/mvysny/karibu-dsl/issues/13
+    test("programmatic validation should fail for empty name when required") {
+        val binder = Binder(PersonNoJSR303::class.java) // don't use JSR303 validations, use binder validations only
+        val tf = TextField()
+        tf.bind(binder).asRequiredNotNull().bind("fullName")
+        val person = PersonNoJSR303()
+        expect(false) { binder.writeBeanIfValid(person) }
+    }
+
     test("test that bind() supports both non-nullable and nullable properties") {
         data class TestingPerson(var foo: String?, var baz: String)
         val binder = beanValidationBinder<TestingPerson>()
@@ -275,6 +285,12 @@ data class Person(@field:NotNull
                   var created: Instant? = null,
 
                   var testCalendar: Calendar? = null
+) : Serializable
+
+data class PersonNoJSR303(
+    var fullName: String? = null,
+    var dateOfBirth: LocalDate? = null,
+    var alive: Boolean = false
 ) : Serializable
 
 fun Instant.toDate(): Date = Date.from(this)
