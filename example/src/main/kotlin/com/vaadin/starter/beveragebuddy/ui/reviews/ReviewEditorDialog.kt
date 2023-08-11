@@ -29,19 +29,22 @@ import java.time.LocalDate
 /**
  * A dialog for editing [Review] objects.
  */
-class ReviewEditorForm : EditorForm<Review> {
+class ReviewEditorForm :  FormLayout(), EditorForm<Review> {
     override val itemType: String get() = "Review"
+    // to propagate the changes made in the fields by the user, we will use binder to bind the field to the Review property.
     override val binder: Binder<Review> = beanValidationBinder()
-    override val component: FormLayout = FormLayout().apply {
-        // to propagate the changes made in the fields by the user, we will use binder to bind the field to the Review property.
+
+    init {
+        responsiveSteps {
+            "0"(1); "50em"(2)
+        }
 
         textField("Beverage name") {
             // no need to have validators here: they are automatically picked up from the bean field.
             bind(binder).trimmingConverter().bind(Review::name)
         }
-        textField("Times tasted") {
-            pattern = "[0-9]*"
-            bind(binder).toInt().bind(Review::count)
+        integerField("Times tasted") {
+            bind(binder).bind(Review::count)
         }
         comboBox<Category>("Choose a category") {
             // we need to show a list of options for the user to choose from. For every option we need to retain at least:

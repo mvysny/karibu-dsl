@@ -32,11 +32,11 @@ import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 /**
  * A form for editing [Category] objects.
  */
-class CategoryEditorForm(val category: Category) : EditorForm<Category> {
+class CategoryEditorForm(val category: Category) : FormLayout(), EditorForm<Category> {
     private val isEditing get() = category.id != null
     override val itemType: String get() = "Category"
     override val binder: Binder<Category> = BeanValidationBinder(Category::class.java)
-    override val component = FormLayout().apply {
+    init {
         textField("Category Name") {
             bind(binder)
                     .trimmingConverter()
