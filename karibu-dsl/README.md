@@ -420,11 +420,16 @@ Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on th
 
 ```kotlin
 Dialog().apply {
-    header { h3("Header") }
-    footer { 
-      button("Save")
-      button("Cancel")
+  header { h3("Header") } // or better: Dialog.setHeaderTitle("Header")
+  verticalLayout(isPadding = false) {
+      // contents
+  }
+  footer {
+    button("Save") {
+        setPrimary()
     }
+    button("Cancel")
+  }
 }.open()
 ```
 
