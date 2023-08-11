@@ -38,7 +38,7 @@ internal class ConfirmationDialog : Dialog() {
     private var registrationForConfirm: Registration? = null
 
     init {
-        element.classList.add("confirm-dialog")
+        addClassNames("confirm-dialog")
         isCloseOnEsc = true
         isCloseOnOutsideClick = false
 
