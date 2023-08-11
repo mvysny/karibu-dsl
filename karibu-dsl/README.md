@@ -386,21 +386,23 @@ A more of a real-world example:
 
 ```kotlin
 grid<Category> {
-    isExpand = true; addThemeName("row-dividers")
+  isExpand = true; addThemeName("row-dividers")
 
-    columnFor(Category::name) {
-        setHeader("Category")
-    }
-    addColumn { it.getReviewCount() }.setHeader("Beverages")
-    addComponentColumn { cat -> createEditButton(cat) } .apply {
-        flexGrow = 0; key = "edit"
-    }
+  columnFor(Category::name) {
+      setHeader("Category")
+  }
+  column({ it.getReviewCount() }) {
+    setHeader("Beverages")
+  }
+  componentColumn({ cat -> createEditButton(cat) }) {
+    flexGrow = 0; key = "edit"
+  }
 
-    gridContextMenu = gridContextMenu {
-        item("New", { editorDialog.createNew() })
-        item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
-        item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
-    }
+  gridContextMenu = gridContextMenu {
+      item("New", { editorDialog.createNew() })
+      item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+      item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
+  }
 }
 ```
 

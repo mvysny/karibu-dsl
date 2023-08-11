@@ -22,6 +22,7 @@ import com.vaadin.flow.component.Key.*
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
@@ -63,7 +64,7 @@ class CategoriesList : KComposite() {
             }
             header = h3()
             grid = grid {
-                isExpand = true; addThemeName("row-dividers")
+                isExpand = true
 
                 columnFor(Category::name) {
                     setHeader("Category")
