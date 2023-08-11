@@ -1,12 +1,15 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributools.addColumnFor
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.DataProvider
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
+import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
+import com.vaadin.flow.function.ValueProvider
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -82,6 +85,7 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
+@VaadinDsl
 public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     property: KProperty1<T, V?>,
     sortable: Boolean = true,
@@ -102,6 +106,7 @@ public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
  * @param V the value that the column will display, deduced from the type of the [property].
  * @return the newly created column
  */
+@VaadinDsl
 public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     property: KProperty1<T, V?>,
     renderer: Renderer<T>,
@@ -125,11 +130,12 @@ public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
  * @param V the value that the column will display.
  * @return the newly created column
  */
-public inline fun <reified T, reified V> Grid<T>.columnFor(
+@VaadinDsl
+public inline fun <reified T, reified V> (@VaadinDsl Grid<T>).columnFor(
     propertyName: String,
     sortable: Boolean = true,
     noinline converter: (V?) -> Any? = { it },
-    block: Grid.Column<T>.() -> Unit = {}
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
     addColumnFor(propertyName, sortable, converter).apply { block() }
 
@@ -146,10 +152,76 @@ public inline fun <reified T, reified V> Grid<T>.columnFor(
  * @param V the value that the column will display, deduced from the type of the [propertyName].
  * @return the newly created column
  */
-public inline fun <reified T, reified V> Grid<T>.columnFor(
+@VaadinDsl
+public inline fun <reified T, reified V> (@VaadinDsl Grid<T>).columnFor(
     propertyName: String,
     renderer: Renderer<T>,
     sortable: Boolean = true,
-    block: Grid.Column<T>.() -> Unit = {}
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
     addColumnFor<T, V>(propertyName, renderer, sortable).apply { block() }
+
+/**
+ * Adds a new text column to this [Grid] with a value provider and
+ * default column factory. The value is converted to String when sent to the
+ * client by using [java.lang.String.valueOf].
+ *
+ * *NOTE:* For displaying components, see
+ * {@link #addComponentColumn(ValueProvider)}. For using build-in renderers,
+ * see {@link #addColumn(Renderer)}.
+ *
+ * Every added column sends data to the client side regardless of its
+ * visibility state. Don't add a new column at all or use
+ * [Grid.removeColumn] to avoid sending extra data.
+ *
+ * Example of use:
+ * ```kotlin
+ * column({ it.getReviewCount() }) {
+ *   setHeader("Beverages")
+ * }
+ * ```
+ * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @return the newly created column
+ */
+@VaadinDsl
+public fun <T> (@VaadinDsl Grid<T>).column(
+    valueProvider: ValueProvider<T, *>,
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> {
+    val column = addColumn(valueProvider)
+    column.block()
+    return column
+}
+
+/**
+ * Adds a new column that shows components.
+ *
+ * This is a shorthand for [Grid.addColumn] with a [ComponentRenderer].
+ *
+ * *NOTE:* Using [ComponentRenderer] is not as efficient as the
+ * built-in renderers or using `LitRenderer`.
+ *
+ * Every added column sends data to the client side regardless of its
+ * visibility state. Don't add a new column at all or use
+ * [Grid.removeColumn] to avoid sending extra data.
+ *
+ * Example of use:
+ * ```kotlin
+ * componentColumn({ cat -> createEditButton(cat) }) {
+ *   flexGrow = 0; key = "edit"
+ * }
+ * ```
+ * @param componentProvider a value provider that will return a component for the given item
+ * @param <V> the component type
+ * @return the new column
+ */
+@VaadinDsl
+public fun <T, V : Component?> (@VaadinDsl Grid<T>).componentColumn(
+    componentProvider: ValueProvider<T, V>,
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> {
+    val column = addComponentColumn(componentProvider)
+    column.block()
+    return column
+}

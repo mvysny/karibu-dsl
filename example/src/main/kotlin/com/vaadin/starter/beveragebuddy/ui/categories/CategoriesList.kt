@@ -48,6 +48,7 @@ class CategoriesList : KComposite() {
     private lateinit var grid: Grid<Category>
     // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
     lateinit var gridContextMenu: GridContextMenu<Category>
+        private set
 
     private val editorDialog = CategoryEditorDialog(
         { category -> saveCategory(category) },
@@ -67,8 +68,10 @@ class CategoriesList : KComposite() {
                 columnFor(Category::name) {
                     setHeader("Category")
                 }
-                addColumn { it.getReviewCount() }.setHeader("Beverages")
-                addComponentColumn { cat -> createEditButton(cat) } .apply {
+                column({ it.getReviewCount() }) {
+                    setHeader("Beverages")
+                }
+                componentColumn({ cat -> createEditButton(cat) }) {
                     flexGrow = 0; key = "edit"
                 }
 
