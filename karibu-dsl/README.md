@@ -142,6 +142,72 @@ use `VerticalLayout`/`HorizontalLayout`.
 Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms) tutorial
 for more information.
 
+Example of a form:
+```kotlin
+class ReviewEditor(val bean: Review) : VerticalLayout() {
+  // to propagate the changes made in the fields by the user, we will use binder to bind the field to the Review property.
+  private val binder: Binder<Review> = beanValidationBinder()
+
+  init {
+    formLayout {
+      responsiveSteps {
+        "0"(1); "50em"(2)
+      }
+
+      textField("Beverage name") {
+        // no need to have validators here: they are automatically picked up from the bean field.
+        bind(binder).trimmingConverter().bind(Review::name)
+      }
+      integerField("Times tasted") {
+        bind(binder).bind(Review::count)
+      }
+      comboBox<Category>("Choose a category") {
+        setItemLabelGenerator { it.name }
+
+        // can't create new Categories here
+        isAllowCustomValue = false
+
+        // provide the list of options as a DataProvider, providing instances of Category
+        setItems({ item: Category, filterText: String ->
+            CategoryService.categoryMatchesFilter(
+                item,
+                filterText
+            )
+        }, CategoryService.findAll())
+
+        // bind the combo box to the Review::category field so that changes done by the user are stored.
+        bind(binder).bind(Review::category)
+      }
+      datePicker("Choose the date") {
+        max = LocalDate.now()
+        min = LocalDate.of(1, 1, 1)
+        value = LocalDate.now()
+        bind(binder).bind(Review::date)
+      }
+      comboBox<String>("Mark a score") {
+        isAllowCustomValue = false
+        setItems("1", "2", "3", "4", "5")
+        bind(binder).toInt().bind(Review::score)
+      }
+    }
+    button("Save") {
+      onLeftClick { save() }
+    }
+    
+    binder.readBean(bean)
+  }
+  
+  private fun save() {
+    if (form.binder.writeBeanIfValid(bean)) {
+      onSaveItem(bean)
+    } else {
+      val status = form.binder.validate()
+      Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
+    }
+  }
+}
+```
+
 ### FormLayout
 
 Thanks to Kotlin DSL extensions, you can write the responsive-steps configuration in a
