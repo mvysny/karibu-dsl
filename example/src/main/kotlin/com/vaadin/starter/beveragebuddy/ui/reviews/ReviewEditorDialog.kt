@@ -35,9 +35,7 @@ class ReviewEditorForm :  FormLayout(), EditorForm<Review> {
     override val binder: Binder<Review> = beanValidationBinder()
 
     init {
-        responsiveSteps {
-            "0"(1); "50em"(2)
-        }
+        responsiveSteps { "0"(1); "50em"(2) }
 
         textField("Beverage name") {
             // no need to have validators here: they are automatically picked up from the bean field.
