@@ -24,21 +24,21 @@ public fun (@VaadinDsl HasComponents).flexLayout(classNames: String = "", block:
  *
  * The default content align is set to `content { align(left, top) }`. The layout
  * has 100% width by default.
- * @param isPadding whether to have padding around the children of the layout, defaults to true
- * @param isSpacing whether to have spacing between the children of the layout, defaults to true
+ * @param padding whether to have padding around the children of the layout, defaults to true
+ * @param spacing whether to have spacing between the children of the layout, defaults to true
  * @param classNames optional additional class names, space-separated
  * @return the vertical layout, added to the parent.
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).verticalLayout(
-        isPadding: Boolean = true,
-        isSpacing: Boolean = true,
-        classNames: String = "",
-        block: (@VaadinDsl VerticalLayout).() -> Unit = {}
+    padding: Boolean = true,
+    spacing: Boolean = true,
+    classNames: String = "",
+    block: (@VaadinDsl VerticalLayout).() -> Unit = {}
 ): VerticalLayout {
     val layout: VerticalLayout = VerticalLayout().apply {
-        this.isPadding = isPadding
-        this.isSpacing = isSpacing
+        this.isPadding = padding
+        this.isSpacing = spacing
         addClassNames2(classNames)
         content { align(left, top) }
     }
@@ -51,21 +51,21 @@ public fun (@VaadinDsl HasComponents).verticalLayout(
  *
  * The default content align is set to `content { align(left, baseline) }`. The layout
  * has undefined width by default.
- * @param isPadding whether to have padding around the children of the layout, defaults to false
- * @param isSpacing whether to have spacing between the children of the layout, defaults to true
+ * @param padding whether to have padding around the children of the layout, defaults to false
+ * @param spacing whether to have spacing between the children of the layout, defaults to true
  * @param classNames optional additional class names, space-separated
  * @return the horizontal layout, added to the parent.
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).horizontalLayout(
-        isPadding: Boolean = false,
-        isSpacing: Boolean = true,
-        classNames: String = "",
-        block: (@VaadinDsl HorizontalLayout).() -> Unit = {}
+    padding: Boolean = false,
+    spacing: Boolean = true,
+    classNames: String = "",
+    block: (@VaadinDsl HorizontalLayout).() -> Unit = {}
 ): HorizontalLayout {
     val layout: HorizontalLayout = HorizontalLayout().apply {
-        this.isPadding = isPadding
-        this.isSpacing = isSpacing
+        this.isPadding = padding
+        this.isSpacing = spacing
         addClassNames2(classNames)
         content { align(left, baseline) }
     }
