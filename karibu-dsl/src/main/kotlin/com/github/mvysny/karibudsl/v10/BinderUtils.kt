@@ -191,7 +191,12 @@ public fun <BEAN, FIELDVALUE> Binder.BindingBuilder<BEAN, FIELDVALUE>.bind(prop:
 // oh crap, don't use binding by getter and setter - validations won't work!
 // we need to use bind(String) even though that will use undebuggable crappy Java 8 lambdas :-(
 //        bind({ bean -> prop.get(bean) }, { bean, value -> prop.set(bean, value) })
-    return bind(prop.name)
+    var name = prop.name
+    if (name.startsWith("is")) {
+        // Kotlin KProperties named "isFoo" are represented with just "foo" in the bean property set
+        name = name[2].lowercase() + name.drop(3)
+    }
+    return bind(name)
 }
 
 /**

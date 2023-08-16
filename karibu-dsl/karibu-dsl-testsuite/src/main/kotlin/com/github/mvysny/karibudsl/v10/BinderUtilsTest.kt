@@ -118,6 +118,13 @@ fun DynaNodeGroup.binderUtilsTest() {
         TextField().bind(binder).bind(TestingPerson::baz)
     }
 
+    test("bind() supports properties starting with 'is'") {
+        data class TestingPerson(var isPropertyStartingWithIs: Boolean, var booleanProperty: Boolean)
+        val binder = beanValidationBinder<TestingPerson>()
+        Checkbox().bind(binder).bind(TestingPerson::isPropertyStartingWithIs)
+        Checkbox().bind(binder).bind(TestingPerson::booleanProperty)
+    }
+
     test("SimpleBindings with NumberField: write") {
         val binder = Binder<Person>(Person::class.java)
         val form = Form2(binder)
