@@ -112,10 +112,14 @@ fun DynaNodeGroup.binderUtilsTest() {
     }
 
     test("test that bind() supports both non-nullable and nullable properties") {
-        data class TestingPerson(var foo: String?, var baz: String)
+        data class TestingPerson(var foo: String? = null, var baz: String = "")
         val binder = beanValidationBinder<TestingPerson>()
         TextField().bind(binder).bind(TestingPerson::foo)
-        TextField().bind(binder).bind(TestingPerson::baz)
+        TextField().bind(binder, nullToBlank = false).bind(TestingPerson::baz)
+        binder.bean = TestingPerson()
+        binder.bean = null
+        binder.readBean(TestingPerson())
+        binder.writeBean(TestingPerson())
     }
 
     test("bind() supports properties starting with 'is'") {

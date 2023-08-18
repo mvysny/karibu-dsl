@@ -171,14 +171,24 @@ public inline fun <reified T : Any> beanValidationBinder(): BeanValidationBinder
  *   bind(binder).bind(Person::name)
  * }
  * ```
+ * @param nullToBlank if true (the default), null bean field value is converted to
+ * an empty String automatically, to prevent NPEs in [TextField]. However, the problem is
+ * that an empty string is converted to null value on its way back, which causes an exception
+ * if the target Kotlin field is non-nullable. Set to false if you're binding to a non-nullable Kotlin field.
  */
-public fun <BEAN, FIELDVALUE> HasValue<*, FIELDVALUE>.bind(binder: Binder<BEAN>): Binder.BindingBuilder<BEAN, FIELDVALUE> {
+@JvmOverloads
+public fun <BEAN, FIELDVALUE> HasValue<*, FIELDVALUE>.bind(
+    binder: Binder<BEAN>,
+    nullToBlank: Boolean = true
+): Binder.BindingBuilder<BEAN, FIELDVALUE> {
     var builder: Binder.BindingBuilder<BEAN, FIELDVALUE> = binder.forField(this)
 
     // fix NPE for TextField and TextArea by having a converter which converts null to "" and back.
-    @Suppress("UNCHECKED_CAST")
-    if (this is TextField || this is TextArea || this is EmailField) {
-        builder = builder.withNullRepresentation("" as FIELDVALUE)
+    if (nullToBlank) {
+        if (this is TextField || this is TextArea || this is EmailField) {
+            @Suppress("UNCHECKED_CAST")
+            builder = builder.withNullRepresentation("" as FIELDVALUE)
+        }
     }
     return builder
 }
