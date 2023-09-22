@@ -25,6 +25,10 @@ allprojects {
         mavenCentral()
         maven(url = "https://maven.vaadin.com/vaadin-prereleases/")
     }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
+    }
 }
 
 subprojects {
@@ -33,10 +37,6 @@ subprojects {
         plugin("maven-publish")
         plugin("kotlin")
         plugin("org.gradle.signing")
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
     }
 
     tasks.withType<Test> {
