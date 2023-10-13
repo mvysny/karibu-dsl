@@ -4,5 +4,5 @@ dependencies {
     api(project(":karibu-dsl-v23"))
 
     // Vaadin
-    compileOnly("com.vaadin:vaadin-core:${properties["vaadin_version"]}")
+    compileOnly("com.vaadin:vaadin-core:${properties["vaadin_version_next"]}")
 }

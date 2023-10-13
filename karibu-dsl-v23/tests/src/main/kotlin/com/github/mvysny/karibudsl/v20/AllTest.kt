@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v20
 
 import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.dynatest.DynaTestDsl
+import com.github.mvysny.kaributools.VaadinVersion
 
 @DynaTestDsl
 fun DynaNodeGroup.allTests24() {
@@ -19,5 +20,11 @@ fun DynaNodeGroup.allTests24() {
 
     group("SideNav") {
         sideNavTest()
+    }
+
+    if (VaadinVersion.get.isAtLeast(24, 2)) {
+        group("icons") {
+            iconTests()
+        }
     }
 }
