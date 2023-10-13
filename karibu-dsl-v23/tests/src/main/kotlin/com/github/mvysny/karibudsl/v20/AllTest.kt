@@ -26,5 +26,9 @@ fun DynaNodeGroup.allTests24() {
         group("icons") {
             iconTests()
         }
+
+        group("Login Form") {
+            loginFormTests()
+        }
     }
 }
