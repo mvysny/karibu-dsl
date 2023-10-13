@@ -64,7 +64,7 @@ public fun (@VaadinDsl HasComponents).image(src: String = "", alt: String = "", 
 public fun (@VaadinDsl HasComponents).image(src: AbstractStreamResource, alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}): Image
         = init(Image(src, alt), block)
 
-@Suppress("removal")
+@Suppress("removal", "DEPRECATION")
 @Deprecated("Replaced by nativeLabel{}. See Vaadin Label javadoc for more details")
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).label(text: String? = null, `for`: Component? = null, block: (@VaadinDsl Label).() -> Unit = {}): Label {
