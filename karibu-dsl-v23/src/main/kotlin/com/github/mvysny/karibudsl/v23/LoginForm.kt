@@ -13,7 +13,7 @@ public fun (@VaadinDsl LoginOverlay).footer(block: (@VaadinDsl HasComponents).()
         override fun add(components: MutableCollection<Component>) {
             f.add(*components.toTypedArray())
         }
-        override fun getElement(): Element = TODO("Not yet implemented")
+        override fun getElement(): Element = throw IllegalArgumentException("call add() to add components")
     }
     hc.block()
 }
@@ -25,7 +25,7 @@ public fun (@VaadinDsl LoginOverlay).customFormArea(block: (@VaadinDsl HasCompon
         override fun add(components: MutableCollection<Component>) {
             f.add(*components.toTypedArray())
         }
-        override fun getElement(): Element = TODO("Not yet implemented")
+        override fun getElement(): Element = throw IllegalArgumentException("call add() to add components")
     }
     hc.block()
 }
