@@ -7,7 +7,19 @@
 # Karibu-DSL (Vaadin Kotlin Extensions)
 
 This is a Kotlin extensions and DSL library for the [Vaadin](https://www.vaadin.com) framework.
-Please visit [Vaadin-on-Kotlin](http://www.vaadinonkotlin.eu/) pages for the Getting Started guide.
+
+Need a button? Write `button {}`. Need a text field? Write `textField {}`.
+Need a view? Write
+```kotlin
+verticalLayout {
+    val nameField = textField("Your name") {}
+    button("Click me") {
+        setPrimary()
+        onLeftClick { Notification.show("Hello, ${nameField.value}") }
+    }
+}
+```
+Build own components and views by composing existing components with layouts.
 
 This library:
 
@@ -19,15 +31,16 @@ This library:
 
 Compatibility chart:
 
-| Vaadin Version | Karibu DSL Version | Min. Java Version                 | Remarks         |
-|----------------|--------------------|-----------------------------------|-----------------|
-| 24+            | 2.0.0+             | 17                                |                 |
-| 14-23          | 1.x                | 8 for Vaadin 14, 11 for Vaadin 23 |                 |
-| 8              | 1.0.x              | 5                                 | Read more below |
+| Vaadin Version | Karibu DSL Version | Min. Java Version | Remarks         |
+|----------------|--------------------|-------------------|-----------------|
+| 24+            | 2.0.0+             | 17                |                 |
+| 14-22          | 1.x                | 8                 |                 |
+| 23             | 1.x                | 11                |                 |
+| 8              | 1.0.x              | 5                 | Read more below |
 
 ## Documentation/Tutorial
 
-Please read the [Karibu-DSL Vaadin 14+ tutorial](karibu-dsl).
+**>>> Documentation + Tutorial <<<**: Please read the [Karibu-DSL Vaadin 14+ tutorial](karibu-dsl).
 
 The origins of the word *Karibu*: it's a term for North American subspecies of the reindeer; that connects to
 *Vaadin* (which is a Finnish word for a female reindeer). A nice connotation comes from Swahili where *Karibu*
@@ -59,8 +72,8 @@ Supports [Vaadin 14+](https://vaadin.com/).
 Vaadin 24:
 
 * Simple one-page-one-button example app: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
+* Two-page app demoing grids and database: [Beverage Buddy JOOQ](https://github.com/mvysny/beverage-buddy-jooq)
 * A simple database-backed one-page task list app: [vaadin-kotlin-pwa](https://github.com/mvysny/vaadin-kotlin-pwa)
-* Two-page app demoing grids and database: [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
 
 ## Vaadin 8 UITest / Component Palette
 
@@ -76,7 +89,7 @@ git checkout 1.0.x
 ./gradlew clean build example-v8:appRun
 ```
 
-You may need JDK 11 or JDK 8 to run the demo; JDK 17 support is not known.
+You may need JDK 11 or JDK 8 to run the demo: JDK 17+ may or may not work.
 
 # License
 
