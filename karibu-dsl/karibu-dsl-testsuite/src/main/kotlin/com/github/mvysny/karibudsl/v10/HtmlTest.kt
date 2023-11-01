@@ -32,6 +32,7 @@ fun DynaNodeGroup.htmlTest() {
             anchor(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
             image()
             image(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
+            @Suppress("DEPRECATION")
             label()
             nativeLabel()
             input()
