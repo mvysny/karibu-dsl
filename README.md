@@ -9,15 +9,13 @@
 This is a Kotlin extensions and DSL library for the [Vaadin](https://www.vaadin.com) framework.
 
 Need a button? Write `button {}`. Need a text field? Write `textField {}`.
-Need a view? Write
+Need a layout? Write
 ```kotlin
-class MainPage : VerticalLayout() {
-    init {
-        val nameField = textField("Your name") {}
-        button("Click me") {
-            setPrimary()
-            onLeftClick { Notification.show("Hello, ${nameField.value}") }
-        }
+verticalLayout {
+    val nameField = textField("Your name") {}
+    button("Click me") {
+        setPrimary()
+        onLeftClick { Notification.show("Hello, ${nameField.value}") }
     }
 }
 ```
