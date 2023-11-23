@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributools.addClassNames2
+import com.github.mvysny.kaributools.placeholder
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.*
 import com.vaadin.flow.server.AbstractStreamResource
@@ -85,9 +86,10 @@ public fun (@VaadinDsl HasComponents).input(block: (@VaadinDsl Input).() -> Unit
         = init(Input(), block)
 
 // workaround around https://github.com/vaadin/flow/issues/1699
+@Deprecated("Use Component.placeholder from karibu-tools")
 public var Input.placeholder2: String?
-    get() = placeholder.orElse(null)
-    set(value) { setPlaceholder(value) }
+    get() = (this as Component).placeholder
+    set(value) { (this as Component).placeholder = value }
 
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).nativeButton(text: String? = null, block: (@VaadinDsl NativeButton).() -> Unit = {}): NativeButton =
