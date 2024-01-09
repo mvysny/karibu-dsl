@@ -29,8 +29,7 @@ public data class DateInterval(override val start: LocalDate?, override val endI
         /**
          * Produces a degenerate date interval that only contains [LocalDate.now].
          */
-        public fun now(zoneId: ZoneId = BrowserTimeZone.get): DateInterval =
-                DateInterval(LocalDate.now(zoneId), LocalDate.now(zoneId))
+        public fun now(zoneId: ZoneId = BrowserTimeZone.get): DateInterval = of(LocalDate.now(zoneId))
         public fun of(localDate: LocalDate): DateInterval = DateInterval(localDate, localDate)
     }
 }
