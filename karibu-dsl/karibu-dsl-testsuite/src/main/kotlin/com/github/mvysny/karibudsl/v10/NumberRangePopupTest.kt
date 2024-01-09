@@ -6,6 +6,7 @@ import com.github.mvysny.dynatest.DynaTest
 import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.textfield.NumberField
 import com.vaadin.flow.component.textfield.TextField
 import kotlin.test.expect
 import kotlin.test.fail
@@ -65,18 +66,18 @@ fun DynaNodeGroup.numberRangePopupTest() {
                 fail("No listener must be fired")
             }
             _get<Button> { text = "Clear" } ._click()
-            expect(null) { component.value }
+            expect(null) { component._value }
             _expectNone<Dialog>()  // the Clear button must close the dialog
         }
 
         test("setting the value while the dialog is opened propagates the values to date fields") {
             component.value = NumberInterval(5.0, 25.0)
-            expect("5") { _get<TextField> { placeholder = "From (inclusive):" } .value }
-            expect("25") { _get<TextField> { placeholder = "To (inclusive):" } .value }
+            expect(5.0) { _get<NumberField> { placeholder = "From (inclusive):" } ._value }
+            expect(25.0) { _get<NumberField> { placeholder = "To (inclusive):" } ._value }
         }
 
         test("Clear properly sets the value to null") {
-            component.value = NumberInterval(25.0, 35.0)
+            component._value = NumberInterval(25.0, 35.0)
             var wasCalled = false
             component.addValueChangeListener {
                 expect(true) { it.isFromClient }
@@ -85,23 +86,23 @@ fun DynaNodeGroup.numberRangePopupTest() {
             }
             _get<Button> { text = "Clear" } ._click()
             expect(true) { wasCalled }
-            expect(null) { component.value }
+            expect(null) { component._value }
             _expectNone<Dialog>()  // the Clear button must close the dialog
         }
 
         test("Set properly sets the value to null if nothing is filled in") {
-            component.value = NumberInterval(25.0, 35.0)
+            component._value = NumberInterval(25.0, 35.0)
             var wasCalled = false
             component.addValueChangeListener {
                 expect(true) { it.isFromClient }
                 expect(null) { it.value }
                 wasCalled = true
             }
-            _get<TextField> { placeholder = "From (inclusive):" } .value = ""
-            _get<TextField> { placeholder = "To (inclusive):" } .value = ""
+            _get<NumberField> { placeholder = "From (inclusive):" } ._value = null
+            _get<NumberField> { placeholder = "To (inclusive):" } ._value = null
             _get<Button> { text = "Set" } ._click()
             expect(true) { wasCalled }
-            expect(null) { component.value }
+            expect(null) { component._value }
             _expectNone<Dialog>()  // the Set button must close the dialog
         }
 
@@ -112,11 +113,11 @@ fun DynaNodeGroup.numberRangePopupTest() {
                 expect(NumberInterval(25.0, 35.0)) { it.value }
                 wasCalled = true
             }
-            _get<TextField> { placeholder = "From (inclusive):" } .value = "25"
-            _get<TextField> { placeholder = "To (inclusive):" } .value = "35"
+            _get<NumberField> { placeholder = "From (inclusive):" } ._value = 25.0
+            _get<NumberField> { placeholder = "To (inclusive):" } ._value = 35.0
             _get<Button> { text = "Set" } ._click()
             expect(true) { wasCalled }
-            expect(NumberInterval(25.0, 35.0)) { component.value }
+            expect(NumberInterval(25.0, 35.0)) { component._value }
             _expectNone<Dialog>()  // the Set button must close the dialog
         }
     }

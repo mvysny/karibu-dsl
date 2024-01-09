@@ -4,6 +4,7 @@ import com.vaadin.flow.component.AbstractCompositeField
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.dialog.Dialog
+import com.vaadin.flow.component.textfield.NumberField
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.binder.Binder
 import java.io.Serializable
@@ -36,8 +37,8 @@ internal data class MutableDoubleInterval(override var start: Double?, override 
  * The current numeric range is also displayed as the caption of the button.
  */
 public class NumberRangePopup : AbstractCompositeField<Button, NumberRangePopup, NumberInterval<Double>>(null) {
-    private lateinit var ltInput: TextField
-    private lateinit var gtInput: TextField
+    private lateinit var ltInput: NumberField
+    private lateinit var gtInput: NumberField
 
     @Suppress("UNCHECKED_CAST")
     private val binder: Binder<MutableDoubleInterval> = Binder(MutableDoubleInterval::class.java).apply {
@@ -54,14 +55,14 @@ public class NumberRangePopup : AbstractCompositeField<Button, NumberRangePopup,
             isCloseOnOutsideClick = true
             verticalLayout {
                 horizontalLayout {
-                    gtInput = textField {
+                    gtInput = numberField {
                         placeholder = karibuDslI18n("from")
-                        bind(binder).toDouble().bind(MutableDoubleInterval::start)
+                        bind(binder).bind(MutableDoubleInterval::start)
                     }
                     text("..")
-                    ltInput = textField {
+                    ltInput = numberField {
                         placeholder = karibuDslI18n("to")
-                        bind(binder).toDouble().bind(MutableDoubleInterval::endInclusive)
+                        bind(binder).bind(MutableDoubleInterval::endInclusive)
                     }
                 }
                 horizontalLayout {
