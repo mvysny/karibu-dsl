@@ -10,12 +10,12 @@ dependencies {
     implementation(project(":karibu-dsl-v23"))
     implementation("com.vaadin:vaadin-core:${properties["vaadin_version"]}") {
         afterEvaluate {
-            if (vaadin.productionMode) {
+            if (vaadin.productionMode.get()) {
                 exclude(module = "vaadin-dev")
             }
         }
     }
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:12.0")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:12.2")
 
     implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
 
