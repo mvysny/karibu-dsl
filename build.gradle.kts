@@ -46,7 +46,7 @@ subprojects {
     }
 
     // creates a reusable function which configures proper deployment to Maven Central
-    ext["configureBintray"] = { artifactId: String ->
+    ext["configureMavenCentral"] = { artifactId: String ->
 
         java {
             withJavadocJar()

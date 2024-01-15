@@ -25,5 +25,5 @@ kotlin {
     explicitApi()
 }
 
-val configureBintray = ext["configureBintray"] as (artifactId: String) -> Unit
-configureBintray("karibu-dsl")
+val configureMavenCentral = ext["configureMavenCentral"] as (artifactId: String) -> Unit
+configureMavenCentral("karibu-dsl")
