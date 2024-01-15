@@ -73,25 +73,25 @@ subprojects {
                     this.artifactId = artifactId
                     version = project.version.toString()
                     pom {
-                        description.set("Karibu-DSL, Kotlin extensions/DSL for Vaadin")
-                        name.set(artifactId)
-                        url.set("https://github.com/mvysny/karibu-dsl")
+                        description = "Karibu-DSL, Kotlin extensions/DSL for Vaadin"
+                        name = artifactId
+                        url = "https://github.com/mvysny/karibu-dsl"
                         licenses {
                             license {
-                                name.set("The MIT License (MIT)")
-                                url.set("https://opensource.org/licenses/MIT")
-                                distribution.set("repo")
+                                name = "The MIT License (MIT)"
+                                url = "https://opensource.org/licenses/MIT"
+                                distribution = "repo"
                             }
                         }
                         developers {
                             developer {
-                                id.set("mavi")
-                                name.set("Martin Vysny")
-                                email.set("martin@vysny.me")
+                                id = "mavi"
+                                name = "Martin Vysny"
+                                email = "martin@vysny.me"
                             }
                         }
                         scm {
-                            url.set("https://github.com/mvysny/karibu-dsl")
+                            url = "https://github.com/mvysny/karibu-dsl"
                         }
                     }
 
