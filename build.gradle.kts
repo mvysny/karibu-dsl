@@ -18,10 +18,6 @@ allprojects {
         mavenCentral()
         maven(url = "https://maven.vaadin.com/vaadin-prereleases/")
     }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
-    }
 }
 
 subprojects {
@@ -43,6 +39,10 @@ subprojects {
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 
     // creates a reusable function which configures proper deployment to Maven Central
