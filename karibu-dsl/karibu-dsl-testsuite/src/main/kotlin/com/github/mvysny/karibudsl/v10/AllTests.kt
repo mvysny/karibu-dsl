@@ -23,9 +23,6 @@ fun DynaNodeGroup.allTests() {
     group("ContextMenu test") {
         contextMenuTest()
     }
-    group("DateRangePopup test") {
-        dateRangePopupTest()
-    }
     group("Details test") {
         detailsTest()
     }
@@ -55,9 +52,6 @@ fun DynaNodeGroup.allTests() {
     }
     group("MenuBar test") {
         menuBarTest()
-    }
-    group("NumberRangePopup test") {
-        numberRangePopupTest()
     }
     group("PopupButton test") {
         popupButtonTest()

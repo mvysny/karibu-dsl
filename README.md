@@ -91,6 +91,11 @@ git checkout 1.0.x
 
 You may need JDK 11 or JDK 8 to run the demo: JDK 17+ may or may not work.
 
+## Deprecation notes
+
+The `NumberRangePopup`, `DateRangePopup`, `ClosedInterval`, `NumberInterval` and `DateInterval` classes have been removed from this project since they
+were too specific. You can find them in the [jdbi-orm-vaadin](https://gitlab.com/mvysny/jdbi-orm-vaadin) project.
+
 # License
 
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
