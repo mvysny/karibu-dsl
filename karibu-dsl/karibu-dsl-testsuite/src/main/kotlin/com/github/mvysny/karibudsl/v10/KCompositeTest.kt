@@ -20,7 +20,7 @@ class ButtonBar : KComposite() {
         // create the component UI here; maybe even attach very simple listeners here
         horizontalLayout {
             okButton = button("ok") {
-                onLeftClick { okClicked() }
+                onClick { okClicked() }
             }
             button("cancel") {
                 onLeftClick { cancelClicked() }

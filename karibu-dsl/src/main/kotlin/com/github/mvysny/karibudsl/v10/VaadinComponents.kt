@@ -60,6 +60,12 @@ public fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickLi
         = addClickListener(leftClickListener)
 
 /**
+ * Adds a [clickListener].
+ */
+public fun <T : Component> (@VaadinDsl ClickNotifier<T>).onClick(clickListener: ((ClickEvent<T>) -> Unit)): Registration
+        = addClickListener(clickListener)
+
+/**
  * Creates a [Vaadin Checkbox](https://vaadin.com/elements/vaadin-checkbox/). See the HTML Examples link for a list
  * of possible alternative themes.
  */

@@ -19,10 +19,10 @@ import com.vaadin.flow.dom.Element
  *     // create the component UI here; maybe even attach very simple listeners here
  *     horizontalLayout {
  *       button("ok") {
- *         onLeftClick { okClicked() }
+ *         onClick { okClicked() }
  *       }
  *       button("cancel") {
- *         onLeftClick { cancelClicked() }
+ *         onClick { cancelClicked() }
  *       }
  *     }
  *   }
