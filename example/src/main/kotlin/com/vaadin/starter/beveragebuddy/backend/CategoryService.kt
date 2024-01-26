@@ -19,7 +19,7 @@ object CategoryService {
     /**
      * Fetches the categories whose name matches the given filter text.
      *
-     * The matching is case insensitive. When passed an empty filter text,
+     * The matching is case-insensitive. When passed an empty filter text,
      * the method returns all categories. The returned list is ordered
      * by name.
      *
@@ -43,7 +43,7 @@ object CategoryService {
     /**
      * Searches for the exact category whose name matches the given [filter] text.
      *
-     * The matching is substring-based and case insensitive.
+     * The matching is substring-based and case-insensitive.
      * @return the category or null.
      * @throws IllegalStateException    if the result is ambiguous
      */
