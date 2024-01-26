@@ -114,6 +114,13 @@ fun DynaNodeGroup.gridTest() {
             expect<Class<*>>(ListDataProvider2::class.java) { grid.dataProvider.javaClass }
             expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, 1000).map { it.fullName } }
         }
+
+        test("custom key") {
+            val grid = Grid<Person>()
+            expect("mykey") { grid.columnFor(Person::fullName, key = "mykey") {} .key }
+            expect("mykey2") { grid.columnFor(Person::fullName, key = "mykey2", converter = { it }) {} .key }
+            expect("mykey3") { grid.columnFor("fullName", key = "mykey3", converter = { it: String? -> "" }) {} .key }
+        }
     }
 
     test("column isExpand") {

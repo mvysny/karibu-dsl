@@ -89,10 +89,11 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
 public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     property: KProperty1<T, V?>,
     sortable: Boolean = true,
+    key: String = property.name,
     converter: (V?) -> Any? = { it },
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
-    addColumnFor(property, sortable, converter).apply {
+    addColumnFor(property, sortable, key, converter).apply {
         block()
     }
 
@@ -111,9 +112,10 @@ public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     property: KProperty1<T, V?>,
     renderer: Renderer<T>,
     sortable: Boolean = true,
+    key: String = property.name,
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
-    addColumnFor(property, renderer, sortable).apply {
+    addColumnFor(property, renderer, sortable, key).apply {
         block()
     }
 
@@ -134,10 +136,11 @@ public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
 public inline fun <reified T, reified V> (@VaadinDsl Grid<T>).columnFor(
     propertyName: String,
     sortable: Boolean = true,
+    key: String = propertyName,
     noinline converter: (V?) -> Any? = { it },
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
-    addColumnFor(propertyName, sortable, converter).apply { block() }
+    addColumnFor(propertyName, sortable, key, converter).apply { block() }
 
 /**
  * Adds a column for given [propertyName], using given [renderer]. The column key is set to the property name, so that you can look up the column
@@ -157,9 +160,10 @@ public inline fun <reified T, reified V> (@VaadinDsl Grid<T>).columnFor(
     propertyName: String,
     renderer: Renderer<T>,
     sortable: Boolean = true,
+    key: String = propertyName,
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> =
-    addColumnFor<T, V>(propertyName, renderer, sortable).apply { block() }
+    addColumnFor<T, V>(propertyName, renderer, sortable, key).apply { block() }
 
 /**
  * Adds a new text column to this [Grid] with a value provider and
