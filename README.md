@@ -15,7 +15,7 @@ verticalLayout {
     val nameField = textField("Your name") {}
     button("Click me") {
         setPrimary()
-        onLeftClick { Notification.show("Hello, ${nameField.value}") }
+        onClick { Notification.show("Hello, ${nameField.value}") }
     }
 }
 ```
