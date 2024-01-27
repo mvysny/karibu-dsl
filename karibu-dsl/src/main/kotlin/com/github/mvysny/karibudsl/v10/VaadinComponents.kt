@@ -56,6 +56,7 @@ public fun (@VaadinDsl HasComponents).iconButton(icon: Component, block: (@Vaadi
 /**
  * Adds a [leftClickListener].
  */
+@Deprecated("Replaced by onClick{}", ReplaceWith("onClick"))
 public fun <T : Component> (@VaadinDsl ClickNotifier<T>).onLeftClick(leftClickListener: ((ClickEvent<T>) -> Unit)): Registration
         = addClickListener(leftClickListener)
 

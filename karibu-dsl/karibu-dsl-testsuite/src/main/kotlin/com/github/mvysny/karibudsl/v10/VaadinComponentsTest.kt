@@ -23,7 +23,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         UI.getCurrent().apply {
             button("Foo") {}
             iconButton(VaadinIcon.LEVEL_LEFT.create()) {
-                onLeftClick {  }
+                onClick {  }
             }
             checkBox()
             comboBox<String>()
@@ -115,5 +115,13 @@ fun DynaNodeGroup.vaadinComponentsTest() {
             UI.getCurrent().avatar("Hello", "http://foo.com")
             _expect<Avatar>(3)
         }
+    }
+
+    test("onClick") {
+        var i = 0
+        UI.getCurrent().button("foo") {
+            onClick { i++ }
+        } ._click()
+        expect(1) { i }
     }
 }

@@ -142,7 +142,7 @@ class ReviewItem(val review: Review) : KComposite() {
                 icon = VaadinIcon.EDIT.create()
                 className = "review__edit"
                 addThemeVariants(ButtonVariant.LUMO_TERTIARY)
-                onLeftClick { onEdit() }
+                onClick { onEdit() }
             }
         }
     }

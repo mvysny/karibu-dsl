@@ -23,7 +23,7 @@ class ButtonBar : KComposite() {
                 onClick { okClicked() }
             }
             button("cancel") {
-                onLeftClick { cancelClicked() }
+                onClick { cancelClicked() }
             }
         }
     }
