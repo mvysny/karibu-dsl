@@ -1,9 +1,9 @@
 dependencies {
     api(kotlin("stdlib-jdk8"))
-    api("com.github.mvysny.karibu-tools:karibu-tools:${properties["karibu_tools_version"]}")
+    api(libs.kaributools)
 
-    testImplementation("com.github.mvysny.dynatest:dynatest-engine:${properties["dynatest_version"]}")
-    testImplementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
+    testImplementation(libs.dynatest)
+    testImplementation(libs.slf4j.simple)
 
     // Vaadin
     // don't compile-depend on vaadin-core anymore: the app itself should manage Vaadin dependencies, for example
@@ -16,9 +16,9 @@ dependencies {
     api(libs.jetbrains.annotations)
 
     // always include support for bean validation
-    api("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}")
+    api(libs.hibernate.validator)
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
-    implementation("org.glassfish:jakarta.el:4.0.2")
+    implementation(libs.jakarta.el)
 }
 
 kotlin {

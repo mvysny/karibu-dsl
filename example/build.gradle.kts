@@ -1,3 +1,5 @@
+import com.vaadin.gradle.getBooleanProperty
+
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
@@ -8,11 +10,10 @@ plugins {
 dependencies {
     // Vaadin
     implementation(project(":karibu-dsl-v23"))
-    implementation("com.vaadin:vaadin-core:${properties["vaadin_version"]}") {
-        afterEvaluate {
-            if (vaadin.productionMode.get()) {
-                exclude(module = "vaadin-dev")
-            }
+    implementation(libs.vaadin.core) {
+        // https://github.com/vaadin/flow/issues/18572
+        if (vaadin.productionMode.map { v -> getBooleanProperty("vaadin.productionMode") ?: v }.get()) {
+            exclude(module = "vaadin-dev")
         }
     }
     implementation(libs.vaadinboot)
