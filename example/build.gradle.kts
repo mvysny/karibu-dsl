@@ -2,7 +2,7 @@
 // Original project: https://github.com/vaadin/beverage-starter-flow
 
 plugins {
-    id("com.vaadin")
+    alias(libs.plugins.vaadin)
 }
 
 dependencies {
@@ -15,10 +15,10 @@ dependencies {
             }
         }
     }
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:12.2")
+    implementation(libs.vaadinboot)
 
-    implementation("org.slf4j:slf4j-simple:${properties["slf4j_version"]}")
+    implementation(libs.slf4j.simple)
 
-    testImplementation("com.github.mvysny.kaributesting:karibu-testing-v23:${properties["kaributesting_version"]}")
-    testImplementation("com.github.mvysny.dynatest:dynatest:${properties["dynatest_version"]}")
+    testImplementation(libs.kaributesting)
+    testImplementation(libs.dynatest)
 }

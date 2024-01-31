@@ -9,11 +9,11 @@ dependencies {
     // don't compile-depend on vaadin-core anymore: the app itself should manage Vaadin dependencies, for example
     // using the gradle-flow-plugin or direct dependency on vaadin-core. The reason is that the app may wish to use the
     // npm mode and exclude all webjars.
-    compileOnly("com.vaadin:vaadin-core:${properties["vaadin_version"]}")
-    testImplementation("com.vaadin:vaadin-core:${properties["vaadin_version"]}")
+    compileOnly(libs.vaadin.core)
+    testImplementation(libs.vaadin.core)
 
     // IDEA language injections
-    api("org.jetbrains:annotations:23.1.0")
+    api(libs.jetbrains.annotations)
 
     // always include support for bean validation
     api("org.hibernate.validator:hibernate-validator:${properties["hibernate_validator_version"]}")
