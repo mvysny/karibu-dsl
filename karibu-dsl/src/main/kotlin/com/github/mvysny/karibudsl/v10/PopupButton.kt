@@ -85,7 +85,7 @@ public class PopupButton(caption: String = "") : KComposite(), HasSize {
 
     override fun onAttach(attachEvent: AttachEvent?) {
         super.onAttach(attachEvent)
-        menu.element.executeJs("self = this; this._subMenu.$.overlay.addEventListener('opened-changed', e => self.\$server.onPopupOpened(e.detail.value));")
+        menu.element.executeJs("self = this; menu._subMenu.$.overlay.addEventListener('opened-changed', e => self.\$server.onPopupOpened(e.detail.value));", menu)
     }
 }
 
