@@ -1,13 +1,11 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.vaadin.flow.component.Component
-import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.HasSize
+import com.vaadin.flow.component.*
 import com.vaadin.flow.component.contextmenu.MenuItem
 import com.vaadin.flow.component.menubar.MenuBar
 import com.vaadin.flow.component.menubar.MenuBarVariant
 import com.vaadin.flow.dom.Element
-import java.lang.RuntimeException
+import com.vaadin.flow.shared.Registration
 
 /**
  * A popup button: a button with a caption, which, upon clicking, will show a
@@ -73,6 +71,21 @@ public class PopupButton(caption: String = "") : KComposite(), HasSize {
     public fun close() {
         // workaround for https://github.com/vaadin/vaadin-menu-bar/issues/102
         menu.element.executeJs("this._subMenu.close()")
+    }
+
+    public class PopupVisibilityEvent(source: MenuBar, public val isVisible: Boolean, fromClient: Boolean) : ComponentEvent<MenuBar?>(source, fromClient)
+
+    @ClientCallable
+    private fun onPopupOpened(opened: Boolean) {
+        fireEvent(PopupVisibilityEvent(menu, opened, true))
+    }
+
+    public fun addPopupVisibilityListener(listener: ComponentEventListener<PopupVisibilityEvent>): Registration =
+        addListener(PopupVisibilityEvent::class.java, listener)
+
+    override fun onAttach(attachEvent: AttachEvent?) {
+        super.onAttach(attachEvent)
+        menu.element.executeJs("self = this; this._subMenu.$.overlay.addEventListener('opened-changed', e => self.\$server.onPopupOpened(e.detail.value));")
     }
 }
 
