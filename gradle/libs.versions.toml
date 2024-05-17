@@ -1,7 +1,7 @@
 [versions]
 # https://github.com/vaadin/platform/tags
-vaadin = "24.3.10"
-vaadin_next = "24.4.0.beta1"
+vaadin = "24.3.12"
+vaadin_next = "24.4.0.beta3"
 # https://repo1.maven.org/maven2/org/slf4j/slf4j-api/
 slf4j = "2.0.12"
 
@@ -14,7 +14,7 @@ vaadinnext-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin_nex
 kaributesting = "com.github.mvysny.kaributesting:karibu-testing-v24:2.1.5"
 dynatest = "com.github.mvysny.dynatest:dynatest:0.25"
 vaadinboot = "com.github.mvysny.vaadin-boot:vaadin-boot:12.2"
-kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.20"  # https://github.com/mvysny/karibu-tools/tags
+kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.21"  # https://github.com/mvysny/karibu-tools/tags
 hibernate-validator = "org.hibernate.validator:hibernate-validator:8.0.1.Final"  # https://repo1.maven.org/maven2/org/hibernate/validator/hibernate-validator/
 jakarta-el = "org.glassfish:jakarta.el:4.0.2"
 
