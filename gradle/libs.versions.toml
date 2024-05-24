@@ -1,9 +1,9 @@
 [versions]
 # https://github.com/vaadin/platform/tags
 vaadin = "24.3.12"
-vaadin_next = "24.4.0.beta3"
+vaadin_next = "24.4.0.beta4"
 # https://repo1.maven.org/maven2/org/slf4j/slf4j-api/
-slf4j = "2.0.12"
+slf4j = "2.0.13"
 
 [libraries]
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
