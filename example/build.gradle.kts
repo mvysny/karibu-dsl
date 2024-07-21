@@ -5,6 +5,7 @@ import com.vaadin.gradle.getBooleanProperty
 
 plugins {
     alias(libs.plugins.vaadin)
+    application
 }
 
 dependencies {
@@ -22,3 +23,8 @@ dependencies {
     testImplementation(libs.kaributesting)
     testImplementation(libs.dynatest)
 }
+
+application {
+    mainClass = "com.vaadin.starter.beveragebuddy.MainKt"
+}
+
