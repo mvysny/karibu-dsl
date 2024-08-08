@@ -3,4 +3,6 @@ dependencies {
 
     // Vaadin
     testImplementation(libs.vaadin.core)
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

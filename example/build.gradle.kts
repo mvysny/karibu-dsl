@@ -22,6 +22,8 @@ dependencies {
 
     testImplementation(libs.kaributesting)
     testImplementation(libs.dynatest)
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {
