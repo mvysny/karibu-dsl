@@ -21,7 +21,7 @@ dependencies {
     implementation(libs.slf4j.simple)
 
     testImplementation(libs.kaributesting)
-    testImplementation(libs.dynatest)
+    testImplementation(libs.junit)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

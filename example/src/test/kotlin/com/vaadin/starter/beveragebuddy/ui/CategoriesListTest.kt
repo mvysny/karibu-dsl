@@ -1,8 +1,5 @@
 package com.vaadin.starter.beveragebuddy.ui
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
@@ -12,36 +9,20 @@ import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
-
-/**
- * Properly configures the app in the test context, so that the app is properly initialized, and the database is emptied before every test.
- */
-fun DynaNodeGroup.usingApp() {
-    // since there is no servlet environment, Flow won't auto-detect the @Routes. We need to auto-discover all @Routes
-    // and populate the RouteRegistry properly.
-    beforeEach { MockVaadin.setup(Routes().autoDiscoverViews("com.vaadin.starter")) }
-    afterEach { MockVaadin.tearDown() }
-
-    // it's a good practice to clear up the db before every test, to start every test with a predefined state.
-    fun cleanupDb() { CategoryService.deleteAll(); ReviewService.deleteAll() }
-    beforeEach { cleanupDb() }
-    afterEach { cleanupDb() }
-}
 
 /**
  * Tests the UI. Uses the Browserless Testing approach as provided by the [Karibu Testing](https://github.com/mvysny/karibu-testing) library.
  */
-class CategoriesListTest : DynaTest({
-
-    usingApp()
-
-    beforeEach {
+class CategoriesListTest : AbstractAppTest() {
+    @BeforeEach fun navigate() {
         UI.getCurrent().navigate("categories")
         _expectOne<CategoriesList>()  // make sure that the navigation succeeded
     }
 
-    test("grid lists all categories") {
+    @Test fun `grid lists all categories`() {
         // prepare testing data
         CategoryService.saveCategory(Category(name = "Beers"))
         UI.getCurrent().page.reload()
@@ -51,7 +32,7 @@ class CategoriesListTest : DynaTest({
         expect(1) { grid.dataProvider._size() }
     }
 
-    test("create new category") {
+    @Test fun `create new category`() {
         UI.getCurrent().navigate("categories")
         _get<Button> { text = "New category (Alt+N)" } ._click()
 
@@ -68,7 +49,7 @@ class CategoriesListTest : DynaTest({
         expectList("Beer") { CategoryService.findAll().map { it.name } }
     }
 
-    test("edit existing category") {
+    @Test fun `edit existing category`() {
         val cat = Category(name = "Beers")
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
@@ -81,7 +62,7 @@ class CategoriesListTest : DynaTest({
         expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
-    test("edit existing category via context menu") {
+    @Test fun `edit existing category via context menu`() {
         val cat = Category(name = "Beers")
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
@@ -94,7 +75,7 @@ class CategoriesListTest : DynaTest({
         expect(cat.name) { _get<TextField> { label = "Category Name" } ._value }
     }
 
-    test("delete existing category via context menu") {
+    @Test fun `delete existing category via context menu`() {
         val cat = Category(name = "Beers")
         CategoryService.saveCategory(cat)
         UI.getCurrent().page.reload()
@@ -104,4 +85,4 @@ class CategoriesListTest : DynaTest({
         expectList() { CategoryService.findAll() }
         _get<Grid<Category>>().expectRows(0)
     }
-})
+}

@@ -1,15 +1,12 @@
 package com.vaadin.starter.beveragebuddy.ui
 
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.dynatest.DynaTest
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import org.junit.jupiter.api.Test
 
-class ReviewsListTest : DynaTest({
-
-    usingApp()
-
-    test("'new review' smoke test") {
+class ReviewsListTest : AbstractAppTest() {
+    @Test fun `'new review' smoke test`() {
         UI.getCurrent().navigate("")
         _get<Button> { text = "New review (Alt+N)" } ._click()
 
@@ -21,4 +18,4 @@ class ReviewsListTest : DynaTest({
 
         _expectNone<EditorDialogFrame<*>>()
     }
-})
+}
