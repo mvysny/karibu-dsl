@@ -1,7 +1,5 @@
 package com.github.mvysny.karibudsl.v20
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.karibudsl.v10.span
 import com.github.mvysny.karibudsl.v23.*
 import com.github.mvysny.kaributesting.v10.*
@@ -12,10 +10,9 @@ import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.TabSheet
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.tabSheetTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class TabSheetTest {
+    @BeforeEach { MockVaadin.setup() }
+    @AfterEach { MockVaadin.tearDown() }
 
     test("smoke") {
         UI.getCurrent().tabSheet()

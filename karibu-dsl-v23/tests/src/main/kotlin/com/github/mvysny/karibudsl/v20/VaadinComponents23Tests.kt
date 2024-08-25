@@ -11,10 +11,9 @@ import com.vaadin.flow.component.combobox.MultiSelectComboBox
 import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.flow.data.provider.ListDataProvider
 
-@DynaTestDsl
-fun DynaNodeGroup.vaadinComponents23Tests() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class VaadinComponents23Tests {
+    @BeforeEach { MockVaadin.setup() }
+    @AfterEach { MockVaadin.tearDown() }
 
     group("VirtualList") {
         test("dsl syntax test") {

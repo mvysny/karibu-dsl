@@ -1,41 +1,13 @@
 package com.github.mvysny.karibudsl.v20
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.kaributools.SemanticVersion
-import com.github.mvysny.kaributools.VaadinVersion
+import org.junit.jupiter.api.Nested
 
-@DynaTestDsl
-fun DynaNodeGroup.allTests24() {
-    group("Components Vaadin 23") {
-        vaadinComponents23Tests()
-    }
-
-    group("Dialog 23.1") {
-        dialog23_1Tests()
-    }
-
-    group("TabSheet") {
-        tabSheetTest()
-    }
-
-    group("SideNav") {
-        sideNavTest()
-    }
-
-    if (VaadinVersion.get.isAtLeast(24, 2)) {
-        group("icons") {
-            iconTests()
-        }
-
-        group("Login Form") {
-            loginFormTests()
-        }
-    }
-
-    if (VaadinVersion.get >= SemanticVersion(24, 3, 0, "alpha6")) {
-        group("Html") {
-            htmlTests()
-        }
-    }
+abstract class AllTests24() {
+    @Nested inner class vaadinComponents23 : VaadinComponents23Tests()
+    @Nested inner class `Dialog 23-1` : Dialog23_1Tests()
+    @Nested inner class TabSheet : TabSheetTest()
+    @Nested inner class SideNav : SideNavTest()
+    @Nested inner class Icon : IconTest()
+    @Nested inner class LoginForm : LoginFormTest()
+    @Nested inner class Html : HtmlTest()
 }

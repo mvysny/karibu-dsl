@@ -1,7 +1,5 @@
 package com.github.mvysny.karibudsl.v20
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.karibudsl.v23.*
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributesting.v23._click
@@ -9,22 +7,24 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.sidenav.SideNav
 import com.vaadin.flow.component.sidenav.SideNavItem
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.myapp.DemoRoute
 import org.myapp.MainRoute
 
 val routes = Routes().autoDiscoverViews("org.myapp")
 
-@DynaTestDsl
-fun DynaNodeGroup.sideNavTest() {
-    beforeEach { MockVaadin.setup(routes) }
-    afterEach { MockVaadin.tearDown() }
+abstract class SideNavTest {
+    @BeforeEach fun setup() { MockVaadin.setup(routes) }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().sideNav()
         _expectOne<SideNav>()
     }
 
-    test("full dsl test") {
+    @Test fun `full dsl test`() {
         UI.getCurrent().sideNav {
             route(MainRoute::class, VaadinIcon.QUESTION) {
                 item("Hello!")
@@ -48,7 +48,7 @@ fun DynaNodeGroup.sideNavTest() {
         _expectOne<SideNavItem> { label = "DemoRoute" }
     }
 
-    test("navigation") {
+    @Test fun navigation() {
         UI.getCurrent().sideNav {
             route(MainRoute::class)
             route(DemoRoute::class)

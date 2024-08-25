@@ -1,18 +1,23 @@
 package com.github.mvysny.karibudsl.v20
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.karibudsl.v23.fontIcon
 import com.github.mvysny.karibudsl.v23.svgIcon
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.github.mvysny.kaributools.VaadinVersion
 import com.vaadin.flow.component.UI
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assumptions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-@DynaTestDsl
-fun DynaNodeGroup.iconTests() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class IconTest {
+    init {
+        Assumptions.assumeTrue(VaadinVersion.get.isAtLeast(24, 2))
+    }
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().apply {
             svgIcon {}
             svgIcon()
