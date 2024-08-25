@@ -1,6 +1,5 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.*
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.github.mvysny.kaributesting.v10._get
@@ -8,7 +7,12 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.lang.IllegalStateException
+import kotlin.test.expect
 
 /**
  * This is also an API test that we can create components based on [KComposite]. The components should be final,
@@ -52,12 +56,11 @@ class MyComponent : KComposite() {
     }
 }
 
-@DynaTestDsl
-fun DynaNodeGroup.kcompositeTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class KcompositeTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("lookup") {
+    @Test fun lookup() {
         UI.getCurrent().apply {
             buttonBar()
         }
@@ -65,19 +68,20 @@ fun DynaNodeGroup.kcompositeTest() {
         _expectOne<Button> { text = "ok" }
     }
 
-    test("uninitialized composite fails with informative exception") {
-        expectThrows(IllegalStateException::class, "The content has not yet been initialized") {
+    @Test fun `uninitialized composite fails with informative exception`() {
+        val ex = assertThrows<IllegalStateException> {
             UI.getCurrent().add(object : KComposite() {})
         }
+        expect("The content has not yet been initialized") { ex.message }
     }
 
-    test("provide contents in constructor") {
+    @Test fun `provide contents in constructor`() {
         UI.getCurrent().add(MyButton())
         _expectOne<MyButton>()
         _expectOne<Button> { text = "Click me!" }
     }
 
-    test("provide contents in initContent()") {
+    @Test fun `provide contents in initContent()`() {
         UI.getCurrent().add(MyComponent())
         _expectOne<Button> { text = "Click me!" }
     }

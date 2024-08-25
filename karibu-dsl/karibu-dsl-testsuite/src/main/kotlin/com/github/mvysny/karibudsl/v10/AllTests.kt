@@ -19,12 +19,9 @@ abstract class AllTests {
     @Nested inner class FormLayouts : FormLayoutsTest()
     @Nested inner class Grid : GridTest()
     @Nested inner class Html : HtmlTest()
-    group("Icon test") {
-        iconTest()
-    }
-    group("KComposite test") {
-        kcompositeTest()
-    }
+    @Nested inner class Icon : IconTest()
+    @Nested inner class KaribuTools : KaribuToolsTests()
+    @Nested inner class KComposite : KcompositeTest()
     group("Layouts test") {
         layoutsTest()
     }
