@@ -1,7 +1,7 @@
 dependencies {
     api(project(":karibu-dsl"))
 
-    api(libs.dynatest)
+    api(libs.junit)
     api(libs.kaributesting)
     api(libs.slf4j.simple)
 

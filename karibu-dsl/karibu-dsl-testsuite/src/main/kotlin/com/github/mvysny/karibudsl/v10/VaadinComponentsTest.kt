@@ -1,8 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.avatar.Avatar
@@ -12,14 +10,17 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.vaadinComponentsTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class VaadinComponentsTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun tearDown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().apply {
             button("Foo") {}
             iconButton(VaadinIcon.LEVEL_LEFT.create()) {
@@ -53,7 +54,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         }
     }
 
-    test("scroller") {
+    @Test fun scroller() {
         val scroller: Scroller = UI.getCurrent().scroller {  }
         expect(null) { scroller.content }
         val span: Span = scroller.content { span("Foo") }
@@ -64,19 +65,19 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         scroller.content { span("Bar") }
     }
 
-    group("button") {
-        test("text") {
+    @Nested inner class ButtonTests {
+        @Test fun text() {
             val button = UI.getCurrent().button("Hello world")
             expect("Hello world") { button.text }
         }
-        test("id") {
+        @Test fun id() {
             val button = UI.getCurrent().button("Hello world", id = "helloWorld")
             expect("helloWorld") { button.id_ }
         }
     }
 
-    group("flex") {
-        test("setting flexGrow on component sets it to the parent VerticalLayout correctly") {
+    @Nested inner class Flex {
+        @Test fun `setting flexGrow on component sets it to the parent VerticalLayout correctly`() {
             val vl = VerticalLayout().apply {
                 button("foo") {
                     flexGrow = 1.0
@@ -84,7 +85,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
             }
             expect(1.0) { vl.getFlexGrow(vl.getComponentAt(0)) }
         }
-        test("setting flexGrow on component sets it to the parent HorizontalLayout correctly") {
+        @Test fun `setting flexGrow on component sets it to the parent HorizontalLayout correctly`() {
             val vl = HorizontalLayout().apply {
                 button("foo") {
                     flexGrow = 1.0
@@ -92,7 +93,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
             }
             expect(1.0) { vl.getFlexGrow(vl.getComponentAt(0)) }
         }
-        test("setting flexGrow on component sets it to the parent FlexLayout correctly") {
+        @Test fun `setting flexGrow on component sets it to the parent FlexLayout correctly`() {
             val vl = FlexLayout().apply {
                 button("foo") {
                     flexGrow = 1.0
@@ -102,14 +103,14 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         }
     }
 
-    test("text") {
+    @Test fun text() {
         val t: Text = UI.getCurrent().text("foo")
         expect("foo") { t.text }
         expect(UI.getCurrent()) { t.parent.get() }
     }
 
-    group("Avatar") {
-        test("smoke") {
+    @Nested inner class AvatarTests() {
+        @Test fun smoke() {
             UI.getCurrent().avatar()
             UI.getCurrent().avatar("Hello")
             UI.getCurrent().avatar("Hello", "http://foo.com")
@@ -117,7 +118,7 @@ fun DynaNodeGroup.vaadinComponentsTest() {
         }
     }
 
-    test("onClick") {
+    @Test fun onClick() {
         var i = 0
         UI.getCurrent().button("foo") {
             onClick { i++ }

@@ -1,31 +1,20 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import java.util.*
 
-@DynaTestDsl
-fun DynaNodeGroup.allTests() {
-    beforeEach {
+class AllTests {
+    @BeforeEach fun setLocale() {
         // make sure that Validator produces messages in English
         Locale.setDefault(Locale.ENGLISH)
     }
 
-    group("accordion test") {
-        accordionTest()
-    }
-    group("applayout utils") {
-        appLayoutTest()
-    }
-    group("binder utils") {
-        binderUtilsTest()
-    }
-    group("ContextMenu test") {
-        contextMenuTest()
-    }
-    group("Details test") {
-        detailsTest()
-    }
+    @Nested inner class Accordion : AccordionTest()
+    @Nested inner class AppLayout : AppLayoutTest()
+    @Nested inner class BinderUtils : BinderUtilsTest()
+    @Nested inner class ContextMenu : ContextMenuTest()
+    @Nested inner class Details : DetailsTest()
     group("Element test") {
         elementTest()
     }
@@ -62,13 +51,9 @@ fun DynaNodeGroup.allTests() {
     group("Upload test") {
         uploadTest()
     }
-    group("VaadinComponents test") {
-        vaadinComponentsTest()
-    }
+    @Nested inner class VaadinComponents : VaadinComponentsTest()
     group("Messages") {
         messagesTests()
     }
-    group("Badge") {
-        badgesTest()
-    }
+    @Nested inner class Badges : BadgesTest()
 }

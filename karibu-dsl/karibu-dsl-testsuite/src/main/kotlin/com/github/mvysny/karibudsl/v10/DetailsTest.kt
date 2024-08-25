@@ -1,26 +1,20 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.dynatest.expectList
-import com.github.mvysny.kaributesting.v10.MockVaadin
-import com.github.mvysny.kaributesting.v10._expectOne
-import com.github.mvysny.kaributesting.v10._get
-import com.github.mvysny.kaributesting.v10._text
-import com.github.mvysny.kaributools.label
+import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.details.Details
 import com.vaadin.flow.component.html.Span
-import kotlin.streams.toList
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.detailsTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class DetailsTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().details("Hello") {
             content {
                 button("hi!")
@@ -31,7 +25,7 @@ fun DynaNodeGroup.detailsTest() {
         expect("hi!") { _get<Details>().content.toList().joinToString { it._text!! } }
     }
 
-    test("summary as component") {
+    @Test fun `summary as component`() {
         UI.getCurrent().details {
             summary {
                 button("hi!")
@@ -41,7 +35,7 @@ fun DynaNodeGroup.detailsTest() {
         expect("hi!") { _get<Details>().summary._text }
     }
 
-    test("clear content") {
+    @Test fun `clear content`() {
         val d = UI.getCurrent().details()
         expectList() { d.content.toList() }
         d.content {

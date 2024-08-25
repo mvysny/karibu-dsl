@@ -1,7 +1,5 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._value
 import com.vaadin.flow.component.AbstractField
@@ -27,15 +25,17 @@ import java.util.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PastOrPresent
 import jakarta.validation.constraints.Size
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.binderUtilsTest() {
+abstract class BinderUtilsTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
-
-    test("ReadBeanWithNullFields") {
+    @Test fun readBeanWithNullFields() {
         // https://github.com/vaadin/framework/issues/8664
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
@@ -54,7 +54,7 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(null) { form.testCalendar.value }
     }
 
-    test("WriteBeanWithNullFields") {
+    @Test fun writeBeanWithNullFields() {
         // https://github.com/vaadin/framework/issues/8664
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
@@ -65,7 +65,7 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(Person(testBoolean = false)) { person }
     }
 
-    test("SimpleBindings") {
+    @Test fun simpleBindings() {
         val binder = Binder<Person>(Person::class.java)
         val form = Form(binder)
         form.testDouble.value = "25.5"
@@ -84,7 +84,7 @@ fun DynaNodeGroup.binderUtilsTest() {
                 25.5, 5, 555L, BigDecimal("77.11"), BigInteger("123"), instant, cal)) { person }
     }
 
-    test("ValidatingBindings") {
+    @Test fun validatingBindings() {
         val binder = beanValidationBinder<Person>()
         Form(binder)
         val person = Person()
@@ -92,7 +92,7 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(Person("Zaphod Beeblebrox", LocalDate.of(2010, 1, 25), false, false, "some comment")) { person }
     }
 
-    test("test validation errors") {
+    @Test fun validationErrors() {
         val binder = beanValidationBinder<Person>()
         val form = Form(binder)
         form.fullName.value = ""
@@ -103,7 +103,7 @@ fun DynaNodeGroup.binderUtilsTest() {
 
     // https://github.com/vaadin/flow/issues/17277
     // https://github.com/mvysny/karibu-dsl/issues/13
-    test("programmatic validation should fail for empty name when required") {
+    @Test fun `programmatic validation should fail for empty name when required`() {
         val binder = Binder(PersonNoJSR303::class.java) // don't use JSR303 validations, use binder validations only
         val tf = TextField()
         tf.bind(binder).asRequiredNotNull().bind("fullName")
@@ -111,7 +111,7 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(false) { binder.writeBeanIfValid(person) }
     }
 
-    test("test that bind() supports both non-nullable and nullable properties") {
+    @Test fun `test that bind() supports both non-nullable and nullable properties`() {
         data class TestingPerson(var foo: String? = null, var baz: String = "")
         val binder = beanValidationBinder<TestingPerson>()
         TextField().bind(binder).bind(TestingPerson::foo)
@@ -122,36 +122,38 @@ fun DynaNodeGroup.binderUtilsTest() {
         binder.writeBean(TestingPerson())
     }
 
-    test("bind() supports properties starting with 'is'") {
+    @Test fun `bind() supports properties starting with 'is'`() {
         data class TestingPerson(var isPropertyStartingWithIs: Boolean, var booleanProperty: Boolean)
         val binder = beanValidationBinder<TestingPerson>()
         Checkbox().bind(binder).bind(TestingPerson::isPropertyStartingWithIs)
         Checkbox().bind(binder).bind(TestingPerson::booleanProperty)
     }
 
-    test("SimpleBindings with NumberField: write") {
-        val binder = Binder<Person>(Person::class.java)
-        val form = Form2(binder)
-        form.testInt.value = 5.0
-        form.testLong.value = 555.0
-        form.testBI.value = 123.0
-        form.testBD.value = 77.11
-        val person = Person()
-        expect(true) { binder.writeBeanIfValid(person) }
-        expect(Person(testInt = 5, testLong = 555L, testBD = BigDecimal("77.11"), testBI = BigInteger("123"))) { person }
+    @Nested inner class SimpleBindingsWithNumberField {
+        @Test fun write() {
+            val binder = Binder<Person>(Person::class.java)
+            val form = Form2(binder)
+            form.testInt.value = 5.0
+            form.testLong.value = 555.0
+            form.testBI.value = 123.0
+            form.testBD.value = 77.11
+            val person = Person()
+            expect(true) { binder.writeBeanIfValid(person) }
+            expect(Person(testInt = 5, testLong = 555L, testBD = BigDecimal("77.11"), testBI = BigInteger("123"))) { person }
+        }
+
+        @Test fun load() {
+            val binder = Binder<Person>(Person::class.java)
+            val form = Form2(binder)
+            binder.readBean(Person(testInt = 5, testLong = 555L, testBD = BigDecimal("77.11"), testBI = BigInteger("123")))
+            expect(5.0) { form.testInt.value }
+            expect(555.0) { form.testLong.value }
+            expect(123.0) { form.testBI.value }
+            expect(77.11) { form.testBD.value }
+        }
     }
 
-    test("SimpleBindings with NumberField: load") {
-        val binder = Binder<Person>(Person::class.java)
-        val form = Form2(binder)
-        binder.readBean(Person(testInt = 5, testLong = 555L, testBD = BigDecimal("77.11"), testBI = BigInteger("123")))
-        expect(5.0) { form.testInt.value }
-        expect(555.0) { form.testLong.value }
-        expect(123.0) { form.testBI.value }
-        expect(77.11) { form.testBD.value }
-    }
-
-    test("intToLong") {
+    @Test fun intToLong() {
         val binder = Binder<Person>(Person::class.java)
         val field = UI.getCurrent().integerField("Test Long") {
             bind(binder).toLong().bind("testLong")
@@ -164,7 +166,7 @@ fun DynaNodeGroup.binderUtilsTest() {
         expect(555) { field._value }
     }
 
-    test("guessIsReadOnly") {
+    @Test fun guessIsReadOnly() {
         val binder = Binder<Person>(Person::class.java)
         expect(false) { binder.guessIsReadOnly }
         Form2(binder)

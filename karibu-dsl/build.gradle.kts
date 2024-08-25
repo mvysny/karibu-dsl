@@ -2,7 +2,7 @@ dependencies {
     api(kotlin("stdlib-jdk8"))
     api(libs.kaributools)
 
-    testImplementation(libs.dynatest)
+    testImplementation(libs.junit)
     testImplementation(libs.slf4j.simple)
 
     // Vaadin

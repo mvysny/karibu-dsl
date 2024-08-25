@@ -1,16 +1,19 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.UI
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-@DynaTestDsl
-fun DynaNodeGroup.accordionTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class AccordionTest {
+    @BeforeEach
+    fun setup() { MockVaadin.setup() }
+    @AfterEach
+    fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test
+    fun smoke() {
         UI.getCurrent().accordion {
             panel("lorem ipsum") {
                 content {
