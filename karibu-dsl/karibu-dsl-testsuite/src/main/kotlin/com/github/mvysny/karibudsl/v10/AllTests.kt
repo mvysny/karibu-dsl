@@ -22,27 +22,13 @@ abstract class AllTests {
     @Nested inner class Icon : IconTest()
     @Nested inner class KaribuTools : KaribuToolsTests()
     @Nested inner class KComposite : KcompositeTest()
-    group("Layouts test") {
-        layoutsTest()
-    }
-    group("LoginForm test") {
-        loginFormTest()
-    }
-    group("MenuBar test") {
-        menuBarTest()
-    }
-    group("PopupButton test") {
-        popupButtonTest()
-    }
-    group("Router test") {
-        routerTest()
-    }
-    group("Upload test") {
-        uploadTest()
-    }
+    @Nested inner class Layouts : LayoutsTest()
+    @Nested inner class LoginForm : LoginFormTest()
+    @Nested inner class MenuBar : MenuBarTest()
+    @Nested inner class PopupButton : PopupButtonTest()
+    @Nested inner class Router : RouterTest()
+    @Nested inner class Upload : UploadTest()
     @Nested inner class VaadinComponents : VaadinComponentsTest()
-    group("Messages") {
-        messagesTests()
-    }
+    @Nested inner class Messages : MessagesTest()
     @Nested inner class Badges : BadgesTest()
 }

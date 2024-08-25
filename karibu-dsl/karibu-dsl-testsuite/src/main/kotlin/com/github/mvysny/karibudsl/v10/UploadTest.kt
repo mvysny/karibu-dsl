@@ -1,21 +1,23 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.upload.Receiver
 import com.vaadin.flow.component.upload.Upload
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.uploadTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class UploadTest {
+    @BeforeEach
+    fun setup() { MockVaadin.setup() }
+    @AfterEach
+    fun teardown() { MockVaadin.tearDown() }
 
-    test("dsl") {
+    @Test fun dsl() {
         UI.getCurrent().upload {  }
         _expectOne<Upload>()
         UI.getCurrent().removeAll()
@@ -23,7 +25,7 @@ fun DynaNodeGroup.uploadTest() {
         _expectOne<Upload>()
     }
 
-    test("i18n dsl") {
+    @Test fun `i18n dsl`() {
         val upload = UI.getCurrent().upload {
             i18n {
                 dropFiles {

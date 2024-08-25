@@ -1,21 +1,22 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._get
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.popupButtonTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class PopupButtonTest() {
+    @BeforeEach
+    fun setup() { MockVaadin.setup() }
+    @AfterEach
+    fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().popupButton("foo") {
             content {
                 button("Hello!")
@@ -25,7 +26,7 @@ fun DynaNodeGroup.popupButtonTest() {
         _get<Button> { text = "Hello!" }
     }
 
-    test("content keeps its width and height") {
+    @Test fun `content keeps its width and height`() {
         UI.getCurrent().popupButton("foo") {
             content {
                 verticalLayout { width = "200px"; height = "300px" }

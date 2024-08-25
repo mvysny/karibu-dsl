@@ -1,19 +1,21 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.messages.MessageInput
 import com.vaadin.flow.component.messages.MessageList
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-@DynaTestDsl
-fun DynaNodeGroup.messagesTests() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class MessagesTest {
+    @BeforeEach
+    fun setup() { MockVaadin.setup() }
+    @AfterEach
+    fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().messageInput()
         UI.getCurrent().messageList()
         _expectOne<MessageInput>()

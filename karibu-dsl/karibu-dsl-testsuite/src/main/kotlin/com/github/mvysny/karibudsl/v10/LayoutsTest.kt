@@ -1,45 +1,40 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.dynatest.expectThrows
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
-import kotlin.reflect.KClass
+import org.junit.jupiter.api.*
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.layoutsTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class LayoutsTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().flexLayout {
             verticalLayout()
             horizontalLayout()
         }
     }
 
-    group("class names") {
-        test("flex layout") {
+    @Nested inner class `class names`() {
+        @Test fun `flex layout`() {
             var layout: FlexLayout = UI.getCurrent().flexLayout()
             expect(null) { layout.className }
             layout = UI.getCurrent().flexLayout("foo bar foo")
             expect("foo bar") { layout.className }
         }
-        test("vertical layout") {
+        @Test fun `vertical layout`() {
             var layout: VerticalLayout = UI.getCurrent().verticalLayout()
             expect(null) { layout.className }
             layout = UI.getCurrent().verticalLayout(classNames = "foo bar foo")
             expect("foo bar") { layout.className }
         }
-        test("horizontal layout") {
+        @Test fun `horizontal layout`() {
             var layout: HorizontalLayout = UI.getCurrent().horizontalLayout()
             expect(null) { layout.className }
             layout = UI.getCurrent().horizontalLayout(classNames = "foo bar foo")
@@ -47,37 +42,37 @@ fun DynaNodeGroup.layoutsTest() {
         }
     }
 
-    group("flexGrow") {
-        test("flexGrow works even when the component is not yet attached to parent") {
+    @Nested inner class flexGrow {
+        @Test fun `flexGrow works even when the component is not yet attached to parent`() {
             Button().flexGrow = 1.0
         }
-        test("setting flexGrow works") {
+        @Test fun `setting flexGrow works`() {
             val button = Button()
             button.flexGrow = 1.0
             expect("1.0") { button.element.style.get("flexGrow") }
         }
-        test("getting flexGrow works") {
+        @Test fun `getting flexGrow works`() {
             val button = Button()
             button.element.style.set("flexGrow", "25")
             expect(25.0) { button.flexGrow }
         }
-        test("setting flexGrow to null removes the style") {
+        @Test fun `setting flexGrow to null removes the style`() {
             val button = Button()
             button.element.style.set("flexGrow", "25")
             button.flexGrow = null
             expect(null) { button.element.style.get("flexGrow") }
         }
-        test("by default component has flexGrow of null") {
+        @Test fun `by default component has flexGrow of null`() {
             expect(null) { Button().flexGrow }
         }
-        test("setting negative flexGrow fails") {
-            expectThrows(IllegalArgumentException::class) {
+        @Test fun `setting negative flexGrow fails`() {
+            assertThrows<IllegalArgumentException> {
                 Button().flexGrow = -1.0
             }
         }
     }
 
-    test("expand") {
+    @Test fun expand() {
         val button = Button()
         expect(false) { button.isExpand }
         button.isExpand = true
@@ -86,7 +81,7 @@ fun DynaNodeGroup.layoutsTest() {
         expect(false) { button.isExpand }
     }
 
-    test("flexShrink") {
+    @Test fun flexShrink() {
         val button = Button()
         expect(null) { button.flexShrink }
         button.flexShrink = 0.0
@@ -99,7 +94,7 @@ fun DynaNodeGroup.layoutsTest() {
         expect(null) { button.element.style.get("flexShrink") }
     }
 
-    test("flexBasis") {
+    @Test fun flexBasis() {
         val button = Button()
         expect(null) { button.flexBasis }
         button.flexBasis = "auto"
@@ -109,7 +104,7 @@ fun DynaNodeGroup.layoutsTest() {
         expect(null) { button.element.style.get("flexBasis") }
     }
 
-    test("alignSelf") {
+    @Test fun alignSelf() {
         lateinit var button: Button
         UI.getCurrent().verticalLayout {
             button = button()

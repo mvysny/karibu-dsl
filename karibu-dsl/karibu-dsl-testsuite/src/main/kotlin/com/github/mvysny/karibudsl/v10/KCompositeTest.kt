@@ -72,7 +72,7 @@ abstract class KcompositeTest {
         val ex = assertThrows<IllegalStateException> {
             UI.getCurrent().add(object : KComposite() {})
         }
-        expect("The content has not yet been initialized") { ex.message }
+        expect("The content has not yet been initialized, please call the ui() function in the constructor") { ex.message }
     }
 
     @Test fun `provide contents in constructor`() {
