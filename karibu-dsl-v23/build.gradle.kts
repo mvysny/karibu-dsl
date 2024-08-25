@@ -2,7 +2,7 @@ dependencies {
     api(project(":karibu-dsl"))
     api(libs.kaributools)
 
-    testImplementation(libs.dynatest)
+    testImplementation(libs.junit)
     testImplementation(libs.slf4j.simple)
 
     // Vaadin
