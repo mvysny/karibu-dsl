@@ -1,21 +1,20 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.server.InputStreamFactory
 import com.vaadin.flow.server.StreamResource
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.htmlTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class HtmlTest() {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke test") {
+    @Test fun smoke() {
         UI.getCurrent()!!.apply {
             div()
             h1()
@@ -52,7 +51,7 @@ fun DynaNodeGroup.htmlTest() {
         }
     }
 
-    test("div class names") {
+    @Test fun `div class names`() {
         var layout: Div = UI.getCurrent().div()
         expect(null) { layout.className }
         layout = UI.getCurrent().div("foo bar foo")

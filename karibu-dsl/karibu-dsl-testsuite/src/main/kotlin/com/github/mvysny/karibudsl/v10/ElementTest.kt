@@ -1,13 +1,13 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.dynatest.cloneBySerialization
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Tag
 import com.vaadin.flow.component.UI
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
 @Tag("my-test-element")
@@ -20,12 +20,11 @@ class MyTest : Component() {
 @VaadinDsl
 fun (@VaadinDsl HasComponents).myTest(block: (@VaadinDsl MyTest).() -> Unit = {}) = init(MyTest(), block)
 
-@DynaTestDsl
-fun DynaNodeGroup.elementTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class ElementTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().apply {
             myTest {
                 userName = "Martin"
@@ -35,11 +34,11 @@ fun DynaNodeGroup.elementTest() {
         }
     }
 
-    test("serializable") {
+    @Test fun serializable() {
         MyTest().cloneBySerialization()
     }
 
-    test("string property") {
+    @Test fun stringProperty() {
         val t = MyTest()
         expect("") { t.userName }
         t.userName = "Martin"
@@ -50,7 +49,7 @@ fun DynaNodeGroup.elementTest() {
         expect(null) { t.element.getProperty("userName") }
     }
 
-    test("boolean property") {
+    @Test fun booleanProperty() {
         val t = MyTest()
         expect(false) { t.isDarkTheme }
         t.isDarkTheme = true
@@ -61,7 +60,7 @@ fun DynaNodeGroup.elementTest() {
         expect(false) { t.element.getProperty("isDarkTheme", false) }
     }
 
-    test("attribute") {
+    @Test fun attribute() {
         val t = MyTest()
         expect(null) { t.myAttr }
         t.myAttr = "Martin"

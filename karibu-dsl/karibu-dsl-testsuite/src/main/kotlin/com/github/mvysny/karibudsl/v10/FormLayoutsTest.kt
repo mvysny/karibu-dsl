@@ -1,20 +1,19 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
 import com.github.mvysny.kaributesting.v10.*
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.formlayout.FormLayout
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.formLayoutsTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class FormLayoutsTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("responsive steps") {
+    @Test fun responsiveSteps() {
         val layout = FormLayout().apply {
             responsiveSteps { "0px"(1); "30em"(2, top) }
         }
@@ -22,13 +21,13 @@ fun DynaNodeGroup.formLayoutsTest() {
             layout.element.getProperty("responsiveSteps")
         }
     }
-    test("class names") {
+    @Test fun classNames() {
         var layout: KFormLayout = UI.getCurrent().formLayout()
         expect(null) { layout.className }
         layout = UI.getCurrent().formLayout("foo bar foo")
         expect("foo bar") { layout.className }
     }
-    test("form items") {
+    @Test fun formItems() {
         val layout = FormLayout().apply {
             formItem("Name:") { textField() }
         }
@@ -37,7 +36,7 @@ fun DynaNodeGroup.formLayoutsTest() {
         ├── NativeLabel[text='Name:', @slot='label']
         └── TextField[value='']""") { layout.toPrettyTree().trim() }
     }
-    test("colspan") {
+    @Test fun colspan() {
         lateinit var button: Button
         val layout = UI.getCurrent().formLayout {
             button = button("foo") {

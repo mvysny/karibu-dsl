@@ -1,8 +1,5 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
-import com.github.mvysny.dynatest.expectList
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributesting.v10.getCell
 import com.github.mvysny.kaributools.*
@@ -13,50 +10,52 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.ListDataProvider
 import com.vaadin.flow.data.provider.SortDirection
-import kotlin.streams.toList
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-@DynaTestDsl
-fun DynaNodeGroup.gridTest() {
-    beforeEach { MockVaadin.setup() }
-    afterEach { MockVaadin.tearDown() }
+abstract class GridTest {
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    group("grid dsl") {
-        test("simple") {
+    @Nested inner class GridDsl {
+        @Test fun simple() {
             UI.getCurrent().grid<Person>()
             _expectOne<Grid<*>>()
         }
-        test("basic properties") {
+        @Test fun basicProperties() {
             val grid: Grid<String> = UI.getCurrent().grid<String>()
             // TODO commented out until the Grid row situation is resolved. See [Grid.hotfixMissingHeaderRow] for more details.
             //expect(1) { grid.headerRows.size }
             expect(0) { grid.columns.size }
             expect(String::class.java) { grid.beanType }
         }
-        test("with generified item") {
+        @Test fun withGenerifiedItem() {
             data class TestingClass<T>(var item: T? = null)
             UI.getCurrent().grid<TestingClass<String>>()
         }
-        test("class") {
+        @Test fun clazz() {
             UI.getCurrent().grid(Person::class.java)
             _expectOne<Grid<*>>()
         }
-        test("kclass") {
+        @Test fun kclass() {
             UI.getCurrent().grid(Person::class)
             _expectOne<Grid<*>>()
         }
-        test("null kclass") {
+        @Test fun nullKclass() {
             UI.getCurrent().grid<Person>(klass = null)
             _expectOne<Grid<*>>()
         }
-        test("null class") {
+        @Test fun nullClass() {
             UI.getCurrent().grid<Person>(clazz = null)
             _expectOne<Grid<*>>()
         }
     }
 
-    group("columnFor() tests") {
-        test("grid columnFor() works both for nullable and non-null properties") {
+    @Nested inner class `columnFor() tests` {
+        @Test fun `grid columnFor() works both for nullable and non-null properties`() {
             data class TestingClass(var foo: String?, var bar: String, var nonComparable: List<String>)
             Grid<TestingClass>().apply {
                 columnFor(TestingClass::foo)   // this must compile
@@ -65,7 +64,7 @@ fun DynaNodeGroup.gridTest() {
             }
         }
 
-        test("sets column by default to sortable") {
+        @Test fun `sets column by default to sortable`() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
             }
@@ -74,7 +73,7 @@ fun DynaNodeGroup.gridTest() {
             }
         }
 
-        test("column header is set properly") {
+        @Test fun `column header is set properly`() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
                 columnFor(Person::alive)
@@ -85,7 +84,7 @@ fun DynaNodeGroup.gridTest() {
             expect("Date Of Birth") { grid.getColumnBy(Person::dateOfBirth).header2 }
         }
 
-        test("sorting by column also works with in-memory container") {
+        @Test fun `sorting by column also works with in-memory container`() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
                 setItems2((0..9).map { Person(fullName = it.toString()) })
@@ -95,7 +94,7 @@ fun DynaNodeGroup.gridTest() {
             expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, 1000).map { it.fullName } }
         }
 
-        test("sorting by column also works with in-memory container 2") {
+        @Test fun `sorting by column also works with in-memory container 2`() {
             val grid = Grid<Person>().apply {
                 columnFor<Person, String>("fullName")
                 setItems2((0..9).map { Person(fullName = it.toString()) })
@@ -105,7 +104,7 @@ fun DynaNodeGroup.gridTest() {
             expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, 1000).map { it.fullName } }
         }
 
-        test("sorting by column also works with in-memory container 3") {
+        @Test fun `sorting by column also works with in-memory container 3`() {
             val grid = Grid<Person>().apply {
                 val fullNameColumn = columnFor(Person::fullName)
                 setItems2((0..9).map { Person(fullName = it.toString()) })
@@ -115,7 +114,7 @@ fun DynaNodeGroup.gridTest() {
             expect((9 downTo 0).map { it.toString() }) { grid._fetch(0, 1000).map { it.fullName } }
         }
 
-        test("custom key") {
+        @Test fun `custom key`() {
             val grid = Grid<Person>()
             expect("mykey") { grid.columnFor(Person::fullName, key = "mykey") {} .key }
             expect("mykey2") { grid.columnFor(Person::fullName, key = "mykey2", converter = { it }) {} .key }
@@ -123,7 +122,7 @@ fun DynaNodeGroup.gridTest() {
         }
     }
 
-    test("column isExpand") {
+    @Test fun `column isExpand`() {
         val grid = Grid<Person>()
         val col = grid.columnFor(Person::alive)
         expect(1) { col.flexGrow }  // by default the flexGrow is 1
@@ -132,8 +131,8 @@ fun DynaNodeGroup.gridTest() {
     }
 
 
-    group("header cell retrieval test") {
-        test("one component") {
+    @Nested inner class `header cell retrieval test`() {
+        @Test fun `one component`() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
                 appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
@@ -145,7 +144,7 @@ fun DynaNodeGroup.gridTest() {
             grid.headerRows.last().getCell(Person::fullName).component = null
             expect(null) { grid.headerRows.last().getCell(Person::fullName).component }
         }
-        test("two components") {
+        @Test fun twoComponents() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
                 appendHeaderRow().getCell(Person::fullName).component = TextField("Foo!")
@@ -158,8 +157,8 @@ fun DynaNodeGroup.gridTest() {
         }
     }
 
-    group("footer cell retrieval test") {
-        test("one component") {
+    @Nested inner class `footer cell retrieval test`() {
+        @Test fun oneComponent() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
                 appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
@@ -171,7 +170,7 @@ fun DynaNodeGroup.gridTest() {
             grid.footerRows.last().getCell(Person::fullName).component = null
             expect(null) { grid.footerRows.last().getCell(Person::fullName).component }
         }
-        test("two components") {
+        @Test fun twoComponents() {
             val grid = Grid<Person>().apply {
                 columnFor(Person::fullName)
                 appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
@@ -184,7 +183,7 @@ fun DynaNodeGroup.gridTest() {
         }
     }
 
-    test("serialization") {
+    @Test fun serialization() {
         Grid<Person>().apply {
             columnFor(Person::fullName)
             appendFooterRow().getCell(Person::fullName).component = TextField("Foo!")
@@ -196,30 +195,30 @@ fun DynaNodeGroup.gridTest() {
 //        grid.cloneBySerialization()
     }
 
-    group("treeGrid") {
-        test("smoke") {
+    @Nested inner class treeGrid {
+        @Test fun smoke() {
             UI.getCurrent().treeGrid<String>()
             _expectOne<TreeGrid<*>>()
         }
-        test("basic properties") {
+        @Test fun basicProperties() {
             val grid: TreeGrid<String> = UI.getCurrent().treeGrid<String>()
             expect(1) { grid.headerRows.size }
             expect(0) { grid.columns.size }
             expect(String::class.java) { grid.beanType }
         }
-        test("class") {
+        @Test fun `class`() {
             UI.getCurrent().treeGrid(Person::class.java)
             _expectOne<Grid<*>>()
         }
-        test("kclass") {
+        @Test fun kclass() {
             UI.getCurrent().treeGrid(Person::class)
             _expectOne<Grid<*>>()
         }
-        test("null kclass") {
+        @Test fun nullKclass() {
             UI.getCurrent().treeGrid<Person>(klass = null)
             _expectOne<Grid<*>>()
         }
-        test("null class") {
+        @Test fun nullClass() {
             UI.getCurrent().treeGrid<Person>(clazz = null)
             _expectOne<Grid<*>>()
         }
