@@ -1,16 +1,17 @@
 package com.github.mvysny.karibudsl.v20
 
-import com.github.mvysny.dynatest.DynaTest
-import com.github.mvysny.karibudsl.v10.allTests
+import com.github.mvysny.karibudsl.v10.AllTests
 import com.github.mvysny.kaributools.VaadinVersion
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
-class AllTest : DynaTest({
-    test("vaadin version") {
+class AllTest {
+    @Test fun vaadinVersion() {
         expect(24) { VaadinVersion.get.major }
         expect(4) { VaadinVersion.get.minor }
     }
 
-    allTests()
-    allTests24()
-})
+    @Nested inner class AllTest : AllTests()
+    @Nested inner class AllTest24 : AllTests24()
+}

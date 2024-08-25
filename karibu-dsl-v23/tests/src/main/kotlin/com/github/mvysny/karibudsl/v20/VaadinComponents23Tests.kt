@@ -1,7 +1,5 @@
 package com.github.mvysny.karibudsl.v20
 
-import com.github.mvysny.dynatest.DynaNodeGroup
-import com.github.mvysny.dynatest.DynaTestDsl
 import com.github.mvysny.karibudsl.v23.multiSelectComboBox
 import com.github.mvysny.karibudsl.v23.virtualList
 import com.github.mvysny.kaributesting.v10.MockVaadin
@@ -10,13 +8,17 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.combobox.MultiSelectComboBox
 import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.flow.data.provider.ListDataProvider
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 abstract class VaadinComponents23Tests {
-    @BeforeEach { MockVaadin.setup() }
-    @AfterEach { MockVaadin.tearDown() }
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    group("VirtualList") {
-        test("dsl syntax test") {
+    @Nested inner class VirtualListTest {
+        @Test fun `dsl syntax test`() {
             UI.getCurrent().virtualList<String>()
             UI.getCurrent().virtualList<String> {
                 setItems("a", "b", "c")
@@ -25,18 +27,18 @@ abstract class VaadinComponents23Tests {
             UI.getCurrent().virtualList<String>(ListDataProvider(listOf())) { }
         }
 
-        test("smoke") {
+        @Test fun smoke() {
             UI.getCurrent().virtualList<String>()
             _expectOne<VirtualList<*>>()
         }
     }
 
-    group("MultiselectComboBox") {
-        test("smoke") {
+    @Nested inner class MultiselectComboBoxTest {
+        @Test fun smoke() {
             UI.getCurrent().multiSelectComboBox<String>()
             _expectOne<MultiSelectComboBox<*>>()
         }
-        test("dsl syntax") {
+        @Test fun `dsl syntax`() {
             UI.getCurrent().multiSelectComboBox<String>()
             UI.getCurrent().multiSelectComboBox<String> {}
             UI.getCurrent().multiSelectComboBox<String> {

@@ -8,23 +8,27 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.TabSheet
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
 abstract class TabSheetTest {
-    @BeforeEach { MockVaadin.setup() }
-    @AfterEach { MockVaadin.tearDown() }
+    @BeforeEach fun setup() { MockVaadin.setup() }
+    @AfterEach fun teardown() { MockVaadin.tearDown() }
 
-    test("smoke") {
+    @Test fun smoke() {
         UI.getCurrent().tabSheet()
         _expectOne<TabSheet>()
     }
 
-    group("content population") {
-        test("Initially empty") {
+    @Nested inner class ContentPopulation {
+        @Test fun `Initially empty`() {
             val ts = TabSheet()
             ts._expectNone<Tab>()
         }
-        test("Adding a tab to an empty TabSheet shows it immediately") {
+        @Test fun `Adding a tab to an empty TabSheet shows it immediately`() {
             UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
@@ -32,7 +36,7 @@ abstract class TabSheetTest {
             }
             _expectOne<Span> { text = "it works!" }
         }
-        test("Adding a tab to a non-empty TabSheet doesn't change the currently shown tab") {
+        @Test fun `Adding a tab to a non-empty TabSheet doesn't change the currently shown tab`() {
             UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
@@ -44,7 +48,7 @@ abstract class TabSheetTest {
             _expectOne<Span> { text = "it works!" }
             _expectNone<Span>() { text = "it works 2!" }
         }
-        test("Removing last tab clears the TabSheet contents") {
+        @Test fun `Removing last tab clears the TabSheet contents`() {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
@@ -52,7 +56,7 @@ abstract class TabSheetTest {
             ts.remove(tab)
             _expectNone<Span> { text = "it works!" }
         }
-        test("Removing all tabs clears the TabSheet contents") {
+        @Test fun `Removing all tabs clears the TabSheet contents`() {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
@@ -61,11 +65,11 @@ abstract class TabSheetTest {
         }
     }
 
-    group("selectedIndex") {
-        test("-1 when empty") {
+    @Nested inner class SelectedIndex {
+        @Test fun `-1 when empty`() {
             expect(-1) { TabSheet().selectedIndex }
         }
-        test("Adding a tab to an empty TabSheet selects it immediately") {
+        @Test fun `Adding a tab to an empty TabSheet selects it immediately`() {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
@@ -73,7 +77,7 @@ abstract class TabSheetTest {
             }
             expect(0) { ts.selectedIndex }
         }
-        test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
+        @Test fun `Adding a tab to a non-empty TabSheet doesn't change the selection`() {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") {
                     span("it works!")
@@ -84,7 +88,7 @@ abstract class TabSheetTest {
             }
             expect(0) { ts.selectedIndex }
         }
-        test("Removing last tab clears selection") {
+        @Test fun `Removing last tab clears selection`() {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
@@ -93,7 +97,7 @@ abstract class TabSheetTest {
 
             expect(-1) { ts.selectedIndex }
         }
-        test("Removing all tabs clears selection") {
+        @Test fun `Removing all tabs clears selection`() {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
@@ -102,11 +106,11 @@ abstract class TabSheetTest {
         }
     }
 
-    group("selectedTab") {
-        test("null when empty") {
+    @Nested inner class SelectedTab {
+        @Test fun `null when empty`() {
             expect(null) { TabSheet().selectedTab }
         }
-        test("Adding a tab to an empty TabSheet selects it immediately") {
+        @Test fun `Adding a tab to an empty TabSheet selects it immediately`() {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
@@ -115,7 +119,7 @@ abstract class TabSheetTest {
             }
             expect(tab) { ts.selectedTab }
         }
-        test("Adding a tab to a non-empty TabSheet doesn't change the selection") {
+        @Test fun `Adding a tab to a non-empty TabSheet doesn't change the selection`() {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") {
@@ -127,7 +131,7 @@ abstract class TabSheetTest {
             }
             expect(tab) { ts.selectedTab }
         }
-        test("Removing last tab clears selection") {
+        @Test fun `Removing last tab clears selection`() {
             lateinit var tab: Tab
             val ts = UI.getCurrent().tabSheet {
                 tab = tab("foo") { span("it works!") }
@@ -136,7 +140,7 @@ abstract class TabSheetTest {
 
             expect(null) { ts.selectedTab }
         }
-        test("Removing all tabs clears selection") {
+        @Test fun `Removing all tabs clears selection`() {
             val ts = UI.getCurrent().tabSheet {
                 tab("foo") { span("it works!") }
             }
