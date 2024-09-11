@@ -17,7 +17,7 @@ import com.vaadin.flow.component.html.NativeLabel
  * }
  * ```
  */
-public class KFormLayout : FormLayout() {
+public open class KFormLayout : FormLayout() {
 
     /**
      * Sets colspan for the child of this [FormLayout].
