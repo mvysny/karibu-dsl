@@ -18,11 +18,9 @@ import com.vaadin.flow.dom.Element
  *       h3("Beverage Buddy")
  *     }
  *     drawer {
- *       div {
- *         routerLink(VaadinIcon.LIST, "Reviews", ReviewsList::class)
- *       }
- *       div {
- *         routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class)
+ *       sideNav {
+ *         route(TaskListView::class, VaadinIcon.CHECK)
+ *         route(AboutView::class, VaadinIcon.QUESTION)
  *       }
  *     }
  *   }
@@ -37,7 +35,10 @@ public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).()
  * Allows you to populate the [AppLayout.addToNavbar] in a DSL fashion:
  * ```
  * appLayout {
- *   navbar { h3("My App") }
+ *   navbar {
+ *     drawerToggle()
+ *     h3("My App")
+ *   }
  * }
  * ```
  */
@@ -53,7 +54,7 @@ public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block:
 }
 
 /**
- * Populates the AppLayout drawer slot.
+ * Populates the AppLayout drawer slot. `sideNav{}` is the best way to populate the drawer with Vaadin 24.
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
