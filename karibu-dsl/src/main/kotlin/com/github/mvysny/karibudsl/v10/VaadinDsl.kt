@@ -49,7 +49,7 @@ public fun <T : Component> (@VaadinDsl HasComponents).init(
 @VaadinDsl
 public fun <T : Component> (@VaadinDsl HasComponents).init(
     component: T,
-    block: T.() -> Unit = {}
+    block: (@VaadinDsl T).() -> Unit = {}
 ): T {
     add(component)
     component.block()
