@@ -6,11 +6,23 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.router.HasUrlParameter
 import com.vaadin.flow.router.RouterLink
 import kotlin.reflect.KClass
+import com.vaadin.flow.router.RouteParameters
 
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
                                                  block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
     val link = RouterLink(null as String?, viewType.java)
+    if (icon != null) link.icon(icon)
+    if (text != null) link.text(text)
+    init(link, block)
+    return link
+}
+
+@JvmName("routerLinkWithParams")
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).routerLink(icon: VaadinIcon? = null, text: String? = null, viewType: KClass<out Component>,
+                                                        parameters: Map<String, String>, block: (@VaadinDsl RouterLink).() -> Unit = {}): RouterLink {
+    val link = RouterLink(null as String?, viewType.java, RouteParameters(parameters))
     if (icon != null) link.icon(icon)
     if (text != null) link.text(text)
     init(link, block)
