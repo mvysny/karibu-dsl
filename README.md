@@ -71,8 +71,8 @@ Supports [Vaadin 14+](https://vaadin.com/).
 
 Vaadin 24:
 
-* Simple one-page-one-button example app: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
-* Two-page app demoing grids and database: [Beverage Buddy JOOQ](https://github.com/mvysny/beverage-buddy-jooq)
+* Simple one-page-one-button example app: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application) (Gradle), [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application-maven) (Maven)
+* Two-page app demoing grids and database: [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok) running on [vok](https://www.vaadinonkotlin.eu); [Beverage Buddy JOOQ](https://github.com/mvysny/beverage-buddy-jooq)
 * A simple database-backed one-page task list app: [vaadin-kotlin-pwa](https://github.com/mvysny/vaadin-kotlin-pwa)
 
 ## Vaadin 8 UITest / Component Palette
