@@ -1,9 +1,7 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.h3
-import com.github.mvysny.karibudsl.v23.footer
-import com.github.mvysny.karibudsl.v23.header
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.vaadin.flow.component.button.Button

@@ -1,6 +1,5 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
-import com.github.mvysny.karibudsl.v23.*
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributesting.v23._click
 import com.vaadin.flow.component.UI

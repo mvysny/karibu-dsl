@@ -1,7 +1,5 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
-import com.github.mvysny.karibudsl.v23.multiSelectComboBox
-import com.github.mvysny.karibudsl.v23.virtualList
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
 import com.vaadin.flow.component.UI

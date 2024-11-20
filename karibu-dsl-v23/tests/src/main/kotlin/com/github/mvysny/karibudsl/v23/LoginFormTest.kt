@@ -1,4 +1,4 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v23.customFormArea

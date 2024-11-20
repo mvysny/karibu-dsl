@@ -1,7 +1,5 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
-import com.github.mvysny.karibudsl.v23.fontIcon
-import com.github.mvysny.karibudsl.v23.svgIcon
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributools.VaadinVersion
 import com.vaadin.flow.component.UI

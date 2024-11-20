@@ -1,7 +1,6 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.span
-import com.github.mvysny.karibudsl.v23.*
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributools.v23.removeAll
 import com.vaadin.flow.component.UI

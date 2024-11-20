@@ -1,4 +1,4 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.AllTests
 import com.github.mvysny.kaributools.VaadinVersion
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test
 import kotlin.test.expect
 
 class AllTest {
-    @Test fun `vaadin version`() {
+    @Test fun vaadinVersion() {
         expect(24) { VaadinVersion.get.major }
-        expect(6) { VaadinVersion.get.minor }
+        expect(5) { VaadinVersion.get.minor }
     }
 
     @Nested inner class AllTest : AllTests()

@@ -1,6 +1,5 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
-import com.github.mvysny.karibudsl.v23.rangeInput
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributools.SemanticVersion
 import com.github.mvysny.kaributools.VaadinVersion

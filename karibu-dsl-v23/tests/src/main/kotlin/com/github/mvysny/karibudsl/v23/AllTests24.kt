@@ -1,4 +1,4 @@
-package com.github.mvysny.karibudsl.v20
+package com.github.mvysny.karibudsl.v23
 
 import org.junit.jupiter.api.Nested
 
