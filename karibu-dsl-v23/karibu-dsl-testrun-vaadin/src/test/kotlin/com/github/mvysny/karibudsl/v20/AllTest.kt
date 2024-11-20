@@ -9,7 +9,7 @@ import kotlin.test.expect
 class AllTest {
     @Test fun vaadinVersion() {
         expect(24) { VaadinVersion.get.major }
-        expect(4) { VaadinVersion.get.minor }
+        expect(5) { VaadinVersion.get.minor }
     }
 
     @Nested inner class AllTest : AllTests()
