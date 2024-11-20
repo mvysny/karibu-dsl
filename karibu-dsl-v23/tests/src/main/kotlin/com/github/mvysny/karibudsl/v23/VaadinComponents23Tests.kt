@@ -59,6 +59,9 @@ abstract class VaadinComponents23Tests {
         @Test fun smoke() {
             UI.getCurrent().button("hello") {
                 popover {
+                    isOpenOnFocus = true
+                    isOpenOnHover = true
+                    isOpenOnClick = true
                     verticalLayout {
                         span("Hi!")
                     }
