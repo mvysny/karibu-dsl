@@ -1,9 +1,15 @@
 package com.github.mvysny.karibudsl.v23
 
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.span
+import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
+import com.github.mvysny.kaributesting.v10._get
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.combobox.MultiSelectComboBox
+import com.vaadin.flow.component.html.Span
+import com.vaadin.flow.component.popover.Popover
 import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.flow.data.provider.ListDataProvider
 import org.junit.jupiter.api.AfterEach
@@ -46,6 +52,24 @@ abstract class VaadinComponents23Tests {
             UI.getCurrent().multiSelectComboBox<String>("Foo") {
                 pageSize = 60
             }
+        }
+    }
+
+    @Nested inner class popoverTests {
+        @Test fun smoke() {
+            UI.getCurrent().button("hello") {
+                popover {
+                    verticalLayout {
+                        span("Hi!")
+                    }
+                }
+            }
+            _expectOne<Popover>()
+            _expectOne<Span> { text = "Hi!" }
+
+            val popover = _get<Popover>()
+            popover.open()
+            popover.close()
         }
     }
 }
