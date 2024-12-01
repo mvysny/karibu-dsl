@@ -38,6 +38,36 @@ Compatibility chart:
 | 23             | 1.x                | 11                |                 |
 | 8              | 1.0.x              | 5                 | Read more below |
 
+## UI Basic Example Application
+
+A very simple Gradle-based example application is located here: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
+The project only shows a very simple Button, which makes it an ideal quick start application for experimenting
+and further development.
+
+To check out the example app and run it:
+
+```bash
+git clone https://github.com/mvysny/karibu-helloworld-application
+cd karibu-helloworld-application
+./gradlew run
+```
+
+The app will run on [http://localhost:8080](http://localhost:8080).
+
+### The "Beverage Buddy" Example Application
+
+The [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
+is a more complex example app. It's the Vaadin Beverage Buddy app
+backed by an in-memory H2 database. You can quickly run the bundled example application from the command-line:
+
+```bash
+git clone https://github.com/mvysny/beverage-buddy-vok
+cd beverage-buddy-vok
+./gradlew appRun
+```
+
+The example app will be running at [http://localhost:8080](http://localhost:8080).
+
 ## Documentation/Tutorial
 
 **>>> Documentation + Tutorial <<<**: Please read the [Karibu-DSL Vaadin 14+ tutorial](karibu-dsl).
@@ -95,6 +125,10 @@ You may need JDK 11 or JDK 8 to run the demo: JDK 17+ may or may not work.
 
 The `NumberRangePopup`, `DateRangePopup`, `ClosedInterval`, `NumberInterval` and `DateInterval` classes have been removed from this project since they
 were too specific. You can find them in the [jdbi-orm-vaadin](https://gitlab.com/mvysny/jdbi-orm-vaadin) project.
+
+## Testing
+
+Please see the [Karibu-Testing](https://github.com/mvysny/karibu-testing) library, to learn more about how to test Karibu-DSL apps.
 
 # License
 

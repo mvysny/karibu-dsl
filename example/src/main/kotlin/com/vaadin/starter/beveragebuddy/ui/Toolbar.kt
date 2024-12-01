@@ -41,10 +41,10 @@ class Toolbar(createCaption: String) : KComposite() {
                 addValueChangeListener { onSearch(searchText) }
                 valueChangeMode = ValueChangeMode.EAGER
             }
-            button("$createCaption (Alt+N)", Icon(VaadinIcon.PLUS)) {
+            button("$createCaption (Alt+N)", VaadinIcon.PLUS.create()) {
                 setPrimary()
                 addClassName("view-toolbar__button")
-                addClickListener { onCreate() }
+                onClick { onCreate() }
                 addClickShortcut(Alt + KEY_N)
             }
         }

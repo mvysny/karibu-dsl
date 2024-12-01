@@ -38,39 +38,7 @@ Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a 
 To quickly test out Karibu DSL you can simply start with one
 of the example applications below.
 
-### UI Basic Example Application
-
-A very simple Gradle-based example application is located here: [karibu-helloworld-application](https://github.com/mvysny/karibu-helloworld-application)
-The project only shows a very simple Button, which makes it an ideal quick start application for experimenting
-and further development.
- 
-To checkout the example app and run it:
-  
-```bash
-git clone https://github.com/mvysny/karibu-helloworld-application
-cd karibu-helloworld-application
-./gradlew appRun
-```
-
-The app will run on [http://localhost:8080](http://localhost:8080).
-
-### The "Beverage Buddy" Example Application
-
-The [Beverage Buddy VoK](https://github.com/mvysny/beverage-buddy-vok)
-is a more complex example app. It's the Vaadin Beverage Buddy app
-backed by an in-memory H2 database. You can quickly run the bundled example application from the command-line:
-
-```bash
-git clone https://github.com/mvysny/beverage-buddy-vok
-cd beverage-buddy-vok
-./gradlew appRun
-```
-
-The example app will be running at [http://localhost:8080](http://localhost:8080).
-
-## Tutorials
-
-### How to write DSLs
+# How to write DSLs
 
 The following example shows a really simple form with two fields and one "Save" button (todo screenshot).
 
@@ -101,7 +69,29 @@ For technical explanation on how this works, please read the
 [Using DSL to write structured UI code](https://mvysny.github.io/Using-DSL-to-write-structured-UI-code/)
 article.
 
-### VerticalLayout / HorizontalLayout
+# Documentation
+
+## Button
+
+The [Vaadin Button](https://vaadin.com/docs/latest/components/button) component allows users to perform actions:
+```kotlin
+button(text: String? = null, icon: Component? = null, id: String? = null) {}
+```
+Example of use:
+```kotlin
+button("Create (Alt+N)", VaadinIcon.PLUS.create()) {
+  setPrimary()
+  onClick { save() }
+  addClickShortcut(Alt + KEY_N)
+}
+```
+
+* `setPrimary()` is a shortcut for adding `ButtonVariant.LUMO_PRIMARY` button variant.
+* `onClick()` is a shorthand for `addClickListener()`.
+* `iconButton(icon) {}` is a shorthand for creating a button with just an icon (no text) and
+  adding the `ButtonVariant.LUMO_ICON` button variant.
+
+## VerticalLayout / HorizontalLayout
 
 Layouting in Vaadin 14 employs the so-called *flex layout*. Vaadin 14 still
 does provide `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts,
@@ -137,7 +127,28 @@ is automatically enlarged.
 Please read the [Vaadin 10 server-side layouting for Vaadin 8 and Android developers](http://mavi.logdown.com/posts/6855605) for a tutorial on how to
 use `VerticalLayout`/`HorizontalLayout`.
 
-### Forms
+## TabSheet
+
+Vaadin provides the [Tabs](https://vaadin.com/components/vaadin-tabs) component,
+but that's just the tab bar without any contents. That's exactly what the TabSheet
+Karibu-DSL component solves.
+
+You can add and populate tabs in two ways:
+* eagerly, by calling either `tab()` or `addTab()` function.
+* lazily, by calling `addLazyTab()`.
+
+Example code:
+```
+tabSheet {
+  tab("DSL-style tab") {
+    span("Hello")
+  }
+  addTab("Old-school style", Span("Hi"))
+  addLazyTab("Populated when first selected") { Span("Lazy") }
+}
+```
+
+# Forms
 
 Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms) tutorial
 for more information.
@@ -206,7 +217,7 @@ class ReviewEditor(val bean: Review) : VerticalLayout() {
 }
 ```
 
-### FormLayout
+## FormLayout
 
 Thanks to Kotlin DSL extensions, you can write the responsive-steps configuration in a
 much more condensed form as
@@ -224,28 +235,77 @@ formLayout {
 }
 ```
 
-### TabSheet
+## Grid
 
-Vaadin provides the [Tabs](https://vaadin.com/components/vaadin-tabs) component,
-but that's just the tab bar without any contents. That's exactly what the TabSheet
-Karibu-DSL component solves.
+Any of the following DSLs work and will pass the class of the item to Grid's constructor.
+In order for you to be in control and create the columns
+in a controlled DSL manner, no columns are auto-created.
 
-You can add and populate tabs in two ways:
-* eagerly, by calling either `tab()` or `addTab()` function.
-* lazily, by calling `addLazyTab()`.
-
-Example code:
+```kotlin
+grid<Person> {}
+grid(Person::class) {}
+grid(Person::class.java) {}
 ```
-tabSheet {
-  tab("DSL-style tab") {
-    span("Hello")
+
+Alternatively, you can decide not to pass the item class into Grid's constructor:
+
+```kotlin
+grid<Person>(klass = null) {}
+grid<Person>(clazz = null) {}
+```
+
+A more of a real-world example:
+
+```kotlin
+grid<Category> {
+  isExpand = true; addThemeName("row-dividers")
+
+  columnFor(Category::name) {
+      setHeader("Category")
   }
-  addTab("Old-school style", Span("Hi"))
-  addLazyTab("Populated when first selected") { Span("Lazy") }
+  column({ it.getReviewCount() }) {
+    setHeader("Beverages")
+  }
+  componentColumn({ cat -> createEditButton(cat) }) {
+    flexGrow = 0; key = "edit"
+  }
+
+  gridContextMenu = gridContextMenu {
+      item("New", { editorDialog.createNew() })
+      item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+      item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
+  }
 }
 ```
 
-### Writing your own components
+## VirtualList
+
+Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
+
+```kotlin
+virtualList<Person> {}
+```
+
+## Dialogs
+
+Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
+
+```kotlin
+Dialog().apply {
+  header { h3("Header") } // or better: this.setHeaderTitle("Header")
+  verticalLayout(isPadding = false) {
+    // contents
+  }
+  footer {
+    button("Save") {
+      setPrimary()
+    }
+    button("Cancel")
+  }
+}.open()
+```
+
+# Writing your own components
 
 Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.
 
@@ -298,7 +358,7 @@ verticalLayout {
 }
 ```
 
-#### The `KComposite` Pattern
+## The `KComposite` Pattern
 
 The advantage of extending from `KComposite`, instead of extending the layout (e.g. `VerticalLayout`) directly, is as follows:
 
@@ -338,7 +398,7 @@ However, you may prefer to get rid of this unused `root` variable and call the
 `ui {}` from the `init {}` Kotlin initializer. The downside is that the
 UI-creating code will be indented by two tabs instead of one.
 
-### Retrieving TimeZone from the browser
+## Retrieving TimeZone from the browser
 
 It's important to retrieve browser's TimeZone, in order to be able to convert
 `Instant`, `Date` and `Calendar`-typed values (retrieved from the database)
@@ -348,7 +408,7 @@ and `DateTimePicker`.
 In order to do that, it's recommended to call `fetchTimeZoneFromBrowser()` when
 [Vaadin Session is being initialized](https://vaadin.com/docs/v14/flow/advanced/tutorial-application-lifecycle.html).
 
-### CustomField
+## CustomField
 
 Use this example to populate the contents of the CustomField in a DSL manner:
 
@@ -362,84 +422,3 @@ class DateTimeField: CustomField<DateInterval>() {
   }
 }
 ```
-
-### Grid
-
-Any of the following DSLs work and will pass the class of the item to Grid's constructor.
-In order for you to be in control and create the columns
-in a controlled DSL manner, no columns are auto-created.
-
-```kotlin
-grid<Person> {}
-grid(Person::class) {}
-grid(Person::class.java) {}
-```
-
-Alternatively, you can decide not to pass the item class into Grid's constructor:
-
-```kotlin
-grid<Person>(klass = null) {}
-grid<Person>(clazz = null) {}
-```
-
-A more of a real-world example:
-
-```kotlin
-grid<Category> {
-  isExpand = true; addThemeName("row-dividers")
-
-  columnFor(Category::name) {
-      setHeader("Category")
-  }
-  column({ it.getReviewCount() }) {
-    setHeader("Beverages")
-  }
-  componentColumn({ cat -> createEditButton(cat) }) {
-    flexGrow = 0; key = "edit"
-  }
-
-  gridContextMenu = gridContextMenu {
-      item("New", { editorDialog.createNew() })
-      item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
-      item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
-  }
-}
-```
-
-### VirtualList
-
-Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
-
-```kotlin
-virtualList<Person> {}
-```
-
-### Dialogs
-
-Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
-
-```kotlin
-Dialog().apply {
-  header { h3("Header") } // or better: this.setHeaderTitle("Header")
-  verticalLayout(isPadding = false) {
-    // contents
-  }
-  footer {
-    button("Save") {
-      setPrimary()
-    }
-    button("Cancel")
-  }
-}.open()
-```
-
-## Launching the example project in Intellij IDEA
-
-Please see the [Vaadin Boot](https://github.com/mvysny/vaadin-boot#preparing-environment) documentation
-on how you run, develop and package this Vaadin-Boot-based app.
-
-Simply run `./gradlew example:run` from the command-line, or run the `main()` method in the `Main.kt` file.
-
-## Testing
-
-Please see the [Karibu-Testing](https://github.com/mvysny/karibu-testing) library, to learn more about how to test Karibu-DSL apps.
