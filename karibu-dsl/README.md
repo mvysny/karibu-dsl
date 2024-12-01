@@ -91,7 +91,12 @@ button("Create (Alt+N)", VaadinIcon.PLUS.create()) {
 * `iconButton(icon) {}` is a shorthand for creating a button with just an icon (no text) and
   adding the `ButtonVariant.LUMO_ICON` button variant.
 
+## TODO more components
+
 ## VerticalLayout / HorizontalLayout
+
+[Vaadin Vertical Layout](https://vaadin.com/docs/latest/components/vertical-layout) places components top-to-bottom in a column.
+[Vaadin Horizontal Layout](https://vaadin.com/docs/latest/components/horizontal-layout) places components side-by-side in a row.
 
 Layouting in Vaadin 14 employs the so-called *flex layout*. Vaadin 14 still
 does provide `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts,
@@ -104,6 +109,14 @@ horizontalLayout {
   content { align(right, middle) }
 }
 ```
+
+The `content{}` block configures the layout how it should align its children.
+The syntax for both Vertical and Horizontal layout is:
+```kotlin
+content { align(horizontalAlignment, verticalAlignment )}
+```
+Additionally there's `content { center() }` which centers the content perfectly
+inside of the vertical / horizontal layout.
 
 Important notes:
 
@@ -126,6 +139,79 @@ is automatically enlarged.
 
 Please read the [Vaadin 10 server-side layouting for Vaadin 8 and Android developers](http://mavi.logdown.com/posts/6855605) for a tutorial on how to
 use `VerticalLayout`/`HorizontalLayout`.
+
+## Grid
+
+[Vaadin Grid](https://vaadin.com/docs/latest/components/grid)
+is a component for displaying tabular data, including various enhancements to grid renderings.
+
+Any of the following DSLs work and will pass the class of the item to Grid's constructor.
+In order for you to be in control and create the columns
+in a controlled DSL manner, no columns are auto-created.
+
+```kotlin
+grid<Person> {}
+grid(Person::class) {}
+grid(Person::class.java) {}
+```
+
+Alternatively, you can decide not to pass the item class into Grid's constructor:
+
+```kotlin
+grid<Person>(klass = null) {}
+grid<Person>(clazz = null) {}
+```
+
+A more of a real-world example:
+
+```kotlin
+grid<Category> {
+  isExpand = true; addThemeName("row-dividers")
+
+  columnFor(Category::name) {
+      setHeader("Category")
+  }
+  column({ it.getReviewCount() }) {
+    setHeader("Beverages")
+  }
+  componentColumn({ cat -> createEditButton(cat) }) {
+    flexGrow = 0; key = "edit"
+  }
+
+  gridContextMenu = gridContextMenu {
+      item("New", { editorDialog.createNew() })
+      item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
+      item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
+  }
+}
+```
+
+## VirtualList
+
+Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
+
+```kotlin
+virtualList<Person> {}
+```
+
+## Dialogs
+
+Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
+
+```kotlin
+Dialog().apply {
+  header { h3("Header") } // or better: this.setHeaderTitle("Header")
+  verticalLayout(isPadding = false) {
+    // contents
+  }
+  footer {
+    button("Save") {
+      setPrimary()
+    }
+    button("Cancel")
+  }
+}.open()
+```
 
 ## TabSheet
 
@@ -233,76 +319,6 @@ formLayout {
     colspan = 2
   }
 }
-```
-
-## Grid
-
-Any of the following DSLs work and will pass the class of the item to Grid's constructor.
-In order for you to be in control and create the columns
-in a controlled DSL manner, no columns are auto-created.
-
-```kotlin
-grid<Person> {}
-grid(Person::class) {}
-grid(Person::class.java) {}
-```
-
-Alternatively, you can decide not to pass the item class into Grid's constructor:
-
-```kotlin
-grid<Person>(klass = null) {}
-grid<Person>(clazz = null) {}
-```
-
-A more of a real-world example:
-
-```kotlin
-grid<Category> {
-  isExpand = true; addThemeName("row-dividers")
-
-  columnFor(Category::name) {
-      setHeader("Category")
-  }
-  column({ it.getReviewCount() }) {
-    setHeader("Beverages")
-  }
-  componentColumn({ cat -> createEditButton(cat) }) {
-    flexGrow = 0; key = "edit"
-  }
-
-  gridContextMenu = gridContextMenu {
-      item("New", { editorDialog.createNew() })
-      item("Edit (Alt+E)", { cat -> if (cat != null) edit(cat) })
-      item("Delete", { cat -> if (cat != null) deleteCategory(cat) })
-  }
-}
-```
-
-## VirtualList
-
-Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
-
-```kotlin
-virtualList<Person> {}
-```
-
-## Dialogs
-
-Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
-
-```kotlin
-Dialog().apply {
-  header { h3("Header") } // or better: this.setHeaderTitle("Header")
-  verticalLayout(isPadding = false) {
-    // contents
-  }
-  footer {
-    button("Save") {
-      setPrimary()
-    }
-    button("Cancel")
-  }
-}.open()
 ```
 
 # Writing your own components
