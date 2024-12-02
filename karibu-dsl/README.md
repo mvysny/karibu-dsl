@@ -218,6 +218,21 @@ avatarGroup {
 }
 ```
 
+## Badge
+
+[Badges](https://vaadin.com/docs/latest/components/badge) are colored text elements containing small bits of information. They’re used for labeling content, displaying metadata and/or highlighting information.
+```kotlin
+badge(text: String? = null) {}
+```
+Example:
+```kotlin
+badge("Hello") {
+  addThemeVariants(BadgeVariant.PILL, BadgeVariant.SMALL)
+}
+```
+
+## TODO more components
+
 ## Grid
 
 [Vaadin Grid](https://vaadin.com/docs/latest/components/grid)
