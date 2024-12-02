@@ -208,6 +208,15 @@ class MainLayout : KComposite() {
 avatar(name: String? = null, imageUrl: String? = null) {}
 ```
 
+### Avatar Group
+[Avatar Group](https://vaadin.com/docs/latest/components/avatar#avatar-group) is used to group multiple Avatars together. It can be used, for example,
+to show that there are multiple users viewing the same page or for listing members of a project.
+```kotlin
+avatarGroup {
+  item("John Foo")
+  item("Random Guy")
+}
+```
 
 ## Grid
 
