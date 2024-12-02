@@ -83,7 +83,10 @@ abstract class VaadinComponentsTest {
         @Test fun smoke() {
             UI.getCurrent().checkBox()
             UI.getCurrent().checkBox("Foo")
-            _expect<Checkbox>(2)
+            UI.getCurrent().checkBox("Foo") {
+                isEnabled = false
+            }
+            _expect<Checkbox>(3)
         }
     }
 
@@ -91,7 +94,10 @@ abstract class VaadinComponentsTest {
         @Test fun smoke() {
             UI.getCurrent().checkBoxGroup<String>()
             UI.getCurrent().checkBoxGroup<String>("Foo")
-            _expect<CheckboxGroup<*>>(2)
+            UI.getCurrent().checkBoxGroup<String>("Foo") {
+                setItems("a", "b", "c")
+            }
+            _expect<CheckboxGroup<*>>(3)
         }
     }
 
