@@ -231,6 +231,14 @@ badge("Hello") {
 }
 ```
 
+## Checkbox
+
+[Checkbox](https://vaadin.com/docs/latest/components/checkbox) is an input field representing a binary choice. Checkbox Group is a group of related binary choices.
+```kotlin
+checkBox(label: String? = null) {}
+checkBoxGroup(label: String? = null) {}
+```
+
 ## TODO more components
 
 ## Grid
