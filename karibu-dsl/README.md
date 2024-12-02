@@ -91,22 +91,21 @@ button("Create (Alt+N)", VaadinIcon.PLUS.create()) {
 * `iconButton(icon) {}` is a shorthand for creating a button with just an icon (no text) and
   adding the `ButtonVariant.LUMO_ICON` button variant.
 
-## TODO more components
-
 ## VerticalLayout / HorizontalLayout
 
 [Vaadin Vertical Layout](https://vaadin.com/docs/latest/components/vertical-layout) places components top-to-bottom in a column.
 [Vaadin Horizontal Layout](https://vaadin.com/docs/latest/components/horizontal-layout) places components side-by-side in a row.
+```kotlin
+horizontalLayout(padding: Boolean = false, spacing: Boolean = true, classNames: String = "") {}
+verticalLayout(padding: Boolean = false, spacing: Boolean = true, classNames: String = "") {}
+```
 
-Layouting in Vaadin 14 employs the so-called *flex layout*. Vaadin 14 still
-does provide `VerticalLayout` and `HorizontalLayout` classes which loosely resembles their Vaadin 8 counterparts,
-however they use flex layout under the hood and hence there are very important differences.
-
-Generally you use the new `HorizontalLayout` as follows:
+Example code:
 
 ```kotlin
 horizontalLayout {
   content { align(right, middle) }
+  button("Hello")
 }
 ```
 
@@ -120,11 +119,10 @@ inside of the vertical / horizontal layout.
 
 Important notes:
 
+* Layouting in Vaadin 14 employs the so-called *CSS FlexBox*; if the layout doesn't work according to your
+  expectations, the [CSS Flexbox Layout Guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) might help.
 * `HorizontalLayout` only supports one row of components; if you have multiple rows you need to use `FlexLayout`.
-* Never use `setSizeFull()` nor set the `setWidth("100%")` as you used to do with Vaadin 8. With Vaadin 10 it will
-not work as you expect. With Vaadin 8 the child would fill the slot allocated by HorizontalLayout. However with Vaadin 10 and flex layout
-there are no slots; setting the width to `100%` would make the component match the width of parent - it would set it to be as wide as
-the HorizontalLayout is.
+* The `setSizeFull()` nor set the `setWidth("100%")` sets it to be as wide as the HorizontalLayout is, which is not what you want.
 
 Instead of setting the width of the child to `100%`, set the width to some ideal width, say, `100px` (or `null` to wrap its contents).
 The child will initially be exactly
@@ -137,8 +135,34 @@ is automatically enlarged.
 * `flexShrink` - when there is not enough room for all children then they are shrank
 * `flexBasis`
 
-Please read the [Vaadin 10 server-side layouting for Vaadin 8 and Android developers](http://mavi.logdown.com/posts/6855605) for a tutorial on how to
-use `VerticalLayout`/`HorizontalLayout`.
+## Accordion
+
+[Vaadin Accordion](https://vaadin.com/docs/latest/components/accordion)
+is a vertically stacked set of expandable panels. It reduces clutter and helps maintain the user’s focus by showing only the relevant content at any time.
+```kotlin
+accordion {}
+```
+Examples:
+```kotlin
+accordion {
+  panel("lorem ipsum") {
+    content { span("dolor sit amet") }
+  }
+}
+```
+or
+```kotlin
+accordion {
+  panel {
+    summary { checkBox("More Lorem Ipsum?") }
+    content { span("dolor sit amet") }
+  }
+}
+```
+
+## App Layout
+
+TODO
 
 ## Grid
 

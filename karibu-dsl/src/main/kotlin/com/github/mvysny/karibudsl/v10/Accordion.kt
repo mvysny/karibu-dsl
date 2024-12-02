@@ -22,7 +22,7 @@ import com.vaadin.flow.component.accordion.AccordionPanel
  *     content { span("dolor sit amet") }
  *   }
  * }
- *  ```
+ * ```
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).accordion(block: (@VaadinDsl Accordion).() -> Unit = {}): @VaadinDsl Accordion =
