@@ -5,6 +5,8 @@ import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.avatar.Avatar
 import com.vaadin.flow.component.avatar.AvatarGroup
+import com.vaadin.flow.component.checkbox.Checkbox
+import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -74,6 +76,22 @@ abstract class VaadinComponentsTest {
         @Test fun id() {
             val button = UI.getCurrent().button("Hello world", id = "helloWorld")
             expect("helloWorld") { button.id_ }
+        }
+    }
+
+    @Nested inner class CheckBoxTests {
+        @Test fun smoke() {
+            UI.getCurrent().checkBox()
+            UI.getCurrent().checkBox("Foo")
+            _expect<Checkbox>(2)
+        }
+    }
+
+    @Nested inner class CheckBoxGroupTests {
+        @Test fun smoke() {
+            UI.getCurrent().checkBoxGroup<String>()
+            UI.getCurrent().checkBoxGroup<String>("Foo")
+            _expect<CheckboxGroup<*>>(2)
         }
     }
 
