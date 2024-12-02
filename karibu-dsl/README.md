@@ -162,7 +162,52 @@ accordion {
 
 ## App Layout
 
-TODO
+[App Layout](https://vaadin.com/docs/latest/components/app-layout) is a component for building common application layouts.
+
+```kotlin
+appLayout {}
+```
+Typically, you don't use the `appLayout{}` DSL call when building views; it's usually easier to extend
+from the `AppLayout` class:
+```kotlin
+class MainLayout : AppLayout() {
+  init {
+    isDrawerOpened = false
+    navbar {
+      drawerToggle()
+      h3("Beverage Buddy")
+    }
+    drawer {
+      sideNav("Tasks") {
+        route(TaskListView::class, VaadinIcon.CHECK)
+        route(AboutView::class, VaadinIcon.QUESTION)
+      }
+    }
+  }
+}
+```
+
+However, a cleaner (but a bit more complex) way is to use `KComposite`:
+```kotlin
+class MainLayout : KComposite() {
+  private val root = ui {
+    appLayout {
+      isDrawerOpened = false
+      navBar {}
+      // ...
+    }
+  }
+}
+```
+
+## Avatar
+
+[Avatar](https://vaadin.com/docs/latest/components/avatar) is a graphical representation of an object or entity, for example, a person or an organization.
+
+```kotlin
+avatar(name: String? = null, imageUrl: String? = null) {}
+```
+
 
 ## Grid
 
@@ -350,8 +395,8 @@ formLayout {
 Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.
 
 > We promote composition over inheritance, similar to [React's Composition vs Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
-You should always extend `KComposite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
-it part of your class and you can't replace it with e.g. `FlowLayout` without breaking backward compatibility.
+> You should always extend `KComposite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
+> it part of your class and you can't replace it with e.g. `FlowLayout` without breaking backward compatibility.
 
 An example of such a component:
 
