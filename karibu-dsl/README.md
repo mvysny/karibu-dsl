@@ -236,7 +236,26 @@ badge("Hello") {
 [Checkbox](https://vaadin.com/docs/latest/components/checkbox) is an input field representing a binary choice. Checkbox Group is a group of related binary choices.
 ```kotlin
 checkBox(label: String? = null) {}
-checkBoxGroup(label: String? = null) {}
+checkBoxGroup<T>(label: String? = null) {}
+```
+Example:
+```kotlin
+checkBox("I accept the ")
+```
+
+## ComboBox
+
+[Combo Box](https://vaadin.com/docs/latest/components/combo-box) allows the user to choose a value from
+a filterable list of options presented in an overlay. It supports lazy loading and can be configured to accept custom typed values.
+```kotlin
+comboBox<T>(label: String? = null) {}
+```
+Example:
+```kotlin
+comboBox<Department>("Department") {
+  setItems(DepartmentDataProvider())
+  setItemLabelGenerator { it.name }
+}
 ```
 
 ## TODO more components
