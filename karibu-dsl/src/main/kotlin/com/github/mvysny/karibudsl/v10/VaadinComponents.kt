@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.avatar.Avatar
+import com.vaadin.flow.component.avatar.AvatarGroup
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.checkbox.Checkbox
@@ -254,4 +255,26 @@ public fun (@VaadinDsl HasComponents).avatar(name: String? = null, imageUrl: Str
         avatar.image = imageUrl
     }
     return init(avatar, block)
+}
+
+/**
+ * [Avatar Group](https://vaadin.com/docs/latest/components/avatar#avatar-group) is used to group multiple Avatars together. It can be used, for example,
+ * to show that there are multiple users viewing the same page or for listing members of a project.
+ *
+ * ```
+ * avatarGroup {
+ *   item("John Foo")
+ *   item("Random Dude")
+ * }
+ * ```
+ */
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).avatarGroup(block: (@VaadinDsl AvatarGroup).() -> Unit = {}): AvatarGroup =
+    init(AvatarGroup(), block)
+@VaadinDsl
+public fun (@VaadinDsl AvatarGroup).item(name: String? = null, imageUrl: String? = null, block: (@VaadinDsl AvatarGroup.AvatarGroupItem).() -> Unit = {}): AvatarGroup.AvatarGroupItem {
+    val item = AvatarGroup.AvatarGroupItem(name, imageUrl)
+    add(item)
+    item.block()
+    return item
 }

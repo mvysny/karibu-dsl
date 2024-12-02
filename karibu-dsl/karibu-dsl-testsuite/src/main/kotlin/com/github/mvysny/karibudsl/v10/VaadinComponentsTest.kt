@@ -4,6 +4,7 @@ import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.avatar.Avatar
+import com.vaadin.flow.component.avatar.AvatarGroup
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -115,6 +116,16 @@ abstract class VaadinComponentsTest {
             UI.getCurrent().avatar("Hello")
             UI.getCurrent().avatar("Hello", "http://foo.com")
             _expect<Avatar>(3)
+        }
+    }
+
+    @Nested inner class AvatarGroupTests {
+        @Test fun smoke() {
+            UI.getCurrent().avatarGroup {
+                item("John Foo")
+                item("Random Dude")
+            }
+            _expectOne<AvatarGroup>()
         }
     }
 
