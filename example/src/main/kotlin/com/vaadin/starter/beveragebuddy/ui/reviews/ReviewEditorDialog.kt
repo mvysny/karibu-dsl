@@ -16,6 +16,9 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
+import com.github.mvysny.karibudsl.v23.openConfirmDialog
+import com.github.mvysny.karibudsl.v23.setCloseOnCancel
+import com.github.mvysny.karibudsl.v23.setConfirmIsDanger
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
@@ -87,14 +90,16 @@ class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val o
     }
 
     private fun maybeDelete(frame: EditorDialogFrame<Review>, item: Review) {
-        ConfirmDialog(
+        openConfirmDialog(
             "Delete beverage",
-            "Are you sure you want to delete beverage '${item.name}'?",
-            "Delete"
-        ) {
-            frame.close()
-            onDeleteItem(item)
-        } .open()
+            "Are you sure you want to delete beverage '${item.name}'?") {
+            setConfirmButton("Delete") {
+                frame.close()
+                onDeleteItem(item)
+            }
+            setConfirmIsDanger()
+            setCloseOnCancel()
+        }
     }
 
     fun edit(review: Review) {

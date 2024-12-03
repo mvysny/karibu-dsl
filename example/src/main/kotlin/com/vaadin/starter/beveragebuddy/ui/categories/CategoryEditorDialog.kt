@@ -18,6 +18,9 @@ package com.vaadin.starter.beveragebuddy.ui.categories
 import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.textField
 import com.github.mvysny.karibudsl.v10.trimmingConverter
+import com.github.mvysny.karibudsl.v23.openConfirmDialog
+import com.github.mvysny.karibudsl.v23.setCloseOnCancel
+import com.github.mvysny.karibudsl.v23.setConfirmIsDanger
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.BeanValidationBinder
@@ -68,12 +71,15 @@ class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
             frame.close()
             onDeleteItem(item)
         } else {
-            ConfirmDialog("Delete Category “${item.name}”?",
-                    "There are $reviewCount reviews associated with this category.\nDeleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.",
-                    "Delete") {
-                frame.close()
-                onDeleteItem(item)
-            } .open()
+            openConfirmDialog("Delete Category “${item.name}”?",
+                    "There are $reviewCount reviews associated with this category.\nDeleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.") {
+                setConfirmButton("Delete") {
+                    frame.close()
+                    onDeleteItem(item)
+                }
+                setConfirmIsDanger()
+                setCloseOnCancel()
+            }
         }
     }
 

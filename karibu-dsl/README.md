@@ -258,6 +258,22 @@ comboBox<Department>("Department") {
 }
 ```
 
+## ConfirmDialog
+
+[Confirm Dialog](https://vaadin.com/docs/latest/components/confirm-dialog) is a modal Dialog used to confirm user actions.
+
+Since `ConfirmDialog` isn't expected to be inserted into components, there's no special DSL for the dialog. Example of use:
+```kotlin
+ConfirmDialog(
+    "Delete beverage",
+    "Are you sure you want to delete beverage '${item.name}'?",
+    "Delete"
+) {
+    frame.close()
+    onDeleteItem(item)
+} .open()
+```
+
 ## TODO more components
 
 ## Grid

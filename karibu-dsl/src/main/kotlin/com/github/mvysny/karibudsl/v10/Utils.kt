@@ -1,13 +1,15 @@
 package com.github.mvysny.karibudsl.v10
 
 public object Utils {
-    public val messages: Map<String, String> = mapOf("cantConvertToInteger" to "Can't convert to integer",
-            "cantConvertToDecimal" to "Can't convert to decimal number",
-            "from" to "From (inclusive):",
-            "to" to "To (inclusive):",
-            "set" to "Set",
-            "clear" to "Clear",
-            "all" to "All"
+    public val messages: Map<String, String> = mapOf(
+        "cantConvertToInteger" to "Can't convert to integer",
+        "cantConvertToDecimal" to "Can't convert to decimal number",
+        "from" to "From (inclusive):",
+        "to" to "To (inclusive):",
+        "set" to "Set",
+        "clear" to "Clear",
+        "all" to "All",
+        "cancel" to "Cancel",
     )
 }
 
