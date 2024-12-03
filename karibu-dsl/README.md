@@ -318,6 +318,14 @@ class DateRangePopup: CustomField<DateInterval>() {
 }
 ```
 
+## DatePicker
+
+[Date Picker](https://vaadin.com/docs/latest/components/date-picker) is an input field that allows the user to enter a date by typing or by selecting from a calendar overlay.
+
+```kotlin
+datePicker(label: String? = null) {}
+```
+
 ## TODO more components
 
 ## Grid

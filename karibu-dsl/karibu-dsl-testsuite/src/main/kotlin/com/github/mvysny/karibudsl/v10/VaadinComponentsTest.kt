@@ -7,6 +7,7 @@ import com.vaadin.flow.component.avatar.Avatar
 import com.vaadin.flow.component.avatar.AvatarGroup
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.checkbox.CheckboxGroup
+import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -98,6 +99,17 @@ abstract class VaadinComponentsTest {
                 setItems("a", "b", "c")
             }
             _expect<CheckboxGroup<*>>(3)
+        }
+    }
+
+    @Nested inner class DatePickerTests {
+        @Test fun smoke() {
+            UI.getCurrent().datePicker()
+            UI.getCurrent().datePicker("Foo")
+            UI.getCurrent().datePicker("Foo") {
+                open()
+            }
+            _expect<DatePicker>(3)
         }
     }
 
