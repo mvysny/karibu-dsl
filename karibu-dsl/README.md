@@ -240,7 +240,7 @@ checkBoxGroup<T>(label: String? = null) {}
 ```
 Example:
 ```kotlin
-checkBox("I accept the ")
+checkBox("I accept the conditions")
 ```
 
 ## ComboBox

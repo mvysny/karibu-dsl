@@ -16,12 +16,12 @@
 package com.vaadin.starter.beveragebuddy.ui.reviews
 
 import com.github.mvysny.karibudsl.v10.*
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.Review
-import com.vaadin.starter.beveragebuddy.ui.ConfirmationDialog
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
 import java.time.LocalDate
@@ -87,16 +87,14 @@ class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val o
     }
 
     private fun maybeDelete(frame: EditorDialogFrame<Review>, item: Review) {
-        ConfirmationDialog().open(
+        ConfirmDialog(
             "Delete beverage",
             "Are you sure you want to delete beverage '${item.name}'?",
-            "",
-            "Delete",
-            true
+            "Delete"
         ) {
             frame.close()
             onDeleteItem(item)
-        }
+        } .open()
     }
 
     fun edit(review: Review) {

@@ -7,7 +7,6 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
-import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
