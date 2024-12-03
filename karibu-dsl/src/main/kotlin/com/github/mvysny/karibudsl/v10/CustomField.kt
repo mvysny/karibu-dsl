@@ -16,7 +16,7 @@ private val customFieldAddMethod: Method = CustomField::class.java.getDeclaredMe
  * class DateRangePopup: CustomField<DateInterval>() {
  *   private val content: Button = content {
  *     button {
- *       onLeftClick {
+ *       onClick {
  *         isDialogVisible = !isDialogVisible
  *       }
  *     }

@@ -277,7 +277,7 @@ openConfirmDialog(
 }
 ```
 
-## Context Menu
+## ContextMenu
 
 [Context Menu](https://vaadin.com/docs/latest/components/context-menu) is a component that you can attach to any component to display a context menu.
 The menu appears on right (default) or left click. On a touch device, a long press opens the context menu.
@@ -296,6 +296,24 @@ button("foo") {
     }
     separator()
     item("clear", { e -> println("clear") })
+  }
+}
+```
+
+## CustomField
+
+[Custom Field](https://vaadin.com/docs/latest/components/custom-field) is a component for wrapping multiple components as a single field. It provides standard input field features like label, helper, validation, and data binding. Use it to create custom input components.
+
+`CustomField` is intended to be extended, not inserted into the component tree as-is, therefore there's no DSL.
+However, there is a `content{}` DSL which populates the contents of the field:
+```kotlin
+class DateRangePopup: CustomField<DateInterval>() {
+  private val content: Button = content {
+    button {
+      onClick {
+        isDialogVisible = !isDialogVisible
+      }
+    }
   }
 }
 ```
