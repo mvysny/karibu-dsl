@@ -277,6 +277,29 @@ openConfirmDialog(
 }
 ```
 
+## Context Menu
+
+[Context Menu](https://vaadin.com/docs/latest/components/context-menu) is a component that you can attach to any component to display a context menu.
+The menu appears on right (default) or left click. On a touch device, a long press opens the context menu.
+```kotlin
+contextMenu {}
+gridContextMenu {}
+```
+Example:
+```kotlin
+button("foo") {
+  contextMenu {
+    item("save", { e -> println("saved") })
+    item("style") {
+      item("bold", { e -> println("bold") })
+      item("italic", { e -> println("italic") })
+    }
+    separator()
+    item("clear", { e -> println("clear") })
+  }
+}
+```
+
 ## TODO more components
 
 ## Grid
