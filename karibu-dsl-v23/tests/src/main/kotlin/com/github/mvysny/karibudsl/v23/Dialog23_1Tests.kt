@@ -52,10 +52,7 @@ abstract class Dialog23_1Tests {
     inner class confirmDialog {
         @Test
         fun smoke() {
-            openConfirmDialog(
-                "Delete beverage",
-                "Are you sure you want to delete stuff?"
-            ) {
+            openConfirmDialog {
                 setConfirmIsDanger()
                 setCloseOnCancel("Cancel")
             }
