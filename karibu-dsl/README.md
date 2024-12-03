@@ -262,16 +262,19 @@ comboBox<Department>("Department") {
 
 [Confirm Dialog](https://vaadin.com/docs/latest/components/confirm-dialog) is a modal Dialog used to confirm user actions.
 
-Since `ConfirmDialog` isn't expected to be inserted into components, there's no special DSL for the dialog. Example of use:
+Since `ConfirmDialog` isn't expected to be inserted into components, there's no special DSL function for the dialog, but there
+is an utility builder function which creates the dialog and opens it automatically. Example of use:
 ```kotlin
-ConfirmDialog(
-    "Delete beverage",
-    "Are you sure you want to delete beverage '${item.name}'?",
-    "Delete"
+openConfirmDialog(
+  "Delete beverage",
+  "Are you sure you want to delete stuff?"
 ) {
-    frame.close()
-    onDeleteItem(item)
-} .open()
+  setConfirmButton("Delete") {
+    deleteItem()
+  }
+  setConfirmIsDanger()
+  setCloseOnCancel("Cancel")
+}
 ```
 
 ## TODO more components
