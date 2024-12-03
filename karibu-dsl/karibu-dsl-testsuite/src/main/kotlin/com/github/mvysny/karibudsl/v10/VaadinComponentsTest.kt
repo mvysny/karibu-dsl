@@ -8,6 +8,7 @@ import com.vaadin.flow.component.avatar.AvatarGroup
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.datepicker.DatePicker
+import com.vaadin.flow.component.datetimepicker.DateTimePicker
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -110,6 +111,17 @@ abstract class VaadinComponentsTest {
                 open()
             }
             _expect<DatePicker>(3)
+        }
+    }
+
+    @Nested inner class DateTimePickerTests {
+        @Test fun smoke() {
+            UI.getCurrent().dateTimePicker()
+            UI.getCurrent().dateTimePicker("Foo")
+            UI.getCurrent().dateTimePicker("Foo") {
+                setAriaLabel("foo")
+            }
+            _expect<DateTimePicker>(3)
         }
     }
 

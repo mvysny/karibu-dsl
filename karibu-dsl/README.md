@@ -326,6 +326,13 @@ class DateRangePopup: CustomField<DateInterval>() {
 datePicker(label: String? = null) {}
 ```
 
+## DateTimePicker
+
+[Date Time Picker](https://vaadin.com/docs/latest/components/date-time-picker) is an input field for selecting both a date and a time.
+```kotlin
+dateTimePicker(label: String? = null) {}
+```
+
 ## TODO more components
 
 ## Grid
