@@ -333,6 +333,26 @@ datePicker(label: String? = null) {}
 dateTimePicker(label: String? = null) {}
 ```
 
+## Details
+
+[Details](https://vaadin.com/docs/latest/components/details) is an expandable panel for showing and hiding content from the user, to make the UI less cluttered.
+```kotlin
+details(summaryText: String? = null) {}
+```
+To populate the `Details` component, use the `content{}` DSL:
+```kotlin
+details("Hello") {
+  content { button("hi!") }
+}
+```
+The summary part can also be populated with components:
+```kotlin
+details {
+  summary { button("learn more") }
+  content { button("hi!") }
+}
+```
+
 ## TODO more components
 
 ## Grid
