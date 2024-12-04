@@ -1,7 +1,9 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.github.mvysny.kaributesting.v10._expect
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -15,5 +17,6 @@ abstract class IconTest {
     @Test fun smoke() {
         UI.getCurrent().icon(VaadinIcon.ABACUS)
         UI.getCurrent().icon(VaadinIcon.ABACUS) {}
+        _expect<Icon>(2)
     }
 }

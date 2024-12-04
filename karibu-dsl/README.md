@@ -411,8 +411,6 @@ formLayout {
 }
 ```
 
-## TODO more components
-
 ## Grid
 
 [Vaadin Grid](https://vaadin.com/docs/latest/components/grid)
@@ -458,6 +456,17 @@ grid<Category> {
   }
 }
 ```
+
+## Icons
+
+[The icon component](https://vaadin.com/docs/latest/components/icons) can render SVG and font icons. Two icon collections are available out-of-the-box.
+```kotlin
+icon(icon: VaadinIcon) {}
+icon(collection: String, icon: String) {}
+```
+
+
+## TODO more components
 
 ## VirtualList
 
