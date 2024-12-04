@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.h3
+import com.github.mvysny.karibudsl.v10.openDialog
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectNone
 import com.github.mvysny.kaributesting.v10._expectOne
@@ -32,18 +33,20 @@ abstract class Dialog23_1Tests {
 
     @Test
     fun `dsl syntax test`() {
-        Dialog().apply {
+        openDialog {
             header { h3("Header") }
             footer { button("Save") }
         }
+        _expectOne<Dialog>()
     }
 
     @Test
     fun smoke() {
-        Dialog().apply {
+        openDialog {
             header { h3("Header") }
             footer { button("Save") }
-        }.open()
+        }
+        _expectOne<Dialog>()
         _expectOne<H3> { text = "Header" }
         _expectOne<Button> { text = "Save" }
     }

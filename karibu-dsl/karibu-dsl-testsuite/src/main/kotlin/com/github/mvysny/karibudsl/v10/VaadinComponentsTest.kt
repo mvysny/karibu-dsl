@@ -9,6 +9,7 @@ import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.datetimepicker.DateTimePicker
+import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -35,7 +36,7 @@ abstract class VaadinComponentsTest {
             comboBox<String>()
             select<String>()
             datePicker()
-            dialog()
+            openDialog {}
             icon(VaadinIcon.TRASH)
             passwordField()
             splitLayout()
@@ -174,6 +175,13 @@ abstract class VaadinComponentsTest {
                 item("Random Dude")
             }
             _expectOne<AvatarGroup>()
+        }
+    }
+
+    @Nested inner class dialog {
+        @Test fun smoke() {
+            openDialog()
+            _expectOne<Dialog>()
         }
     }
 

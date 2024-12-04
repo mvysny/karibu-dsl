@@ -353,6 +353,31 @@ details {
 }
 ```
 
+## Dialogs
+
+[Dialog](https://vaadin.com/docs/latest/components/dialog) is a small window that can be used to present information and user interface elements in an overlay.
+
+Since Dialog is not meant to be inserted into a component tree, there's no DSL for the dialog itself. There's
+`openDialog{}` function which creates and opens the dialog and allows you to build the contents, but it's limited
+to one-off dialogs; usually you'll have a bigger dialogs which are typically implemented as a class extending the `Dialog` class.
+
+There are utility DSL functions to build dialog's header and footer. Example:
+
+```kotlin
+openDialog {
+  header { h3("Header") } // or better: this.setHeaderTitle("Header")
+  verticalLayout(isPadding = false) {
+    // contents
+  }
+  footer {
+    button("Save") {
+      setPrimary()
+    }
+    button("Cancel")
+  }
+}
+```
+
 ## TODO more components
 
 ## Grid
@@ -407,25 +432,6 @@ Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` modul
 
 ```kotlin
 virtualList<Person> {}
-```
-
-## Dialogs
-
-Since Vaadin 23.1 the Dialog has a header and a footer. You need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
-
-```kotlin
-Dialog().apply {
-  header { h3("Header") } // or better: this.setHeaderTitle("Header")
-  verticalLayout(isPadding = false) {
-    // contents
-  }
-  footer {
-    button("Save") {
-      setPrimary()
-    }
-    button("Cancel")
-  }
-}.open()
 ```
 
 ## TabSheet
