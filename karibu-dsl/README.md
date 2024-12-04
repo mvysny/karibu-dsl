@@ -382,7 +382,33 @@ openDialog {
 
 [Email Field](https://vaadin.com/docs/latest/components/email-field) is an extension of Text Field that accepts only email addresses as input. If the given address is invalid, the field is highlighted in red and an error message appears underneath the input.
 ```kotlin
-emailField(label: String? = null)
+emailField(label: String? = null) {}
+```
+
+## FormLayout
+
+[Form Layout](https://vaadin.com/docs/latest/components/form-layout) allows you to build responsive forms with multiple columns, and to position input labels above or to the side of the input.
+```kotlin
+formLayout(classNames: String = "") {}
+```
+
+Thanks to Kotlin DSL extensions, you can write the responsive-steps configuration in a
+much more condensed form as
+```kotlin
+formLayout {
+  responsiveSteps { "0px"(1, top); "30em"(2, aside) }
+  textField("Name") //...
+}
+```
+
+You can also use the `colspan` extension property to set colspan for child fields:
+
+```kotlin
+formLayout {
+  textArea {
+    colspan = 2
+  }
+}
 ```
 
 ## TODO more components
@@ -527,24 +553,6 @@ class ReviewEditor(val bean: Review) : VerticalLayout() {
       val status = form.binder.validate()
       Notification.show(status.validationErrors.joinToString("; ") { it.errorMessage }, 3000, Notification.Position.BOTTOM_START)
     }
-  }
-}
-```
-
-## FormLayout
-
-Thanks to Kotlin DSL extensions, you can write the responsive-steps configuration in a
-much more condensed form as
-```kotlin
-responsiveSteps { "0px"(1, top); "30em"(2, aside) }
-```
-
-You can also use the `colspan` extension property to set colspan for child fields:
-
-```kotlin
-formLayout {
-  textArea {
-    colspan = 2
   }
 }
 ```

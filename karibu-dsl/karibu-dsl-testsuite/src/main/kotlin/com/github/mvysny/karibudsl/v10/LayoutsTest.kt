@@ -3,10 +3,12 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.kaributesting.v10.*
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.orderedlayout.FlexComponent
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.TextField
 import org.junit.jupiter.api.*
 import kotlin.test.expect
 
@@ -18,6 +20,36 @@ abstract class LayoutsTest {
         UI.getCurrent().flexLayout {
             verticalLayout()
             horizontalLayout()
+            formLayout()
+        }
+    }
+
+    @Nested
+    inner class formLayout {
+        @Test
+        fun smoke() {
+            UI.getCurrent().formLayout()
+            UI.getCurrent().formLayout {}
+            UI.getCurrent().formLayout("foo")
+            UI.getCurrent().formLayout("foo") {}
+            _expect<FormLayout>(4)
+        }
+        @Test
+        fun simple() {
+            UI.getCurrent().formLayout {
+                responsiveSteps { "0px"(1, top); "30em"(2, aside) }
+                textField("Name") {
+                    colspan = 2
+                }
+            }
+            _expectOne<FormLayout>()
+            _expectOne<TextField>()
+        }
+        @Test fun `class names`() {
+            var layout: FormLayout = UI.getCurrent().formLayout()
+            expect(null) { layout.className }
+            layout = UI.getCurrent().formLayout("foo bar foo")
+            expect("foo bar") { layout.className }
         }
     }
 

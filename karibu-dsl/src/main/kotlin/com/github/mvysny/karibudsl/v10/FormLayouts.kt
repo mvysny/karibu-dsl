@@ -36,6 +36,14 @@ public open class KFormLayout : FormLayout() {
  * of possible alternative themes for the layout.
  *
  * Call [responsiveSteps] to configure the layout for fluent resizing.
+ * ```kotlin
+ * formLayout {
+ *   responsiveSteps { "0px"(1, top); "30em"(2, aside) }
+ *   textField("Name") {
+ *     colspan = 2
+ *   }
+ * }
+ * ```
  * @param classNames optional additional class names, space-separated
  */
 @VaadinDsl
