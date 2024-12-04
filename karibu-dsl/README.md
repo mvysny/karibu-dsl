@@ -378,6 +378,13 @@ openDialog {
 }
 ```
 
+## EmailField
+
+[Email Field](https://vaadin.com/docs/latest/components/email-field) is an extension of Text Field that accepts only email addresses as input. If the given address is invalid, the field is highlighted in red and an error message appears underneath the input.
+```kotlin
+emailField(label: String? = null)
+```
+
 ## TODO more components
 
 ## Grid

@@ -16,6 +16,7 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.EmailField
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -182,6 +183,16 @@ abstract class VaadinComponentsTest {
         @Test fun smoke() {
             openDialog()
             _expectOne<Dialog>()
+        }
+    }
+
+    @Nested inner class emailField {
+        @Test fun smoke() {
+            UI.getCurrent().emailField()
+            UI.getCurrent().emailField {}
+            UI.getCurrent().emailField("Foo")
+            UI.getCurrent().emailField("Foo") {}
+            _expect<EmailField>(4)
         }
     }
 
