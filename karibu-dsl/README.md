@@ -465,6 +465,12 @@ icon(icon: VaadinIcon) {}
 icon(collection: String, icon: String) {}
 ```
 
+## ListBox
+
+[List Box](https://vaadin.com/docs/latest/components/icons) allows the user to select one or more values from a scrollable list of items.
+```kotlin
+listBox {}
+```
 
 ## TODO more components
 

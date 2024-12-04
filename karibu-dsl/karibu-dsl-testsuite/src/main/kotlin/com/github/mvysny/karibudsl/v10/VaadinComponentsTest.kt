@@ -12,6 +12,7 @@ import com.vaadin.flow.component.datetimepicker.DateTimePicker
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.icon.VaadinIcon
+import com.vaadin.flow.component.listbox.ListBox
 import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.Scroller
@@ -193,6 +194,14 @@ abstract class VaadinComponentsTest {
             UI.getCurrent().emailField("Foo")
             UI.getCurrent().emailField("Foo") {}
             _expect<EmailField>(4)
+        }
+    }
+
+    @Nested inner class listBox {
+        @Test fun smoke() {
+            UI.getCurrent().listBox<String>()
+            UI.getCurrent().listBox<String>{}
+            _expect<ListBox<*>>(2)
         }
     }
 
