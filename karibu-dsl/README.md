@@ -472,6 +472,45 @@ icon(collection: String, icon: String) {}
 listBox {}
 ```
 
+## Login
+
+[Login is a component](https://vaadin.com/docs/latest/components/icons) that contains a log-in form.
+You can use it to authenticate the user with a username and password. It’s compatible with password managers, supports internationalization, and works on all device sizes.
+
+Login comes in two variants: `LoginForm` (a component designed to be inserted into the component tree) and a
+`LoginOverlay` (a modal dialog). Therefore, the DSL function is available only for the `LoginForm`:
+```kotlin
+loginForm(loginI18n: LoginI18n = LoginI18n.createDefault()) {}
+```
+There are additional utility functions for both LoginForm and LoginOverlay:
+* `loginI18n{}` builds the `LoginI18n` object which contain the login messages;
+* `setErrorMessage()` allows you to easily set the error message.
+
+Example of a `LoginView` (see e.g. [vok-security-demo](https://github.com/mvysny/vok-security-demo) example app):
+```kotlin
+class LoginView : KComposite(), BeforeEnterObserver {
+  private val root = ui {
+    verticalLayout {
+      setSizeFull(); isPadding = false; content { center() }
+      val loginI18n: LoginI18n = loginI18n {
+        header.title = "VoK Security Demo"
+        additionalInformation = "Log in as user/user or admin/admin"
+        setErrorMessage("Couldn't log in", "Incorrect username or password")
+      }
+      loginForm(loginI18n) {
+        addLoginListener { e ->
+          if (!login(e.username, e.password)) {
+            isError = true
+          } else {
+            UI.getCurrent().navigateTo("")
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ## TODO more components
 
 ## VirtualList

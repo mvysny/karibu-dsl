@@ -20,6 +20,7 @@ abstract class LoginFormTest {
         val loginI18n: LoginI18n = loginI18n {
             header.title = "VoK Security Demo"
             additionalInformation = "Log in as user/user or admin/admin"
+            setErrorMessage("foo", "bar")
         }
         UI.getCurrent().loginForm(loginI18n) {
             addLoginListener { isError = true }
