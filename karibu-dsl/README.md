@@ -757,6 +757,19 @@ tabSheet {
 }
 ```
 
+## Text Area
+
+[Text Area](https://vaadin.com/docs/latest/components/text-area) is an input field component that allows entry of multiple lines of text.
+```kotlin
+textArea(label: String? = null) {}
+```
+Example:
+```kotlin
+textArea("Remarks") {
+  maxLength = 1000
+}
+```
+
 ## TODO more components
 
 ## VirtualList

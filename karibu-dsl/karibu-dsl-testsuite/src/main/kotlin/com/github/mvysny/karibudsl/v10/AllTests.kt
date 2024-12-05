@@ -32,4 +32,5 @@ abstract class AllTests {
     @Nested inner class Messages : MessagesTest()
     @Nested inner class Badges : BadgesTest()
     @Nested inner class SplitLayout : SplitLayoutTests()
+    @Nested inner class TextFieldTests : AbstractTextFieldTests()
 }

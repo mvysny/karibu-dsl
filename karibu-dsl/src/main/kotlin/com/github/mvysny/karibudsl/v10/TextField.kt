@@ -27,6 +27,14 @@ public fun (@VaadinDsl HasComponents).emailField(label: String? = null, block: (
 public fun (@VaadinDsl HasComponents).numberField(label: String? = null, block: (@VaadinDsl NumberField).() -> Unit = {}): NumberField
         = init(NumberField(label), block)
 
+/**
+ * [Text Area](https://vaadin.com/docs/latest/components/text-area) is an input field component that allows entry of multiple lines of text.
+ * ```kotlin
+ * textArea {
+ *   maxLength = 1000
+ * }
+ * ```
+ */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).textArea(label: String? = null, block: (@VaadinDsl TextArea).() -> Unit = {}): TextArea
         = init(TextArea(label), block)
