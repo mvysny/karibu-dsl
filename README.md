@@ -33,6 +33,7 @@ Compatibility chart:
 
 | Vaadin Version | Karibu DSL Version | Min. Java Version | Remarks         |
 |----------------|--------------------|-------------------|-----------------|
+| 24.5+          | 2.2.0+             | 17                |                 |
 | 24+            | 2.0.0+             | 17                |                 |
 | 14-22          | 1.x                | 8                 |                 |
 | 23             | 1.x                | 11                |                 |
