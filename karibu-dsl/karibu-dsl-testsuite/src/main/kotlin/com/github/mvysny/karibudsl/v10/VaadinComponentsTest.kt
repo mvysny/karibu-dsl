@@ -19,6 +19,7 @@ import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.progressbar.ProgressBar
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup
+import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.IntegerField
@@ -302,6 +303,23 @@ abstract class VaadinComponentsTest {
                 setItems("Finnish", "Swedish")
             }
             _expect<RadioButtonGroup<*>>(4)
+        }
+    }
+
+    @Nested inner class select {
+        @Test fun smoke() {
+            UI.getCurrent().select<String>()
+            UI.getCurrent().select<String>{}
+            UI.getCurrent().select<String>("Foo")
+            UI.getCurrent().select<String>("Foo"){}
+            _expect<Select<*>>(4)
+        }
+
+        @Test fun dsl() {
+            UI.getCurrent().select<String>("Foo") {
+                setItems("a", "b", "c")
+            }
+            _expectOne<Select<*>>()
         }
     }
 
