@@ -226,10 +226,10 @@ abstract class GridTest {
         @Test fun dsl() {
             UI.getCurrent().treeGrid<Person> {
                 hierarchyColumnFor(Person::fullName)   // this must compile
-                hierarchyColumnFor(Person::fullName) {}   // this must compile
+                hierarchyColumnFor(Person::alive) {}   // this must compile
                 hierarchyColumnFor(Person::testCalendar) {}  // this must compile
-                hierarchyColumnFor<Person, String>("fullName")   // this must compile
-                hierarchyColumnFor<Person, String>("fullName") {}   // this must compile
+                hierarchyColumnFor<Person, String>("created")   // this must compile
+                hierarchyColumnFor<Person, String>("testInt") {}   // this must compile
                 componentHierarchyColumn({ Span(it.fullName) }) {}
                 componentHierarchyColumn({ Span(it.fullName) })
             }

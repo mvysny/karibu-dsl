@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributools.addColumnFor
+import com.github.mvysny.kaributools.addHierarchyColumnFor
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
@@ -10,7 +11,6 @@ import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider
 import com.vaadin.flow.data.renderer.ComponentRenderer
 import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.function.ValueProvider
-import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
