@@ -68,15 +68,39 @@ abstract class VaadinComponentsTest {
         }
     }
 
-    @Test fun scroller() {
-        val scroller: Scroller = UI.getCurrent().scroller {  }
-        expect(null) { scroller.content }
-        val span: Span = scroller.content { span("Foo") }
-        expect(span) { scroller.content }
-        scroller._expectOne<Span>()
+    @Nested inner class scroller {
+        @Test
+        fun smoke() {
+            UI.getCurrent().scroller()
+            UI.getCurrent().scroller {}
+            UI.getCurrent().scroller(Scroller.ScrollDirection.VERTICAL)
+            UI.getCurrent().scroller(Scroller.ScrollDirection.VERTICAL) {}
+            _expect<Scroller>(4)
+        }
 
-        // test the API - compiling the following shouldn't fail
-        scroller.content { span("Bar") }
+        @Test
+        fun dsl() {
+            UI.getCurrent().scroller {
+                content {
+                    span("Foo")
+                }
+            }
+            _expectOne<Scroller>()
+            _expectOne<Span>()
+        }
+
+        @Test
+        fun testContent() {
+            val scroller: Scroller = UI.getCurrent().scroller { }
+            expect(null) { scroller.content }
+            val span: Span = scroller.content { span("Foo") }
+            expect(span) { scroller.content }
+            scroller._expectOne<Span>()
+            _expectOne<Span>()
+
+            // test the API - compiling the following shouldn't fail
+            scroller.content { span("Bar") }
+        }
     }
 
     @Nested inner class ButtonTests {
