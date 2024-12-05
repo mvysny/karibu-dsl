@@ -722,6 +722,22 @@ splitLayout {
 }
 ```
 
+## Tabs
+
+[Tabs](https://vaadin.com/docs/latest/components/tabs) are used to organize and group content into sections that the user can navigate.
+```kotlin
+tabs(orientation: Tabs.Orientation? = null) {}
+tab(label: String? = null) {}
+```
+Example:
+```kotlin
+tabs {
+  tab("Details")
+  tab("Payment")
+  tab("Shipping")
+}
+```
+
 ## TODO more components
 
 ## VirtualList

@@ -21,6 +21,8 @@ import com.vaadin.flow.component.progressbar.ProgressBar
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.splitlayout.SplitLayout
+import com.vaadin.flow.component.tabs.Tab
+import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.IntegerField
@@ -330,5 +332,24 @@ abstract class VaadinComponentsTest {
             onClick { i++ }
         } ._click()
         expect(1) { i }
+    }
+
+    @Nested inner class tabs {
+        @Test fun smoke() {
+            UI.getCurrent().tabs()
+            UI.getCurrent().tabs{}
+            UI.getCurrent().tabs(Tabs.Orientation.HORIZONTAL)
+            UI.getCurrent().tabs(Tabs.Orientation.HORIZONTAL){}
+            _expect<Tabs>(4)
+        }
+
+        @Test fun dsl() {
+            UI.getCurrent().tabs {
+                tab("Details")
+                tab("Payment")
+                tab("Shipping")
+            }
+            _expect<Tab>(3)
+        }
     }
 }

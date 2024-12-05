@@ -110,6 +110,16 @@ public fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, b
 public fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@VaadinDsl DatePicker).() -> Unit = {}): DatePicker
         = init(DatePicker(label), block)
 
+/**
+ * [Tabs](https://vaadin.com/docs/latest/components/tabs) are used to organize and group content into sections that the user can navigate.
+ * ```
+ * tabs {
+ *   tab("Details")
+ *   tab("Payment")
+ *   tab("Shipping")
+ * }
+ * ```
+ */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null, block: (@VaadinDsl Tabs).() -> Unit = {}): Tabs {
     val component = Tabs()
@@ -119,6 +129,9 @@ public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null
     return init(component, block)
 }
 
+/**
+ * Adds a tab with given [label] to the [Tabs] component. See [tabs] for an example.
+ */
 @VaadinDsl
 public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab {
     val tab = Tab(label)
