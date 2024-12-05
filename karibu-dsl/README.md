@@ -573,7 +573,7 @@ messageList(messages: List<MessageListItem> = listOf()) {}
 [Multi-Select Combo Box](https://vaadin.com/docs/latest/components/multi-select-combo-box) allows the user to choose one or more values from a filterable list of options presented in an overlay.
 The component supports the same features as the regular Combo Box, such as lazy loading or allowing custom typed values. This page explains how to add this component to your project and how to configure it.
 ```kotlin
-multiSelectComboBox(label: String? = null)
+multiSelectComboBox(label: String? = null) {}
 ```
 Example:
 ```kotlin
@@ -590,6 +590,16 @@ No DSL - Notification is not meant to be inserted into the component tree but ra
 `Notification.open()`.
 
 There are bunch of [notification utility functions coming from Karibu-Tools](https://github.com/mvysny/karibu-tools?tab=readme-ov-file#notification).
+
+## NumberField
+
+[Number Field](https://vaadin.com/docs/latest/components/number-field) is an input field that accepts only numeric input. The input can be a decimal or an integer. There is also a big decimal for Flow.
+
+```kotlin
+numberField(label: String? = null) {} // for Double values
+integerField(label: String? = null) {} // For Integer values
+bigDecimalField(label: String? = null) {} // For BigDecimal values
+```
 
 ## TODO more components
 

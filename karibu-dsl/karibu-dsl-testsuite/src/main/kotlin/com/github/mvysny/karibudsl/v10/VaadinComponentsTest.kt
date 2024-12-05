@@ -17,7 +17,10 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.EmailField
+import com.vaadin.flow.component.textfield.IntegerField
+import com.vaadin.flow.component.textfield.NumberField
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -202,6 +205,36 @@ abstract class VaadinComponentsTest {
             UI.getCurrent().listBox<String>()
             UI.getCurrent().listBox<String>{}
             _expect<ListBox<*>>(2)
+        }
+    }
+
+    @Nested inner class numberField {
+        @Test fun smoke() {
+            UI.getCurrent().numberField()
+            UI.getCurrent().numberField{}
+            UI.getCurrent().numberField("foo")
+            UI.getCurrent().numberField("foo"){}
+            _expect<NumberField>(4)
+        }
+    }
+
+    @Nested inner class integerField {
+        @Test fun smoke() {
+            UI.getCurrent().integerField()
+            UI.getCurrent().integerField{}
+            UI.getCurrent().integerField("foo")
+            UI.getCurrent().integerField("foo"){}
+            _expect<IntegerField>(4)
+        }
+    }
+
+    @Nested inner class bigDecimalField {
+        @Test fun smoke() {
+            UI.getCurrent().bigDecimalField()
+            UI.getCurrent().bigDecimalField{}
+            UI.getCurrent().bigDecimalField("foo")
+            UI.getCurrent().bigDecimalField("foo"){}
+            _expect<BigDecimalField>(4)
         }
     }
 
