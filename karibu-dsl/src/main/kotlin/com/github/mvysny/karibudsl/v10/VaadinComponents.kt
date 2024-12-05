@@ -208,6 +208,15 @@ public fun <T : Any?> (@VaadinDsl HasComponents).listBox(block: (@VaadinDsl List
 public fun <T : Any?> (@VaadinDsl HasComponents).multiSelectListBox(block: (@VaadinDsl MultiSelectListBox<T>).() -> Unit = {}): MultiSelectListBox<T>
         = init(MultiSelectListBox(), block)
 
+/**
+ * [Progress Bar](https://vaadin.com/docs/latest/components/progress-bar) shows the amount of completion of a task or process. The progress can be determinate or indeterminate. Use Progress Bar to show an ongoing process that takes a noticeable time to finish.
+ *
+ * @param min the low end of the scale of progress, defaults to `0.0`
+ * @param max the high end of the scale of progress, defaults to `1.0`
+ * @param value the initial value, defaults to [min]
+ * @param indeterminate Indeterminate state of the progressbar. This property takes precedence over other state properties (min, max, value). Defaults to `false`.
+ * @throws IllegalArgumentException if [min] is not less than [max], or [value] is not between [min] and [max].
+ */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).progressBar(
         min: Double = 0.0,

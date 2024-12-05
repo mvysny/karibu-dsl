@@ -17,6 +17,7 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
+import com.vaadin.flow.component.progressbar.ProgressBar
 import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.IntegerField
@@ -246,6 +247,22 @@ abstract class VaadinComponentsTest {
             UI.getCurrent().passwordField("foo")
             UI.getCurrent().passwordField("foo"){}
             _expect<PasswordField>(4)
+        }
+    }
+
+    @Nested inner class progressBar {
+        @Test fun smoke() {
+            UI.getCurrent().progressBar()
+            UI.getCurrent().progressBar {}
+            UI.getCurrent().progressBar(0.0)
+            UI.getCurrent().progressBar(0.0, 1.0)
+            UI.getCurrent().progressBar(0.0, 1.0, 0.5)
+            UI.getCurrent().progressBar(0.0, 1.0, 0.5) {}
+            UI.getCurrent().progressBar(0.0, 1.0, 0.5, false)
+            UI.getCurrent().progressBar(0.0, 1.0, 0.5, false) {}
+            UI.getCurrent().progressBar(indeterminate = false)
+            UI.getCurrent().progressBar(indeterminate = false) {}
+            _expect<ProgressBar>(10)
         }
     }
 

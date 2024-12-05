@@ -627,6 +627,13 @@ button("hello") {
 }
 ```
 
+## ProgressBar
+
+[Progress Bar](https://vaadin.com/docs/latest/components/progress-bar) shows the amount of completion of a task or process. The progress can be determinate or indeterminate. Use Progress Bar to show an ongoing process that takes a noticeable time to finish.
+```kotlin
+progressBar(min: Double = 0.0, max: Double = 1.0, value: Double = min, indeterminate: Boolean = false) {}
+```
+
 ## TODO more components
 
 ## VirtualList
