@@ -669,6 +669,19 @@ scroller {
 }
 ```
 
+## Select
+
+[Select](https://vaadin.com/docs/latest/components/select) allows users to choose a single value from a list of options presented in an overlay.
+```kotlin
+select<T>(label: String? = null) {}
+```
+Example:
+```kotlin
+select<String>("Foo") {
+  setItems("a", "b", "c")
+}
+```
+
 ## TODO more components
 
 ## VirtualList

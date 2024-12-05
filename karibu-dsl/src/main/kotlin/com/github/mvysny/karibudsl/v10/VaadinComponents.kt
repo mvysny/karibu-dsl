@@ -89,6 +89,11 @@ public fun <T : Any?> (@VaadinDsl HasComponents).comboBox(label: String? = null,
  *
  * The difference between combobox and select is that select isn't lazy, but you can add any child component into the select
  * and it will appear in the popup.
+ * ```
+ * select<String>("Foo") {
+ *   setItems("a", "b", "c")
+ * }
+ * ```
  */
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, block: (@VaadinDsl Select<T>).() -> Unit = {}): Select<T> {
