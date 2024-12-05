@@ -6,6 +6,12 @@ import com.vaadin.flow.component.textfield.*
 /**
  * Creates a [Text Field](https://vaadin.com/elements/vaadin-text-field). See the HTML Examples link for a list
  * of possible alternative themes.
+ * ```
+ * textField("Filter") {
+ *   addThemeVariants(TextFieldVariant.LUMO_SMALL)
+ *   placeholder = "Enter the search query"
+ * }
+ * ```
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).textField(label: String? = null, block: (@VaadinDsl TextField).() -> Unit = {}): TextField

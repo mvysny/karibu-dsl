@@ -770,6 +770,20 @@ textArea("Remarks") {
 }
 ```
 
+## Text Field
+
+[Text Field](https://vaadin.com/docs/latest/components/text-field) allows users to enter text. Prefix and suffix components, such as icons, are also supported.
+```kotlin
+textField(label: String? = null) {}
+```
+Example:
+```kotlin
+textField("Filter") {
+  addThemeVariants(TextFieldVariant.LUMO_SMALL)
+  placeholder = "Enter the search query"
+}
+```
+
 ## TODO more components
 
 ## VirtualList
