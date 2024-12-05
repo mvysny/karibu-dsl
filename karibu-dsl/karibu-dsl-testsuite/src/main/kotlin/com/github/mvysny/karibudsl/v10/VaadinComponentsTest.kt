@@ -21,6 +21,7 @@ import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.NumberField
+import com.vaadin.flow.component.textfield.PasswordField
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -235,6 +236,16 @@ abstract class VaadinComponentsTest {
             UI.getCurrent().bigDecimalField("foo")
             UI.getCurrent().bigDecimalField("foo"){}
             _expect<BigDecimalField>(4)
+        }
+    }
+
+    @Nested inner class passwordField {
+        @Test fun smoke() {
+            UI.getCurrent().passwordField()
+            UI.getCurrent().passwordField{}
+            UI.getCurrent().passwordField("foo")
+            UI.getCurrent().passwordField("foo"){}
+            _expect<PasswordField>(4)
         }
     }
 

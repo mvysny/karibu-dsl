@@ -601,6 +601,13 @@ integerField(label: String? = null) {} // For Integer values
 bigDecimalField(label: String? = null) {} // For BigDecimal values
 ```
 
+## PasswordField
+
+[Password Field](https://vaadin.com/docs/latest/components/password-field) is an input field for entering passwords.
+The input is masked by default. On mobile devices, though, the last typed letter is shown for a brief moment. The masking can be toggled using an optional reveal button.
+```kotlin
+passwordField(label: String? = null) {}
+```
 ## TODO more components
 
 ## VirtualList
