@@ -634,6 +634,41 @@ button("hello") {
 progressBar(min: Double = 0.0, max: Double = 1.0, value: Double = min, indeterminate: Boolean = false) {}
 ```
 
+## RadioButton
+
+[Radio Button Group](https://vaadin.com/docs/latest/components/radio-button) allows users to select one value among multiple choices.
+```kotlin
+radioButtonGroup(label: String? = null) {}
+```
+
+Example:
+
+```kotlin
+radioButtonGroup<String>("Nationality") {
+  setItems("Finnish", "Swedish")
+}
+```
+
+> Note: Vaadin doesn't offer a single radio button component out-of-the-box.
+
+## Scroller
+
+[Scroller](https://vaadin.com/docs/latest/components/scroller) is a component container for creating scrollable areas in the UI.
+```kotlin
+scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH) {}
+```
+Example:
+```kotlin
+scroller {
+  height = "100px"
+  content {
+    div {
+      width = "200px"; height = "200px"; element.styles.add("background-color", "red")
+    }
+  }
+}
+```
+
 ## TODO more components
 
 ## VirtualList

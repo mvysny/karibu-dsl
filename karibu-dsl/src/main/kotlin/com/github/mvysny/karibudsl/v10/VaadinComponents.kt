@@ -153,9 +153,12 @@ public fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, bloc
 }
 
 /**
- * Use as follows:
+ * [Scroller](https://vaadin.com/docs/latest/components/scroller) is a component container for creating scrollable areas in the UI.
+ *
+ * Example:
  * ```
  * scroller {
+ *   height = "100px"
  *   content {
  *     div {
  *       width = "200px"; height = "200px"; element.styles.add("background-color", "red")
@@ -167,9 +170,11 @@ public fun (@VaadinDsl HasComponents).dateTimePicker(label: String? = null, bloc
  * @since Vaadin 14.2
  */
 @VaadinDsl
-public fun (@VaadinDsl HasComponents).scroller(scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,
-                                        block: (@VaadinDsl Scroller).() -> Unit = {}): Scroller =
-        init(Scroller(scrollDirection), block)
+public fun (@VaadinDsl HasComponents).scroller(
+    scrollDirection: Scroller.ScrollDirection = Scroller.ScrollDirection.BOTH,
+    block: (@VaadinDsl Scroller).() -> Unit = {}
+): Scroller =
+    init(Scroller(scrollDirection), block)
 
 @VaadinDsl
 public fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
@@ -233,6 +238,11 @@ public fun (@VaadinDsl HasComponents).progressBar(
 /**
  * Creates a [Vaadin Radio Button](https://vaadin.com/components/vaadin-radio-button). See the HTML Examples link for a list
  * of possible alternative themes.
+ * ```
+ * radioButtonGroup<String>("Nationality") {
+ *   setItems("Finnish", "Swedish")
+ * }
+ * ```
  */
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).radioButtonGroup(

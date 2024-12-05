@@ -18,6 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.progressbar.ProgressBar
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup
 import com.vaadin.flow.component.textfield.BigDecimalField
 import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.IntegerField
@@ -263,6 +264,20 @@ abstract class VaadinComponentsTest {
             UI.getCurrent().progressBar(indeterminate = false)
             UI.getCurrent().progressBar(indeterminate = false) {}
             _expect<ProgressBar>(10)
+        }
+    }
+
+    @Nested inner class radioButtonGroup {
+        @Test fun smoke() {
+            UI.getCurrent().radioButtonGroup<String>()
+            UI.getCurrent().radioButtonGroup<String>{
+                setItems("a", "b", "c")
+            }
+            UI.getCurrent().radioButtonGroup<String>("foo")
+            UI.getCurrent().radioButtonGroup<String>("Nationality") {
+                setItems("Finnish", "Swedish")
+            }
+            _expect<RadioButtonGroup<*>>(4)
         }
     }
 
