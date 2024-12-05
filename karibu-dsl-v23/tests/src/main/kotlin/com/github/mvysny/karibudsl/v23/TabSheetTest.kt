@@ -22,6 +22,23 @@ abstract class TabSheetTest {
         _expectOne<TabSheet>()
     }
 
+    @Test
+    fun exampleDsl() {
+        UI.getCurrent().tabSheet {
+            tab("Dashboard") {
+                span("This is the Dashboard tab content")
+            }
+            tab("Payment") {
+                span("This is the Payment tab content")
+            }
+        }
+        _expectOne<TabSheet>()
+        _expect<Tab>(2)
+        _expect<Span> { text = "This is the Dashboard tab content" } // only one span is attached at one time
+        _get<TabSheet>().selectedIndex = 1
+        _expect<Span> { text = "This is the Payment tab content" } // only one span is attached at one time
+    }
+
     @Nested inner class ContentPopulation {
         @Test fun `Initially empty`() {
             val ts = TabSheet()

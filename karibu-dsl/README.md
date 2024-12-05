@@ -738,6 +738,25 @@ tabs {
 }
 ```
 
+## TabSheet
+
+Tabs are most conveniently used as part of a [Tab Sheet](https://vaadin.com/docs/latest/components/tabs#tab-sheet) that includes automatically switched content areas for each tab.
+```kotlin
+tabSheet {}
+tab(label: String? = null) {}
+```
+Example:
+```kotlin
+tabSheet {
+  tab("Dashboard") {
+    span("This is the Dashboard tab content")
+  }
+  tab("Payment") {
+    span("This is the Payment tab content")
+  }
+}
+```
+
 ## TODO more components
 
 ## VirtualList
@@ -746,27 +765,6 @@ Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` modul
 
 ```kotlin
 virtualList<Person> {}
-```
-
-## TabSheet
-
-Vaadin provides the [Tabs](https://vaadin.com/components/vaadin-tabs) component,
-but that's just the tab bar without any contents. That's exactly what the TabSheet
-Karibu-DSL component solves.
-
-You can add and populate tabs in two ways:
-* eagerly, by calling either `tab()` or `addTab()` function.
-* lazily, by calling `addLazyTab()`.
-
-Example code:
-```
-tabSheet {
-  tab("DSL-style tab") {
-    span("Hello")
-  }
-  addTab("Old-school style", Span("Hi"))
-  addLazyTab("Populated when first selected") { Span("Lazy") }
-}
 ```
 
 # Forms

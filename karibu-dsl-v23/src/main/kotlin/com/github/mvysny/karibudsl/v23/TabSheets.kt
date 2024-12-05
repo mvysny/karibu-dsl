@@ -10,6 +10,18 @@ import com.vaadin.flow.dom.Element
 
 /**
  * Creates a [TabSheet] component which shows both the list of tabs, and the tab contents itself.
+ *
+ * Example:
+ * ```
+ * tabSheet {
+ *   tab("Dashboard") {
+ *     span("This is the Dashboard tab content")
+ *   }
+ *   tab("Payment") {
+ *     span("This is the Payment tab content")
+ *   }
+ * }
+ * ```
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -> Unit = {}): TabSheet
