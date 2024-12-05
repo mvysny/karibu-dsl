@@ -71,6 +71,9 @@ article.
 
 # Documentation
 
+Note that Karibu-DSL depends on [Karibu-Tools](https://github.com/mvysny/karibu-tools)
+which brings in a bunch of useful extension functions to Vaadin components: make sure to consult Karibu-Tools documentation as well.
+
 ## Button
 
 The [Vaadin Button](https://vaadin.com/docs/latest/components/button) component allows users to perform actions:
@@ -378,6 +381,8 @@ openDialog {
 }
 ```
 
+[Karibu-Tools utility functions for Dialogs](https://github.com/mvysny/karibu-tools?tab=readme-ov-file#dialogs).
+
 ## EmailField
 
 [Email Field](https://vaadin.com/docs/latest/components/email-field) is an extension of Text Field that accepts only email addresses as input. If the given address is invalid, the field is highlighted in red and an error message appears underneath the input.
@@ -576,6 +581,15 @@ multiSelectComboBox<String> {
   setItems("a", "b", "c")
 }
 ```
+
+## Notification
+
+[Notification](https://vaadin.com/docs/latest/components/notification) is used to provide feedback to the user about activities, processes, and events in the application.
+
+No DSL - Notification is not meant to be inserted into the component tree but rather opened via
+`Notification.open()`.
+
+There are bunch of [notification utility functions coming from Karibu-Tools](https://github.com/mvysny/karibu-tools?tab=readme-ov-file#notification).
 
 ## TODO more components
 
