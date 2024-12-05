@@ -145,7 +145,12 @@ public fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(label: String? = 
         = init(CheckboxGroup(label), block)
 
 /**
- * Creates a [Time Picker](https://vaadin.com/components/vaadin-time-picker) field.
+ * [Time Picker](https://vaadin.com/docs/latest/components/time-picker) is an input field for used entering or selecting a specific time.
+ * ```
+ * timePicker("Local time") {
+ *   addThemeVariants(TimePickerVariant.LUMO_SMALL)
+ * }
+ * ```
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).timePicker(label: String? = null, block: (@VaadinDsl TimePicker).() -> Unit = {}): TimePicker

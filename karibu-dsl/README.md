@@ -784,6 +784,19 @@ textField("Filter") {
 }
 ```
 
+## Time Picker
+
+[Time Picker](https://vaadin.com/docs/latest/components/time-picker) is an input field for used entering or selecting a specific time.
+```kotlin
+timePicker(label: String? = null) {}
+```
+Example:
+```kotlin
+timePicker("Local time") {
+  addThemeVariants(TimePickerVariant.LUMO_SMALL)
+}
+```
+
 ## TODO more components
 
 ## VirtualList

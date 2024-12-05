@@ -28,6 +28,8 @@ import com.vaadin.flow.component.textfield.EmailField
 import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.NumberField
 import com.vaadin.flow.component.textfield.PasswordField
+import com.vaadin.flow.component.timepicker.TimePicker
+import com.vaadin.flow.component.timepicker.TimePickerVariant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -350,6 +352,21 @@ abstract class VaadinComponentsTest {
                 tab("Shipping")
             }
             _expect<Tab>(3)
+        }
+    }
+
+    @Nested inner class timepicker {
+        @Test fun smoke() {
+            UI.getCurrent().timePicker()
+            UI.getCurrent().timePicker{}
+            UI.getCurrent().timePicker("foo")
+            UI.getCurrent().timePicker("foo"){}
+            _expect<TimePicker>(4)
+        }
+        @Test fun dsl() {
+            UI.getCurrent().timePicker("Local time") {
+                addThemeVariants(TimePickerVariant.LUMO_SMALL)
+            }
         }
     }
 }
