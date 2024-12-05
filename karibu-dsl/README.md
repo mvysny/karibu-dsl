@@ -704,6 +704,24 @@ sideNav("Admin") {
 }
 ```
 
+## SplitLayout
+
+[Split Layout](https://vaadin.com/docs/latest/components/split-layout) is a component with two content areas and a draggable split handle between them.
+```kotlin
+splitLayout(orientation: SplitLayout.Orientation = SplitLayout.Orientation.HORIZONTAL) {}
+```
+Example:
+```kotlin
+splitLayout {
+  primary {
+    button("left side")
+  }
+  secondary {
+    span("right side")
+  }
+}
+```
+
 ## TODO more components
 
 ## VirtualList

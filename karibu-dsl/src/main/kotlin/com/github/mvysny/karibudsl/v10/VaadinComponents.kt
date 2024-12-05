@@ -110,14 +110,6 @@ public fun <T : Any?> (@VaadinDsl HasComponents).select(label: String? = null, b
 public fun (@VaadinDsl HasComponents).datePicker(label: String? = null, block: (@VaadinDsl DatePicker).() -> Unit = {}): DatePicker
         = init(DatePicker(label), block)
 
-/**
- * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
- * of possible alternative themes.
- */
-@VaadinDsl
-public fun (@VaadinDsl HasComponents).splitLayout(block: (@VaadinDsl SplitLayout).() -> Unit = {}): SplitLayout
-        = init(SplitLayout(), block)
-
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null, block: (@VaadinDsl Tabs).() -> Unit = {}): Tabs {
     val component = Tabs()
