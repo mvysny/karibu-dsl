@@ -14,6 +14,10 @@ import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
+/**
+ * [Vaadin Grid](https://vaadin.com/docs/latest/components/grid)
+ * is a component for displaying tabular data, including various enhancements to grid renderings.
+ */
 @VaadinDsl
 public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
         dataProvider: DataProvider<T, *>? = null,
@@ -22,6 +26,10 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
     return grid(T::class.java, dataProvider, block)
 }
 
+/**
+ * [Vaadin Grid](https://vaadin.com/docs/latest/components/grid)
+ * is a component for displaying tabular data, including various enhancements to grid renderings.
+ */
 @VaadinDsl
 public fun <T : Any> (@VaadinDsl HasComponents).grid(
     klass: KClass<T>?,
@@ -31,6 +39,10 @@ public fun <T : Any> (@VaadinDsl HasComponents).grid(
     return grid(klass?.java, dataProvider, block)
 }
 
+/**
+ * [Vaadin Grid](https://vaadin.com/docs/latest/components/grid)
+ * is a component for displaying tabular data, including various enhancements to grid renderings.
+ */
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).grid(
     clazz: Class<T>?,
@@ -44,6 +56,9 @@ public fun <T : Any?> (@VaadinDsl HasComponents).grid(
     return init(grid, block)
 }
 
+/**
+ * [Tree Grid](https://vaadin.com/docs/latest/components/tree-grid) is a component for displaying hierarchical tabular data grouped into expandable nodes.
+ */
 @VaadinDsl
 public inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
         dataProvider: HierarchicalDataProvider<T, *>? = null,
@@ -52,6 +67,9 @@ public inline fun <reified T : Any?> (@VaadinDsl HasComponents).treeGrid(
     return treeGrid(T::class.java, dataProvider, block)
 }
 
+/**
+ * [Tree Grid](https://vaadin.com/docs/latest/components/tree-grid) is a component for displaying hierarchical tabular data grouped into expandable nodes.
+ */
 @VaadinDsl
 public fun <T : Any> (@VaadinDsl HasComponents).treeGrid(
     klass: KClass<T>?,
@@ -61,6 +79,9 @@ public fun <T : Any> (@VaadinDsl HasComponents).treeGrid(
     return treeGrid(klass?.java, dataProvider, block)
 }
 
+/**
+ * [Tree Grid](https://vaadin.com/docs/latest/components/tree-grid) is a component for displaying hierarchical tabular data grouped into expandable nodes.
+ */
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
     clazz: Class<T>?,
@@ -76,9 +97,15 @@ public fun <T : Any?> (@VaadinDsl HasComponents).treeGrid(
 }
 
 /**
- * Adds a column for given [property]. The column key is set to the property name, so that you can look up the column
+ * Adds a column for given [property]. The column [key] is set to the property name, so that you can look up the column
  * using `Grid.getColumnBy()`. The column is also by default set to sortable
- * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
+ * unless the [sortable] parameter is set otherwise.
+ *
+ * The header title is set to the property name, converted from camelCase to Human Friendly.
+ *
+ * WARNING: if an in-memory data provider is used, the sorting will be performed according to the
+ * outcome of the [converter]. This may not be wanted, e.g. when the converter converts
+ * date to a string. In this case, it's better to use the `columnFor(Renderer)`.
  * @param converter optionally converts the property value [V] to something else, typically to a String. Use this for formatting of the value.
  * @param block runs given block on the column.
  * @param T the type of the bean stored in the Grid
@@ -98,8 +125,8 @@ public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
     }
 
 /**
- * Adds a column for given [property], using given [renderer]. The column key is set to the property name, so that you can look up the column
- * using [getColumnBy]. The column is also by default set to sortable
+ * Adds a column for given [property], using given [renderer]. The column [key] is set to the property name, so that you can look up the column
+ * using `Grid.getColumnBy`. The column is also by default set to sortable
  * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
  * @param renderer
  * @param block runs given block on the column.
@@ -121,7 +148,7 @@ public fun <T, V> (@VaadinDsl Grid<T>).columnFor(
 
 /**
  * Adds a column for given [propertyName]. The column key is set to the property name, so that you can look up the column
- * using [getColumnBy]. The column is also by default set to sortable
+ * using `Grid.getColumnBy`. The column is also by default set to sortable
  * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
  *
  * This method should only be used when you have a Grid backed by a Java class which does not have properties exposed as [KProperty1]; for Kotlin
@@ -212,7 +239,7 @@ public fun <T> (@VaadinDsl Grid<T>).column(
  *
  * Example of use:
  * ```kotlin
- * componentColumn({ cat -> createEditButton(cat) }) {
+ * componentColumn({ category -> createEditButton(category) }) {
  *   flexGrow = 0; key = "edit"
  * }
  * ```
@@ -226,6 +253,122 @@ public fun <T, V : Component?> (@VaadinDsl Grid<T>).componentColumn(
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
     val column = addComponentColumn(componentProvider)
+    column.block()
+    return column
+}
+
+/**
+ * Adds a column for given [property]. The column [key] is set to the property name, so that you can look up the column
+ * using `Grid.getColumnBy()`. The column is also by default set to sortable
+ * unless the [sortable] parameter is set otherwise.
+ *
+ * The header title is set to the property name, converted from camelCase to Human Friendly.
+ *
+ * WARNING: if an in-memory data provider is used, the sorting will be performed according to the
+ * outcome of the [converter]. This may not be wanted, e.g. when the converter converts
+ * date to a string. In this case, it's better to use the `columnFor(Renderer)`.
+ * @param converter optionally converts the property value [V] to something else, typically to a String. Use this for formatting of the value.
+ * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @param V the value that the column will display, deduced from the type of the [property].
+ * @return the newly created column
+ */
+@VaadinDsl
+public fun <T, V> (@VaadinDsl TreeGrid<T>).hierarchyColumnFor(
+    property: KProperty1<T, V?>,
+    sortable: Boolean = true,
+    key: String = property.name,
+    converter: (V?) -> Any? = { it },
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> =
+    addHierarchyColumnFor(property, sortable, key, converter).apply {
+        block()
+    }
+
+/**
+ * Adds a column for given [propertyName]. The column key is set to the property name, so that you can look up the column
+ * using `Grid.getColumnBy`. The column is also by default set to sortable
+ * unless the [sortable] parameter is set otherwise. The header title is set to the property name, converted from camelCase to Human Friendly.
+ *
+ * This method should only be used when you have a Grid backed by a Java class which does not have properties exposed as [KProperty1]; for Kotlin
+ * class-backed Grids you should use `addColumnFor(KProperty1)`
+ * @param converter optionally converts the property value [V] to something else, typically to a String. Use this for formatting of the value.
+ * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @param V the value that the column will display.
+ * @return the newly created column
+ */
+@VaadinDsl
+public inline fun <reified T, reified V> (@VaadinDsl TreeGrid<T>).hierarchyColumnFor(
+    propertyName: String,
+    sortable: Boolean = true,
+    key: String = propertyName,
+    noinline converter: (V?) -> Any? = { it },
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> =
+    addHierarchyColumnFor(propertyName, sortable, key, converter).apply { block() }
+
+/**
+ * Adds a new text column to this [Grid] with a value provider and
+ * default column factory. The value is converted to String when sent to the
+ * client by using [java.lang.String.valueOf].
+ *
+ * *NOTE:* For displaying components, see
+ * {@link #addComponentColumn(ValueProvider)}. For using build-in renderers,
+ * see {@link #addColumn(Renderer)}.
+ *
+ * Every added column sends data to the client side regardless of its
+ * visibility state. Don't add a new column at all or use
+ * [Grid.removeColumn] to avoid sending extra data.
+ *
+ * Example of use:
+ * ```kotlin
+ * column({ it.getReviewCount() }) {
+ *   setHeader("Beverages")
+ * }
+ * ```
+ * @param block runs given block on the column.
+ * @param T the type of the bean stored in the Grid
+ * @return the newly created column
+ */
+@VaadinDsl
+public fun <T> (@VaadinDsl TreeGrid<T>).hierarchyColumn(
+    valueProvider: ValueProvider<T, *>,
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> {
+    val column = addHierarchyColumn(valueProvider)
+    column.block()
+    return column
+}
+
+/**
+ * Adds a new column that shows components.
+ *
+ * This is a shorthand for [Grid.addColumn] with a [ComponentRenderer].
+ *
+ * *NOTE:* Using [ComponentRenderer] is not as efficient as the
+ * built-in renderers or using `LitRenderer`.
+ *
+ * Every added column sends data to the client side regardless of its
+ * visibility state. Don't add a new column at all or use
+ * [Grid.removeColumn] to avoid sending extra data.
+ *
+ * Example of use:
+ * ```kotlin
+ * componentColumn({ category -> createEditButton(category) }) {
+ *   flexGrow = 0; key = "edit"
+ * }
+ * ```
+ * @param componentProvider a value provider that will return a component for the given item
+ * @param <V> the component type
+ * @return the new column
+ */
+@VaadinDsl
+public fun <T, V : Component?> (@VaadinDsl TreeGrid<T>).componentHierarchyColumn(
+    componentProvider: ValueProvider<T, V>,
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> {
+    val column = addComponentHierarchyColumn(componentProvider)
     column.block()
     return column
 }

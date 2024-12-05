@@ -6,6 +6,7 @@ import com.github.mvysny.kaributools.*
 import com.github.mvysny.kaributools.sort
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.ListDataProvider
@@ -221,6 +222,17 @@ abstract class GridTest {
         @Test fun nullClass() {
             UI.getCurrent().treeGrid<Person>(clazz = null)
             _expectOne<Grid<*>>()
+        }
+        @Test fun dsl() {
+            UI.getCurrent().treeGrid<Person> {
+                hierarchyColumnFor(Person::fullName)   // this must compile
+                hierarchyColumnFor(Person::fullName) {}   // this must compile
+                hierarchyColumnFor(Person::testCalendar) {}  // this must compile
+                hierarchyColumnFor<Person, String>("fullName")   // this must compile
+                hierarchyColumnFor<Person, String>("fullName") {}   // this must compile
+                componentHierarchyColumn({ Span(it.fullName) }) {}
+                componentHierarchyColumn({ Span(it.fullName) })
+            }
         }
     }
 }

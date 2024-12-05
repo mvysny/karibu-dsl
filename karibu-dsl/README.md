@@ -462,6 +462,46 @@ grid<Category> {
 }
 ```
 
+The following DSLs are available to create columns:
+```kotlin
+columnFor(property: KProperty1<T, V?>, sortable: Boolean = true, key: String = property.name, converter: (V?) -> Any? = { it }) {}
+columnFor(property: KProperty1<T, V?>, renderer: Renderer<T>, sortable: Boolean = true, key: String = property.name) {}
+column(valueProvider: ValueProvider<T, *>) {}
+componentColumn(componentProvider: ValueProvider<T, Component>) {}
+```
+
+### TreeGrid
+
+[Tree Grid](https://vaadin.com/docs/latest/components/tree-grid) is a component for displaying hierarchical tabular data grouped into expandable nodes.
+
+Any of the following DSLs work and will pass the class of the item to Grid's constructor.
+In order for you to be in control and create the columns
+in a controlled DSL manner, no columns are auto-created.
+
+```kotlin
+treeGrid<Person> {}
+treeGrid(Person::class) {}
+treeGrid(Person::class.java) {}
+```
+
+Alternatively, you can decide not to pass the item class into Grid's constructor:
+
+```kotlin
+treeGrid<Person>(klass = null) {}
+treeGrid<Person>(clazz = null) {}
+```
+
+The column-creation DSL is the same as with Grid, see above for more information.
+
+TreeGrid also has one column designated as the *hierarchy column*. The hierarchy column shows the expand/collapse button;
+the TreeGrid can not be expanded/collapsed by the user if it lacks the hierarchy column so don't forget to add it. DSLs:
+```kotlin
+hierarchyColumnFor(property: KProperty1<T, V?>, sortable: Boolean = true, key: String = property.name, converter: (V?) -> Any? = { it }) {}
+hierarchyColumnFor(propertyName: String, sortable: Boolean = true, key: String = propertyName, noinline converter: (V?) -> Any? = { it }) {}
+hierarchyColumn(valueProvider: ValueProvider<T, *>) {}
+componentHierarchyColumn(componentProvider: ValueProvider<T, Component>) {}
+```
+
 ## Icons
 
 [The icon component](https://vaadin.com/docs/latest/components/icons) can render SVG and font icons. Two icon collections are available out-of-the-box.
