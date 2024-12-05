@@ -837,6 +837,40 @@ timePicker("Local time") {
 }
 ```
 
+## Upload
+
+[Upload](https://vaadin.com/docs/latest/components/upload) allows the user to upload files, giving feedback to the user during the upload process. It shows the upload progress and the status of each file. Files can be uploaded by clicking on the Upload button, or by dragging them onto the component.
+```kotlin
+upload(receiver: Receiver? = null) {}
+```
+There's a `i18n{}` builder method which assists you with the buildup of Upload's I18n configuration. Example:
+```kotlin
+upload {
+    i18n {
+        dropFiles {
+            many = "Foo"
+        }
+        addFiles {
+            one = "Bar"
+        }
+        error {
+            fileIsTooBig = "Baz"
+        }
+        uploading {
+            status {
+                connecting = "Foo connecting"
+            }
+            remainingTime {
+                prefix = "Bar prefix"
+            }
+            error {
+                forbidden = "Baz forbidden"
+            }
+        }
+    }
+}
+```
+
 ## TODO more components
 
 ## VirtualList

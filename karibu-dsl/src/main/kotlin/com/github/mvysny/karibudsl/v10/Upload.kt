@@ -5,10 +5,42 @@ import com.vaadin.flow.component.upload.Receiver
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.UploadI18N
 
+/**
+ * [Upload](https://vaadin.com/docs/latest/components/upload) allows the user to upload files, giving feedback to the user during the upload process. It shows the upload progress and the status of each file. Files can be uploaded by clicking on the Upload button, or by dragging them onto the component.
+ */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).upload(receiver: Receiver? = null, block: (@VaadinDsl Upload).() -> Unit = {}): Upload
         = init(Upload(receiver), block)
 
+/**
+ * Assists with buildup of the Upload's i18n configuration:
+ * ```
+ * upload {
+ *     i18n {
+ *         dropFiles {
+ *             many = "Foo"
+ *         }
+ *         addFiles {
+ *             one = "Bar"
+ *         }
+ *         error {
+ *             fileIsTooBig = "Baz"
+ *         }
+ *         uploading {
+ *             status {
+ *                 connecting = "Foo connecting"
+ *             }
+ *             remainingTime {
+ *                 prefix = "Bar prefix"
+ *             }
+ *             error {
+ *                 forbidden = "Baz forbidden"
+ *             }
+ *         }
+ *     }
+ * }
+ * ```
+ */
 @VaadinDsl
 public fun (@VaadinDsl Upload).i18n(block: (@VaadinDsl UploadI18N).() -> Unit): UploadI18N {
     if (i18n == null) i18n = UploadI18N()
