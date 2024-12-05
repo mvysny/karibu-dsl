@@ -549,6 +549,34 @@ menuBar {
 }
 ```
 
+## MessageInput
+
+[Message Input](https://vaadin.com/docs/latest/components/message-input) allows users to author and send messages.
+```kotlin
+messageInput {}
+```
+
+## MessageList
+
+[Message List](https://vaadin.com/docs/latest/components/message-list) allows you to show a list of messages, for example, a chat log. You can configure the text content, information about the sender, and the time of sending for each message.
+```kotlin
+messageList(messages: List<MessageListItem> = listOf()) {}
+```
+
+## MultiSelectComboBox
+
+[Multi-Select Combo Box](https://vaadin.com/docs/latest/components/multi-select-combo-box) allows the user to choose one or more values from a filterable list of options presented in an overlay.
+The component supports the same features as the regular Combo Box, such as lazy loading or allowing custom typed values. This page explains how to add this component to your project and how to configure it.
+```kotlin
+multiSelectComboBox(label: String? = null)
+```
+Example:
+```kotlin
+multiSelectComboBox<String> {
+  setItems("a", "b", "c")
+}
+```
+
 ## TODO more components
 
 ## VirtualList
