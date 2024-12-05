@@ -3,9 +3,10 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.login.LoginForm
 import com.vaadin.flow.component.login.LoginI18n
+import com.vaadin.flow.component.login.LoginOverlay
 
 /**
- * A simple login form which shows a simple login form;
+ * A login component which shows a simple login form;
  * calls a handler provided in the [LoginForm.addLoginListener] when user clicks the "Login" button.
  *
  * This function creates an inline form, intended to be placed in a separate LoginView.
@@ -13,7 +14,7 @@ import com.vaadin.flow.component.login.LoginI18n
  * (an user must log in to view any view of the app, there are no views that an anonymous user may view).
  * If only parts of the app are protected, you can show a login dialog instead whenever the user
  * tries to access protected parts. In order to do that, please use the
- * [com.vaadin.flow.component.login.LoginOverlay] class.
+ * [openLoginOverlay] function.
  *
  * There are two ways to use this form. If the whole app is user-protected
  * (an user must log in to view any view of the app, there are no views that an anonymous user may view), then
@@ -66,6 +67,41 @@ public fun (@VaadinDsl HasComponents).loginForm(
         loginI18n: LoginI18n = LoginI18n.createDefault(),
         block: (@VaadinDsl LoginForm).() -> Unit = {}
 ): LoginForm = init(LoginForm(loginI18n), block)
+
+/**
+ * A login dialog which shows a simple login form;
+ * calls a handler provided in the [LoginForm.addLoginListener] when user clicks the "Login" button.
+ *
+ * This function opens a modal dialog with the login form.
+ * This use-case is excellent for cases when only parts of the app are protected:
+ * you can show a login dialog instead whenever the user
+ * tries to access protected parts.
+ *
+ * ```
+ * loginButton.onClick {
+ *   val loginI18n: LoginI18n = loginI18n {
+ *     header.title = "VoK Security Demo"
+ *     additionalInformation = "Log in as user/user or admin/admin"
+ *   }
+ *   openLoginOverlay(loginI18n) {
+ *     addLoginListener { e ->
+ *       if (!login(e.username, e.password)) {
+ *         isError = true
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ */
+public fun openLoginOverlay(
+    loginI18n: LoginI18n = LoginI18n.createDefault(),
+    block: (@VaadinDsl LoginOverlay).() -> Unit = {}
+): LoginOverlay {
+    val overlay = LoginOverlay(loginI18n)
+    overlay.isOpened = true
+    overlay.block()
+    return overlay
+}
 
 /**
  * Creates the default `LoginI18n` and allows you to override stuff like app title and so on:

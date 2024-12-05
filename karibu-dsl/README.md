@@ -478,10 +478,13 @@ listBox {}
 You can use it to authenticate the user with a username and password. It’s compatible with password managers, supports internationalization, and works on all device sizes.
 
 Login comes in two variants: `LoginForm` (a component designed to be inserted into the component tree) and a
-`LoginOverlay` (a modal dialog). Therefore, the DSL function is available only for the `LoginForm`:
+`LoginOverlay` (a modal dialog, not meant to be inserted into the component tree). Therefore, the DSL function is available only for the `LoginForm`,
+and there is a builder function for `LoginOverlay`:
 ```kotlin
 loginForm(loginI18n: LoginI18n = LoginI18n.createDefault()) {}
+openLoginOverlay(loginI18n: LoginI18n = LoginI18n.createDefault()) {}
 ```
+
 There are additional utility functions for both LoginForm and LoginOverlay:
 * `loginI18n{}` builds the `LoginI18n` object which contain the login messages;
 * `setErrorMessage()` allows you to easily set the error message.
@@ -505,6 +508,22 @@ class LoginView : KComposite(), BeforeEnterObserver {
             UI.getCurrent().navigateTo("")
           }
         }
+      }
+    }
+  }
+}
+```
+Example of the `LoginOverlay`:
+```kotlin
+loginButton.onClick {
+  val loginI18n: LoginI18n = loginI18n {
+    header.title = "VoK Security Demo"
+    additionalInformation = "Log in as user/user or admin/admin"
+  }
+  openLoginOverlay(loginI18n) {
+    addLoginListener { e ->
+      if (!login(e.username, e.password)) {
+        isError = true
       }
     }
   }
