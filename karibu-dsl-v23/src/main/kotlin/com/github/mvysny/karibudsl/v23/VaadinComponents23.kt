@@ -33,6 +33,16 @@ public fun <T : Any?> (@VaadinDsl HasComponents).virtualList(
 /**
  * Creates a [Popover] targeted to this component. You can further populate
  * the Popover with contents.
+ * ```
+ * button("hello") {
+ *   popover {
+ *     isOpenOnFocus = true
+ *     verticalLayout {
+ *       span("Hi!")
+ *     }
+ *   }
+ * }
+ * ```
  * @param position the optional position of the popover, defaults to null.
  * @receiver [Popover.target] will be set to this.
  */

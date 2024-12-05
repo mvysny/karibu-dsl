@@ -608,6 +608,25 @@ The input is masked by default. On mobile devices, though, the last typed letter
 ```kotlin
 passwordField(label: String? = null) {}
 ```
+
+## Popover
+
+[Popover](https://vaadin.com/docs/latest/components/popover) is a generic overlay whose position is anchored to an element in the UI.
+```kotlin
+popover(position: PopoverPosition? = null) {}
+```
+Example:
+```kotlin
+button("hello") {
+  popover {
+    isOpenOnFocus = true
+    verticalLayout {
+      span("Hi!")
+    }
+  }
+}
+```
+
 ## TODO more components
 
 ## VirtualList
