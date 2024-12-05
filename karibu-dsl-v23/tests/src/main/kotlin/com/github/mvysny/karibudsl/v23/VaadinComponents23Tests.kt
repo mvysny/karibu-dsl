@@ -12,6 +12,8 @@ import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.popover.Popover
 import com.vaadin.flow.component.virtuallist.VirtualList
 import com.vaadin.flow.data.provider.ListDataProvider
+import com.vaadin.flow.data.renderer.ComponentRenderer
+import com.vaadin.flow.function.SerializableFunction
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -26,6 +28,7 @@ abstract class VaadinComponents23Tests {
             UI.getCurrent().virtualList<String>()
             UI.getCurrent().virtualList<String> {
                 setItems("a", "b", "c")
+                setRenderer(ComponentRenderer(SerializableFunction { Span(it) }))
             }
             UI.getCurrent().virtualList<String>(ListDataProvider(listOf()))
             UI.getCurrent().virtualList<String>(ListDataProvider(listOf())) { }

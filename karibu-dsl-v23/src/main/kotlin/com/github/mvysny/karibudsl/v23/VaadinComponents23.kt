@@ -18,6 +18,15 @@ import com.vaadin.flow.data.provider.DataProvider
 public fun <T : Any?> (@VaadinDsl HasComponents).multiSelectComboBox(label: String? = null, block: (@VaadinDsl MultiSelectComboBox<T>).() -> Unit = {}): MultiSelectComboBox<T>
         = init(MultiSelectComboBox(label), block)
 
+/**
+ * [Virtual List](https://vaadin.com/docs/latest/components/virtual-list) allows you to render a long list of items inside a scrollable container without sacrificing performance. Each item is rendered on the fly as the user scrolls the list.
+ * ```
+ * virtualList<String> {
+ *   setItems("a", "b", "c")
+ *   setRenderer(ComponentRenderer(SerializableFunction { Span(it) }))
+ * }
+ * ```
+ */
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).virtualList(
     dataProvider: DataProvider<T, *>? = null,

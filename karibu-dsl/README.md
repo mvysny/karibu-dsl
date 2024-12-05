@@ -871,14 +871,21 @@ upload {
 }
 ```
 
-## TODO more components
-
 ## VirtualList
 
-Only available since Vaadin 23; you need to depend on the `karibu-dsl-v23` module. (Since Karibu-DSL 1.1.3)
+[Virtual List](https://vaadin.com/docs/latest/components/virtual-list) allows you to render a long list of items inside a scrollable container without sacrificing performance. Each item is rendered on the fly as the user scrolls the list.
 
 ```kotlin
-virtualList<Person> {}
+virtualList(dataProvider: DataProvider<T, *>? = null) {}
+```
+
+You need to depend on the `karibu-dsl-v23` module to use this.
+
+```kotlin
+virtualList<String> {
+  setItems("a", "b", "c")
+  setRenderer(ComponentRenderer(SerializableFunction { Span(it) }))
+}
 ```
 
 # Forms
