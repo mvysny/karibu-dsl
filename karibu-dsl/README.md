@@ -530,6 +530,25 @@ loginButton.onClick {
 }
 ```
 
+## MenuBar
+
+[Menu Bar](https://vaadin.com/docs/latest/components/menu-bar) is a horizontal button bar with hierarchical drop-down menus. Menu items can trigger an action, open a menu, or work as a toggle.
+```kotlin
+menuBar {}
+```
+Example:
+```kotlin
+menuBar {
+  item("save", { e -> println("saved") })
+  item("style") {
+    item("bold", { e -> println("bold") })
+    separator()
+    item("italic", { e -> println("italic") })
+  }
+  item("clear", { e -> println("clear") })
+}
+```
+
 ## TODO more components
 
 ## VirtualList

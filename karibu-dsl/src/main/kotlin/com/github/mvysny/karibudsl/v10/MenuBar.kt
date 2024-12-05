@@ -7,14 +7,15 @@ import com.vaadin.flow.component.menubar.MenuBar
  * Allows you to define a menu bar as follows:
  *
  * ```
- *   menuBar {
- *     item("save", { e -> println("saved") })
- *     item("style") {
- *       item("bold", { e -> println("bold") })
- *       item("italic", { e -> println("italic") })
- *     }
- *     item("clear", { e -> println("clear") })
+ * menuBar {
+ *   item("save", { e -> println("saved") })
+ *   item("style") {
+ *     item("bold", { e -> println("bold") })
+ *     item("italic", { e -> println("italic") })
  *   }
+ *   separator()
+ *   item("clear", { e -> println("clear") })
+ * }
  * ```
  */
 @VaadinDsl

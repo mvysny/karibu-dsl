@@ -4,8 +4,10 @@ import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.ComponentEventListener
 import com.vaadin.flow.component.contextmenu.ContextMenu
+import com.vaadin.flow.component.contextmenu.ContextMenuBase
 import com.vaadin.flow.component.contextmenu.HasMenuItems
 import com.vaadin.flow.component.contextmenu.MenuItem
+import com.vaadin.flow.component.contextmenu.MenuItemBase
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
 import com.vaadin.flow.component.grid.contextmenu.GridMenuItem
@@ -104,25 +106,13 @@ public fun <T> (@VaadinDsl GridMenuItem<T>).item(component: Component, clickList
         subMenu.addItem(component, clickListener.toListener).apply { block() }
 
 @VaadinDsl
-public fun (@VaadinDsl MenuItem).separator() {
+public fun (@VaadinDsl MenuItemBase<*, *, *>).separator() {
     // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }
 
 @VaadinDsl
-public fun (@VaadinDsl GridMenuItem<*>).separator() {
-    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
-    hr()
-}
-
-@VaadinDsl
-public fun (@VaadinDsl ContextMenu).separator() {
-    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
-    hr()
-}
-
-@VaadinDsl
-public fun (@VaadinDsl GridContextMenu<*>).separator() {
+public fun (@VaadinDsl ContextMenuBase<*, *, *>).separator() {
     // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }

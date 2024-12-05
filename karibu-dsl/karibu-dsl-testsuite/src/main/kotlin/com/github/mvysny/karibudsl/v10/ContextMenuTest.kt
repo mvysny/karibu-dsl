@@ -33,8 +33,10 @@ abstract class ContextMenuTest {
                     item("save", { _ -> println("saved") })
                     item("style") {
                         item("bold", { _ -> println("bold") })
+                        separator()
                         item("italic", { _ -> println("italic") })
                     }
+                    separator()
                     item("clear", { _ -> println("clear") })
                 }
             }
