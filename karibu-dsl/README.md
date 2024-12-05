@@ -682,6 +682,28 @@ select<String>("Foo") {
 }
 ```
 
+## Side Navigation
+
+[Side Navigation](https://vaadin.com/docs/latest/components/side-nav) provides a vertical list of navigation links with support for collapsible, nested sections.
+```kotlin
+sideNav(label: String? = null) {}
+route(routeClass: KClass<out Component>, icon: VaadinIcon? = null, title: String = getRouteTitle(routeClass)) {}
+item(title: String, path: String? = null) {}
+```
+Example:
+```kotlin
+sideNav("Messages") {
+  route(MainRoute::class, VaadinIcon.INBOX, "Inbox")
+  route(MainRoute::class, VaadinIcon.PAPERPLANE, "Sent")
+  route(MainRoute::class, VaadinIcon.TRASH, "Trash")
+}
+sideNav("Admin") {
+  isCollapsible = true
+  route(MainRoute::class, VaadinIcon.GROUP, "Users")
+  route(MainRoute::class, VaadinIcon.KEY, "Permissions")
+}
+```
+
 ## TODO more components
 
 ## VirtualList

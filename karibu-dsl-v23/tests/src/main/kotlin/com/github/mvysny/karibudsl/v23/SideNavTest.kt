@@ -23,6 +23,19 @@ abstract class SideNavTest {
         _expectOne<SideNav>()
     }
 
+    @Test fun saneExample() {
+        UI.getCurrent().sideNav("Messages") {
+            route(MainRoute::class, VaadinIcon.INBOX, "Inbox")
+            route(MainRoute::class, VaadinIcon.PAPERPLANE, "Sent")
+            route(MainRoute::class, VaadinIcon.TRASH, "Trash")
+        }
+        UI.getCurrent().sideNav("Admin") {
+            isCollapsible = true
+            route(MainRoute::class, VaadinIcon.GROUP, "Users")
+            route(MainRoute::class, VaadinIcon.KEY, "Permissions")
+        }
+    }
+
     @Test fun `full dsl test`() {
         UI.getCurrent().sideNav {
             route(MainRoute::class, VaadinIcon.QUESTION) {
@@ -33,8 +46,7 @@ abstract class SideNavTest {
             }
             route(DemoRoute::class)
             item("Hierarchy") {
-                route(MainRoute::class, VaadinIcon.QUESTION, "Main2") {
-                }
+                route(MainRoute::class, VaadinIcon.QUESTION, "Main2") {}
             }
         }
         _expectOne<SideNav>()
