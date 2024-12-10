@@ -19,6 +19,10 @@ dependencies {
     api(libs.hibernate.validator)
     // EL is required: http://hibernate.org/validator/documentation/getting-started/
     implementation(libs.jakarta.el)
+
+    // always include support for css
+    api(libs.kotlin.css.jvm)
+
 }
 
 kotlin {
