@@ -1,8 +1,18 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.github.mvysny.kaributesting.v10.MockVaadin
+import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.html.Div
+import kotlinx.css.Color
+import kotlinx.css.backgroundColor
+import kotlinx.css.backgroundSize
+import kotlinx.css.color
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import java.util.*
+import kotlin.test.expect
 
 abstract class AllTests {
     @BeforeEach fun setLocale() {
@@ -33,4 +43,22 @@ abstract class AllTests {
     @Nested inner class Badges : BadgesTest()
     @Nested inner class SplitLayout : SplitLayoutTests()
     @Nested inner class TextFieldTests : AbstractTextFieldTests()
+    @Nested inner class css {
+        @BeforeEach fun fakeVaadin() {
+            MockVaadin.setup()
+        }
+        @AfterEach fun tearDownVaadin() {
+            MockVaadin.tearDown()
+        }
+        @Test fun smoke() {
+            val div = UI.getCurrent().div {
+                css {
+                    backgroundColor = Color.turquoise
+                    color = Color.black
+                }
+            }
+            expect("turquoise") { div.style["background-color"] }
+            expect("black") { div.style["color"] }
+        }
+    }
 }

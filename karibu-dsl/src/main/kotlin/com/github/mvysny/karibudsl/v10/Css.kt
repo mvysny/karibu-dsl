@@ -5,11 +5,11 @@ import kotlinx.css.CssBuilder
 import kotlinx.css.hyphenize
 
 @VaadinDsl
-public inline fun HasStyle.css(block: CssBuilder.() -> Unit) =
+public fun (@VaadinDsl HasStyle).css(block: (@VaadinDsl CssBuilder).() -> Unit) {
     CssBuilder().apply {
         block()
         declarations.forEach { (key, value) ->
             style[key.hyphenize()] = value.toString()
         }
     }
-
+}
