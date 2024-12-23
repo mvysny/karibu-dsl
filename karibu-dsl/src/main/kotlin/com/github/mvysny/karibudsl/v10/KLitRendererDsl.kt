@@ -16,24 +16,24 @@ import kotlin.text.trimIndent
  * --- Templates escaping in Kotlin multiline strings https://stackoverflow.com/questions/32993586/templates-escaping-in-kotlin-multiline-strings
  * Solution: ${ "\${item.itemName}" }
  */
-val String.litItem get() = "\${item.$this}"
+public val String.litItem get() = "\${item.$this}"
 
 @Suppress("unused")
 @VaadinDsl
-interface KLitRendererBuilderA<TSource> {
+public interface KLitRendererBuilderA<TSource> {
 
-    data class Property<TSource>(
+    public data class Property<TSource>(
         val name: String,
         val provider: (TSource) -> String,
     ) {
-        val litItem get() = name.litItem
+        public val litItem get() = name.litItem
     }
 
-    operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
+    public operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
 
-    fun templateExpression(templateExpression: String)
+    public fun templateExpression(templateExpression: String)
 
-    fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit)
+    public fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit)
 
 }
 
@@ -44,7 +44,7 @@ interface KLitRendererBuilderA<TSource> {
  * --- How do I implement different row height in a grid - Vaadin Cookbook https://cookbook.vaadin.com/grid-row-height
  * --- Dynamically render an image using LitRenderer https://cookbook.vaadin.com/dynamically-render-an-image-using-litrenderer
  */
-class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
+public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
 
     private var templateExpression = ""
 
@@ -54,10 +54,11 @@ class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
         this.templateExpression = templateExpression.trimIndent()
     }
 
-    override fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit) =
+    override fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit) {
         templateExpression(KLitRendererTagsBuilder(this).apply(initBlock).toString())
+    }
 
-    val litRenderer: LitRenderer<TSource>
+    public val litRenderer: LitRenderer<TSource>
         get() =
             LitRenderer.of<TSource>(templateExpression).apply {
                 properties.forEach { (name, provider) ->
@@ -74,7 +75,7 @@ class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
             properties[it.name] = provider
         }
 
-    fun propertyName(property : Property<TSource>) : String {
+    public fun propertyName(property : Property<TSource>) : String {
 
         val provider = properties[property.name]
         require(provider != null) { "${property.name} !in ${properties.keys}" }
@@ -85,7 +86,7 @@ class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
 }
 
 @Suppress("unused")
-fun <TSource> buildLitRenderer(
+public fun <TSource> buildLitRenderer(
     initBlock: KLitRendererBuilderA<TSource>.() -> Unit
 ): LitRenderer<TSource> =
     KLitRendererBuilder<TSource>().apply(initBlock).litRenderer

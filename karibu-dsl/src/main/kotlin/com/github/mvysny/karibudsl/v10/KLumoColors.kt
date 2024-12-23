@@ -6,7 +6,7 @@ import kotlinx.css.Color
  * --- Lumo Colors https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/color
  */
 @Suppress("unused", "EnumEntryName")
-enum class KLumoPrimaryColor(override val varName: String) : KCssVarNameA {
+public enum class KLumoPrimaryColor(override val varName: String) : KCssVarNameA {
     `10pct`("--lumo-primary-color-10pct"),
     `50pct`("--lumo-primary-color-50pct"),
     `100pct`("--lumo-primary-color"),
@@ -15,12 +15,12 @@ enum class KLumoPrimaryColor(override val varName: String) : KCssVarNameA {
 
     ;
 
-    operator fun unaryPlus()  = Color(cssValue)
+    public operator fun unaryPlus(): Color = Color(cssValue)
 
 }
 
 @Suppress("unused")
-enum class KLumoTextColor(override val varName: String) : KCssVarNameA {
+public enum class KLumoTextColor(override val varName: String) : KCssVarNameA {
     Heading("--lumo-header-text-color"),
     Body("--lumo-body-text-color"),
     Secondary("--lumo-secondary-text-color"),
@@ -29,6 +29,6 @@ enum class KLumoTextColor(override val varName: String) : KCssVarNameA {
 
     ;
 
-    operator fun unaryPlus()  = Color(cssValue)
+    public operator fun unaryPlus(): Color = Color(cssValue)
 
 }

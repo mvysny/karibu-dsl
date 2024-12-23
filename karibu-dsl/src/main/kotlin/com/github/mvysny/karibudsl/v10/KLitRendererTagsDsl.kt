@@ -10,47 +10,47 @@ import kotlin.text.isNotEmpty
 import kotlin.text.trimIndent
 
 @VaadinDsl
-interface KLitRendererTagsBuilderA<TSource> {
+public interface KLitRendererTagsBuilderA<TSource> {
 
-    operator fun Property<TSource>.unaryPlus()
+    public operator fun Property<TSource>.unaryPlus()
 
-    operator fun String.unaryPlus()
+    public operator fun String.unaryPlus()
 
-    val spacing get() = KLitRendererTheme.spacing
-    val padding get() = KLitRendererTheme.padding
+    public val spacing: KLitRendererTheme get() = KLitRendererTheme.spacing
+    public val padding: KLitRendererTheme get() = KLitRendererTheme.padding
 
-    fun horizontalLayout(
+    public fun horizontalLayout(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 
-    fun verticalLayout(
+    public fun verticalLayout(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 
-    fun span(
+    public fun span(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 
-    fun div(
+    public fun div(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 
-    fun anchor(
+    public fun anchor(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 
-    fun vaadinIcon(
+    public fun vaadinIcon(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 }
 
-class KLitRendererTagsBuilder<TSource>(
+public class KLitRendererTagsBuilder<TSource>(
 
     private val litRendererBuilder: KLitRendererBuilderA<TSource>,
 
@@ -113,32 +113,44 @@ class KLitRendererTagsBuilder<TSource>(
     override fun horizontalLayout(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    ) = addTag("vaadin-horizontal-layout", attributes.asSequence(), block)
+    ) {
+        addTag("vaadin-horizontal-layout", attributes.asSequence(), block)
+    }
 
     override fun verticalLayout(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    ) = addTag("vaadin-vertical-layout", attributes.asSequence(), block)
+    ) {
+        addTag("vaadin-vertical-layout", attributes.asSequence(), block)
+    }
 
     override fun span(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    ) = addTag("span", attributes.asSequence(), block)
+    ) {
+        addTag("span", attributes.asSequence(), block)
+    }
 
     override fun div(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    ) = addTag("div", attributes.asSequence(), block)
+    ) {
+        addTag("div", attributes.asSequence(), block)
+    }
 
     override fun anchor(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    ) = addTag("a", attributes.asSequence(), block)
+    ) {
+        addTag("a", attributes.asSequence(), block)
+    }
 
     override fun vaadinIcon(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    ) = addTag("vaadin-icon", attributes.asSequence(), block)
+    ) {
+        addTag("vaadin-icon", attributes.asSequence(), block)
+    }
 
 }
 
