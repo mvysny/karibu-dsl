@@ -7,7 +7,7 @@ package com.github.mvysny.karibudsl.v10
  *      The CSS and the HTML produced are the same comparing old to new, but for some reason, the theme=“padding spacing” is now causing issues.
  */
 @Suppress("EnumEntryName")
-enum class KLitRendererTheme {
+public enum class KLitRendererTheme {
     spacing,
     padding,
     ;

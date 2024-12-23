@@ -6,5 +6,5 @@ package com.github.mvysny.karibudsl.v10
  */
 public interface KCssVarNameA {
     public val varName : String
-    public val cssValue get() = "var($varName)"
+    public val cssValue: String get() = "var($varName)"
 }

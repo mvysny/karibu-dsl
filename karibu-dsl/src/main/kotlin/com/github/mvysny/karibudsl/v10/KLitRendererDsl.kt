@@ -26,7 +26,7 @@ public interface KLitRendererBuilderA<TSource> {
         val name: String,
         val provider: (TSource) -> String,
     ) {
-        public val litItem get() = name.litItem
+        public val litItem: String get() = name.litItem
     }
 
     public operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
