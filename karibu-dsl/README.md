@@ -1059,3 +1059,36 @@ and `DateTimePicker`.
 
 In order to do that, it's recommended to call `fetchTimeZoneFromBrowser()` when
 [Vaadin Session is being initialized](https://vaadin.com/docs/v14/flow/advanced/tutorial-application-lifecycle.html).
+
+# CSS
+
+There's a support for configuring CSS in a DSL style, using the [Ktor CSS DSL](https://ktor.io/docs/server-css-dsl.html)
+library. Example:
+```kotlin
+div {
+    css {
+        backgroundColor = Color.turquoise
+        color = Color.black
+    }
+}
+```
+Note that the best practice for theming your Vaadin app is to:
+
+* Read the [Vaadin Styling guide](https://vaadin.com/docs/latest/styling)
+* Create a theme which offers CSS classes for everything you need
+* Create a "Sampler" app, demoing all components and all CSS classes. 
+* You should only use `css{}` for quick hacks, quick fixes and very special cases.
+
+## Sampler
+
+Create a reusable set of Java layouts such as GreyDetailsPane; then create a view called Sampler which
+demoes all layouts and proper ways to use components. This creates a go-to off-the-shelf recipes
+for new developers to follow.
+
+The sampler page can be really simple: a bunch of Tabs, every tab demoing a particular feature:
+one tab for layouts, one tab for grids, one tab for CRUD, one tab for notifications and simple reusable UI things
+like "Pills".
+
+See the [vaadin8-sampler](https://github.com/mvysny/vaadin8-sampler) app for an example of a simple Sampler app.
+The Vaadin8 sampler demoes all components; in your app you should demo your apps'
+components and CSS classes and styles instead.
