@@ -23,6 +23,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.router.HighlightConditions
 import com.vaadin.flow.router.RouterLayout
 import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesList
+import com.vaadin.starter.beveragebuddy.ui.categories.CategoriesListLit
 import com.vaadin.starter.beveragebuddy.ui.reviews.ReviewsList
 
 /**
@@ -44,6 +45,10 @@ class MainLayout : KComposite(), RouterLayout {
                         highlightCondition = HighlightConditions.sameLocation()
                     }
                     routerLink(VaadinIcon.ARCHIVES, "Categories", CategoriesList::class) {
+                        addClassName("main-layout__nav-item")
+                        highlightCondition = HighlightConditions.sameLocation()
+                    }
+                    routerLink(VaadinIcon.ARCHIVES, "Categories-lit", CategoriesListLit::class) {
                         addClassName("main-layout__nav-item")
                         highlightCondition = HighlightConditions.sameLocation()
                     }
