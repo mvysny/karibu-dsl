@@ -1,13 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.karibudsl.v10.VaadinDsl
-import com.vaadin.flow.data.renderer.LitRenderer
 import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
-import kotlin.also
-import kotlin.apply
-import kotlin.collections.forEach
-import kotlin.collections.set
-import kotlin.text.trimIndent
+import com.vaadin.flow.data.renderer.LitRenderer
 
 
 /**

@@ -1,10 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.icon.VaadinIcon
-import kotlin.apply
-import kotlin.collections.asSequence
-import kotlin.collections.joinToString
-import kotlin.sequences.joinToString
 import kotlinx.css.CssBuilder
 import kotlinx.css.hyphenize
 
@@ -25,6 +21,9 @@ private fun CssBuilder.buildInlineStyleText() =
         "${key.hyphenize()}: $value"
     }
 
+public fun <TSource> KLitRendererTagsBuilderA<TSource>.style(value: String) =
+    KLitRendererAttribute("style", value)
+
 public fun <TSource> KLitRendererTagsBuilderA<TSource>.style(block: CssBuilder.() -> Unit) =
     KLitRendererAttribute("style", CssBuilder().apply(block).buildInlineStyleText())
 
@@ -37,6 +36,13 @@ public fun <TSource> KLitRendererTagsBuilderA<TSource>.theme(vararg names: KLitR
  */
 public fun <TSource> KLitRendererTagsBuilderA<TSource>.name(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("name", value.litItem)
+
+/**
+ * "<img src=${item.image} />"
+ * "<div><img style='height: 80px; width: 80px;' src=${item.image} alt=${item.name}></div>"
+ */
+public fun <TSource> KLitRendererTagsBuilderA<TSource>.src(value: KLitRendererBuilderA.Property<TSource>) =
+    KLitRendererAttribute("src", value.litItem)
 
 public fun <TSource> KLitRendererTagsBuilderA<TSource>.img(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("img", value.litItem)

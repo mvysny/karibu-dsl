@@ -1,13 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
-import kotlin.apply
-import kotlin.collections.asSequence
-import kotlin.collections.joinToString
-import kotlin.sequences.joinToString
-import kotlin.text.isNotEmpty
-import kotlin.text.trimIndent
 
 @VaadinDsl
 public interface KLitRendererTagsBuilderA<TSource> {
@@ -48,6 +41,11 @@ public interface KLitRendererTagsBuilderA<TSource> {
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
+
+    public fun img(
+        vararg attributes: KLitRendererAttribute,
+    )
+
 }
 
 public class KLitRendererTagsBuilder<TSource>(
@@ -57,6 +55,11 @@ public class KLitRendererTagsBuilder<TSource>(
     private val tagName: String = "",
     private val attributes: String = "",
     private val propertyName: String = "",
+
+    /**
+     * --- What are Self Closing Tags in HTML? https://www.scaler.com/topics/self-closing-tags-in-html/
+     */
+    private val selfClosing: Boolean = false,
 ) :
     KLitRendererTagsBuilderA<TSource> {
 
@@ -65,10 +68,16 @@ public class KLitRendererTagsBuilder<TSource>(
     override fun toString(): String {
 
         return when {
-            tagName.isNotEmpty() -> """
+            tagName.isNotEmpty() ->
+                if (!selfClosing)
+                    """
             <$tagName $attributes>
             ${children.joinToString(separator = "")}
             </$tagName>
+        """.trimIndent()
+                else
+                    """
+            <$tagName $attributes />
         """.trimIndent()
 
             propertyName.isNotEmpty() -> propertyName
@@ -99,13 +108,15 @@ public class KLitRendererTagsBuilder<TSource>(
     private fun addTag(
         tagName: String,
         attributes: Sequence<KLitRendererAttribute>,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilderA<TSource>.() -> Unit,
+        selfClosing: Boolean = false,
     ) {
         children.add(
             KLitRendererTagsBuilder(
                 litRendererBuilder,
                 tagName,
-                attributes.joinToString(separator = " ")
+                attributes.joinToString(separator = " "),
+                selfClosing = selfClosing
             ).apply(block)
         )
     }
@@ -150,6 +161,23 @@ public class KLitRendererTagsBuilder<TSource>(
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     ) {
         addTag("vaadin-icon", attributes.asSequence(), block)
+    }
+
+    /**
+     * "<img src=${item.image} />"
+     * "<div><img style='height: 80px; width: 80px;' src=${item.image} alt=${item.name}></div>"
+     *
+     * [selfClosing] = true
+     * --- The Image Tag https://www.understandingcode.com/image-tag
+     * The <img /> Tag
+     *  This tag is different from other tags, in that it has no closing tag.
+     *  It is called a self-closing tag, which means that there is just a slash at the end of the opening tag (ex. <img />)
+     * --- img tag and / and a lie https://www.codecademy.com/forum_questions/5236c2c9f10c607ef4000bc0
+     */
+    override fun img(
+        vararg attributes: KLitRendererAttribute,
+    ) {
+        addTag("img", attributes.asSequence(), { }, selfClosing = true)
     }
 
 }
