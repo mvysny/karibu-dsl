@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributools.addColumnFor
 import com.github.mvysny.kaributools.addHierarchyColumnFor
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid

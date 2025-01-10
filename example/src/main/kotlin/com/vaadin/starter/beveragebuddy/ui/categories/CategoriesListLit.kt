@@ -35,9 +35,6 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
-import kotlinx.css.Align
-import kotlinx.css.alignItems
-import kotlin.invoke
 
 /**
  * Displays the list of available categories, with a search filter as well as
