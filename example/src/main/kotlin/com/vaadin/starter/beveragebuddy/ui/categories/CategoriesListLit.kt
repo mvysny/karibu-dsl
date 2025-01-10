@@ -35,6 +35,9 @@ import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.starter.beveragebuddy.ui.MainLayout
 import com.vaadin.starter.beveragebuddy.ui.Toolbar
 import com.vaadin.starter.beveragebuddy.ui.toolbarView
+import kotlinx.css.Align
+import kotlinx.css.alignItems
+import kotlin.invoke
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -47,6 +50,7 @@ class CategoriesListLit : KComposite() {
     private lateinit var header: H3
     private lateinit var toolbar: Toolbar
     private lateinit var grid: Grid<Category>
+
     // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
     lateinit var gridContextMenu: GridContextMenu<Category>
         private set
@@ -75,6 +79,24 @@ class CategoriesListLit : KComposite() {
                 componentColumn({ cat -> createEditButton(cat) }) {
                     flexGrow = 0; key = "edit"
                 }
+
+                column(buildLitRenderer<Category> {
+
+                    val onButtonClick = function("onButtonClick") { category ->
+                        edit(category)
+                    }
+
+                    templateExpression {
+
+                        /**
+                         * <vaadin-button class="category__edit" theme="tertiary" tabindex="0" role="button">Edit<vaadin-icon icon="vaadin:edit" slot="prefix"></vaadin-icon></vaadin-button>
+                         */
+                        button(cssClass("category__edit"), themeVariant(ButtonVariant.LUMO_TERTIARY), click(onButtonClick)) {
+                            icon(icon(VaadinIcon.EDIT.create()))
+                            +"Edit"
+                        }
+                    }
+                })
 
                 gridContextMenu = gridContextMenu {
                     item("New", { editorDialog.createNew() })

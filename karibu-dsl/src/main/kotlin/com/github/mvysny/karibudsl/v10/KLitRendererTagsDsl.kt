@@ -6,6 +6,7 @@ import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
 public interface KLitRendererTagsBuilderA<TSource> {
 
     public operator fun Property<TSource>.unaryPlus()
+    public operator fun KLitRendererBuilderA.Function<TSource>.unaryPlus()
 
     public operator fun String.unaryPlus()
 
@@ -37,7 +38,12 @@ public interface KLitRendererTagsBuilderA<TSource> {
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
 
-    public fun vaadinIcon(
+    public fun icon(
+        vararg attributes: KLitRendererAttribute,
+        block: KLitRendererTagsBuilderA<TSource>.() -> Unit = {}
+    )
+
+    public fun button(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     )
@@ -92,6 +98,15 @@ public class KLitRendererTagsBuilder<TSource>(
             KLitRendererTagsBuilder(
                 litRendererBuilder,
                 propertyName = (litRendererBuilder as KLitRendererBuilder).propertyName(this)
+            )
+        )
+    }
+
+    override fun KLitRendererBuilderA.Function<TSource>.unaryPlus() {
+        children.add(
+            KLitRendererTagsBuilder(
+                litRendererBuilder,
+                propertyName = (litRendererBuilder as KLitRendererBuilder).functionName(this)
             )
         )
     }
@@ -156,11 +171,18 @@ public class KLitRendererTagsBuilder<TSource>(
         addTag("a", attributes.asSequence(), block)
     }
 
-    override fun vaadinIcon(
+    override fun icon(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilderA<TSource>.() -> Unit
     ) {
         addTag("vaadin-icon", attributes.asSequence(), block)
+    }
+
+    override fun button(
+        vararg attributes: KLitRendererAttribute,
+        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+    ) {
+        addTag("vaadin-button", attributes.asSequence(), block)
     }
 
     /**

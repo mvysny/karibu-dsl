@@ -23,7 +23,49 @@ public interface KLitRendererBuilderA<TSource> {
         public val litItem: String get() = name.litItem
     }
 
+    /**
+     * --- withFunction https://vaadin.com/api/platform/com/vaadin/flow/data/renderer/LitRenderer.html#withFunction(java.lang.String,com.vaadin.flow.function.SerializableConsumer)
+     * @param name This name must be a valid JavaScript function name. It must be alphanumeric and not null, must not be one of the JavaScript reserved words (https://www.w3schools.com/js/js_reserved.asp)
+     */
+    public data class Function<TSource>(
+        val name: String,
+        val handler: (TSource) -> Unit,
+    ) {
+
+        /**
+         * NOTE: Rules to validate name of function are created by ChatGPT :)
+         */
+        private companion object {
+            // JavaScript identifier rules
+            val identifierRegex = Regex("^[a-zA-Z_\$][a-zA-Z0-9_\$]*$")
+
+            // Reserved keywords in JavaScript
+            val reservedKeywords = setOf(
+                "break", "case", "catch", "class", "const", "continue", "debugger", "default",
+                "delete", "do", "else", "enum", "export", "extends", "false", "finally",
+                "for", "function", "if", "import", "in", "instanceof", "new", "null", "return",
+                "super", "switch", "this", "throw", "true", "try", "typeof", "var", "void",
+                "while", "with", "yield", "let", "await", "static", "implements", "package",
+                "protected", "interface", "private", "public"
+            )
+        }
+
+        init {
+            require(identifierRegex.matches(name)) {
+                "'$name' is not valid JavaScript identifier"
+            }
+
+            require(name !in reservedKeywords) {
+                "'$name' is reserved keyword in JavaScript"
+            }
+        }
+
+        public val litItem: String get() = "\${$name}"
+    }
+
     public operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
+
+    public fun function(name: String, handler: (TSource) -> Unit): Function<TSource>
 
     public fun templateExpression(templateExpression: String)
 
@@ -43,6 +85,7 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
     private var templateExpression = ""
 
     private val properties = mutableMapOf<String, (TSource) -> String>()
+    private val functions = mutableMapOf<String, (TSource) -> Unit>()
 
     override fun templateExpression(templateExpression: String) {
         this.templateExpression = templateExpression.trimIndent()
@@ -58,6 +101,9 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
                 properties.forEach { (name, provider) ->
                     withProperty(name, provider)
                 }
+                functions.forEach { (name, handler) ->
+                    withFunction(name, handler)
+                }
             }
 
 
@@ -69,12 +115,28 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
             properties[it.name] = provider
         }
 
+    override fun function(name: String, handler: (TSource) -> Unit): KLitRendererBuilderA.Function<TSource> =
+        KLitRendererBuilderA.Function(
+            name = name,
+            handler = handler,
+        ).also {
+            functions[it.name] = handler
+        }
+
     public fun propertyName(property : Property<TSource>) : String {
 
         val provider = properties[property.name]
         require(provider != null) { "${property.name} !in ${properties.keys}" }
 
         return property.litItem
+    }
+
+    public fun functionName(function : KLitRendererBuilderA.Function<TSource>) : String {
+
+        val handler = functions[function.name]
+        require(handler != null) { "${function.name} !in ${functions.keys}" }
+
+        return function.litItem
     }
 
 }
