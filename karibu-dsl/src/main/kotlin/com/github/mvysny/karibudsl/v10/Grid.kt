@@ -263,7 +263,8 @@ public fun <T, V : Component?> (@VaadinDsl Grid<T>).componentColumn(
  *
  * This is a shorthand for [Grid.addColumn] with a [Renderer].
  *
- * *NOTE:* Using [Renderer] (built-in renderers or `LitRenderer`) is more efficient than [ComponentRenderer]
+ * *NOTE:* Using [Renderer] (built-in renderers or `LitRenderer`) is more efficient
+ * than [ComponentRenderer]
  *
  * Example of use:
  * ```kotlin
