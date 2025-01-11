@@ -16,13 +16,12 @@
 package com.vaadin.starter.beveragebuddy.ui.categories
 
 import com.github.mvysny.karibudsl.v10.*
-import com.github.mvysny.kaributools.ModifierKey.*
+import com.github.mvysny.kaributools.ModifierKey.Alt
 import com.github.mvysny.kaributools.addShortcut
-import com.vaadin.flow.component.Key.*
+import com.vaadin.flow.component.Key.KEY_E
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
@@ -35,7 +34,9 @@ import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
-import com.vaadin.starter.beveragebuddy.ui.*
+import com.vaadin.starter.beveragebuddy.ui.MainLayout
+import com.vaadin.starter.beveragebuddy.ui.Toolbar
+import com.vaadin.starter.beveragebuddy.ui.toolbarView
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -56,6 +57,7 @@ class CategoriesList : KComposite() {
         { category -> saveCategory(category) },
         { deleteCategory(it) })
 
+    @Suppress("unused")
     private val root = ui {
         verticalLayout(false) {
             content { align(stretch, top) }
