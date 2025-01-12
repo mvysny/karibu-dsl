@@ -31,13 +31,13 @@ This library:
 
 Compatibility chart:
 
-| Vaadin Version | Karibu DSL Version | Min. Java Version | Remarks         |
-|----------------|--------------------|-------------------|-----------------|
-| 24.5+          | 2.2.0+             | 17                |                 |
-| 24+            | 2.0.0+             | 17                |                 |
-| 14-22          | 1.x                | 8                 |                 |
-| 23             | 1.x                | 11                |                 |
-| 8              | 1.0.x              | 5                 | Read more below |
+| Vaadin Version | Karibu DSL Version | Min. Java Version | Maintained |
+|----------------|--------------------|-------------------|------------|
+| 24.5+          | 2.2.0+             | 17                | *yes*      |
+| 24+            | 2.0.0+             | 17                | no         |
+| 23             | 1.x                | 11                | no         |
+| 14-22          | 1.x                | 8                 | no         |
+| 8              | 1.0.x              | 5                 | no         |
 
 ## UI Basic Example Application
 
@@ -79,9 +79,9 @@ means *welcome*.
 
 > Note: For Groovy Vaadin DSL please see the [Vaadin Groovy Builder](https://github.com/mvysny/vaadin-groovy-builder) library.
 
-## Vaadin 8 Unsupported
+## Vaadin 8 No longer maintained
 
-Vaadin 8 is no longer supported starting from Karibu-DSL 1.1+. If you're still
+Vaadin 8 support is no longer maintained. If you're still
 using Vaadin 8, please use Karibu-DSL 1.0.x. Please find the documentation for
 Karibu-DSL Vaadin 8 in the [1.0.x README.md](https://github.com/mvysny/karibu-dsl/tree/1.0.x). Also see [Issue #35](https://github.com/mvysny/karibu-dsl/issues/35)
 for more details.
