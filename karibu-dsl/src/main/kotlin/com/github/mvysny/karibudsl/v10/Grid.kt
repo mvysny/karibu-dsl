@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributools.addColumnFor
 import com.github.mvysny.kaributools.addHierarchyColumnFor
+import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.grid.Grid
@@ -253,6 +254,33 @@ public fun <T, V : Component?> (@VaadinDsl Grid<T>).componentColumn(
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
     val column = addComponentColumn(componentProvider)
+    column.block()
+    return column
+}
+
+/**
+ * Adds a new column that shows components using [Renderer].
+ *
+ * This is a shorthand for [Grid.addColumn] with a [Renderer].
+ *
+ * *NOTE:* Using [Renderer] (built-in renderers or `LitRenderer`) is more efficient
+ * than [ComponentRenderer]
+ *
+ * Example of use:
+ * ```kotlin
+ * column(buildLitRenderer<Category> { ... }) {
+ *   flexGrow = 0; key = "edit"
+ * }
+ * ```
+ * @param renderer a (built-in renderer or `LitRenderer`) used to create the grid cell structure
+ * @return the new column
+ */
+@VaadinDsl
+public fun <T> (@VaadinDsl Grid<T>).column(
+    renderer: Renderer<T>,
+    block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
+): Grid.Column<T> {
+    val column = addColumn(renderer)
     column.block()
     return column
 }
