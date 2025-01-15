@@ -37,6 +37,9 @@ public fun <TSource> KLitRendererTagsBuilderA<TSource>.themeVariant(vararg names
 public fun <TSource> KLitRendererTagsBuilderA<TSource>.cssClass(vararg names: String) =
     KLitRendererAttribute("class", names.joinToString(separator = " "))
 
+public fun <TSource> KLitRendererTagsBuilderA<TSource>.id(value: String) =
+    KLitRendererAttribute("id", value)
+
 /**
  * --- Renderers https://vaadin.com/docs/latest/components/grid/renderers
  * "<vaadin-avatar img=\"${item.pictureUrl}\" name=\"${item.fullName}\" alt=\"User avatar\"></vaadin-avatar>"
