@@ -2,6 +2,8 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
 import com.vaadin.flow.data.renderer.LitRenderer
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 
 /**
@@ -65,7 +67,11 @@ public interface KLitRendererBuilderA<TSource> {
 
     public operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
 
+    public fun property(provider: (TSource) -> String): ReadOnlyProperty<Any?, Property<TSource>>
+
     public fun function(name: String, handler: (TSource) -> Unit): Function<TSource>
+
+    public fun function(handler: (TSource) -> Unit): ReadOnlyProperty<Any?, Function<TSource>>
 
     public fun templateExpression(templateExpression: String)
 
@@ -115,6 +121,12 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
             properties[it.name] = provider
         }
 
+    override fun property(provider: (TSource) -> String): ReadOnlyProperty<Any?, Property<TSource>> =
+        object : ReadOnlyProperty<Any?, Property<TSource>> {
+            override fun getValue(thisRef: Any?, property: KProperty<*>): Property<TSource> =
+                property.name(provider)
+        }
+
     override fun function(name: String, handler: (TSource) -> Unit): KLitRendererBuilderA.Function<TSource> =
         KLitRendererBuilderA.Function(
             name = name,
@@ -123,7 +135,13 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
             functions[it.name] = handler
         }
 
-    public fun propertyName(property : Property<TSource>) : String {
+    override fun function(handler: (TSource) -> Unit): ReadOnlyProperty<Any?, KLitRendererBuilderA.Function<TSource>> =
+        object : ReadOnlyProperty<Any?, KLitRendererBuilderA.Function<TSource>> {
+            override fun getValue(thisRef: Any?, property: KProperty<*>): KLitRendererBuilderA.Function<TSource> =
+                function(property.name, handler)
+        }
+
+    public fun propertyName(property: Property<TSource>): String {
 
         val provider = properties[property.name]
         require(provider != null) { "${property.name} !in ${properties.keys}" }
@@ -131,7 +149,7 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
         return property.litItem
     }
 
-    public fun functionName(function : KLitRendererBuilderA.Function<TSource>) : String {
+    public fun functionName(function: KLitRendererBuilderA.Function<TSource>): String {
 
         val handler = functions[function.name]
         require(handler != null) { "${function.name} !in ${functions.keys}" }

@@ -49,6 +49,7 @@ class CategoriesList : KComposite() {
     private lateinit var header: H3
     private lateinit var toolbar: Toolbar
     private lateinit var grid: Grid<Category>
+
     // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
     lateinit var gridContextMenu: GridContextMenu<Category>
         private set
@@ -88,17 +89,28 @@ class CategoriesList : KComposite() {
                  */
                 column(buildLitRenderer<Category> {
 
+                    /*
                     val onButtonClick = function("onButtonClick") { category ->
+                        deleteCategory(category)
+                    }
+                     */
+                    // OR
+                    val onButtonClick by function { category ->
                         deleteCategory(category)
                     }
 
                     templateExpression {
 
-                        button(cssClass("category__edit"), themeVariant(ButtonVariant.LUMO_TERTIARY), click(onButtonClick)) {
+                        button(
+                            cssClass("category__edit"),
+                            themeVariant(ButtonVariant.LUMO_TERTIARY),
+                            click(onButtonClick)
+                        ) {
                             icon(icon(VaadinIcon.TRASH.create()))
                             +"Delete"
                         }
                     }
+
                 }) {
                     flexGrow = 0; key = "edit-lit"
                 }
