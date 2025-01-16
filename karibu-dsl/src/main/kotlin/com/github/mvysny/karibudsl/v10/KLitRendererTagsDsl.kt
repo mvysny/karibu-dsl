@@ -52,6 +52,10 @@ public interface KLitRendererTagsBuilderA<TSource> {
         vararg attributes: KLitRendererAttribute,
     )
 
+    public fun avatar(
+        vararg attributes: KLitRendererAttribute,
+    )
+
 }
 
 public class KLitRendererTagsBuilder<TSource>(
@@ -63,7 +67,12 @@ public class KLitRendererTagsBuilder<TSource>(
     private val propertyName: String = "",
 
     /**
-     * --- What are Self Closing Tags in HTML? https://www.scaler.com/topics/self-closing-tags-in-html/
+     * [What are Self Closing Tags in HTML?] (https://www.scaler.com/topics/self-closing-tags-in-html/)
+     *  A traditional HTML tag such as <p>, <div>, <section>, etc., had an opening tag and a closing tag
+     *  However, due to their fundamental structure, void components in HTML, such as images and links,
+     *  do not technically require closing tags.
+     *  Images and links cannot have content - they are pointers to an element installed on the website.
+     * See also [img]
      */
     private val selfClosing: Boolean = false,
 ) :
@@ -186,20 +195,36 @@ public class KLitRendererTagsBuilder<TSource>(
     }
 
     /**
-     * "<img src=${item.image} />"
-     * "<div><img style='height: 80px; width: 80px;' src=${item.image} alt=${item.name}></div>"
-     *
      * [selfClosing] = true
-     * --- The Image Tag https://www.understandingcode.com/image-tag
+     *
+     * [The Image Tag] (https://www.understandingcode.com/image-tag)
      * The <img /> Tag
      *  This tag is different from other tags, in that it has no closing tag.
      *  It is called a self-closing tag, which means that there is just a slash at the end of the opening tag (ex. <img />)
-     * --- img tag and / and a lie https://www.codecademy.com/forum_questions/5236c2c9f10c607ef4000bc0
+     * [img tag and / and a lie] (https://www.codecademy.com/forum_questions/5236c2c9f10c607ef4000bc0)
+     *
+     * Example of usage:
+     * ```kotlin
+     * img(src(photo))
+     *   ...
+     * }
+     * ```
+     * Generated html code:
+     * ```
+     * "<img src=${item.photo} />"
+     * <vaadin-vertical-layout> style="line-height: var(----lumo-font-size-xs);" </vaadin-vertical-layout>
+     * ```
      */
     override fun img(
         vararg attributes: KLitRendererAttribute,
     ) {
         addTag("img", attributes.asSequence(), { }, selfClosing = true)
+    }
+
+    override fun avatar(
+        vararg attributes: KLitRendererAttribute,
+    ) {
+        addTag("vaadin-avatar", attributes.asSequence(), { })
     }
 
 }

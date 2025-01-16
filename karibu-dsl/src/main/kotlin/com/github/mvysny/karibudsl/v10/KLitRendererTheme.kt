@@ -1,10 +1,18 @@
 package com.github.mvysny.karibudsl.v10
 
 /**
- * --- Renderers https://vaadin.com/docs/latest/components/grid/renderers
- *      "<vaadin-horizontal-layout style=\"align-items: center;\" theme=\"spacing\">"
- * --- Vaadin 23 - CSS Remove theme=“padding spacing” https://vaadin.com/forum/t/vaadin-23-css-remove-theme-padding-spacing/167207
- *      The CSS and the HTML produced are the same comparing old to new, but for some reason, the theme=“padding spacing” is now causing issues.
+ * [KLitRendererTheme] type-safe theme names
+ *
+ * Example of usage:
+ * ```kotlin
+ * horizontalLayout(theme(spacing)) {
+ *   ...
+ * }
+ * ```
+ * Generated html code:
+ * ```
+ * <vaadin-horizontal-layout> theme: "spacing" </vaadin-horizontal-layout>
+ * ```
  */
 @Suppress("EnumEntryName")
 public enum class KLitRendererTheme {

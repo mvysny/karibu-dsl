@@ -4,7 +4,7 @@ import kotlinx.css.LinearDimension
 import kotlinx.css.properties.LineHeight
 
 /**
- * --- Lumo Typography https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/typography
+ * [Lumo Typography] (https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/typography)
  */
 @Suppress("unused", "SpellCheckingInspection")
 public enum class KLumoFontSize(override val varName: String) : KCssVarNameA {

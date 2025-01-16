@@ -6,14 +6,6 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 
-/**
- * PRB: \${item.itemName} -> isn't interpreted by [LitRenderer]
- * FAIL: $\{item.itemName}
- * --- Templates escaping in Kotlin multiline strings https://stackoverflow.com/questions/32993586/templates-escaping-in-kotlin-multiline-strings
- * Solution: ${ "\${item.itemName}" }
- */
-public val String.litItem get() = "\${item.$this}"
-
 @Suppress("unused")
 @VaadinDsl
 public interface KLitRendererBuilderA<TSource> {
@@ -22,11 +14,11 @@ public interface KLitRendererBuilderA<TSource> {
         val name: String,
         val provider: (TSource) -> String,
     ) {
-        public val litItem: String get() = name.litItem
+        public val litItem: String get() = "\${item.$name}"
     }
 
     /**
-     * --- withFunction https://vaadin.com/api/platform/com/vaadin/flow/data/renderer/LitRenderer.html#withFunction(java.lang.String,com.vaadin.flow.function.SerializableConsumer)
+     * [withFunction] (https://vaadin.com/api/platform/com/vaadin/flow/data/renderer/LitRenderer.html#withFunction(java.lang.String,com.vaadin.flow.function.SerializableConsumer))
      * @param name This name must be a valid JavaScript function name. It must be alphanumeric and not null, must not be one of the JavaScript reserved words (https://www.w3schools.com/js/js_reserved.asp)
      */
     public data class Function<TSource>(
@@ -80,11 +72,15 @@ public interface KLitRendererBuilderA<TSource> {
 }
 
 /**
- * --- Renderers https://vaadin.com/docs/latest/components/grid/renderers
- * --- Display LitRenderer grid cell button as a link in Vaadin 24 https://stackoverflow.com/questions/76984432/display-litrenderer-grid-cell-button-as-a-link-in-vaadin-24
- * --- Vaadin LitRenderer bean exposure to the client https://stackoverflow.com/questions/73101886/vaadin-litrenderer-bean-exposure-to-the-client
- * --- How do I implement different row height in a grid - Vaadin Cookbook https://cookbook.vaadin.com/grid-row-height
- * --- Dynamically render an image using LitRenderer https://cookbook.vaadin.com/dynamically-render-an-image-using-litrenderer
+ * [KLitRendererBuilder] is a DSL builder implementation to create [LitRenderer] from [templateExpression], [properties] and [functions]
+ * See [litRenderer]
+ *
+ * Sources of information with examples of LitRenderer usage:
+ * [Renderers] (https://vaadin.com/docs/latest/components/grid/renderers)
+ * [Display LitRenderer grid cell button as a link in Vaadin 24] (https://stackoverflow.com/questions/76984432/display-litrenderer-grid-cell-button-as-a-link-in-vaadin-24)
+ * [Vaadin LitRenderer bean exposure to the client] (https://stackoverflow.com/questions/73101886/vaadin-litrenderer-bean-exposure-to-the-client)
+ * [How do I implement different row height in a grid - Vaadin Cookbook] (https://cookbook.vaadin.com/grid-row-height)
+ * [Dynamically render an image using LitRenderer] (https://cookbook.vaadin.com/dynamically-render-an-image-using-litrenderer)
  */
 public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
 

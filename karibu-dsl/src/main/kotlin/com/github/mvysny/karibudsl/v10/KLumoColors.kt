@@ -3,7 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import kotlinx.css.Color
 
 /**
- * --- Lumo Colors https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/color
+ * [Lumo Colors] (https://vaadin.com/docs/latest/styling/lumo/lumo-style-properties/color)
  */
 @Suppress("unused", "EnumEntryName")
 public enum class KLumoPrimaryColor(override val varName: String) : KCssVarNameA {
