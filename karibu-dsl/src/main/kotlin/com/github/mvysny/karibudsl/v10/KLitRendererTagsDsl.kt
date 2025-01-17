@@ -1,63 +1,13 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
+import com.vaadin.flow.data.renderer.LitRenderer
 
+/**
+ * Builds the [LitRenderer] template expression.
+ * @param TSource the item rendered by the [LitRenderer].
+ */
 @VaadinDsl
-public interface KLitRendererTagsBuilderA<TSource> {
-
-    public operator fun Property<TSource>.unaryPlus()
-    public operator fun KLitRendererBuilderA.Function<TSource>.unaryPlus()
-
-    public operator fun String.unaryPlus()
-
-    public val spacing: KLitRendererTheme get() = KLitRendererTheme.spacing
-    public val padding: KLitRendererTheme get() = KLitRendererTheme.padding
-
-    public fun horizontalLayout(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    )
-
-    public fun verticalLayout(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    )
-
-    public fun span(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    )
-
-    public fun div(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    )
-
-    public fun anchor(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    )
-
-    public fun icon(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit = {}
-    )
-
-    public fun button(
-        vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
-    )
-
-    public fun img(
-        vararg attributes: KLitRendererAttribute,
-    )
-
-    public fun avatar(
-        vararg attributes: KLitRendererAttribute,
-    )
-
-}
-
 public class KLitRendererTagsBuilder<TSource>(
     private val litRendererBuilder: KLitRendererBuilderA<TSource>,
     private val tagName: String = "",
@@ -73,10 +23,11 @@ public class KLitRendererTagsBuilder<TSource>(
      * See also [img]
      */
     private val selfClosing: Boolean = false,
-) :
-    KLitRendererTagsBuilderA<TSource> {
+) {
+    public val spacing: KLitRendererTheme get() = KLitRendererTheme.spacing
+    public val padding: KLitRendererTheme get() = KLitRendererTheme.padding
 
-    private val children = mutableListOf<KLitRendererTagsBuilderA<TSource>>()
+    private val children = mutableListOf<KLitRendererTagsBuilder<TSource>>()
 
     override fun toString(): String = when {
         tagName.isNotEmpty() ->
@@ -88,7 +39,8 @@ public class KLitRendererTagsBuilder<TSource>(
         else -> children.joinToString(separator = "")
     }
 
-    override fun Property<TSource>.unaryPlus() {
+    @VaadinDsl
+    public operator fun Property<TSource>.unaryPlus() {
         children.add(
             KLitRendererTagsBuilder(
                 litRendererBuilder,
@@ -97,7 +49,8 @@ public class KLitRendererTagsBuilder<TSource>(
         )
     }
 
-    override fun KLitRendererBuilderA.Function<TSource>.unaryPlus() {
+    @VaadinDsl
+    public operator fun KLitRendererBuilderA.Function<TSource>.unaryPlus() {
         children.add(
             KLitRendererTagsBuilder(
                 litRendererBuilder,
@@ -106,7 +59,8 @@ public class KLitRendererTagsBuilder<TSource>(
         )
     }
 
-    override fun String.unaryPlus() {
+    @VaadinDsl
+    public operator fun String.unaryPlus() {
         children.add(
             KLitRendererTagsBuilder(
                 litRendererBuilder,
@@ -118,7 +72,7 @@ public class KLitRendererTagsBuilder<TSource>(
     private fun addTag(
         tagName: String,
         attributes: Sequence<KLitRendererAttribute>,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit,
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit,
         selfClosing: Boolean = false,
     ) {
         children.add(
@@ -131,51 +85,57 @@ public class KLitRendererTagsBuilder<TSource>(
         )
     }
 
-    override fun horizontalLayout(
+    @VaadinDsl
+    public fun horizontalLayout(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("vaadin-horizontal-layout", attributes.asSequence(), block)
     }
 
-    override fun verticalLayout(
+    @VaadinDsl
+    public fun verticalLayout(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("vaadin-vertical-layout", attributes.asSequence(), block)
     }
 
-    override fun span(
+    @VaadinDsl
+    public fun span(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("span", attributes.asSequence(), block)
     }
 
-    override fun div(
+    @VaadinDsl
+    public fun div(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("div", attributes.asSequence(), block)
     }
 
-    override fun anchor(
+    public fun anchor(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("a", attributes.asSequence(), block)
     }
 
-    override fun icon(
+    @VaadinDsl
+    public fun icon(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("vaadin-icon", attributes.asSequence(), block)
     }
 
-    override fun button(
+    @VaadinDsl
+    public fun button(
         vararg attributes: KLitRendererAttribute,
-        block: KLitRendererTagsBuilderA<TSource>.() -> Unit
+        block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
         addTag("vaadin-button", attributes.asSequence(), block)
     }
@@ -200,17 +160,15 @@ public class KLitRendererTagsBuilder<TSource>(
      * "<img src=${item.photo} />"
      * ```
      */
-    override fun img(
-        vararg attributes: KLitRendererAttribute,
+    public fun img(
+        vararg attributes: KLitRendererAttribute
     ) {
         addTag("img", attributes.asSequence(), { }, selfClosing = true)
     }
 
-    override fun avatar(
-        vararg attributes: KLitRendererAttribute,
+    public fun avatar(
+        vararg attributes: KLitRendererAttribute
     ) {
         addTag("vaadin-avatar", attributes.asSequence(), { })
     }
-
 }
-

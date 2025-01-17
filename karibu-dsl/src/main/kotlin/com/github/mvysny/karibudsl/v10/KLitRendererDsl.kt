@@ -77,7 +77,7 @@ public interface KLitRendererBuilderA<TSource> {
     public fun templateExpression(templateExpression: String)
 
     @VaadinDsl
-    public fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit)
+    public fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit)
 }
 
 /**
@@ -102,7 +102,7 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
         this.templateExpression = templateExpression.trimIndent()
     }
 
-    override fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit) {
+    override fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit) {
         templateExpression(KLitRendererTagsBuilder(this).apply(initBlock).toString())
     }
 

@@ -46,28 +46,42 @@ private fun CssBuilder.buildInlineStyleText() =
         "${key.hyphenize()}: $value"
     }
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.style(value: String) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.style(value: String) =
     KLitRendererAttribute("style", value)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.style(block: CssBuilder.() -> Unit) =
-    KLitRendererAttribute("style", CssBuilder().apply(block).buildInlineStyleText())
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.style(block: CssBuilder.() -> Unit) =
+    KLitRendererAttribute(
+        "style",
+        CssBuilder().apply(block).buildInlineStyleText()
+    )
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.theme(vararg names: KLitRendererTheme) =
-    KLitRendererAttribute("theme", names.joinToString(separator = " ") { it.name })
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.theme(vararg names: KLitRendererTheme) =
+    KLitRendererAttribute(
+        "theme",
+        names.joinToString(separator = " ") { it.name })
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.themeVariant(vararg names: ThemeVariant) =
-    KLitRendererAttribute("theme", names.joinToString(separator = " ") { it.variantName })
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.themeVariant(vararg names: ThemeVariant) =
+    KLitRendererAttribute(
+        "theme",
+        names.joinToString(separator = " ") { it.variantName })
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.cssClass(vararg names: String) =
+public fun <TSource> KLitRendererTagsBuilder<TSource>.cssClass(vararg names: String) =
     KLitRendererAttribute("class", names.joinToString(separator = " "))
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.id(value: String) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.id(value: String) =
     KLitRendererAttribute("id", value)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.name(value: KLitRendererBuilderA.Property<TSource>) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.name(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("name", value.litItem)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.src(value: KLitRendererBuilderA.Property<TSource>) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.src(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("src", value.litItem)
 
 /**
@@ -86,21 +100,26 @@ public fun <TSource> KLitRendererTagsBuilderA<TSource>.src(value: KLitRendererBu
  *  ...
  * ```
  */
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.icon(value: KLitRendererBuilderA.Property<TSource>) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.icon(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("icon", value.litItem)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.icon(value: Icon) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.icon(value: Icon) =
     KLitRendererAttribute("icon", value.icon)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.img(value: KLitRendererBuilderA.Property<TSource>) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.img(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("img", value.litItem)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.href(value: String) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.href(value: String) =
     KLitRendererAttribute("href", value)
 
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.href(value: KLitRendererBuilderA.Property<TSource>) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.href(value: KLitRendererBuilderA.Property<TSource>) =
     KLitRendererAttribute("href", value.litItem)
 
-
-public fun <TSource> KLitRendererTagsBuilderA<TSource>.click(value: KLitRendererBuilderA.Function<TSource>) =
+@VaadinDsl
+public fun <TSource> KLitRendererTagsBuilder<TSource>.click(value: KLitRendererBuilderA.Function<TSource>) =
     KLitRendererAttribute("@click", value.litItem)
