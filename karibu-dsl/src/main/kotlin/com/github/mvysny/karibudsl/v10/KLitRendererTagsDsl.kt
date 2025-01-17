@@ -1,6 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
+import com.github.mvysny.karibudsl.v10.KLitRendererBuilder.Property
 import com.vaadin.flow.data.renderer.LitRenderer
 
 /**
@@ -9,7 +9,7 @@ import com.vaadin.flow.data.renderer.LitRenderer
  */
 @VaadinDsl
 public sealed class KLitRendererTagsBuilder<TSource>(
-    protected val litRendererBuilder: KLitRendererBuilderA<TSource>
+    protected val litRendererBuilder: KLitRendererBuilder<TSource>
 ) {
 
     /**
@@ -21,7 +21,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
      * See also [img]
      */
     public class Tag<TSource>(
-        litRendererBuilder: KLitRendererBuilderA<TSource>,
+        litRendererBuilder: KLitRendererBuilder<TSource>,
         private val tagName: String,
         private val attributes: String,
         private val selfClosing: Boolean,
@@ -33,14 +33,14 @@ public sealed class KLitRendererTagsBuilder<TSource>(
     }
 
     public class Prop<TSource>(
-        litRendererBuilder: KLitRendererBuilderA<TSource>,
+        litRendererBuilder: KLitRendererBuilder<TSource>,
         private val propertyName: String
     ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
         override fun toString(): String = propertyName
     }
 
     public class Nodes<TSource>(
-        litRendererBuilder: KLitRendererBuilderA<TSource>
+        litRendererBuilder: KLitRendererBuilder<TSource>
     ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
         override fun toString(): String = children.joinToString(separator = "")
     }
@@ -55,17 +55,17 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         children.add(
             Prop(
                 litRendererBuilder,
-                (litRendererBuilder as KLitRendererBuilder).propertyName(this)
+                litRendererBuilder.propertyName(this)
             )
         )
     }
 
     @VaadinDsl
-    public operator fun KLitRendererBuilderA.Function<TSource>.unaryPlus() {
+    public operator fun KLitRendererBuilder.Function<TSource>.unaryPlus() {
         children.add(
             Prop(
                 litRendererBuilder,
-                (litRendererBuilder as KLitRendererBuilder).functionName(this)
+                litRendererBuilder.functionName(this)
             )
         )
     }

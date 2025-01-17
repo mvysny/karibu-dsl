@@ -1,17 +1,23 @@
 package com.github.mvysny.karibudsl.v10
 
-import com.github.mvysny.karibudsl.v10.KLitRendererBuilderA.Property
 import com.vaadin.flow.data.renderer.LitRenderer
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 
 /**
+ * [KLitRendererBuilder] is a DSL builder implementation to create [LitRenderer] from [templateExpression], [properties] and [functions]
+ * See [litRenderer]
+ *
+ * Sources of information with examples of LitRenderer usage:
+ * * [Renderers](https://vaadin.com/docs/latest/components/grid/renderers)
+ * * [Display LitRenderer grid cell button as a link in Vaadin 24] (https://stackoverflow.com/questions/76984432/display-litrenderer-grid-cell-button-as-a-link-in-vaadin-24)
+ * * [Vaadin LitRenderer bean exposure to the client] (https://stackoverflow.com/questions/73101886/vaadin-litrenderer-bean-exposure-to-the-client)
+ * * [How do I implement different row height in a grid - Vaadin Cookbook] (https://cookbook.vaadin.com/grid-row-height)
+ * * [Dynamically render an image using LitRenderer] (https://cookbook.vaadin.com/dynamically-render-an-image-using-litrenderer)
  * @param TSource the type of the item in the grid
  */
-@Suppress("unused")
-@VaadinDsl
-public interface KLitRendererBuilderA<TSource> {
+public class KLitRendererBuilder<TSource>() {
 
     public data class Property<TSource>(
         val name: String,
@@ -35,7 +41,7 @@ public interface KLitRendererBuilderA<TSource> {
          */
         private companion object {
             // JavaScript identifier rules
-            val identifierRegex = Regex("^[a-zA-Z_\$][a-zA-Z0-9_\$]*$")
+            val identifierRegex = Regex("^[a-zA-Z_$][a-zA-Z0-9_$]*$")
 
             // Reserved keywords in JavaScript
             val reservedKeywords = setOf(
@@ -61,48 +67,18 @@ public interface KLitRendererBuilderA<TSource> {
         public val litItem: String get() = "\${$name}"
     }
 
-    @VaadinDsl
-    public operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
-
-    @VaadinDsl
-    public fun property(provider: (TSource) -> String): ReadOnlyProperty<Any?, Property<TSource>>
-
-    @VaadinDsl
-    public fun function(name: String, handler: (TSource) -> Unit): Function<TSource>
-
-    @VaadinDsl
-    public fun function(handler: (TSource) -> Unit): ReadOnlyProperty<Any?, Function<TSource>>
-
-    @VaadinDsl
-    public fun templateExpression(templateExpression: String)
-
-    @VaadinDsl
-    public fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit)
-}
-
-/**
- * [KLitRendererBuilder] is a DSL builder implementation to create [LitRenderer] from [templateExpression], [properties] and [functions]
- * See [litRenderer]
- *
- * Sources of information with examples of LitRenderer usage:
- * * [Renderers](https://vaadin.com/docs/latest/components/grid/renderers)
- * * [Display LitRenderer grid cell button as a link in Vaadin 24] (https://stackoverflow.com/questions/76984432/display-litrenderer-grid-cell-button-as-a-link-in-vaadin-24)
- * * [Vaadin LitRenderer bean exposure to the client] (https://stackoverflow.com/questions/73101886/vaadin-litrenderer-bean-exposure-to-the-client)
- * * [How do I implement different row height in a grid - Vaadin Cookbook] (https://cookbook.vaadin.com/grid-row-height)
- * * [Dynamically render an image using LitRenderer] (https://cookbook.vaadin.com/dynamically-render-an-image-using-litrenderer)
- */
-public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
-
     private var templateExpression = ""
 
     private val properties = mutableMapOf<String, (TSource) -> String>()
     private val functions = mutableMapOf<String, (TSource) -> Unit>()
 
-    override fun templateExpression(templateExpression: String) {
+    @VaadinDsl
+    public fun templateExpression(templateExpression: String) {
         this.templateExpression = templateExpression.trimIndent()
     }
 
-    override fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit) {
+    @VaadinDsl
+    public fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit) {
         templateExpression(KLitRendererTagsBuilder.Nodes(this).apply(initBlock).toString())
     }
 
@@ -118,7 +94,8 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
             }
 
 
-    override fun String.invoke(provider: (TSource) -> String) =
+    @VaadinDsl
+    public operator fun String.invoke(provider: (TSource) -> String) =
         Property(
             name = this,
             provider = provider,
@@ -126,35 +103,39 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
             properties[it.name] = provider
         }
 
-    override fun property(provider: (TSource) -> String): ReadOnlyProperty<Any?, Property<TSource>> =
+    @VaadinDsl
+    public fun property(provider: (TSource) -> String): ReadOnlyProperty<Any?, Property<TSource>> =
         object : ReadOnlyProperty<Any?, Property<TSource>> {
             override fun getValue(thisRef: Any?, property: KProperty<*>): Property<TSource> =
                 property.name(provider)
         }
 
-    override fun function(name: String, handler: (TSource) -> Unit): KLitRendererBuilderA.Function<TSource> =
-        KLitRendererBuilderA.Function(
+    @VaadinDsl
+    public fun function(name: String, handler: (TSource) -> Unit): Function<TSource> =
+        Function(
             name = name,
             handler = handler,
         ).also {
             functions[it.name] = handler
         }
 
-    override fun function(handler: (TSource) -> Unit): ReadOnlyProperty<Any?, KLitRendererBuilderA.Function<TSource>> =
-        object : ReadOnlyProperty<Any?, KLitRendererBuilderA.Function<TSource>> {
-            override fun getValue(thisRef: Any?, property: KProperty<*>): KLitRendererBuilderA.Function<TSource> =
+    @VaadinDsl
+    public fun function(handler: (TSource) -> Unit): ReadOnlyProperty<Any?, Function<TSource>> =
+        object : ReadOnlyProperty<Any?, Function<TSource>> {
+            override fun getValue(thisRef: Any?, property: KProperty<*>): Function<TSource> =
                 function(property.name, handler)
         }
 
+    @VaadinDsl
     public fun propertyName(property: Property<TSource>): String {
-
         val provider = properties[property.name]
         require(provider != null) { "${property.name} !in ${properties.keys}" }
 
         return property.litItem
     }
 
-    public fun functionName(function: KLitRendererBuilderA.Function<TSource>): String {
+    @VaadinDsl
+    public fun functionName(function: Function<TSource>): String {
 
         val handler = functions[function.name]
         require(handler != null) { "${function.name} !in ${functions.keys}" }
@@ -168,6 +149,6 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
  */
 @Suppress("unused")
 public fun <TSource> buildLitRenderer(
-    initBlock: KLitRendererBuilderA<TSource>.() -> Unit
+    initBlock: KLitRendererBuilder<TSource>.() -> Unit
 ): LitRenderer<TSource> =
     KLitRendererBuilder<TSource>().apply(initBlock).litRenderer
