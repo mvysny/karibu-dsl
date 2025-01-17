@@ -61,4 +61,5 @@ abstract class AllTests {
             expect("black") { div.style["color"] }
         }
     }
+    @Nested inner class KLitRenderer : KLitRendererTests()
 }

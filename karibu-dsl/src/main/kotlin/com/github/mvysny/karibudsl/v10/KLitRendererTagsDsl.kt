@@ -59,9 +59,7 @@ public interface KLitRendererTagsBuilderA<TSource> {
 }
 
 public class KLitRendererTagsBuilder<TSource>(
-
     private val litRendererBuilder: KLitRendererBuilderA<TSource>,
-
     private val tagName: String = "",
     private val attributes: String = "",
     private val propertyName: String = "",
@@ -80,26 +78,14 @@ public class KLitRendererTagsBuilder<TSource>(
 
     private val children = mutableListOf<KLitRendererTagsBuilderA<TSource>>()
 
-    override fun toString(): String {
-
-        return when {
-            tagName.isNotEmpty() ->
-                if (!selfClosing)
-                    """
-            <$tagName $attributes>
-            ${children.joinToString(separator = "")}
-            </$tagName>
-        """.trimIndent()
-                else
-                    """
-            <$tagName $attributes />
-        """.trimIndent()
-
-            propertyName.isNotEmpty() -> propertyName
-
-            else -> children.joinToString(separator = "")
-        }
-
+    override fun toString(): String = when {
+        tagName.isNotEmpty() ->
+            if (!selfClosing)
+                "<$tagName $attributes>${children.joinToString(separator = "")}</$tagName>"
+            else
+                "<$tagName $attributes/>"
+        propertyName.isNotEmpty() -> propertyName
+        else -> children.joinToString(separator = "")
     }
 
     override fun Property<TSource>.unaryPlus() {

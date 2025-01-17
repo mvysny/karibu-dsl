@@ -61,16 +61,22 @@ public interface KLitRendererBuilderA<TSource> {
         public val litItem: String get() = "\${$name}"
     }
 
+    @VaadinDsl
     public operator fun String.invoke(provider: (TSource) -> String): Property<TSource>
 
+    @VaadinDsl
     public fun property(provider: (TSource) -> String): ReadOnlyProperty<Any?, Property<TSource>>
 
+    @VaadinDsl
     public fun function(name: String, handler: (TSource) -> Unit): Function<TSource>
 
+    @VaadinDsl
     public fun function(handler: (TSource) -> Unit): ReadOnlyProperty<Any?, Function<TSource>>
 
+    @VaadinDsl
     public fun templateExpression(templateExpression: String)
 
+    @VaadinDsl
     public fun templateExpression(initBlock: KLitRendererTagsBuilderA<TSource>.() -> Unit)
 }
 

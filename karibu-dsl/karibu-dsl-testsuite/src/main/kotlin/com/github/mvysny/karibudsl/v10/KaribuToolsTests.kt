@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-abstract class KaribuToolsTests() {
+abstract class KaribuToolsTests {
     @BeforeEach fun setup() { MockVaadin.setup() }
     @AfterEach fun teardown() { MockVaadin.tearDown() }
 

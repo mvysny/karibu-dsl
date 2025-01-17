@@ -11,7 +11,7 @@ package com.github.mvysny.karibudsl.v10
  * ```
  * Generated html code:
  * ```
- * <vaadin-horizontal-layout> theme: "spacing" </vaadin-horizontal-layout>
+ * <vaadin-horizontal-layout theme="spacing"></vaadin-horizontal-layout>
  * ```
  */
 @Suppress("EnumEntryName")
