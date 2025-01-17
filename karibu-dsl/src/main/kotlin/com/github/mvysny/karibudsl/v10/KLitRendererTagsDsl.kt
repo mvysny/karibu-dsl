@@ -77,14 +77,26 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         )
     }
 
+    /**
+     * Adds a text to the contents of this element.
+     */
     @VaadinDsl
     public operator fun String.unaryPlus() {
         children.add(Text(litRendererBuilder, this))
     }
 
-    private fun addTag(
+    /**
+     * Adds a HTML element with given [tagName], [attributes]
+     * @param selfClosing [What are Self Closing Tags in HTML?](https://www.scaler.com/topics/self-closing-tags-in-html/)
+     * A traditional HTML tag such as <p>, <div>, <section>, etc., had an opening tag and a closing tag
+     * However, due to their fundamental structure, void components in HTML, such as images and links,
+     * do not technically require closing tags.
+     * Images and links cannot have content - they are pointers to an element installed on the website.
+     * See also [img]
+     */
+    public fun addTag(
         tagName: String,
-        attributes: Sequence<KLitRendererAttribute>,
+        attributes: List<KLitRendererAttribute>,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit,
         selfClosing: Boolean = false,
     ) {
@@ -103,7 +115,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-horizontal-layout", attributes.asSequence(), block)
+        addTag("vaadin-horizontal-layout", attributes.toList(), block)
     }
 
     @VaadinDsl
@@ -111,7 +123,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-vertical-layout", attributes.asSequence(), block)
+        addTag("vaadin-vertical-layout", attributes.toList(), block)
     }
 
     @VaadinDsl
@@ -119,7 +131,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("span", attributes.asSequence(), block)
+        addTag("span", attributes.toList(), block)
     }
 
     @VaadinDsl
@@ -127,14 +139,14 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("div", attributes.asSequence(), block)
+        addTag("div", attributes.toList(), block)
     }
 
     public fun anchor(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("a", attributes.asSequence(), block)
+        addTag("a", attributes.toList(), block)
     }
 
     @VaadinDsl
@@ -142,7 +154,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-icon", attributes.asSequence(), block)
+        addTag("vaadin-icon", attributes.toList(), block)
     }
 
     /**
@@ -153,13 +165,13 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         vararg attributes: KLitRendererAttribute,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-button", attributes.asSequence(), block)
+        addTag("vaadin-button", attributes.toList(), block)
     }
 
     /**
      * [Tag.selfClosing] = true
      *
-     * [The `<img />` Tag] (https://www.understandingcode.com/image-tag)
+     * [The img tag](https://www.understandingcode.com/image-tag) : `<img />`
      *
      *  This tag is different from other tags, in that it has no closing tag.
      *  It is called a self-closing tag, which means that there is just a slash at the end of the opening tag (ex. <img />)
@@ -179,12 +191,12 @@ public sealed class KLitRendererTagsBuilder<TSource>(
     public fun img(
         vararg attributes: KLitRendererAttribute
     ) {
-        addTag("img", attributes.asSequence(), { }, selfClosing = true)
+        addTag("img", attributes.toList(), { }, selfClosing = true)
     }
 
     public fun avatar(
         vararg attributes: KLitRendererAttribute
     ) {
-        addTag("vaadin-avatar", attributes.asSequence(), { })
+        addTag("vaadin-avatar", attributes.toList(), { })
     }
 }
