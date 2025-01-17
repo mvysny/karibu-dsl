@@ -8,43 +8,54 @@ import com.vaadin.flow.data.renderer.LitRenderer
  * @param TSource the item rendered by the [LitRenderer].
  */
 @VaadinDsl
-public class KLitRendererTagsBuilder<TSource>(
-    private val litRendererBuilder: KLitRendererBuilderA<TSource>,
-    private val tagName: String = "",
-    private val attributes: String = "",
-    private val propertyName: String = "",
+public sealed class KLitRendererTagsBuilder<TSource>(
+    protected val litRendererBuilder: KLitRendererBuilderA<TSource>
+) {
 
     /**
-     * [What are Self Closing Tags in HTML?] (https://www.scaler.com/topics/self-closing-tags-in-html/)
-     *  A traditional HTML tag such as <p>, <div>, <section>, etc., had an opening tag and a closing tag
-     *  However, due to their fundamental structure, void components in HTML, such as images and links,
-     *  do not technically require closing tags.
-     *  Images and links cannot have content - they are pointers to an element installed on the website.
+     * @param selfClosing [What are Self Closing Tags in HTML?](https://www.scaler.com/topics/self-closing-tags-in-html/)
+     * A traditional HTML tag such as <p>, <div>, <section>, etc., had an opening tag and a closing tag
+     * However, due to their fundamental structure, void components in HTML, such as images and links,
+     * do not technically require closing tags.
+     * Images and links cannot have content - they are pointers to an element installed on the website.
      * See also [img]
      */
-    private val selfClosing: Boolean = false,
-) {
+    public class Tag<TSource>(
+        litRendererBuilder: KLitRendererBuilderA<TSource>,
+        private val tagName: String,
+        private val attributes: String,
+        private val selfClosing: Boolean,
+    ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
+        override fun toString(): String = if (!selfClosing)
+                    "<$tagName $attributes>${children.joinToString(separator = "")}</$tagName>"
+                else
+                    "<$tagName $attributes/>"
+    }
+
+    public class Prop<TSource>(
+        litRendererBuilder: KLitRendererBuilderA<TSource>,
+        private val propertyName: String
+    ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
+        override fun toString(): String = propertyName
+    }
+
+    public class Nodes<TSource>(
+        litRendererBuilder: KLitRendererBuilderA<TSource>
+    ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
+        override fun toString(): String = children.joinToString(separator = "")
+    }
+
     public val spacing: KLitRendererTheme get() = KLitRendererTheme.spacing
     public val padding: KLitRendererTheme get() = KLitRendererTheme.padding
 
-    private val children = mutableListOf<KLitRendererTagsBuilder<TSource>>()
-
-    override fun toString(): String = when {
-        tagName.isNotEmpty() ->
-            if (!selfClosing)
-                "<$tagName $attributes>${children.joinToString(separator = "")}</$tagName>"
-            else
-                "<$tagName $attributes/>"
-        propertyName.isNotEmpty() -> propertyName
-        else -> children.joinToString(separator = "")
-    }
+    protected val children: MutableList<KLitRendererTagsBuilder<TSource>> = mutableListOf<KLitRendererTagsBuilder<TSource>>()
 
     @VaadinDsl
     public operator fun Property<TSource>.unaryPlus() {
         children.add(
-            KLitRendererTagsBuilder(
+            Prop(
                 litRendererBuilder,
-                propertyName = (litRendererBuilder as KLitRendererBuilder).propertyName(this)
+                (litRendererBuilder as KLitRendererBuilder).propertyName(this)
             )
         )
     }
@@ -52,21 +63,16 @@ public class KLitRendererTagsBuilder<TSource>(
     @VaadinDsl
     public operator fun KLitRendererBuilderA.Function<TSource>.unaryPlus() {
         children.add(
-            KLitRendererTagsBuilder(
+            Prop(
                 litRendererBuilder,
-                propertyName = (litRendererBuilder as KLitRendererBuilder).functionName(this)
+                (litRendererBuilder as KLitRendererBuilder).functionName(this)
             )
         )
     }
 
     @VaadinDsl
     public operator fun String.unaryPlus() {
-        children.add(
-            KLitRendererTagsBuilder(
-                litRendererBuilder,
-                propertyName = this
-            )
-        )
+        children.add(Prop(litRendererBuilder, this))
     }
 
     private fun addTag(
@@ -76,7 +82,7 @@ public class KLitRendererTagsBuilder<TSource>(
         selfClosing: Boolean = false,
     ) {
         children.add(
-            KLitRendererTagsBuilder(
+            Tag(
                 litRendererBuilder,
                 tagName,
                 attributes.joinToString(separator = " "),
@@ -141,10 +147,10 @@ public class KLitRendererTagsBuilder<TSource>(
     }
 
     /**
-     * [selfClosing] = true
+     * [Tag.selfClosing] = true
      *
-     * [The Image Tag] (https://www.understandingcode.com/image-tag)
-     * The <img /> Tag
+     * [The `<img />` Tag] (https://www.understandingcode.com/image-tag)
+     *
      *  This tag is different from other tags, in that it has no closing tag.
      *  It is called a self-closing tag, which means that there is just a slash at the end of the opening tag (ex. <img />)
      * [img tag and / and a lie] (https://www.codecademy.com/forum_questions/5236c2c9f10c607ef4000bc0)

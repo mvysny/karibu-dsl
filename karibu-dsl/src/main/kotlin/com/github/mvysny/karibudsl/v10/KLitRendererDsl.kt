@@ -103,7 +103,7 @@ public class KLitRendererBuilder<TSource>() : KLitRendererBuilderA<TSource> {
     }
 
     override fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit) {
-        templateExpression(KLitRendererTagsBuilder(this).apply(initBlock).toString())
+        templateExpression(KLitRendererTagsBuilder.Nodes(this).apply(initBlock).toString())
     }
 
     public val litRenderer: LitRenderer<TSource>
