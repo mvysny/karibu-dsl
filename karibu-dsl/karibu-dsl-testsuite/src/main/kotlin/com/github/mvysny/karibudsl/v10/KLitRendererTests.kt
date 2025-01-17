@@ -58,4 +58,14 @@ abstract class KLitRendererTests {
         }
         expect("""<vaadin-vertical-layout style="line-height: var(--lumo-line-height-xs)"></vaadin-vertical-layout>""") { r._template }
     }
+
+    @Test fun testImage() {
+        val r = buildLitRenderer<String> {
+            val columnIcon by property { row -> VaadinIcon.PLUS_CIRCLE.create().icon }
+            templateExpression {
+                icon({icon(columnIcon)})
+            }
+        }
+        expect("""<vaadin-icon icon="${"$"}{item.columnIcon}"></vaadin-icon>""") { r._template }
+    }
 }

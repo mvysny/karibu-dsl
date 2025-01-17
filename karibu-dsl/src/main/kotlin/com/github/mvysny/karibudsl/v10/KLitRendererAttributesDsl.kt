@@ -123,9 +123,9 @@ public fun <TSource> KLitRendererAttributeBuilder<TSource>.src(value: KLitRender
  *   else
  *     VaadinIcon.EDIT.createIcon().icon
  * }
- * ...
- * icon(+columnIcon)
- * ...
+ * templateExpression {
+ *   icon({ icon(columnIcon) })
+ * }
  * ```
  */
 @VaadinDsl
