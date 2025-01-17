@@ -69,6 +69,7 @@ public fun <TSource> KLitRendererTagsBuilder<TSource>.themeVariant(vararg names:
         "theme",
         names.joinToString(separator = " ") { it.variantName })
 
+@VaadinDsl
 public fun <TSource> KLitRendererTagsBuilder<TSource>.cssClass(vararg names: String) =
     KLitRendererAttribute("class", names.joinToString(separator = " "))
 
