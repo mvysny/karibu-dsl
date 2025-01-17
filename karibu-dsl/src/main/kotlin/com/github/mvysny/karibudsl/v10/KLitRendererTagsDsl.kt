@@ -212,7 +212,6 @@ public class KLitRendererTagsBuilder<TSource>(
      * Generated html code:
      * ```
      * "<img src=${item.photo} />"
-     * <vaadin-vertical-layout> style="line-height: var(----lumo-font-size-xs);" </vaadin-vertical-layout>
      * ```
      */
     override fun img(

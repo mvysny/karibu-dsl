@@ -18,7 +18,7 @@ import kotlinx.css.hyphenize
  * ```
  * Generated html code:
  * ```
- * <vaadin-horizontal-layout> theme: "spacing" </vaadin-horizontal-layout>
+ * <vaadin-horizontal-layout theme="spacing"></vaadin-horizontal-layout>
  * ```
  */
 public data class KLitRendererAttribute(
@@ -32,13 +32,13 @@ public data class KLitRendererAttribute(
  * [buildInlineStyleText] builds text value representation of the [style] attribute.
  * Example of usage:
  * ```
- * verticalLayout(style { lineHeight = +KLumoLineHeight.XS; })
+ * verticalLayout(style { lineHeight = +KLumoLineHeight.XS; }) {
  *   ...
  * }
  * ```
  * Generated html code:
  * ```
- * <vaadin-vertical-layout> style="line-height: var(----lumo-font-size-xs);" </vaadin-vertical-layout>
+ * <vaadin-vertical-layout style="line-height: var(----lumo-font-size-xs);"></vaadin-vertical-layout>
  * ```
  */
 private fun CssBuilder.buildInlineStyleText() =

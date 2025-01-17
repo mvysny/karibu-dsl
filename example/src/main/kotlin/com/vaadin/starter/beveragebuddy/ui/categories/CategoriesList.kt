@@ -100,7 +100,6 @@ class CategoriesList : KComposite() {
                     }
 
                     templateExpression {
-
                         button(
                             cssClass("category__edit"),
                             themeVariant(ButtonVariant.LUMO_TERTIARY),
