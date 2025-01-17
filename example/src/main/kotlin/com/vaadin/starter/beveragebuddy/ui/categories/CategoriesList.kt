@@ -16,25 +16,27 @@
 package com.vaadin.starter.beveragebuddy.ui.categories
 
 import com.github.mvysny.karibudsl.v10.*
-import com.github.mvysny.kaributools.ModifierKey.*
+import com.github.mvysny.kaributools.ModifierKey.Alt
 import com.github.mvysny.kaributools.addShortcut
-import com.vaadin.flow.component.Key.*
+import com.vaadin.flow.component.Key.KEY_E
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
 import com.vaadin.flow.component.html.H3
 import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.notification.Notification
 import com.vaadin.flow.data.renderer.ComponentRenderer
+import com.vaadin.flow.data.renderer.Renderer
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import com.vaadin.starter.beveragebuddy.backend.Category
 import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
-import com.vaadin.starter.beveragebuddy.ui.*
+import com.vaadin.starter.beveragebuddy.ui.MainLayout
+import com.vaadin.starter.beveragebuddy.ui.Toolbar
+import com.vaadin.starter.beveragebuddy.ui.toolbarView
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -47,6 +49,7 @@ class CategoriesList : KComposite() {
     private lateinit var header: H3
     private lateinit var toolbar: Toolbar
     private lateinit var grid: Grid<Category>
+
     // can't retrieve GridContextMenu from Grid: https://github.com/vaadin/vaadin-grid-flow/issues/523
     lateinit var gridContextMenu: GridContextMenu<Category>
         private set
@@ -55,6 +58,7 @@ class CategoriesList : KComposite() {
         { category -> saveCategory(category) },
         { deleteCategory(it) })
 
+    @Suppress("unused")
     private val root = ui {
         verticalLayout(false) {
             content { align(stretch, top) }
@@ -74,6 +78,41 @@ class CategoriesList : KComposite() {
                 }
                 componentColumn({ cat -> createEditButton(cat) }) {
                     flexGrow = 0; key = "edit"
+                }
+
+                /**
+                 * *NOTE:* Using [ComponentRenderer] is not as efficient as the
+                 * built-in renderers or using `LitRenderer`.
+                 *
+                 * *NOTE:* Using [Renderer] (built-in renderers or `LitRenderer`) is more efficient
+                 * than [ComponentRenderer]
+                 */
+                column(buildLitRenderer<Category> {
+
+                    /*
+                    val onButtonClick = function("onButtonClick") { category ->
+                        deleteCategory(category)
+                    }
+                     */
+                    // OR
+                    val onButtonClick by function { category ->
+                        deleteCategory(category)
+                    }
+
+                    templateExpression {
+
+                        button(
+                            cssClass("category__edit"),
+                            themeVariant(ButtonVariant.LUMO_TERTIARY),
+                            click(onButtonClick)
+                        ) {
+                            icon(icon(VaadinIcon.TRASH.create()))
+                            +"Delete"
+                        }
+                    }
+
+                }) {
+                    flexGrow = 0; key = "edit-lit"
                 }
 
                 gridContextMenu = gridContextMenu {
