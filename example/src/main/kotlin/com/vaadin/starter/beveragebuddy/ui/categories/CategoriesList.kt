@@ -100,12 +100,12 @@ class CategoriesList : KComposite() {
                     }
 
                     templateExpression {
-                        button(
-                            cssClass("category__edit"),
-                            themeVariant(ButtonVariant.LUMO_TERTIARY),
+                        button({
+                            cssClass("category__edit")
+                            themeVariant(ButtonVariant.LUMO_TERTIARY)
                             click(onButtonClick)
-                        ) {
-                            icon(icon(VaadinIcon.TRASH.create()))
+                        }) {
+                            icon({ icon(VaadinIcon.TRASH.create()) })
                             +"Delete"
                         }
                     }

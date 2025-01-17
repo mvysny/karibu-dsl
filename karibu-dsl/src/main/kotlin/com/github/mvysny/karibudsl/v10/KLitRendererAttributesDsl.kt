@@ -29,6 +29,20 @@ public data class KLitRendererAttribute(
 }
 
 /**
+ * @property TSource the item type in the grid/LitRenderer.
+ */
+@VaadinDsl
+public class KLitRendererAttributeBuilder<TSource> {
+    private val attributes: MutableList<KLitRendererAttribute> = mutableListOf<KLitRendererAttribute>()
+    public val spacing: KLitRendererTheme get() = KLitRendererTheme.spacing
+    public val padding: KLitRendererTheme get() = KLitRendererTheme.padding
+    override fun toString(): String = attributes.joinToString(" ")
+    public fun add(attribute: KLitRendererAttribute) {
+        attributes.add(attribute)
+    }
+}
+
+/**
  * [buildInlineStyleText] builds text value representation of the [style] attribute.
  * Example of usage:
  * ```
@@ -47,46 +61,56 @@ private fun CssBuilder.buildInlineStyleText() =
     }
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.style(value: String) =
-    KLitRendererAttribute("style", value)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.style(value: String) {
+    add(KLitRendererAttribute("style", value))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.style(block: CssBuilder.() -> Unit) =
-    KLitRendererAttribute(
-        "style",
-        CssBuilder().apply(block).buildInlineStyleText()
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.style(block: CssBuilder.() -> Unit) {
+    add(
+        KLitRendererAttribute(
+            "style",
+            CssBuilder().apply(block).buildInlineStyleText()
+        )
     )
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.theme(vararg names: KLitRendererTheme) =
-    KLitRendererAttribute(
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.theme(vararg names: KLitRendererTheme) {
+    add(KLitRendererAttribute(
         "theme",
-        names.joinToString(separator = " ") { it.name })
+        names.joinToString(separator = " ") { it.name }))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.themeVariant(vararg names: ThemeVariant) =
-    KLitRendererAttribute(
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.themeVariant(vararg names: ThemeVariant) {
+    add(KLitRendererAttribute(
         "theme",
-        names.joinToString(separator = " ") { it.variantName })
+        names.joinToString(separator = " ") { it.variantName }))
+}
 
 /**
  * A `class` attribute added to the parent element.
  */
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.cssClass(vararg names: String) =
-    KLitRendererAttribute("class", names.joinToString(separator = " "))
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.cssClass(vararg names: String) {
+    add(KLitRendererAttribute("class", names.joinToString(separator = " ")))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.id(value: String) =
-    KLitRendererAttribute("id", value)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.id(value: String) {
+    add(KLitRendererAttribute("id", value))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.name(value: KLitRendererBuilder.Property<TSource>) =
-    KLitRendererAttribute("name", value.litItem)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.name(value: KLitRendererBuilder.Property<TSource>) {
+    add(KLitRendererAttribute("name", value.litItem))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.src(value: KLitRendererBuilder.Property<TSource>) =
-    KLitRendererAttribute("src", value.litItem)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.src(value: KLitRendererBuilder.Property<TSource>) {
+    add(KLitRendererAttribute("src", value.litItem))
+}
 
 /**
  * <vaadin-icon icon="vaadin:edit" slot="prefix"></vaadin-icon>
@@ -94,36 +118,42 @@ public fun <TSource> KLitRendererTagsBuilder<TSource>.src(value: KLitRendererBui
  * Example of use:
  * ```kotlin
  * val columnIcon by property { row ->
- *                         if (row.isNew)
- *                             VaadinIcon.PLUS_CIRCLE.createIcon().icon
- *                         else
- *                             VaadinIcon.EDIT.createIcon().icon
- *                     }
- *  ...
- *  icon(+columnIcon)
- *  ...
+ *   if (row.isNew)
+ *     VaadinIcon.PLUS_CIRCLE.createIcon().icon
+ *   else
+ *     VaadinIcon.EDIT.createIcon().icon
+ * }
+ * ...
+ * icon(+columnIcon)
+ * ...
  * ```
  */
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.icon(value: KLitRendererBuilder.Property<TSource>) =
-    KLitRendererAttribute("icon", value.litItem)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.icon(value: KLitRendererBuilder.Property<TSource>) {
+    add(KLitRendererAttribute("icon", value.litItem))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.icon(value: Icon) =
-    KLitRendererAttribute("icon", value.icon)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.icon(value: Icon) {
+    add(KLitRendererAttribute("icon", value.icon))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.img(value: KLitRendererBuilder.Property<TSource>) =
-    KLitRendererAttribute("img", value.litItem)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.img(value: KLitRendererBuilder.Property<TSource>) {
+    add(KLitRendererAttribute("img", value.litItem))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.href(value: String) =
-    KLitRendererAttribute("href", value)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.href(value: String) {
+    add(KLitRendererAttribute("href", value))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.href(value: KLitRendererBuilder.Property<TSource>) =
-    KLitRendererAttribute("href", value.litItem)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.href(value: KLitRendererBuilder.Property<TSource>) {
+    add(KLitRendererAttribute("href", value.litItem))
+}
 
 @VaadinDsl
-public fun <TSource> KLitRendererTagsBuilder<TSource>.click(value: KLitRendererBuilder.Function<TSource>) =
-    KLitRendererAttribute("@click", value.litItem)
+public fun <TSource> KLitRendererAttributeBuilder<TSource>.click(value: KLitRendererBuilder.Function<TSource>) {
+    add(KLitRendererAttribute("@click", value.litItem))
+}

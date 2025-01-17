@@ -28,12 +28,12 @@ abstract class KLitRendererTests {
             }
 
             templateExpression {
-                button(
-                    cssClass("category__edit"),
-                    themeVariant(ButtonVariant.LUMO_TERTIARY),
+                button({
+                    cssClass("category__edit")
+                    themeVariant(ButtonVariant.LUMO_TERTIARY)
                     click(onButtonClick)
-                ) {
-                    icon(icon(VaadinIcon.TRASH.create()))
+                }) {
+                    icon({ icon(VaadinIcon.TRASH.create()) })
                     +"Delete"
                 }
             }
@@ -44,7 +44,7 @@ abstract class KLitRendererTests {
     @Test fun hl() {
         val r = buildLitRenderer<String> {
             templateExpression {
-                horizontalLayout(theme(spacing)) {}
+                horizontalLayout({theme(spacing)}) {}
             }
         }
         expect("""<vaadin-horizontal-layout theme="spacing"></vaadin-horizontal-layout>""") { r._template }
@@ -53,7 +53,7 @@ abstract class KLitRendererTests {
     @Test fun vl() {
         val r = buildLitRenderer<String> {
             templateExpression {
-                verticalLayout(style { lineHeight = +KLumoLineHeight.XS })
+                verticalLayout({ style { lineHeight = +KLumoLineHeight.XS } })
             }
         }
         expect("""<vaadin-vertical-layout style="line-height: var(--lumo-line-height-xs)"></vaadin-vertical-layout>""") { r._template }

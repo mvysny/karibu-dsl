@@ -52,9 +52,6 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         override fun toString(): String = children.joinToString(separator = "")
     }
 
-    public val spacing: KLitRendererTheme get() = KLitRendererTheme.spacing
-    public val padding: KLitRendererTheme get() = KLitRendererTheme.padding
-
     protected val children: MutableList<KLitRendererTagsBuilder<TSource>> = mutableListOf<KLitRendererTagsBuilder<TSource>>()
 
     @VaadinDsl
@@ -96,7 +93,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
      */
     public fun addTag(
         tagName: String,
-        attributes: List<KLitRendererAttribute>,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit,
         block: KLitRendererTagsBuilder<TSource>.() -> Unit,
         selfClosing: Boolean = false,
     ) {
@@ -104,7 +101,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
             Tag(
                 litRendererBuilder,
                 tagName,
-                attributes.joinToString(separator = " "),
+                KLitRendererAttributeBuilder<TSource>().apply(attributes).toString(),
                 selfClosing = selfClosing
             ).apply(block)
         )
@@ -112,60 +109,76 @@ public sealed class KLitRendererTagsBuilder<TSource>(
 
     @VaadinDsl
     public fun horizontalLayout(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-horizontal-layout", attributes.toList(), block)
+        addTag("vaadin-horizontal-layout", attributes, block)
     }
 
+    /**
+     * Adds `<vaadin-vertical-layout>`, for example:
+     * ```
+     * verticalLayout({ style { lineHeight = +KLumoLineHeight.XS } })
+     * ```
+     */
     @VaadinDsl
     public fun verticalLayout(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-vertical-layout", attributes.toList(), block)
+        addTag("vaadin-vertical-layout", attributes, block)
     }
 
     @VaadinDsl
     public fun span(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("span", attributes.toList(), block)
+        addTag("span", attributes, block)
     }
 
     @VaadinDsl
     public fun div(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("div", attributes.toList(), block)
+        addTag("div", attributes, block)
     }
 
     public fun anchor(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("a", attributes.toList(), block)
+        addTag("a", attributes, block)
     }
 
     @VaadinDsl
     public fun icon(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-icon", attributes.toList(), block)
+        addTag("vaadin-icon", attributes, block)
     }
 
     /**
-     * A `<vaadin-button>` element.
+     * A `<vaadin-button>` element:
+     * ```
+     * button({
+     *   cssClass("category__edit")
+     *   themeVariant(ButtonVariant.LUMO_TERTIARY)
+     *   click(onButtonClick)
+     * }) {
+     *   icon(icon(VaadinIcon.TRASH.create()))
+     *   +"Delete"
+     * }
+     * ```
      */
     @VaadinDsl
     public fun button(
-        vararg attributes: KLitRendererAttribute,
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
         block: KLitRendererTagsBuilder<TSource>.() -> Unit = {}
     ) {
-        addTag("vaadin-button", attributes.toList(), block)
+        addTag("vaadin-button", attributes, block)
     }
 
     /**
@@ -189,14 +202,14 @@ public sealed class KLitRendererTagsBuilder<TSource>(
      * ```
      */
     public fun img(
-        vararg attributes: KLitRendererAttribute
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
     ) {
-        addTag("img", attributes.toList(), { }, selfClosing = true)
+        addTag("img", attributes, {}, selfClosing = true)
     }
 
     public fun avatar(
-        vararg attributes: KLitRendererAttribute
+        attributes: KLitRendererAttributeBuilder<TSource>.() -> Unit = {},
     ) {
-        addTag("vaadin-avatar", attributes.toList(), { })
+        addTag("vaadin-avatar", attributes, {})
     }
 }
