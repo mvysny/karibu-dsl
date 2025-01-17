@@ -5,8 +5,10 @@ classes
 local.properties
 *.iml
 out
+.kotlin
 
 target
 example/src/main/frontend/generated
 
 !**/src/main/dev-bundle/webapp/VAADIN/build
+
