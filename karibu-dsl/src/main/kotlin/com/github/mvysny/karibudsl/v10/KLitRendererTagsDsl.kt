@@ -39,6 +39,13 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         override fun toString(): String = propertyName
     }
 
+    public class Text<TSource>(
+        litRendererBuilder: KLitRendererBuilder<TSource>,
+        private val literal: String
+    ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
+        override fun toString(): String = literal
+    }
+
     public class Nodes<TSource>(
         litRendererBuilder: KLitRendererBuilder<TSource>
     ) : KLitRendererTagsBuilder<TSource>(litRendererBuilder) {
@@ -72,7 +79,7 @@ public sealed class KLitRendererTagsBuilder<TSource>(
 
     @VaadinDsl
     public operator fun String.unaryPlus() {
-        children.add(Prop(litRendererBuilder, this))
+        children.add(Text(litRendererBuilder, this))
     }
 
     private fun addTag(
