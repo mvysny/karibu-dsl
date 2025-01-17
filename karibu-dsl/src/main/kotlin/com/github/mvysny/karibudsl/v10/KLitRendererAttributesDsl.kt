@@ -69,6 +69,9 @@ public fun <TSource> KLitRendererTagsBuilder<TSource>.themeVariant(vararg names:
         "theme",
         names.joinToString(separator = " ") { it.variantName })
 
+/**
+ * A `class` attribute added to the parent element.
+ */
 @VaadinDsl
 public fun <TSource> KLitRendererTagsBuilder<TSource>.cssClass(vararg names: String) =
     KLitRendererAttribute("class", names.joinToString(separator = " "))

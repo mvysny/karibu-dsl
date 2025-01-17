@@ -145,6 +145,9 @@ public sealed class KLitRendererTagsBuilder<TSource>(
         addTag("vaadin-icon", attributes.asSequence(), block)
     }
 
+    /**
+     * A `<vaadin-button>` element.
+     */
     @VaadinDsl
     public fun button(
         vararg attributes: KLitRendererAttribute,

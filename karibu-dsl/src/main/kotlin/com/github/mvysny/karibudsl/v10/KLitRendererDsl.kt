@@ -77,6 +77,14 @@ public class KLitRendererBuilder<TSource>() {
         this.templateExpression = templateExpression.trimIndent()
     }
 
+    /**
+     * Builds the HTML template, for example:
+     * ```
+     * templateExpression {
+     *   verticalLayout(style { lineHeight = +KLumoLineHeight.XS })
+     * }
+     * ```
+     */
     @VaadinDsl
     public fun templateExpression(initBlock: KLitRendererTagsBuilder<TSource>.() -> Unit) {
         templateExpression(KLitRendererTagsBuilder.Nodes(this).apply(initBlock).toString())
