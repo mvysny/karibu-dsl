@@ -502,6 +502,31 @@ hierarchyColumn(valueProvider: ValueProvider<T, *>) {}
 componentHierarchyColumn(componentProvider: ValueProvider<T, Component>) {}
 ```
 
+### LitTemplate DSL
+
+Since Karibu-DSL 2.3.0 there is an alpha support for LitTemplate DSLs. This example should get you started:
+```kotlin
+column(buildLitRenderer<Category> {
+    val onButtonClick by function { category ->
+        deleteCategory(category)
+    }
+
+    templateExpression {
+        button({
+            cssClass("category__edit")
+            themeVariant(ButtonVariant.LUMO_TERTIARY)
+            click(onButtonClick)
+        }) {
+            icon({ icon(VaadinIcon.TRASH.create()) })
+            +"Delete"
+        }
+    }
+
+}) {
+    flexGrow = 0; key = "edit-lit"
+}
+```
+
 ## Icons
 
 [The icon component](https://vaadin.com/docs/latest/components/icons) can render SVG and font icons. Two icon collections are available out-of-the-box.
