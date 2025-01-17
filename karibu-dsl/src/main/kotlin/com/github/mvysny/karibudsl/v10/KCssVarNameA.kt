@@ -12,7 +12,7 @@ package com.github.mvysny.karibudsl.v10
  * ```
  * Generated html code:
  * ```
- * <vaadin-vertical-layout> style="line-height: var(----lumo-font-size-xs);" </vaadin-vertical-layout>
+ * <vaadin-vertical-layout style="line-height: var(----lumo-font-size-xs)"/></vaadin-vertical-layout>
  * ```
  */
 public interface KCssVarNameA {

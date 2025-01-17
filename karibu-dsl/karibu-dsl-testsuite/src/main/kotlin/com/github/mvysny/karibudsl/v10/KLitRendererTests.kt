@@ -5,6 +5,7 @@ import com.github.mvysny.kaributools.template
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.renderer.LitRenderer
+import kotlinx.css.lineHeight
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,5 +48,14 @@ abstract class KLitRendererTests {
             }
         }
         expect("""<vaadin-horizontal-layout theme="spacing"></vaadin-horizontal-layout>""") { r._template }
+    }
+
+    @Test fun vl() {
+        val r = buildLitRenderer<String> {
+            templateExpression {
+                verticalLayout(style { lineHeight = +KLumoLineHeight.XS })
+            }
+        }
+        expect("""<vaadin-vertical-layout style="line-height: var(--lumo-line-height-xs)"></vaadin-vertical-layout>""") { r._template }
     }
 }

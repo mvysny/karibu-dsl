@@ -38,7 +38,7 @@ public data class KLitRendererAttribute(
  * ```
  * Generated html code:
  * ```
- * <vaadin-vertical-layout style="line-height: var(----lumo-font-size-xs);"></vaadin-vertical-layout>
+ * <vaadin-vertical-layout style="line-height: var(--lumo-line-height-xs)"></vaadin-vertical-layout>
  * ```
  */
 private fun CssBuilder.buildInlineStyleText() =
