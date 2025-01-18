@@ -504,6 +504,12 @@ componentHierarchyColumn(componentProvider: ValueProvider<T, Component>) {}
 
 ### LitTemplate DSL
 
+Using `ComponentRenderer` is not as efficient as using `LitRenderer`: `ComponentRenderer` creates component instances
+for every grid row, both server-side and client-side, and maintains the connections between those.
+Using `LitRenderer` removes much of the need for server-side stuff, decreasing server-side memory.
+The disadvantage is that the API is different than the traditional component API, and is arguably
+a bit harder to use.
+
 Since Karibu-DSL 2.3.0 there is an alpha support for LitTemplate DSLs. This example should get you started:
 ```kotlin
 column(buildLitRenderer<Category> {
