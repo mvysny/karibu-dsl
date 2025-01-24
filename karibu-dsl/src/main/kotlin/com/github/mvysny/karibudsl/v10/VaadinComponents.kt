@@ -10,6 +10,7 @@ import com.vaadin.flow.component.checkbox.CheckboxGroup
 import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.datetimepicker.DateTimePicker
+import com.vaadin.flow.component.icon.IconFactory
 import com.vaadin.flow.component.listbox.ListBox
 import com.vaadin.flow.component.listbox.MultiSelectListBox
 import com.vaadin.flow.component.orderedlayout.Scroller
@@ -130,11 +131,12 @@ public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null
 }
 
 /**
- * Adds a tab with given [label] to the [Tabs] component. See [tabs] for an example.
+ * Adds a tab with given [label] and [icon] to the [Tabs] component. See [tabs] for an example.
  */
 @VaadinDsl
-public fun (@VaadinDsl Tabs).tab(label: String? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab {
+public fun (@VaadinDsl Tabs).tab(label: String? = null, icon: IconFactory? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab {
     val tab = Tab(label)
+    if (icon != null) tab.icon(icon)
     add(tab)
     tab.block()
     return tab
