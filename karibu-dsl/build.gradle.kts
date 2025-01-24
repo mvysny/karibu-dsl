@@ -1,5 +1,4 @@
 dependencies {
-    api(kotlin("stdlib-jdk8"))
     api(libs.kaributools)
 
     testImplementation(libs.junit)
