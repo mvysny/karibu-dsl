@@ -1,5 +1,4 @@
 dependencies {
-    api(kotlin("stdlib", version = "2.1.0"))
     api(libs.kaributools)
 
     testImplementation(libs.junit)
