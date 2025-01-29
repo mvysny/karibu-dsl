@@ -31,7 +31,7 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
         testLogging {
-            // to see the exceptions of failed tests in CI console.
+            // to see the stacktraces of failed tests in CI console.
             exceptionFormat = TestExceptionFormat.FULL
         }
     }
