@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.*
+import com.github.mvysny.kaributools.IconName
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.avatar.Avatar
@@ -11,6 +12,7 @@ import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.datetimepicker.DateTimePicker
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.Span
+import com.vaadin.flow.component.icon.Icon
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.listbox.ListBox
 import com.vaadin.flow.component.orderedlayout.FlexLayout
@@ -347,11 +349,20 @@ abstract class VaadinComponentsTest {
 
         @Test fun dsl() {
             UI.getCurrent().tabs {
-                tab("Details")
+                tab("Details", VaadinIcon.LEVEL_LEFT) {}
                 tab("Payment")
-                tab("Shipping")
+                tab("Shipping") {}
+                tab("Details", VaadinIcon.LEVEL_LEFT)
             }
-            _expect<Tab>(3)
+            _expect<Tab>(4)
+        }
+
+        @Test fun icon() {
+            UI.getCurrent().tabs {
+                tab("Details", VaadinIcon.LEVEL_LEFT) {}
+            }
+            _expect<Tab>()
+            _expect<Icon> { icon = IconName.of(VaadinIcon.LEVEL_LEFT) }
         }
     }
 
