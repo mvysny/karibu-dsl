@@ -142,6 +142,55 @@ public fun (@VaadinDsl Tabs).tab(label: String? = null, icon: IconFactory? = nul
     return tab
 }
 
+public typealias OnTabSelectedHandler = () -> Unit
+
+/**
+ * [withOnSelectedHandlers] is a utility that facilitates event handling when a tab is selected.
+ *
+ * Example of usage:
+ * ```kotlin
+ * withOnSelectedHandlers { onSelected ->
+ *      tab("Users") {
+ *          onSelected {
+ *              displayUserList()
+ *          }
+ *      }
+ *      tab("Admins") {
+ *          onSelected {
+ *              displayAdminList()
+ *          }
+ *      }
+ *      ...
+ * }
+ * ```
+ */
+public fun (@VaadinDsl Tabs).withOnSelectedHandlers(initialHandlerIndex: Int = 0, builderAction: MutableList<OnTabSelectedHandler>.(onSelected: (@VaadinDsl Tab).(handler: OnTabSelectedHandler)-> Unit) -> Unit) {
+
+    buildList<OnTabSelectedHandler> {
+
+        fun (@VaadinDsl Tabs).addOnSelectedHandlers() : (@VaadinDsl Tab).(handler: OnTabSelectedHandler)-> Unit {
+
+            // The returned map preserves the entry iteration order.
+            val onSelectedHandlers: MutableMap<Tab, OnTabSelectedHandler> = mutableMapOf()
+
+            addSelectedChangeListener {
+                onSelectedHandlers[it.selectedTab]?.invoke()
+            }
+
+            return {handler ->
+                onSelectedHandlers[this] = handler
+                add(handler)
+            }
+
+        }
+
+        builderAction(addOnSelectedHandlers())
+
+    }.also {
+        if (it.isNotEmpty()) it[initialHandlerIndex].invoke()
+    }
+}
+
 @VaadinDsl
 public fun <T : Any?> (@VaadinDsl HasComponents).checkBoxGroup(label: String? = null, block: (@VaadinDsl CheckboxGroup<T>).() -> Unit = {}): CheckboxGroup<T>
         = init(CheckboxGroup(label), block)
