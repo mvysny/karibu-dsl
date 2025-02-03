@@ -17,7 +17,6 @@ import com.vaadin.flow.component.orderedlayout.Scroller
 import com.vaadin.flow.component.progressbar.ProgressBar
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup
 import com.vaadin.flow.component.select.Select
-import com.vaadin.flow.component.splitlayout.SplitLayout
 import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.Tabs
 import com.vaadin.flow.component.timepicker.TimePicker
@@ -149,22 +148,24 @@ public typealias OnTabSelectedHandler = () -> Unit
  *
  * Example of usage:
  * ```kotlin
- * withOnSelectedHandlers { onSelected ->
- *      tab("Users") {
- *          onSelected {
- *              displayUserList()
+ * tabs {
+ *      withOnSelectedHandlers { onSelected ->
+ *          tab("Users") {
+ *              onSelected {
+ *                  displayUserList()
+ *              }
  *          }
- *      }
- *      tab("Admins") {
- *          onSelected {
- *              displayAdminList()
+ *          tab("Admins") {
+ *              onSelected {
+ *                  displayAdminList()
+ *              }
  *          }
+ *          ...
  *      }
- *      ...
  * }
  * ```
  */
-public fun (@VaadinDsl Tabs).withOnSelectedHandlers(initialHandlerIndex: Int = 0, builderAction: MutableList<OnTabSelectedHandler>.(onSelected: (@VaadinDsl Tab).(handler: OnTabSelectedHandler)-> Unit) -> Unit) {
+public fun (@VaadinDsl Tabs).withOnSelectedHandlers(initialHandlerIndex: Int = 0, block: (onSelected: (@VaadinDsl Tab).(handler: OnTabSelectedHandler)-> Unit) -> Unit) {
 
     buildList<OnTabSelectedHandler> {
 
@@ -184,7 +185,7 @@ public fun (@VaadinDsl Tabs).withOnSelectedHandlers(initialHandlerIndex: Int = 0
 
         }
 
-        builderAction(addOnSelectedHandlers())
+        block(addOnSelectedHandlers())
 
     }.also {
         if (it.isNotEmpty()) it[initialHandlerIndex].invoke()
