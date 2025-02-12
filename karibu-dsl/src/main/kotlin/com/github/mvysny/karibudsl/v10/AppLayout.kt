@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.applayout.AppLayout
 import com.vaadin.flow.component.applayout.DrawerToggle
+import com.vaadin.flow.component.shared.SlotUtils
 import com.vaadin.flow.dom.Element
 
 /**
@@ -54,10 +55,33 @@ public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block:
 }
 
 /**
+ * [AppLayout.java](https://github.com/vaadin/vaadin-app-layout-flow/blob/master/vaadin-app-layout-flow/src/main/java/com/vaadin/flow/component/applayout/AppLayout.java)
+ * ```
+ * public void addToDrawer(Component... components) {
+ *         SlotUtils.addToSlot(this, "drawer", components);
+ *     }
+ * ```
+ * [removeDrawer] is a temporary solution, until a similar method is added to [AppLayout] class.
+ */
+@VaadinDsl
+public fun (@VaadinDsl AppLayout).removeDrawer() {
+    SlotUtils.clearSlot(this, "drawer")
+}
+
+/**
  * Populates the AppLayout drawer slot. `sideNav{}` is the best way to populate the drawer with Vaadin 24.
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
+
+    /**
+     * It allows to replace a drawer, i.e. to have several drawers.
+     * For example, navbar contains several tabs.
+     *      When a tab is selected, it set its specific drawer and re-populates AppLayout content.
+     *      If a tab doesn't have a drawer, removeDrawer() can be called to by its own to clear the previous assigned drawer.
+     */
+    removeDrawer()
+
     val dummy = object : HasComponents {
         override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
         override fun add(vararg components: Component) {
@@ -80,7 +104,6 @@ public fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -
         override fun add(vararg components: Component) {
             require(components.size < 2) { "Too many components to add - AppLayout content can only host one! ${components.toList()}" }
             val component = components.firstOrNull() ?: return
-            check(this@content.content == null) { "The content has already been initialized!" }
             this@content.setContent(component)
         }
     }
