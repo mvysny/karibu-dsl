@@ -146,24 +146,23 @@ public typealias OnTabSelectedHandler = () -> Unit
 /**
  * Store/Retrieve the state into/from [Tabs] via [ComponentUtil.setData] ()/[ComponentUtil.getData] ()
  */
-@Suppress("UNCHECKED_CAST")
-private var (@VaadinDsl Tabs).onSelectedHandlers: MutableMap<Tab, OnTabSelectedHandler>
-    get() = ComponentUtil.getData(this, "onSelectedHandlers").let {
-        requireNotNull(it) { "Property \"onSelectedHandlers\" is missing. Invoke addOnSelectedHandlerSupport() to initialize the property" }
-        it as MutableMap<Tab, OnTabSelectedHandler>
-    }
-    set(value) {
-        ComponentUtil.setData(this, "onSelectedHandlers", value)
-    }
+private val (@VaadinDsl Tabs).onSelectedHandlers: MutableMap<Tab, OnTabSelectedHandler>
+    get() =
+        "onSelectedHandlers".let {key ->
+            @Suppress("UNCHECKED_CAST")
+            (ComponentUtil.getData(this, key) ?: mutableMapOf<Tab, OnTabSelectedHandler>().also { map ->
+                ComponentUtil.setData(this, key, map)
+                addSelectedChangeListener { map[it.selectedTab]?.invoke() }
+            }) as MutableMap<Tab, OnTabSelectedHandler>
+        }
 
 
 /**
- * [addOnSelectedHandlerSupport] is a utility that facilitates event handling when a tab is selected.
+ * [onSelected] is a utility that facilitates event handling when a tab is selected.
  *
  * Example of usage:
  * ```kotlin
  * tabs {
- *      addOnSelectedHandlerSupport()
  *
  *          tab("Users") {
  *              onSelected {
@@ -181,14 +180,6 @@ private var (@VaadinDsl Tabs).onSelectedHandlers: MutableMap<Tab, OnTabSelectedH
  * }
  * ```
  */
-@VaadinDsl
-public fun (@VaadinDsl Tabs).addOnSelectedHandlerSupport() {
-    onSelectedHandlers = mutableMapOf()
-    addSelectedChangeListener {
-        onSelectedHandlers[it.selectedTab]?.invoke()
-    }
-}
-
 @VaadinDsl
 public fun (@VaadinDsl Tab).onSelected(handler: OnTabSelectedHandler) : OnTabSelectedHandler {
     val tabs = parent.get() as Tabs
