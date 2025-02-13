@@ -40,18 +40,14 @@ public fun (@VaadinDsl Tabs).tab(label: String? = null, icon: IconFactory? = nul
 public typealias OnTabSelectedHandler = () -> Unit
 
 /**
- * Store/Retrieve the state into/from [Tabs] via [ComponentUtil.setData] ()/[ComponentUtil.getData] ()
+ * Store/Retrieve the state into/from [Tabs] via [ComponentUtil.setData]/[ComponentUtil.getData]
  */
 private val (@VaadinDsl Tabs).onSelectedHandlers: MutableMap<Tab, OnTabSelectedHandler>
-    get() =
-        "onSelectedHandlers".let {key ->
-            @Suppress("UNCHECKED_CAST")
-            (ComponentUtil.getData(this, key) ?: mutableMapOf<Tab, OnTabSelectedHandler>().also { map ->
-                ComponentUtil.setData(this, key, map)
-                addSelectedChangeListener { map[it.selectedTab]?.invoke() }
-            }) as MutableMap<Tab, OnTabSelectedHandler>
-        }
-
+    get() = data("onSelectedHandlers") {
+        val handlers = mutableMapOf<Tab, OnTabSelectedHandler>()
+        addSelectedChangeListener { handlers[it.selectedTab]?.invoke() }
+        handlers
+    }
 
 /**
  * [onSelected] is a utility that facilitates event handling when a tab is selected.
@@ -59,20 +55,16 @@ private val (@VaadinDsl Tabs).onSelectedHandlers: MutableMap<Tab, OnTabSelectedH
  * Example of usage:
  * ```kotlin
  * tabs {
- *
- *          tab("Users") {
- *              onSelected {
- *                  displayUserList()
- *              }
- *          }
- *          tab("Admins") {
- *              onSelected {
- *                  displayAdminList()
- *              }
- *          }
- *          ...
- *
- *      defaultOnSelectedHandler()
+ *   tab("Users") {
+ *     onSelected {
+ *       displayUserList()
+ *     }
+ *   }
+ *   tab("Admins") {
+ *     onSelected {
+ *       displayAdminList()
+ *     }
+ *   }
  * }
  * ```
  */
@@ -80,16 +72,8 @@ private val (@VaadinDsl Tabs).onSelectedHandlers: MutableMap<Tab, OnTabSelectedH
 public fun (@VaadinDsl Tab).onSelected(handler: OnTabSelectedHandler) : OnTabSelectedHandler {
     val tabs = parent.get() as Tabs
     tabs.onSelectedHandlers[this] = handler
+    if (tabs.selectedTab == this) {
+        handler()
+    }
     return handler
-}
-
-/**
- * By default [Tabs] does not invoke onSelected for the first [Tab].
- * Add defaultOnSelected() after all tabs have been added.
- *
- * To trigger onSelected for other tabs just: selectedTab = someTab
- */
-@VaadinDsl
-public fun (@VaadinDsl Tabs).defaultOnSelectedHandler() {
-    onSelectedHandlers.values.toList().firstOrNull()?.invoke()
 }

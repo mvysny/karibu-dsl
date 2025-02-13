@@ -10,8 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 abstract class IconTest {
-    @BeforeEach
-    fun setup() { MockVaadin.setup() }
+    @BeforeEach fun setup() { MockVaadin.setup() }
     @AfterEach fun teardown() { MockVaadin.tearDown() }
 
     @Test fun smoke() {
