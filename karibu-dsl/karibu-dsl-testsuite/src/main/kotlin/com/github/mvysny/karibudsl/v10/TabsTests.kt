@@ -47,6 +47,7 @@ abstract class AbstractTabsTests {
         lateinit var selected: Tab
         lateinit var firstTab: Tab
         lateinit var secondTab: Tab
+        lateinit var thirdTab: Tab
         val tabs = UI.getCurrent().tabs {
             firstTab = tab("Details") {
                 onSelected { selected = this }
@@ -54,11 +55,17 @@ abstract class AbstractTabsTests {
             secondTab = tab("Payment") {
                 onSelected { selected = this }
             }
+            thirdTab = tab("Shipping") {
+                // no onSelected{} handler, to test that no NPE is thrown when this tab is selected
+            }
         }
-        _expect<Tab>(2)
+        _expect<Tab>(3)
         expect(firstTab) { selected }
 
         tabs.selectedTab = secondTab
+        expect(secondTab) { selected }
+
+        tabs.selectedTab = thirdTab
         expect(secondTab) { selected }
     }
 }
