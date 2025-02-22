@@ -5,7 +5,6 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.applayout.AppLayout
 import com.vaadin.flow.component.applayout.DrawerToggle
 import com.vaadin.flow.component.shared.SlotUtils
-import com.vaadin.flow.dom.Element
 
 /**
  * Creates an [App Layout](https://vaadin.com/components/vaadin-app-layout). Example:
@@ -45,13 +44,11 @@ public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).()
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
             addToNavbar(touchOptimized, *components)
         }
-    }
-    dummy.block()
+    }.block()
 }
 
 /**
@@ -82,13 +79,11 @@ public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() ->
      */
     removeDrawer()
 
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
             addToDrawer(*components)
         }
-    }
-    dummy.block()
+    }.block()
 }
 
 /**
@@ -99,15 +94,12 @@ public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() ->
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
             require(components.size < 2) { "Too many components to add - AppLayout content can only host one! ${components.toList()}" }
-            val component = components.firstOrNull() ?: return
-            this@content.setContent(component)
+            this@content.content = components.firstOrNull()
         }
-    }
-    dummy.block()
+    }.block()
 }
 
 /**
