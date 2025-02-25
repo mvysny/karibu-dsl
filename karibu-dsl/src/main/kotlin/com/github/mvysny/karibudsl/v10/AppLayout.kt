@@ -32,6 +32,16 @@ public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).()
         = init(AppLayout(), block)
 
 /**
+ * [removeNavbar] removes all components from the navbar slot.
+ * Also see [AppLayout.addToNavbar]
+ */
+@VaadinDsl
+public fun (@VaadinDsl AppLayout).removeNavbar(touchOptimized: Boolean) {
+    val slot = "navbar" + (if (touchOptimized) " touch-optimized" else "")
+    SlotUtils.clearSlot(this, slot)
+}
+
+/**
  * Allows you to populate the [AppLayout.addToNavbar] in a DSL fashion:
  * ```
  * appLayout {
@@ -52,13 +62,8 @@ public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block:
 }
 
 /**
- * [AppLayout.java](https://github.com/vaadin/vaadin-app-layout-flow/blob/master/vaadin-app-layout-flow/src/main/java/com/vaadin/flow/component/applayout/AppLayout.java)
- * ```
- * public void addToDrawer(Component... components) {
- *         SlotUtils.addToSlot(this, "drawer", components);
- *     }
- * ```
- * [removeDrawer] is a temporary solution, until a similar method is added to [AppLayout] class.
+ * [removeDrawer] removes all components from the drawer slot.
+ * Also see [AppLayout.addToDrawer]
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).removeDrawer() {
@@ -70,20 +75,20 @@ public fun (@VaadinDsl AppLayout).removeDrawer() {
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-
-    /**
-     * It allows to replace a drawer, i.e. to have several drawers.
-     * For example, navbar contains several tabs.
-     *      When a tab is selected, it set its specific drawer and re-populates AppLayout content.
-     *      If a tab doesn't have a drawer, removeDrawer() can be called to by its own to clear the previous assigned drawer.
-     */
-    removeDrawer()
-
     object : DummyHasComponents {
         override fun add(vararg components: Component) {
             addToDrawer(*components)
         }
     }.block()
+}
+
+/**
+ * [removeContent] removes all components from the content.
+ * Also see [AppLayout.setContent]
+ */
+@VaadinDsl
+public fun (@VaadinDsl AppLayout).removeContent() {
+    content = null
 }
 
 /**
@@ -97,7 +102,9 @@ public fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -
     object : DummyHasComponents {
         override fun add(vararg components: Component) {
             require(components.size < 2) { "Too many components to add - AppLayout content can only host one! ${components.toList()}" }
-            this@content.content = components.firstOrNull()
+            val component = components.firstOrNull() ?: return
+            check(this@content.content == null) { "The content has already been initialized!" }
+            this@content.content = component
         }
     }.block()
 }

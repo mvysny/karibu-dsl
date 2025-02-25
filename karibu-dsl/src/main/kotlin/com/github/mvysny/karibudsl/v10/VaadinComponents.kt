@@ -17,7 +17,6 @@ import com.vaadin.flow.component.progressbar.ProgressBar
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup
 import com.vaadin.flow.component.select.Select
 import com.vaadin.flow.component.timepicker.TimePicker
-import com.vaadin.flow.dom.Element
 import com.vaadin.flow.shared.Registration
 
 /**
@@ -159,20 +158,13 @@ public fun (@VaadinDsl HasComponents).scroller(
     init(Scroller(scrollDirection), block)
 
 @VaadinDsl
-public fun <T> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> T): T {
+public fun <TComponent : Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> TComponent): TComponent {
     element.removeAllChildren()
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
-        override fun add(vararg components: Component) {
-            require(components.size < 2) { "Too many components to add - scroller can only host one! ${components.toList()}" }
-            val component: Component = components.firstOrNull() ?: return
-            check(this@content.element.childCount == 0) { "The scroller can only host one component at most" }
-            content = component
-        }
+    return provideSingleComponent {
+        block()
+    }.also {
+        content = it
     }
-    val result: T = dummy.block()
-    checkNotNull(content) { "`block` must add exactly one component to the scroller" }
-    return result
 }
 
 /**

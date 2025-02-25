@@ -2,6 +2,7 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.dom.Element
 
 // annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
@@ -69,10 +70,27 @@ public interface DummyHasComponents : HasComponents {
 
 /**
  * Adapter from a Vaadin method expecting single Component to karibu-dsl.
- * TODO Migrate object : HasComponents {} providing single Component to provideSingleComponent {}
+ * See [componentColumn], (@VaadinDsl Scroller).content, [Upload.button]
+ *
+ * Examples of usage:
+ * ```kotlin
+ *
+ * componentColumn { row ->
+ *    button(row.name) {...}
+ * }
+ *
+ * val span: Span = scroller.content { span("Foo") }
+ *
+ * upload {
+ *   button {
+ *     iconButton(VaadinIcon.UPLOAD.create())
+ *   }
+ * }
+ *
+ * ```
  */
 @VaadinDsl
-public fun provideSingleComponent(block: (@VaadinDsl HasComponents).() -> Component): Component {
+public fun <TComponent : Component> provideSingleComponent(block: (@VaadinDsl HasComponents).() -> TComponent): TComponent {
     return object : DummyHasComponents {
         override fun add(vararg components: Component) {
             require(components.size == 1) { "provideSingleComponent supports one component only" }

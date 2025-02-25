@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v10
 
+import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.upload.Receiver
 import com.vaadin.flow.component.upload.Upload
@@ -96,3 +97,12 @@ public fun (@VaadinDsl UploadI18N.Uploading).error(block: (@VaadinDsl UploadI18N
     error.block()
     return error
 }
+
+@VaadinDsl
+public fun <TComponent : Component> (@VaadinDsl Upload).button(block: (@VaadinDsl HasComponents).() -> TComponent) {
+    element.removeAllChildren()
+    uploadButton = provideSingleComponent {
+        block()
+    }
+}
+

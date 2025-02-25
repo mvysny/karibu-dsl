@@ -18,6 +18,7 @@ package com.vaadin.starter.beveragebuddy.ui.categories
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.ModifierKey.Alt
 import com.github.mvysny.kaributools.addShortcut
+import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.Key.KEY_E
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
@@ -134,13 +135,13 @@ class CategoriesList : KComposite() {
         updateView()
     }
 
-    private fun createEditButton(category: Category): Button =
-        Button("Edit").apply {
-            icon = Icon(VaadinIcon.EDIT)
-            addClassName("category__edit")
-            addThemeVariants(ButtonVariant.LUMO_TERTIARY)
-            onClick { edit(category) }
-        }
+    private fun HasComponents.createEditButton(category: Category): Button =
+            button("Edit") {
+                icon = Icon(VaadinIcon.EDIT)
+                addClassName("category__edit")
+                addThemeVariants(ButtonVariant.LUMO_TERTIARY)
+                onClick { edit(category) }
+            }
 
     private fun edit(category: Category) {
         editorDialog.edit(category)
