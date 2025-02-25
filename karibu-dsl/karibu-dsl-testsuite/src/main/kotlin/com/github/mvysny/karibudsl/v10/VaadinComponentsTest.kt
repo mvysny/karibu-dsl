@@ -338,34 +338,6 @@ abstract class VaadinComponentsTest {
         expect(1) { i }
     }
 
-    @Nested inner class tabs {
-        @Test fun smoke() {
-            UI.getCurrent().tabs()
-            UI.getCurrent().tabs{}
-            UI.getCurrent().tabs(Tabs.Orientation.HORIZONTAL)
-            UI.getCurrent().tabs(Tabs.Orientation.HORIZONTAL){}
-            _expect<Tabs>(4)
-        }
-
-        @Test fun dsl() {
-            UI.getCurrent().tabs {
-                tab("Details", VaadinIcon.LEVEL_LEFT) {}
-                tab("Payment")
-                tab("Shipping") {}
-                tab("Details", VaadinIcon.LEVEL_LEFT)
-            }
-            _expect<Tab>(4)
-        }
-
-        @Test fun icon() {
-            UI.getCurrent().tabs {
-                tab("Details", VaadinIcon.LEVEL_LEFT) {}
-            }
-            _expect<Tab>()
-            _expect<Icon> { icon = IconName.of(VaadinIcon.LEVEL_LEFT) }
-        }
-    }
-
     @Nested inner class timepicker {
         @Test fun smoke() {
             UI.getCurrent().timePicker()

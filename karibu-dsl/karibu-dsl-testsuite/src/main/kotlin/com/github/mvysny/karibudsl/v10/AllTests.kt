@@ -39,6 +39,7 @@ abstract class AllTests {
     @Nested inner class Router : RouterTest()
     @Nested inner class Upload : UploadTest()
     @Nested inner class VaadinComponents : VaadinComponentsTest()
+    @Nested inner class TabsTests : AbstractTabsTests()
     @Nested inner class Messages : MessagesTest()
     @Nested inner class Badges : BadgesTest()
     @Nested inner class SplitLayout : SplitLayoutTests()
