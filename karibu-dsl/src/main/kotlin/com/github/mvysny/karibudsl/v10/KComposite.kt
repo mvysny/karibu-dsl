@@ -58,17 +58,8 @@ public abstract class KComposite(private var root: Component? = null) : Composit
      */
     protected fun <T: Component> ui(block: HasComponents.()->T): T {
         check(root == null) { "The content has already been initialized!" }
-        val dummy = object : HasComponents {
-            override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
-            override fun add(vararg components: Component) {
-                require(components.size < 2) { "Too many components to add - composite can only host one! ${components.toList()}" }
-                val component: Component = components.firstOrNull() ?: return
-                check(root == null) { "The content has already been initialized!" }
-                root = component
-            }
-        }
-        val component: T = dummy.block()
-        checkNotNull(root) { "`block` must add exactly one component" }
-        return component
+        val component = provideSingleComponent(block)
+        root = component
+        return component as T
     }
 }

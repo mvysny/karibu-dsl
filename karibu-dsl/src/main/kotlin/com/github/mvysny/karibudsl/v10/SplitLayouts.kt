@@ -33,10 +33,7 @@ public fun (@VaadinDsl HasComponents).splitLayout(
 public fun (@VaadinDsl SplitLayout).primary(
     block: (@VaadinDsl HasComponents).() -> Unit = {}
 ) {
-    val primarySlot = object : HasComponents {
-        override fun getElement(): Element =
-            throw UnsupportedOperationException("Not expected to be called")
-
+    val primarySlot = object : DummyHasComponents {
         override fun add(components: Collection<Component>) {
             if (components.isEmpty()) return
             check(primaryComponent == null) { "Primary component is already populated, can not add multiple primary components" }
@@ -54,10 +51,7 @@ public fun (@VaadinDsl SplitLayout).primary(
 public fun (@VaadinDsl SplitLayout).secondary(
     block: (@VaadinDsl HasComponents).() -> Unit = {}
 ) {
-    val secondarySlot = object : HasComponents {
-        override fun getElement(): Element =
-            throw UnsupportedOperationException("Not expected to be called")
-
+    val secondarySlot = object : DummyHasComponents {
         override fun add(components: Collection<Component>) {
             if (components.isEmpty()) return
             check(secondaryComponent == null) { "Primary component is already populated, can not add multiple primary components" }

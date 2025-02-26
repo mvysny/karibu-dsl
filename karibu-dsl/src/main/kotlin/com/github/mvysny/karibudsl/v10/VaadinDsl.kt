@@ -86,20 +86,30 @@ public interface DummyHasComponents : HasComponents {
  *     iconButton(VaadinIcon.UPLOAD.create())
  *   }
  * }
- *
  * ```
  */
 @VaadinDsl
-public fun <C : Component?> provideSingleComponent(block: (@VaadinDsl HasComponents).() -> C): C {
-    return object : DummyHasComponents {
+public fun provideSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> Any?): Component? {
+    var component: Component? = null
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
-            require(components.size == 1) { "provideSingleComponent supports one component only" }
-            // Do nothing.
-            // This is a bit of a hack: the block runs a DSL which attempts to add components to this,
-            // but the components aren't being added anywhere here.
-            //
-            // We're exploiting the fact that the DSL function also returns the component being created,
-            // which is then returned by [block] and then by this function.
+            require(components.size < 2) { "Too many components to add - this component can only host one! ${components.toList()}" }
+            check(component == null) { "Too many components to add - this component can only host one!" }
+            component = components.firstOrNull()
         }
     }.block()
+    return component
+}
+
+@VaadinDsl
+public fun provideSingleComponent(block: (@VaadinDsl HasComponents).() -> Any?): Component {
+    var component: Component? = null
+    object : DummyHasComponents {
+        override fun add(vararg components: Component) {
+            require(components.size < 2) { "Too many components to add - this component can only host one! ${components.toList()}" }
+            check(component == null) { "Too many components to add - this component can only host one!" }
+            component = components.firstOrNull()
+        }
+    }.block()
+    return checkNotNull(component) { "`block` must add exactly one component" }
 }

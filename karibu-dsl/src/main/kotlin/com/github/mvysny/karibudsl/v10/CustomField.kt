@@ -25,8 +25,7 @@ private val customFieldAddMethod: Method = CustomField::class.java.getDeclaredMe
  * ```
  */
 public fun <T : Component> CustomField<*>.content(block: HasComponents.() -> T): T {
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    val dummy = object : DummyHasComponents {
         override fun add(vararg components: Component) {
             customFieldAddMethod.invoke(this@content, components)
         }

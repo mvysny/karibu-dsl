@@ -1,5 +1,6 @@
 package com.github.mvysny.karibudsl.v23
 
+import com.github.mvysny.karibudsl.v10.DummyHasComponents
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.karibuDslI18n
 import com.vaadin.flow.component.Component
@@ -19,10 +20,7 @@ import com.vaadin.flow.dom.Element
  */
 @VaadinDsl
 public fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
-    val f = object : HasComponents {
-        override fun getElement(): Element =
-            throw UnsupportedOperationException("footer element is not accessible")
-
+    val f = object : DummyHasComponents {
         override fun add(vararg components: Component) {
             this@footer.footer.add(*components)
         }
@@ -40,10 +38,7 @@ public fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
  */
 @VaadinDsl
 public fun Dialog.header(block: (@VaadinDsl HasComponents).() -> Unit) {
-    val f = object : HasComponents {
-        override fun getElement(): Element =
-            throw UnsupportedOperationException("header element is not accessible")
-
+    val f = object : DummyHasComponents {
         override fun add(vararg components: Component) {
             this@header.header.add(*components)
         }

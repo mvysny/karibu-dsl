@@ -2,11 +2,11 @@ package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.init
+import com.github.mvysny.karibudsl.v10.provideSingleComponentOrNull
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.tabs.Tab
 import com.vaadin.flow.component.tabs.TabSheet
-import com.vaadin.flow.dom.Element
 
 /**
  * Creates a [TabSheet] component which shows both the list of tabs, and the tab contents itself.
@@ -43,16 +43,6 @@ public fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -
  */
 @VaadinDsl
 public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Unit): Tab {
-    var root: Component? = null
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
-        override fun add(vararg components: Component) {
-            require(components.size < 2) { "Too many components to add - tab can only host one! ${components.toList()}" }
-            val component: Component = components.firstOrNull() ?: return
-            check(root == null) { "The content has already been initialized!" }
-            root = component
-        }
-    }
-    dummy.block()
+    var root: Component? = provideSingleComponentOrNull(block)
     return add(label, root)
 }

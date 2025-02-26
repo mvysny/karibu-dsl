@@ -158,13 +158,10 @@ public fun (@VaadinDsl HasComponents).scroller(
     init(Scroller(scrollDirection), block)
 
 @VaadinDsl
-public fun <TComponent : Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> TComponent): TComponent {
+public fun <C : Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> C): C {
     element.removeAllChildren()
-    return provideSingleComponent {
-        block()
-    }.also {
-        content = it
-    }
+    content = provideSingleComponent(block)
+    return content as C
 }
 
 /**
