@@ -61,7 +61,6 @@ public fun <T : Component> (@VaadinDsl HasComponents).init(
 /**
  * Adapter, which provides dummy [HasComponents] receiver
  * for some karibu-dsl methods accepting parameter block: (@VaadinDsl HasComponents).() -> Unit
- * TODO Migrate object : HasComponents {} to object : DummyHasComponents {}
  */
 public interface DummyHasComponents : HasComponents {
     override fun getElement(): Element =
@@ -69,13 +68,11 @@ public interface DummyHasComponents : HasComponents {
 }
 
 /**
- * Runs DSL function in given [block], then returns the component produced by the DSL function.
- *
- * Examples of usage:
+ * Runs DSL function in given [block], then returns the component produced by the DSL function:
  * ```kotlin
- * upload {
- *   button {
- *     iconButton(VaadinIcon.UPLOAD.create())
+ * val vl = provideSingleComponentOrNull {
+ *   verticalLayout {
+ *     button("Hi!")
  *   }
  * }
  * ```
@@ -93,6 +90,16 @@ public fun provideSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> 
     return component
 }
 
+/**
+ * Runs DSL function in given [block], then returns the component produced by the DSL function:
+ * ```kotlin
+ * val vl = provideSingleComponentOrNull {
+ *   verticalLayout {
+ *     button("Hi!")
+ *   }
+ * }
+ * ```
+ */
 @VaadinDsl
 public fun provideSingleComponent(block: (@VaadinDsl HasComponents).() -> Any?): Component {
     val component: Component? = provideSingleComponentOrNull(block)
