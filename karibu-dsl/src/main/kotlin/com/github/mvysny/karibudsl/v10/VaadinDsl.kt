@@ -90,12 +90,16 @@ public interface DummyHasComponents : HasComponents {
  * ```
  */
 @VaadinDsl
-public fun <TComponent : Component> provideSingleComponent(block: (@VaadinDsl HasComponents).() -> TComponent): TComponent {
+public fun <C : Component?> provideSingleComponent(block: (@VaadinDsl HasComponents).() -> C): C {
     return object : DummyHasComponents {
         override fun add(vararg components: Component) {
             require(components.size == 1) { "provideSingleComponent supports one component only" }
-            // Do nothing
+            // Do nothing.
+            // This is a bit of a hack: the block runs a DSL which attempts to add components to this,
+            // but the components aren't being added anywhere here.
+            //
+            // We're exploiting the fact that the DSL function also returns the component being created,
+            // which is then returned by [block] and then by this function.
         }
     }.block()
 }
-

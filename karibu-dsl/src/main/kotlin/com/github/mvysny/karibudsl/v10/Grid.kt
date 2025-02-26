@@ -249,8 +249,8 @@ public fun <T> (@VaadinDsl Grid<T>).column(
  * @return the new column
  */
 @VaadinDsl
-public fun <T, V : Component> (@VaadinDsl Grid<T>).componentColumn(
-    componentProvider: HasComponents.(T) -> V,
+public fun <T, C : Component> (@VaadinDsl Grid<T>).componentColumn(
+    componentProvider: HasComponents.(T) -> C?,
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
     val column = addComponentColumn {
