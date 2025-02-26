@@ -98,6 +98,14 @@ public fun (@VaadinDsl UploadI18N.Uploading).error(block: (@VaadinDsl UploadI18N
     return error
 }
 
+/**
+ * Creates the [Upload.uploadButton] in a DSL fashion:
+ * ```kotlin
+ * upload {
+ *   uploadButton { span("Hello!") }
+ * }
+ * ```
+ */
 @VaadinDsl
 public fun (@VaadinDsl Upload).uploadButton(block: (@VaadinDsl HasComponents).() -> Unit) {
     element.removeAllChildren()
