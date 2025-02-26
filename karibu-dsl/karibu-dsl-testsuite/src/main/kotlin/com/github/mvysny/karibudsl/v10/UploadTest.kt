@@ -2,7 +2,9 @@ package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._expectOne
+import com.github.mvysny.kaributesting.v10._get
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.upload.Receiver
 import com.vaadin.flow.component.upload.Upload
 import org.junit.jupiter.api.AfterEach
@@ -23,6 +25,18 @@ abstract class UploadTest {
         UI.getCurrent().removeAll()
         UI.getCurrent().upload(Receiver { _, _ -> ByteArrayOutputStream() })
         _expectOne<Upload>()
+        UI.getCurrent().upload {
+            uploadButton { span("Upload!") }
+        }
+    }
+
+    @Test fun `uploadButton dsl`() {
+        lateinit var span: Span
+        UI.getCurrent().upload {
+            uploadButton { span("Upload!") { span = this } }
+        }
+        _expectOne<Span> { text = "Upload!" }
+        expect(span) { _get<Span>() }
     }
 
     @Test fun `i18n dsl`() {

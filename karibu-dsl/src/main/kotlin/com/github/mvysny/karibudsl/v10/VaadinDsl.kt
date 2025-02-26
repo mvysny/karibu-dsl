@@ -69,18 +69,10 @@ public interface DummyHasComponents : HasComponents {
 }
 
 /**
- * Adapter from a Vaadin method expecting single Component to karibu-dsl.
- * See [componentColumn], (@VaadinDsl Scroller).content, [Upload.button]
+ * Runs DSL function in given [block], then returns the component produced by the DSL function.
  *
  * Examples of usage:
  * ```kotlin
- *
- * componentColumn { row ->
- *    button(row.name) {...}
- * }
- *
- * val span: Span = scroller.content { span("Foo") }
- *
  * upload {
  *   button {
  *     iconButton(VaadinIcon.UPLOAD.create())
@@ -103,13 +95,6 @@ public fun provideSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> 
 
 @VaadinDsl
 public fun provideSingleComponent(block: (@VaadinDsl HasComponents).() -> Any?): Component {
-    var component: Component? = null
-    object : DummyHasComponents {
-        override fun add(vararg components: Component) {
-            require(components.size < 2) { "Too many components to add - this component can only host one! ${components.toList()}" }
-            check(component == null) { "Too many components to add - this component can only host one!" }
-            component = components.firstOrNull()
-        }
-    }.block()
+    val component: Component? = provideSingleComponentOrNull(block)
     return checkNotNull(component) { "`block` must add exactly one component" }
 }

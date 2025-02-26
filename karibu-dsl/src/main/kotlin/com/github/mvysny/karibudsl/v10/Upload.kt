@@ -99,10 +99,8 @@ public fun (@VaadinDsl UploadI18N.Uploading).error(block: (@VaadinDsl UploadI18N
 }
 
 @VaadinDsl
-public fun <TComponent : Component> (@VaadinDsl Upload).button(block: (@VaadinDsl HasComponents).() -> TComponent) {
+public fun (@VaadinDsl Upload).uploadButton(block: (@VaadinDsl HasComponents).() -> Unit) {
     element.removeAllChildren()
-    uploadButton = provideSingleComponent {
-        block()
-    }
+    uploadButton = provideSingleComponent(block)
 }
 

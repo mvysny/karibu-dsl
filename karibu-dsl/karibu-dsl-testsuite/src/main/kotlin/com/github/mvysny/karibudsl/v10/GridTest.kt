@@ -131,6 +131,22 @@ abstract class GridTest {
         expect(0) { col2.flexGrow }
     }
 
+    @Nested inner class `componentColumn tests` {
+        @Test fun smoke() {
+            val grid = Grid<String>()
+            grid.componentColumn({ span("hello $it") })
+            grid.setItems("a")
+            grid.expectRows(1)
+            grid.expectRow(0, "Span[text='hello a']")
+        }
+        @Test fun nullComponents() {
+            val grid = Grid<String>()
+            grid.componentColumn({ if(false) span("hello $it") else null })
+            grid.setItems("a")
+            grid.expectRows(1)
+            grid.expectRow(0, "")
+        }
+    }
 
     @Nested inner class `header cell retrieval test`() {
         @Test fun `one component`() {

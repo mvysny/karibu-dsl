@@ -240,10 +240,12 @@ public fun <T> (@VaadinDsl Grid<T>).column(
  *
  * Example of use:
  * ```kotlin
- * componentColumn({ category -> createEditButton(category) }) {
+ * componentColumn({ category -> button(category.name) {...} }) {
  *   flexGrow = 0; key = "edit"
  * }
  * ```
+ * Note that you use the DSL functions inside the [componentProvider] block, to create
+ * the component rendered in this column. The DSL function is run once for every cell.
  * @param componentProvider a value provider that will return a component for the given item
  * @param <V> the component type
  * @return the new column
@@ -254,7 +256,7 @@ public fun <T, C : Component> (@VaadinDsl Grid<T>).componentColumn(
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
     val column = addComponentColumn {
-        provideSingleComponent {
+        provideSingleComponentOrNull {
             componentProvider(it)
         }
     }

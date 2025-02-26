@@ -157,6 +157,19 @@ public fun (@VaadinDsl HasComponents).scroller(
 ): Scroller =
     init(Scroller(scrollDirection), block)
 
+/**
+ * Populates the scroller content in a DSL fashion:
+ * ```
+ * scroller {
+ *   content {
+ *     div {
+ *       width = "200px"; height = "200px"; element.styles.add("background-color", "red")
+ *     }
+ *   }
+ * }
+ * ```
+ * Returns the component set as the content of the scroller.
+ */
 @VaadinDsl
 public fun <C : Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> C): C {
     element.removeAllChildren()
