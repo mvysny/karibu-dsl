@@ -4,7 +4,7 @@ import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.applayout.AppLayout
 import com.vaadin.flow.component.applayout.DrawerToggle
-import com.vaadin.flow.dom.Element
+import com.vaadin.flow.component.shared.SlotUtils
 
 /**
  * Creates an [App Layout](https://vaadin.com/components/vaadin-app-layout). Example:
@@ -32,6 +32,16 @@ public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).()
         = init(AppLayout(), block)
 
 /**
+ * [removeNavbar] removes all components from the navbar slot.
+ * Also see [AppLayout.addToNavbar]
+ */
+@VaadinDsl
+public fun (@VaadinDsl AppLayout).removeNavbar(touchOptimized: Boolean) {
+    val slot = "navbar" + (if (touchOptimized) " touch-optimized" else "")
+    SlotUtils.clearSlot(this, slot)
+}
+
+/**
  * Allows you to populate the [AppLayout.addToNavbar] in a DSL fashion:
  * ```
  * appLayout {
@@ -44,13 +54,20 @@ public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).()
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
             addToNavbar(touchOptimized, *components)
         }
-    }
-    dummy.block()
+    }.block()
+}
+
+/**
+ * [removeDrawer] removes all components from the drawer slot.
+ * Also see [AppLayout.addToDrawer]
+ */
+@VaadinDsl
+public fun (@VaadinDsl AppLayout).removeDrawer() {
+    SlotUtils.clearSlot(this, "drawer")
 }
 
 /**
@@ -58,13 +75,20 @@ public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block:
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
             addToDrawer(*components)
         }
-    }
-    dummy.block()
+    }.block()
+}
+
+/**
+ * [removeContent] removes all components from the content.
+ * Also see [AppLayout.setContent]
+ */
+@VaadinDsl
+public fun (@VaadinDsl AppLayout).removeContent() {
+    content = null
 }
 
 /**
@@ -75,16 +99,14 @@ public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() ->
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    val dummy = object : HasComponents {
-        override fun getElement(): Element = throw UnsupportedOperationException("Not expected to be called")
+    object : DummyHasComponents {
         override fun add(vararg components: Component) {
             require(components.size < 2) { "Too many components to add - AppLayout content can only host one! ${components.toList()}" }
             val component = components.firstOrNull() ?: return
             check(this@content.content == null) { "The content has already been initialized!" }
-            this@content.setContent(component)
+            this@content.content = component
         }
-    }
-    dummy.block()
+    }.block()
 }
 
 /**

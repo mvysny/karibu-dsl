@@ -249,11 +249,15 @@ public fun <T> (@VaadinDsl Grid<T>).column(
  * @return the new column
  */
 @VaadinDsl
-public fun <T, V : Component?> (@VaadinDsl Grid<T>).componentColumn(
-    componentProvider: ValueProvider<T, V>,
+public fun <T, V : Component> (@VaadinDsl Grid<T>).componentColumn(
+    componentProvider: HasComponents.(T) -> V,
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
-    val column = addComponentColumn(componentProvider)
+    val column = addComponentColumn {
+        provideSingleComponent {
+            componentProvider(it)
+        }
+    }
     column.block()
     return column
 }

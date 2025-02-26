@@ -2,6 +2,8 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
+import com.vaadin.flow.component.upload.Upload
+import com.vaadin.flow.dom.Element
 
 // annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
 // which makes them stand out apart from the common functions, which is very nice.
@@ -55,3 +57,45 @@ public fun <T : Component> (@VaadinDsl HasComponents).init(
     component.block()
     return component
 }
+
+/**
+ * Adapter, which provides dummy [HasComponents] receiver
+ * for some karibu-dsl methods accepting parameter block: (@VaadinDsl HasComponents).() -> Unit
+ * TODO Migrate object : HasComponents {} to object : DummyHasComponents {}
+ */
+public interface DummyHasComponents : HasComponents {
+    override fun getElement(): Element =
+        throw UnsupportedOperationException("Not expected to be called")
+}
+
+/**
+ * Adapter from a Vaadin method expecting single Component to karibu-dsl.
+ * See [componentColumn], (@VaadinDsl Scroller).content, [Upload.button]
+ *
+ * Examples of usage:
+ * ```kotlin
+ *
+ * componentColumn { row ->
+ *    button(row.name) {...}
+ * }
+ *
+ * val span: Span = scroller.content { span("Foo") }
+ *
+ * upload {
+ *   button {
+ *     iconButton(VaadinIcon.UPLOAD.create())
+ *   }
+ * }
+ *
+ * ```
+ */
+@VaadinDsl
+public fun <TComponent : Component> provideSingleComponent(block: (@VaadinDsl HasComponents).() -> TComponent): TComponent {
+    return object : DummyHasComponents {
+        override fun add(vararg components: Component) {
+            require(components.size == 1) { "provideSingleComponent supports one component only" }
+            // Do nothing
+        }
+    }.block()
+}
+
