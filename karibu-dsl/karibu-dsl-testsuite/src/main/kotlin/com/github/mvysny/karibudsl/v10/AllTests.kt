@@ -20,6 +20,7 @@ abstract class AllTests {
         Locale.setDefault(Locale.ENGLISH)
     }
 
+    @Nested inner class VaadinDslTests : AbstractVaadinDslTests()
     @Nested inner class Accordion : AccordionTest()
     @Nested inner class AppLayout : AppLayoutTest()
     @Nested inner class BinderUtils : BinderUtilsTest()
