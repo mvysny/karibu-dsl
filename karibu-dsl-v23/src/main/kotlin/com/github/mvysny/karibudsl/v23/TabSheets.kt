@@ -2,7 +2,7 @@ package com.github.mvysny.karibudsl.v23
 
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.init
-import com.github.mvysny.karibudsl.v10.provideSingleComponentOrNull
+import com.github.mvysny.karibudsl.v10.buildSingleComponentOrNull
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.tabs.Tab
@@ -43,6 +43,6 @@ public fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -
  */
 @VaadinDsl
 public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Unit): Tab {
-    var root: Component? = provideSingleComponentOrNull(block)
+    var root: Component? = buildSingleComponentOrNull(block)
     return add(label, root)
 }

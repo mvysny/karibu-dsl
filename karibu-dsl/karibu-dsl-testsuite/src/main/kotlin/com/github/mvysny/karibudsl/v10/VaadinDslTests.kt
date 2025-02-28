@@ -41,10 +41,10 @@ abstract class AbstractVaadinDslTests {
     }
 
     @Nested
-    inner class provideSingleComponentOrNull {
+    inner class buildSingleComponentOrNull {
         @Test
         fun smoke() {
-            val vl = provideSingleComponentOrNull {
+            val vl = buildSingleComponentOrNull {
                 verticalLayout {
                     button("Hi!")
                 }
@@ -54,14 +54,14 @@ abstract class AbstractVaadinDslTests {
 
         @Test
         fun returnsNullWhenNothingWasAdded() {
-            val vl = provideSingleComponentOrNull {}
+            val vl = buildSingleComponentOrNull {}
             expect(null) { vl }
         }
 
         @Test
         fun failsWhenTwoComponentsAreAdded() {
             val ex = assertThrows<IllegalStateException> {
-                provideSingleComponentOrNull {
+                buildSingleComponentOrNull {
                     button("1")
                     button("2")
                 }
@@ -71,10 +71,10 @@ abstract class AbstractVaadinDslTests {
     }
 
     @Nested
-    inner class provideSingleComponent {
+    inner class buildSingleComponent {
         @Test
         fun smoke() {
-            val vl = provideSingleComponent {
+            val vl = buildSingleComponent {
                 verticalLayout {
                     button("Hi!")
                 }
@@ -85,7 +85,7 @@ abstract class AbstractVaadinDslTests {
         @Test
         fun failsWhenNothingWasAdded() {
             val ex = assertThrows<IllegalStateException> {
-                provideSingleComponent {}
+                buildSingleComponent {}
             }
             expect("`block` must add exactly one component") { ex.message!! }
         }
@@ -93,7 +93,7 @@ abstract class AbstractVaadinDslTests {
         @Test
         fun failsWhenTwoComponentsAreAdded() {
             val ex = assertThrows<IllegalStateException> {
-                provideSingleComponent {
+                buildSingleComponent {
                     button("1")
                     button("2")
                 }

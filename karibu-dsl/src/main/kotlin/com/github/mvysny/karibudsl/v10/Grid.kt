@@ -256,7 +256,7 @@ public fun <T, C : Component> (@VaadinDsl Grid<T>).componentColumn(
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
     val column = addComponentColumn {
-        provideSingleComponentOrNull {
+        buildSingleComponentOrNull {
             componentProvider(it)
         }
     }

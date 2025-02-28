@@ -2,7 +2,6 @@ package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.dom.Element
 
 // annotating DSL functions with @VaadinDsl will make Intellij mark the DSL functions in a special way
@@ -78,7 +77,7 @@ public interface DummyHasComponents : HasComponents {
  * ```
  */
 @VaadinDsl
-public fun provideSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> Any?): Component? {
+public fun buildSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> Any?): Component? {
     var component: Component? = null
     object : DummyHasComponents {
         override fun add(vararg components: Component) {
@@ -101,7 +100,7 @@ public fun provideSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> 
  * ```
  */
 @VaadinDsl
-public fun provideSingleComponent(block: (@VaadinDsl HasComponents).() -> Any?): Component {
-    val component: Component? = provideSingleComponentOrNull(block)
+public fun buildSingleComponent(block: (@VaadinDsl HasComponents).() -> Any?): Component {
+    val component: Component? = buildSingleComponentOrNull(block)
     return checkNotNull(component) { "`block` must add exactly one component" }
 }

@@ -173,7 +173,7 @@ public fun (@VaadinDsl HasComponents).scroller(
 @VaadinDsl
 public fun <C : Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> C): C {
     element.removeAllChildren()
-    content = provideSingleComponent(block)
+    content = buildSingleComponent(block)
     return content as C
 }
 
