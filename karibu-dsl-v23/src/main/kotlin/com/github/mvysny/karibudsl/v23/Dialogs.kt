@@ -8,7 +8,6 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.dialog.Dialog
-import com.vaadin.flow.dom.Element
 
 /**
  * Populates the dialog footer:
@@ -21,8 +20,8 @@ import com.vaadin.flow.dom.Element
 @VaadinDsl
 public fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
     val f = object : DummyHasComponents {
-        override fun add(vararg components: Component) {
-            this@footer.footer.add(*components)
+        override fun add(components: Collection<Component>) {
+            this@footer.footer.add(components)
         }
     }
     block(f)
@@ -39,8 +38,8 @@ public fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
 @VaadinDsl
 public fun Dialog.header(block: (@VaadinDsl HasComponents).() -> Unit) {
     val f = object : DummyHasComponents {
-        override fun add(vararg components: Component) {
-            this@header.header.add(*components)
+        override fun add(components: Collection<Component>) {
+            this@header.header.add(components)
         }
     }
     block(f)
