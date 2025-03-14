@@ -3,7 +3,6 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.splitlayout.SplitLayout
-import com.vaadin.flow.dom.Element
 
 /**
  * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
@@ -34,10 +33,10 @@ public fun (@VaadinDsl SplitLayout).primary(
     block: (@VaadinDsl HasComponents).() -> Unit = {}
 ) {
     val primarySlot = object : DummyHasComponents {
-        override fun add(components: Collection<Component>) {
+        override fun add(vararg components: Component) {
             if (components.isEmpty()) return
             check(primaryComponent == null) { "Primary component is already populated, can not add multiple primary components" }
-            addToPrimary(*components.toTypedArray())
+            addToPrimary(*components)
         }
     }
     primarySlot.block()
@@ -52,10 +51,10 @@ public fun (@VaadinDsl SplitLayout).secondary(
     block: (@VaadinDsl HasComponents).() -> Unit = {}
 ) {
     val secondarySlot = object : DummyHasComponents {
-        override fun add(components: Collection<Component>) {
+        override fun add(vararg components: Component) {
             if (components.isEmpty()) return
             check(secondaryComponent == null) { "Primary component is already populated, can not add multiple primary components" }
-            addToSecondary(*components.toTypedArray())
+            addToSecondary(*components)
         }
     }
     secondarySlot.block()
