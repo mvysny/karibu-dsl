@@ -61,9 +61,9 @@ public fun <T : Component> (@VaadinDsl HasComponents).init(
  * Adapter, which provides dummy [HasComponents] receiver
  * for some karibu-dsl methods accepting parameter block: (@VaadinDsl HasComponents).() -> Unit
  */
-public interface DummyHasComponents : HasComponents {
-    override abstract fun add(vararg components: Component) // forces you to override the right add() function. This one will be called by the DSL
-    override fun add(components: Collection<Component>) {
+public abstract class DummyHasComponents : HasComponents {
+    abstract override fun add(vararg components: Component) // forces you to override the right add() function. This one will be called by the DSL
+    final override fun add(components: Collection<Component>) {
         add(*components.toTypedArray())
     }
     override fun getElement(): Element =
@@ -83,7 +83,7 @@ public interface DummyHasComponents : HasComponents {
 @VaadinDsl
 public fun buildSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> Any?): Component? {
     var component: Component? = null
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             require(components.size < 2) { "Too many components to add - this component can only host one! ${components.toList()}" }
             check(component == null) { "Too many components to add - this component can only host one!" }

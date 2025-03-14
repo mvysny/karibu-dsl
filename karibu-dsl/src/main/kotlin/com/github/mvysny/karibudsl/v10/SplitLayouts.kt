@@ -32,7 +32,7 @@ public fun (@VaadinDsl HasComponents).splitLayout(
 public fun (@VaadinDsl SplitLayout).primary(
     block: (@VaadinDsl HasComponents).() -> Unit = {}
 ) {
-    val primarySlot = object : DummyHasComponents {
+    val primarySlot = object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             if (components.isEmpty()) return
             check(primaryComponent == null) { "Primary component is already populated, can not add multiple primary components" }
@@ -50,7 +50,7 @@ public fun (@VaadinDsl SplitLayout).primary(
 public fun (@VaadinDsl SplitLayout).secondary(
     block: (@VaadinDsl HasComponents).() -> Unit = {}
 ) {
-    val secondarySlot = object : DummyHasComponents {
+    val secondarySlot = object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             if (components.isEmpty()) return
             check(secondaryComponent == null) { "Primary component is already populated, can not add multiple primary components" }

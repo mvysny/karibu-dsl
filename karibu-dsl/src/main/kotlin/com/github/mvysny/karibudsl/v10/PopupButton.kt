@@ -48,7 +48,7 @@ public class PopupButton(caption: String = "") : KComposite(), HasSize {
      */
     public fun content(block: HasComponents.() -> Unit) {
         menuItem.subMenu.removeAll()
-        block(object : DummyHasComponents {
+        block(object : DummyHasComponents() {
             override fun add(vararg components: Component) {
                 menuItem.subMenu.add(*components)
             }

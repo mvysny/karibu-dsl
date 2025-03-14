@@ -10,7 +10,7 @@ import com.vaadin.flow.dom.Element
 @VaadinDsl
 public fun (@VaadinDsl LoginOverlay).footer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val f = footer
-    val hc = object : DummyHasComponents {
+    val hc = object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             f.add(*components)
         }
@@ -21,7 +21,7 @@ public fun (@VaadinDsl LoginOverlay).footer(block: (@VaadinDsl HasComponents).()
 @VaadinDsl
 public fun (@VaadinDsl LoginOverlay).customFormArea(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
     val f = customFormArea
-    val hc = object : DummyHasComponents {
+    val hc = object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             f.add(*components)
         }

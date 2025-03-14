@@ -19,7 +19,7 @@ import com.vaadin.flow.component.dialog.Dialog
  */
 @VaadinDsl
 public fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
-    val f = object : DummyHasComponents {
+    val f = object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             this@footer.footer.add(*components)
         }
@@ -37,7 +37,7 @@ public fun Dialog.footer(block: (@VaadinDsl HasComponents).() -> Unit) {
  */
 @VaadinDsl
 public fun Dialog.header(block: (@VaadinDsl HasComponents).() -> Unit) {
-    val f = object : DummyHasComponents {
+    val f = object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             this@header.header.add(*components)
         }

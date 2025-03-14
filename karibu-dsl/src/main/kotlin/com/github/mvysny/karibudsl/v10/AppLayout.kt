@@ -54,7 +54,7 @@ public fun (@VaadinDsl AppLayout).removeNavbar(touchOptimized: Boolean) {
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).navbar(touchOptimized: Boolean = false, block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             addToNavbar(touchOptimized, *components)
         }
@@ -75,7 +75,7 @@ public fun (@VaadinDsl AppLayout).removeDrawer() {
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             addToDrawer(*components)
         }
@@ -99,7 +99,7 @@ public fun (@VaadinDsl AppLayout).removeContent() {
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).content(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             require(components.size < 2) { "Too many components to add - AppLayout content can only host one! ${components.toList()}" }
             val component = components.firstOrNull() ?: return

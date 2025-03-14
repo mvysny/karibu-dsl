@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout
  */
 @VaadinDsl
 public fun (@VaadinDsl HorizontalLayout).start(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             addToStart(*components)
         }
@@ -23,7 +23,7 @@ public fun (@VaadinDsl HorizontalLayout).start(block: (@VaadinDsl HasComponents)
  */
 @VaadinDsl
 public fun (@VaadinDsl HorizontalLayout).middle(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             addToMiddle(*components)
         }
@@ -35,7 +35,7 @@ public fun (@VaadinDsl HorizontalLayout).middle(block: (@VaadinDsl HasComponents
  */
 @VaadinDsl
 public fun (@VaadinDsl HorizontalLayout).end(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
-    object : DummyHasComponents {
+    object : DummyHasComponents() {
         override fun add(vararg components: Component) {
             addToEnd(*components)
         }
