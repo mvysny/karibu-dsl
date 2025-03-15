@@ -21,7 +21,6 @@ import com.github.mvysny.karibudsl.v10.trimmingConverter
 import com.github.mvysny.karibudsl.v23.openConfirmDialog
 import com.github.mvysny.karibudsl.v23.setCloseOnCancel
 import com.github.mvysny.karibudsl.v23.setConfirmIsDanger
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.BeanValidationBinder
 import com.vaadin.flow.data.binder.Binder
@@ -31,7 +30,7 @@ import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
-
+import com.github.mvysny.karibudsl.v23.setConfirm
 /**
  * A form for editing [Category] objects.
  */
@@ -73,7 +72,7 @@ class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
         } else {
             openConfirmDialog("Delete Category “${item.name}”?",
                     "There are $reviewCount reviews associated with this category.\nDeleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.") {
-                setConfirmButton("Delete") {
+                setConfirm("Delete") {
                     frame.close()
                     onDeleteItem(item)
                 }
