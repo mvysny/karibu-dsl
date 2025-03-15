@@ -18,8 +18,8 @@ package com.vaadin.starter.beveragebuddy.ui.reviews
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v23.openConfirmDialog
 import com.github.mvysny.karibudsl.v23.setCloseOnCancel
+import com.github.mvysny.karibudsl.v23.setConfirm
 import com.github.mvysny.karibudsl.v23.setConfirmIsDanger
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.starter.beveragebuddy.backend.Category
@@ -93,7 +93,7 @@ class ReviewEditorDialog(private val onSaveItem: (Review) -> Unit, private val o
         openConfirmDialog(
             "Delete beverage",
             "Are you sure you want to delete beverage '${item.name}'?") {
-            setConfirmButton("Delete") {
+            setConfirm("Delete") {
                 frame.close()
                 onDeleteItem(item)
             }
