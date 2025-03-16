@@ -3,6 +3,8 @@ package com.github.mvysny.karibudsl.v23
 import com.github.mvysny.karibudsl.v10.DummyHasComponents
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.karibuDslI18n
+import com.github.mvysny.karibudsl.v10.onClick
+import com.vaadin.flow.component.ClickNotifier
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
@@ -84,33 +86,19 @@ public fun ConfirmDialog.setCloseOnCancel(buttonText: String = karibuDslI18n("ca
 }
 
 /**
+ * Adds a cancel clickable component (e.g. Button) to the dialog; the dialog is closed when the button is clicked.
+ * @param clickableComponent custom clickable component.
+ *
  * Example of usage:
  * ```kotlin
- * confirmButton("Delete", VaadinIcon.CHECK.create()) {
- *   css {
- *      backgroundColor = Color.red
- *   }
- *
- *   onClick {
- *     ...
- *   }
- *
- * }
+ * setCloseOnCancel(buildSingleComponent { button("Cancel", VaadinIcon.ARROW_BACKWARD.create()) })
  * ```
  */
-@VaadinDsl
-public fun ConfirmDialog.setConfirm(
-    text: String? = null,
-    icon: Component? = null,
-    id: String? = null,
-    block: (@VaadinDsl Button).() -> Unit = {}
-) {
-    setConfirmButton(Button(text, icon).apply {
-        if (text != null) this.text = text
-        if (icon != null) this.icon = icon
-        if (id != null) setId(id)
-        block()
-    })
+public fun <T> ConfirmDialog.setCloseOnCancel(clickableComponent: T)
+        where T : Component, T : ClickNotifier<T> {
+    setCancelButton(clickableComponent)
+    setCancelable(true)
+    clickableComponent.onClick { close() }
 }
 
 /**
@@ -126,6 +114,23 @@ public fun ConfirmDialog.setConfirmButtonVariant(vararg theme: ButtonVariant) {
  */
 public fun ConfirmDialog.setConfirmIsDanger() {
     setConfirmButtonVariant(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY)
+}
+
+/**
+ * Sets the confirm button as dangerous, e.g. when you're confirming a deletion action
+ * that can not be reversed.
+ *
+ * Example of usage:
+ * ```kotlin
+ * setConfirmButton(buildSingleComponent { button("Delete", VaadinIcon.CHECK.create()) {
+ *          setConfirmIsDanger()
+ *          onClick {...}
+ *      }
+ * })
+ * ```
+ */
+public fun Button.setConfirmIsDanger() {
+    addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY)
 }
 
 /**

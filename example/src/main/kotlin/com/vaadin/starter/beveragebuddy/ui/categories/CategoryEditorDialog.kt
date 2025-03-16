@@ -30,7 +30,6 @@ import com.vaadin.starter.beveragebuddy.backend.CategoryService
 import com.vaadin.starter.beveragebuddy.backend.ReviewService
 import com.vaadin.starter.beveragebuddy.ui.EditorForm
 import com.vaadin.starter.beveragebuddy.ui.EditorDialogFrame
-import com.github.mvysny.karibudsl.v23.setConfirm
 /**
  * A form for editing [Category] objects.
  */
@@ -72,7 +71,7 @@ class CategoryEditorDialog(private val onSaveItem: (Category) -> Unit,
         } else {
             openConfirmDialog("Delete Category “${item.name}”?",
                     "There are $reviewCount reviews associated with this category.\nDeleting the category will mark the associated reviews as “undefined”. You may link the reviews to other categories on the edit page.") {
-                setConfirm("Delete") {
+                setConfirmButton("Delete") {
                     frame.close()
                     onDeleteItem(item)
                 }
