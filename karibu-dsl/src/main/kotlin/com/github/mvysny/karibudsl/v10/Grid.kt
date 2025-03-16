@@ -406,3 +406,10 @@ public fun <T, V : Component?> (@VaadinDsl TreeGrid<T>).componentHierarchyColumn
     column.block()
     return column
 }
+
+/**
+ * [Grid] Shorthands for convenience
+ */
+public val <T> Grid<T>.selectedRowOrNull get() = selectedItems.firstOrNull()
+public val <T> Grid<T>.selectedRow: T get() = selectedItems.first()
+public fun <T> Grid<T>.refreshRow(row: T) = dataProvider.refreshItem(row)
