@@ -5,10 +5,14 @@ import com.github.mvysny.kaributools.placeholder
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.*
 import com.vaadin.flow.server.AbstractStreamResource
+import com.vaadin.flow.server.InputStreamFactory
+import com.vaadin.flow.server.StreamResource
 import org.intellij.lang.annotations.Language
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 /**
  * Creates a div.
@@ -169,3 +173,40 @@ public fun (@VaadinDsl HasComponents).pre(text: String? = null, block: (@VaadinD
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).ul(block: (@VaadinDsl UnorderedList).() -> Unit = {}): UnorderedList
         = init(UnorderedList(), block)
+
+/**
+ * [toStreamResource] shorthand for convenience
+ * See also comments on [StreamResource] constructor
+ *
+ * Example of usage:
+ * ```kotlin
+ * image(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
+ * to
+ * image("foo.txt".createStreamResource { "foo".byteInputStream() })
+ * ```
+ */
+@VaadinDsl
+public fun String.createStreamResource(getStream: () -> InputStream) =
+    StreamResource(
+        this,
+        InputStreamFactory {
+            return@InputStreamFactory getStream()
+        }
+    )
+
+/**
+ * [toStreamResource] shorthand for convenience
+ *
+ * @param contentType See comments on [StreamResource.setContentType], e.g. mime type like "image/jpeg"
+ *
+ * Example of usage:
+ * ```kotlin
+ * image(imageData.toStreamResource(imageName, "image/jpeg"), imageName)
+ * ```
+ */
+@VaadinDsl
+public fun ByteArray.toStreamResource(name: String, contentType: String) = run {
+    name.createStreamResource { ByteArrayInputStream(this) }.apply {
+        setContentType(contentType)
+    }
+}
