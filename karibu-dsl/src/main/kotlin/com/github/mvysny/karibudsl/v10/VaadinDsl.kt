@@ -73,7 +73,7 @@ public abstract class DummyHasComponents : HasComponents {
 /**
  * Runs DSL function in given [block], then returns the component produced by the DSL function:
  * ```kotlin
- * val vl = provideSingleComponentOrNull {
+ * val vl = buildSingleComponentOrNull {
  *   verticalLayout {
  *     button("Hi!")
  *   }
@@ -96,7 +96,7 @@ public fun buildSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> An
 /**
  * Runs DSL function in given [block], then returns the component produced by the DSL function:
  * ```kotlin
- * val vl = provideSingleComponentOrNull {
+ * val vl = buildSingleComponentOrNull {
  *   verticalLayout {
  *     button("Hi!")
  *   }
