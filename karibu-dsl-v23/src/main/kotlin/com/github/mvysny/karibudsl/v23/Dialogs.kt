@@ -7,7 +7,6 @@ import com.github.mvysny.karibudsl.v10.onClick
 import com.vaadin.flow.component.ClickNotifier
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
-import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.dialog.Dialog
@@ -91,7 +90,7 @@ public fun ConfirmDialog.setCloseOnCancel(buttonText: String = karibuDslI18n("ca
  *
  * Example of usage:
  * ```kotlin
- * setCloseOnCancel(buildSingleComponent { button("Cancel", VaadinIcon.ARROW_BACKWARD.create()) })
+ * setCloseOnCancel(Button("Cancel", VaadinIcon.ARROW_BACKWARD.create()))
  * ```
  */
 public fun <T> ConfirmDialog.setCloseOnCancel(clickableComponent: T)
@@ -114,23 +113,6 @@ public fun ConfirmDialog.setConfirmButtonVariant(vararg theme: ButtonVariant) {
  */
 public fun ConfirmDialog.setConfirmIsDanger() {
     setConfirmButtonVariant(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY)
-}
-
-/**
- * Sets the confirm button as dangerous, e.g. when you're confirming a deletion action
- * that can not be reversed.
- *
- * Example of usage:
- * ```kotlin
- * setConfirmButton(buildSingleComponent { button("Delete", VaadinIcon.CHECK.create()) {
- *          setConfirmIsDanger()
- *          onClick {...}
- *      }
- * })
- * ```
- */
-public fun Button.setConfirmIsDanger() {
-    addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY)
 }
 
 /**
