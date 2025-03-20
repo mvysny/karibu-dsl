@@ -106,5 +106,5 @@ public fun buildSingleComponentOrNull(ownerComponent: String = "this component",
 @VaadinDsl
 public fun buildSingleComponent(ownerComponent: String = "this component", block: (@VaadinDsl HasComponents).() -> Any?): Component {
     val component: Component? = buildSingleComponentOrNull(ownerComponent, block)
-    return checkNotNull(component) { "`block` must add exactly one component" }
+    return checkNotNull(component) { "No components added - $ownerComponent must host exactly one component" }
 }

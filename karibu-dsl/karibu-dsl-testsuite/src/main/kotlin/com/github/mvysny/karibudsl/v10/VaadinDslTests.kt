@@ -87,7 +87,7 @@ abstract class AbstractVaadinDslTests {
             val ex = assertThrows<IllegalStateException> {
                 buildSingleComponent {}
             }
-            expect("`block` must add exactly one component") { ex.message!! }
+            expect("No components added - this component must host exactly one component") { ex.message!! }
         }
 
         @Test
