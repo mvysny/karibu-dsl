@@ -41,6 +41,8 @@ public fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -
  *   }
  * }
  * ```
+ * Note that the tab must contain exactly one child component.
+ * @throws IllegalStateException if [block] adds no content to the tab, or 2 or more components were attempted to be added.
  */
 @VaadinDsl
 public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Unit): Tab {
