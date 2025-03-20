@@ -81,12 +81,12 @@ public abstract class DummyHasComponents : HasComponents {
  * ```
  */
 @VaadinDsl
-public fun buildSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> Any?): Component? {
+public fun buildSingleComponentOrNull(ownerComponent: String = "this component", block: (@VaadinDsl HasComponents).() -> Any?): Component? {
     var component: Component? = null
     object : DummyHasComponents() {
         override fun add(vararg components: Component) {
-            require(components.size < 2) { "Too many components to add - this component can only host one! ${components.toList()}" }
-            check(component == null) { "Too many components to add - this component can only host one!" }
+            require(components.size < 2) { "Too many components to add - $ownerComponent can only host one! ${components.toList()}" }
+            check(component == null) { "Too many components to add - $ownerComponent can only host one!" }
             component = components.firstOrNull()
         }
     }.block()
@@ -96,7 +96,7 @@ public fun buildSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> An
 /**
  * Runs DSL function in given [block], then returns the component produced by the DSL function:
  * ```kotlin
- * val vl = buildSingleComponentOrNull {
+ * val vl = buildSingleComponent {
  *   verticalLayout {
  *     button("Hi!")
  *   }
@@ -104,7 +104,7 @@ public fun buildSingleComponentOrNull(block: (@VaadinDsl HasComponents).() -> An
  * ```
  */
 @VaadinDsl
-public fun buildSingleComponent(block: (@VaadinDsl HasComponents).() -> Any?): Component {
-    val component: Component? = buildSingleComponentOrNull(block)
-    return checkNotNull(component) { "`block` must add exactly one component" }
+public fun buildSingleComponent(ownerComponent: String = "this component", block: (@VaadinDsl HasComponents).() -> Any?): Component {
+    val component: Component? = buildSingleComponentOrNull(ownerComponent, block)
+    return checkNotNull(component) { "No components added - $ownerComponent must host exactly one component" }
 }

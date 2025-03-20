@@ -27,6 +27,7 @@ public fun (@VaadinDsl HasComponents).tabs(orientation: Tabs.Orientation? = null
 
 /**
  * Adds a tab with given [label] and [icon] to the [Tabs] component. See [tabs] for an example.
+ * @param icon optional icon to use; usually `VaadinIcon`.
  */
 @VaadinDsl
 public fun (@VaadinDsl Tabs).tab(label: String? = null, icon: IconFactory? = null, block: (@VaadinDsl Tab).() -> Unit = {}): Tab {

@@ -5,7 +5,7 @@ import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.splitlayout.SplitLayout
 
 /**
- * Creates a [Split Layout](https://vaadin.com/elements/vaadin-split-layout). See the HTML Examples link for a list
+ * Creates a [Split Layout](https://vaadin.com/docs/latest/components/split-layout). See the HTML Examples link for a list
  * of possible alternative themes.
  * ```
  * splitLayout {

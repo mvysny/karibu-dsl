@@ -3,7 +3,7 @@ package com.github.mvysny.karibudsl.v10
 import com.vaadin.flow.component.dialog.Dialog
 
 /**
- * Creates a [Vaadin Dialog](https://vaadin.com/elements/vaadin-dialog). See the HTML Examples link for a list
+ * Creates a [Vaadin Dialog](https://vaadin.com/docs/latest/components/dialog). See the HTML Examples link for a list
  * of possible alternative themes.
  * ```
  * openDialog {

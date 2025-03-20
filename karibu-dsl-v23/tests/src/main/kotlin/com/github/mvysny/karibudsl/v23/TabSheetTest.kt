@@ -3,6 +3,7 @@ package com.github.mvysny.karibudsl.v23
 import com.github.mvysny.karibudsl.v10.span
 import com.github.mvysny.kaributesting.v10.*
 import com.github.mvysny.kaributools.v23.removeAll
+import com.github.mvysny.kaributools.v23.tabs
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.tabs.Tab
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.expect
 
 abstract class TabSheetTest {
@@ -37,6 +39,16 @@ abstract class TabSheetTest {
         _expect<Span> { text = "This is the Dashboard tab content" } // only one span is attached at one time
         _get<TabSheet>().selectedIndex = 1
         _expect<Span> { text = "This is the Payment tab content" } // only one span is attached at one time
+    }
+
+    @Test
+    fun addEmptyTab() {
+        val ex = assertThrows<IllegalStateException> {
+            UI.getCurrent().tabSheet {
+                tab("Foo") {} // the DSL adds no children - shouldn't work: TabSheet requires contents for every tab
+            }
+        }
+        expect("No components added - TabSheet.tab{} must host exactly one component") { ex.message }
     }
 
     @Nested inner class ContentPopulation {
@@ -164,5 +176,17 @@ abstract class TabSheetTest {
 
             expect(null) { ts.selectedTab }
         }
+    }
+
+    @Test fun `helpful error message when trying to add two components as tab content`() {
+        val ex = assertThrows<IllegalStateException> {
+            UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                    span("can't have two children")
+                }
+            }
+        }
+        expect("Too many components to add - TabSheet.tab{} can only host one!") { ex.message }
     }
 }
