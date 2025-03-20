@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.expect
 
 abstract class TabSheetTest {
@@ -164,5 +165,17 @@ abstract class TabSheetTest {
 
             expect(null) { ts.selectedTab }
         }
+    }
+
+    @Test fun `helpful error message when trying to add two components as tab content`() {
+        val ex = assertThrows<IllegalStateException> {
+            UI.getCurrent().tabSheet {
+                tab("foo") {
+                    span("it works!")
+                    span("can't have two children")
+                }
+            }
+        }
+        expect("Too many components to add - TabSheet.tab{} can only host one!") { ex.message }
     }
 }

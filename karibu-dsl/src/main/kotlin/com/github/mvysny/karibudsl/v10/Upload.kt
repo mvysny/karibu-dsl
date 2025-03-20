@@ -108,6 +108,6 @@ public fun (@VaadinDsl UploadI18N.Uploading).error(block: (@VaadinDsl UploadI18N
 @VaadinDsl
 public fun (@VaadinDsl Upload).uploadButton(block: (@VaadinDsl HasComponents).() -> Unit) {
     element.removeAllChildren()
-    uploadButton = buildSingleComponent(block)
+    uploadButton = buildSingleComponent("Upload.uploadButton{}", block)
 }
 

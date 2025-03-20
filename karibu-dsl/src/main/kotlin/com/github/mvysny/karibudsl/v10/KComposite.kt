@@ -58,7 +58,7 @@ public abstract class KComposite(private var root: Component? = null) : Composit
      */
     protected fun <T: Component> ui(block: HasComponents.()->T): T {
         check(root == null) { "The content has already been initialized!" }
-        val component = buildSingleComponent(block)
+        val component = buildSingleComponent("KComposite", block)
         root = component
         return component as T
     }
