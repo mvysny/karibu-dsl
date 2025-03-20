@@ -3,6 +3,8 @@ package com.github.mvysny.karibudsl.v23
 import com.github.mvysny.karibudsl.v10.DummyHasComponents
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.karibuDslI18n
+import com.github.mvysny.karibudsl.v10.onClick
+import com.vaadin.flow.component.ClickNotifier
 import com.vaadin.flow.component.Component
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.ButtonVariant
@@ -80,6 +82,22 @@ public fun openConfirmDialog(header: String? = null, text: String? = null, block
  */
 public fun ConfirmDialog.setCloseOnCancel(buttonText: String = karibuDslI18n("cancel")) {
     setCancelButton(buttonText) { close() }
+}
+
+/**
+ * Adds a cancel clickable component (e.g. Button) to the dialog; the dialog is closed when the button is clicked.
+ * @param clickableComponent custom clickable component.
+ *
+ * Example of usage:
+ * ```kotlin
+ * setCloseOnCancel(Button("Cancel", VaadinIcon.ARROW_BACKWARD.create()))
+ * ```
+ */
+public fun <T> ConfirmDialog.setCloseOnCancel(clickableComponent: T)
+        where T : Component, T : ClickNotifier<T> {
+    setCancelButton(clickableComponent)
+    setCancelable(true)
+    clickableComponent.onClick { close() }
 }
 
 /**

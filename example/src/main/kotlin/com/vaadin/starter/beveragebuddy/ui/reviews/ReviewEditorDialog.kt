@@ -19,7 +19,6 @@ import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.karibudsl.v23.openConfirmDialog
 import com.github.mvysny.karibudsl.v23.setCloseOnCancel
 import com.github.mvysny.karibudsl.v23.setConfirmIsDanger
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.data.binder.Binder
 import com.vaadin.starter.beveragebuddy.backend.Category
