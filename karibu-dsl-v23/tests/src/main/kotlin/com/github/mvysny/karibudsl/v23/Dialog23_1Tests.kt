@@ -96,7 +96,28 @@ abstract class Dialog23_1Tests {
             }
 
             _expectOne<ConfirmDialog>()
+            // when calling setCloseOnCancel("Cancel"), this doesn't create a Cancel Button server-side,
+            // so we can't look it up via _get<Button> { text = "Cancel" }.
+            // Instead it sets an element property only.
             _get<ConfirmDialog>()._fireCancel()
+            _expectNone<ConfirmDialog>()
+        }
+
+        @Test
+        fun testCancel2() {
+            openConfirmDialog(
+                "Delete beverage",
+                "Are you sure you want to delete stuff?"
+            ) {
+                setConfirmButton("Delete") {
+                    fail("shouldn't be called")
+                }
+                setConfirmIsDanger()
+                setCloseOnCancel(Button("Cancel"))
+            }
+
+            _expectOne<ConfirmDialog>()
+            _get<Button> { text = "Cancel" } .click()
             _expectNone<ConfirmDialog>()
         }
     }
