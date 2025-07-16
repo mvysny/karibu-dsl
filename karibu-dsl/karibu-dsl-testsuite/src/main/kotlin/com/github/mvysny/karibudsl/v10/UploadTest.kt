@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.MockVaadin
@@ -7,6 +9,7 @@ import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.upload.Receiver
 import com.vaadin.flow.component.upload.Upload
+import com.vaadin.flow.server.streams.UploadHandler
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,6 +28,7 @@ abstract class UploadTest {
         UI.getCurrent().removeAll()
         UI.getCurrent().upload(Receiver { _, _ -> ByteArrayOutputStream() })
         _expectOne<Upload>()
+        UI.getCurrent().upload(UploadHandler.inMemory { a, b -> })
         UI.getCurrent().upload {
             uploadButton { span("Upload!") }
         }

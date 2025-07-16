@@ -1,16 +1,27 @@
+@file:Suppress("DEPRECATION")
+
 package com.github.mvysny.karibudsl.v10
 
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.upload.Receiver
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.UploadI18N
+import com.vaadin.flow.server.streams.UploadHandler
+
+/**
+ * [Upload](https://vaadin.com/docs/latest/components/upload) allows the user to upload files, giving feedback to the user during the upload process. It shows the upload progress and the status of each file. Files can be uploaded by clicking on the Upload button, or by dragging them onto the component.
+ */
+@Suppress("DEPRECATION")
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).upload(receiver: Receiver? = null, block: (@VaadinDsl Upload).() -> Unit = {}): Upload
+        = init(Upload(receiver), block)
 
 /**
  * [Upload](https://vaadin.com/docs/latest/components/upload) allows the user to upload files, giving feedback to the user during the upload process. It shows the upload progress and the status of each file. Files can be uploaded by clicking on the Upload button, or by dragging them onto the component.
  */
 @VaadinDsl
-public fun (@VaadinDsl HasComponents).upload(receiver: Receiver? = null, block: (@VaadinDsl Upload).() -> Unit = {}): Upload
-        = init(Upload(receiver), block)
+public fun (@VaadinDsl HasComponents).upload(uploadHandler: UploadHandler, block: (@VaadinDsl Upload).() -> Unit = {}): Upload
+        = init(Upload(uploadHandler), block)
 
 /**
  * Assists with buildup of the Upload's i18n configuration:

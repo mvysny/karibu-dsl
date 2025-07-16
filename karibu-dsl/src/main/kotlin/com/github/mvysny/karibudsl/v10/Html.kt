@@ -5,6 +5,7 @@ import com.github.mvysny.kaributools.placeholder
 import com.vaadin.flow.component.*
 import com.vaadin.flow.component.html.*
 import com.vaadin.flow.server.AbstractStreamResource
+import com.vaadin.flow.server.streams.DownloadHandler
 import org.intellij.lang.annotations.Language
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -55,14 +56,28 @@ public fun (@VaadinDsl HasComponents).span(text: String? = null, block: (@Vaadin
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).anchor(href: String = "", text: String? = href, block: (@VaadinDsl Anchor).() -> Unit = {}): Anchor
         = init(Anchor(href, text), block)
+@Suppress("DEPRECATION")
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).anchor(href: AbstractStreamResource, text: String? = null, block: (@VaadinDsl Anchor).() -> Unit = {}): Anchor
         = init(Anchor(href, text), block)
 @VaadinDsl
+public fun (@VaadinDsl HasComponents).anchor(href: DownloadHandler, text: String? = null, attachmentType: AttachmentType? = null, block: (@VaadinDsl Anchor).() -> Unit = {}): Anchor {
+    val anchor = if (attachmentType == null) {
+        Anchor(href, text)
+    } else {
+        Anchor(href, attachmentType, text)
+    }
+    return init(anchor, block)
+}
+@VaadinDsl
 public fun (@VaadinDsl HasComponents).image(src: String = "", alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}): Image
         = init(Image(src, alt), block)
+@Suppress("DEPRECATION")
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).image(src: AbstractStreamResource, alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}): Image
+        = init(Image(src, alt), block)
+@VaadinDsl
+public fun (@VaadinDsl HasComponents).image(src: DownloadHandler, alt: String = "", block: (@VaadinDsl Image).() -> Unit = {}): Image
         = init(Image(src, alt), block)
 
 @Suppress("removal", "DEPRECATION")

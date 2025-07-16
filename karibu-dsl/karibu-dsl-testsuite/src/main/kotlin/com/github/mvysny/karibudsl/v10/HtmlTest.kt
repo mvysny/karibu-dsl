@@ -1,13 +1,18 @@
+@file:Suppress("DEPRECATION")
+
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.vaadin.flow.component.UI
+import com.vaadin.flow.component.html.AttachmentType
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.server.InputStreamFactory
 import com.vaadin.flow.server.StreamResource
+import com.vaadin.flow.server.streams.DownloadHandler
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.io.File
 import kotlin.test.expect
 
 abstract class HtmlTest() {
@@ -28,9 +33,12 @@ abstract class HtmlTest() {
             em()
             span()
             anchor()
-            anchor(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
+            anchor(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }), "Hello!")
+            anchor(DownloadHandler.forFile(File("foo.txt")), "Hello!")
+            anchor(DownloadHandler.forFile(File("foo.txt")), "Hello!", AttachmentType.DOWNLOAD)
             image()
             image(StreamResource("foo.txt", InputStreamFactory { "foo".byteInputStream() }))
+            image(DownloadHandler.forFile(File("Foo")), "image of foo")
             @Suppress("DEPRECATION")
             label()
             nativeLabel()
