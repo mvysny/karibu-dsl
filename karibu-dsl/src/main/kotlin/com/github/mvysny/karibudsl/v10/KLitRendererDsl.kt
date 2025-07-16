@@ -103,7 +103,7 @@ public class KLitRendererBuilder<TSource>() {
 
 
     @VaadinDsl
-    public operator fun String.invoke(provider: (TSource) -> String) =
+    public operator fun String.invoke(provider: (TSource) -> String): Property<TSource> =
         Property(
             name = this,
             provider = provider,
