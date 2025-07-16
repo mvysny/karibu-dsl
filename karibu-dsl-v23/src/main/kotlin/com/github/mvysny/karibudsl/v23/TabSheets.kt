@@ -46,6 +46,6 @@ public fun (@VaadinDsl HasComponents).tabSheet(block: (@VaadinDsl TabSheet).() -
  */
 @VaadinDsl
 public fun TabSheet.tab(label: String? = null, block: (@VaadinDsl HasComponents).() -> Unit): Tab {
-    var root: Component? = buildSingleComponent("TabSheet.tab{}", block)
+    val root: Component? = buildSingleComponent("TabSheet.tab{}", block)
     return add(label, root)
 }
