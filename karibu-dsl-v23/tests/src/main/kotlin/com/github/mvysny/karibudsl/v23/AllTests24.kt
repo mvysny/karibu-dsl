@@ -10,4 +10,5 @@ abstract class AllTests24() {
     @Nested inner class Icon : IconTest()
     @Nested inner class LoginForm : LoginFormTest()
     @Nested inner class Html : HtmlTest()
+    @Nested inner class MarkdownTests: AbstractMarkdownTests()
 }
