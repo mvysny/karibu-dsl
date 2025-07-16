@@ -18,5 +18,6 @@ abstract class BadgesTest {
             addThemeVariants(BadgeVariant.PILL, BadgeVariant.SMALL)
         }
         _expectOne<Badge>()
+        UI.getCurrent().badge("Arctic", BadgeVariant.SUCCESS)
     }
 }

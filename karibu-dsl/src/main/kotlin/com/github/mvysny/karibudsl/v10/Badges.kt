@@ -1,6 +1,7 @@
 package com.github.mvysny.karibudsl.v10
 
 import com.github.mvysny.kaributools.Badge
+import com.github.mvysny.kaributools.BadgeVariant
 import com.vaadin.flow.component.HasComponents
 
 /**
@@ -8,5 +9,12 @@ import com.vaadin.flow.component.HasComponents
  * of possible alternative themes.
  */
 @VaadinDsl
-public fun (@VaadinDsl HasComponents).badge(text: String? = null, block: (@VaadinDsl Badge).() -> Unit = {}): Badge
-        = init(Badge(text), block)
+public fun (@VaadinDsl HasComponents).badge(
+    text: String? = null,
+    vararg variants: BadgeVariant,
+    block: (@VaadinDsl Badge).() -> Unit = {}
+): Badge {
+    val badge = Badge(text)
+    badge.addThemeVariants(*variants)
+    return init(badge, block)
+}
