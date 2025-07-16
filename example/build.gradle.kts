@@ -1,5 +1,3 @@
-import com.vaadin.gradle.getBooleanProperty
-
 // The Beverage Buddy sample project ported to Kotlin.
 // Original project: https://github.com/vaadin/beverage-starter-flow
 

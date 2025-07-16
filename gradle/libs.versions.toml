@@ -1,7 +1,7 @@
 [versions]
 # https://github.com/vaadin/platform/tags
-vaadin = "24.7.6"
-vaadin_next = "24.8.0.rc1"
+vaadin = "24.8.3"
+vaadin_next = "24.9.0-alpha2"
 # https://repo1.maven.org/maven2/org/slf4j/slf4j-api/
 slf4j = "2.0.16"
 
@@ -11,7 +11,7 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 jetbrains-annotations = "org.jetbrains:annotations:24.1.0"
 vaadin-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin" }
 vaadinnext-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin_next" }
-kaributesting = "com.github.mvysny.kaributesting:karibu-testing-v24:2.3.0"
+kaributesting = "com.github.mvysny.kaributesting:karibu-testing-v24:2.4.0"
 junit = "org.junit.jupiter:junit-jupiter-engine:5.11.0"
 vaadinboot = "com.github.mvysny.vaadin-boot:vaadin-boot:13.3"
 kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.24"  # https://github.com/mvysny/karibu-tools/tags
