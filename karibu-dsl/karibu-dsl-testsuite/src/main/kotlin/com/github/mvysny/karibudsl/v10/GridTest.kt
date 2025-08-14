@@ -141,7 +141,7 @@ abstract class GridTest {
         }
         @Test fun nullComponents() {
             val grid = Grid<String>()
-            grid.componentColumn({ if(false) span("hello $it") else null })
+            grid.componentColumn({ })
             grid.setItems("a")
             grid.expectRows(1)
             grid.expectRow(0, "")

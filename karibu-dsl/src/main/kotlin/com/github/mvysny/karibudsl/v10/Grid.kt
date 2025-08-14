@@ -246,13 +246,13 @@ public fun <T> (@VaadinDsl Grid<T>).column(
  * ```
  * Note that you use the DSL functions inside the [componentProvider] block, to create
  * the component rendered in this column. The DSL function is run once for every cell.
- * @param componentProvider a value provider that will return a component for the given item
+ * @param componentProvider a value provider that builds the column contents in DSL fashion.
  * @param <V> the component type
  * @return the new column
  */
 @VaadinDsl
-public fun <T, C : Component> (@VaadinDsl Grid<T>).componentColumn(
-    componentProvider: HasComponents.(T) -> C?,
+public fun <T> (@VaadinDsl Grid<T>).componentColumn(
+    componentProvider: HasComponents.(T) -> Unit,
     block: (@VaadinDsl Grid.Column<T>).() -> Unit = {}
 ): Grid.Column<T> {
     val column = addComponentColumn {

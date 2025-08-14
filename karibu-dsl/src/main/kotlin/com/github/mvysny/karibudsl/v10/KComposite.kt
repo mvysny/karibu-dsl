@@ -53,10 +53,12 @@ public abstract class KComposite(private var root: Component? = null) : Composit
     final override fun getElement(): Element = super.getElement()
 
     /**
-     * Initializes the UI of this composite. Returns the component created by the block, so that we can store the created
+     * Initializes the UI of this composite. Returns the component created by the [block], so that we can store the created
      * component in the `root` field and access it later on, as shown above.
+     * @param block populates this composite in DSL fashion. The return value of the block is ignored, but the type is used for determining
+     * the result type of this `ui{}` function. For example, you can type `private val root = ui { verticalLayout{} }` and expect the `root` variable to be of type `VerticalLayout`.
      */
-    protected fun <T: Component> ui(block: HasComponents.()->T): T {
+    protected fun <T: Component> ui(block: HasComponents.() -> T): T {
         check(root == null) { "The content has already been initialized!" }
         val component = buildSingleComponent("KComposite", block)
         root = component
