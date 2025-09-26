@@ -107,12 +107,10 @@ public fun <T> (@VaadinDsl GridMenuItem<T>).item(component: Component, clickList
 
 @VaadinDsl
 public fun (@VaadinDsl MenuItemBase<*, *, *>).separator() {
-    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
     hr()
 }
 
 @VaadinDsl
 public fun (@VaadinDsl ContextMenuBase<*, *, *>).separator() {
-    // use addSeparator() when https://github.com/vaadin/vaadin-context-menu-flow/issues/137 is fixed
-    hr()
+    addSeparator()
 }
