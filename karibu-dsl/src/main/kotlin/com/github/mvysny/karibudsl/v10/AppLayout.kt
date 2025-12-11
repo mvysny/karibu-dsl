@@ -26,6 +26,7 @@ import com.vaadin.flow.component.shared.SlotUtils
  *   }
  * }
  * ```
+ * You need to pull in Karibu-DSL v23 in order to have `sideNav{}`.
  */
 @VaadinDsl
 public fun (@VaadinDsl HasComponents).appLayout(block: (@VaadinDsl AppLayout).() -> Unit = {}): AppLayout
@@ -72,6 +73,7 @@ public fun (@VaadinDsl AppLayout).removeDrawer() {
 
 /**
  * Populates the AppLayout drawer slot. `sideNav{}` is the best way to populate the drawer with Vaadin 24.
+ * You need to pull in Karibu-DSL v23 in order to have `sideNav{}`.
  */
 @VaadinDsl
 public fun (@VaadinDsl AppLayout).drawer(block: (@VaadinDsl HasComponents).() -> Unit = {}) {
