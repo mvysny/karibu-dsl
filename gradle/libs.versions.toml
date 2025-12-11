@@ -1,6 +1,6 @@
 [versions]
 # https://github.com/vaadin/platform/tags
-vaadin = "24.9.5"
+vaadin = "24.9.6"
 vaadin_next = "25.0.0-alpha8"
 # https://repo1.maven.org/maven2/org/slf4j/slf4j-api/
 slf4j = "2.0.17"
@@ -11,11 +11,11 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 jetbrains-annotations = "org.jetbrains:annotations:24.1.0"
 vaadin-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin" }
 vaadinnext-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin_next" }
-kaributesting = "com.github.mvysny.kaributesting:karibu-testing-v24:2.5.0"
-junit = "org.junit.jupiter:junit-jupiter-engine:5.11.0"
-vaadinboot = "com.github.mvysny.vaadin-boot:vaadin-boot:13.3"
-kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.24"  # https://github.com/mvysny/karibu-tools/tags
-hibernate-validator = "org.hibernate.validator:hibernate-validator:8.0.1.Final"  # https://repo1.maven.org/maven2/org/hibernate/validator/hibernate-validator/
+kaributesting = "com.github.mvysny.kaributesting:karibu-testing-v24:2.4.3"
+junit = "org.junit.jupiter:junit-jupiter-engine:6.0.1"
+vaadinboot = "com.github.mvysny.vaadin-boot:vaadin-boot:13.4"
+kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.25"  # https://github.com/mvysny/karibu-tools/tags
+hibernate-validator = "org.hibernate.validator:hibernate-validator:9.1.0.Final"  # https://repo1.maven.org/maven2/org/hibernate/validator/hibernate-validator/
 jakarta-el = "org.glassfish:jakarta.el:4.0.2"
 kotlin-css-jvm = "org.jetbrains.kotlin-wrappers:kotlin-css-jvm:1.0.0-pre.849" # https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-css-jvm
 
