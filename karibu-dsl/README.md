@@ -919,6 +919,38 @@ virtualList<String> {
 }
 ```
 
+## MasterDetailLayout
+
+[MasterDetailLayout](https://vaadin.com/docs/latest/components/master-detail-layout)
+is component for building UIs with a horizontally or vertically split pair consisting of a master area and a detail area that can responsively switch to an overlay.
+
+Example of use:
+```kotlin
+val masterDetail = masterDetailLayout {
+   detailSize = "400px"
+   master {
+     grid<Department>(Departments.dataProvider) {
+       // ...
+       asSingleSelect().addValueChangeListener { showDepartment(it.value) }
+     }
+   }
+ }
+fun showDepartment(dept: Department?) {
+   if (dept == null) {
+     masterDetail.detail = null
+   } else {
+     masterDetail.detail {
+       verticalLayout {
+         departmentForm(dept)
+         button("Edit") {
+           // ...
+         }
+       }
+     }
+   }
+}
+```
+
 # Forms
 
 Please see [Creating Forms](https://www.vaadinonkotlin.eu/forms) tutorial
