@@ -20,7 +20,7 @@ import kotlin.reflect.KProperty1
  * is a component for displaying tabular data, including various enhancements to grid renderings.
  */
 @VaadinDsl
-public inline fun <reified T : Any?> (@VaadinDsl HasComponents).grid(
+public inline fun <reified T> (@VaadinDsl HasComponents).grid(
         dataProvider: DataProvider<T, *>? = null,
         noinline block: (@VaadinDsl Grid<T>).() -> Unit = {}
 ): Grid<T> {
