@@ -1081,6 +1081,25 @@ However, you may prefer to get rid of this unused `root` variable and call the
 `ui {}` from the `init {}` Kotlin initializer. The downside is that the
 UI-creating code will be indented by two tabs instead of one.
 
+## `buildSingleComponent{}`
+
+If you have a component which is not `HasComponents` but the content is set via a setter
+function (for example `Scroller.setContent()` or `Upload.setUploadButton()`), you can
+create a `Scroller.content{}` DSL which uses `buildSingleComponent{}` internally. Example:
+
+```kotlin
+@VaadinDsl
+fun <C : Component> (@VaadinDsl Scroller).content(block: (@VaadinDsl HasComponents).() -> C): C {
+    // removes all previously set content
+    element.removeAllChildren()
+    // calls setContent() with a content built in block{}
+    content = buildSingleComponent("Scroller.content{}", block)
+    // DSL functions usually return component they built.
+    return content as C
+}
+```
+To use the `content{}` function, see the `Scroller` documentation above.
+
 ## Retrieving TimeZone from the browser
 
 It's important to retrieve browser's TimeZone, in order to be able to convert
