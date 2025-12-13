@@ -924,6 +924,8 @@ virtualList<String> {
 [MasterDetailLayout](https://vaadin.com/docs/latest/components/master-detail-layout)
 is component for building UIs with a horizontally or vertically split pair consisting of a master area and a detail area that can responsively switch to an overlay.
 
+Since Karibu-DSL 2.5.0.
+
 Example of use:
 ```kotlin
 val masterDetail = masterDetailLayout {
