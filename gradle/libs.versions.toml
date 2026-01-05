@@ -20,7 +20,7 @@ kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.26"
 hibernate-validator = "org.hibernate.validator:hibernate-validator:9.1.0.Final"
 jakarta-el = "org.glassfish:jakarta.el:4.0.2"
 # https://mvnrepository.com/artifact/org.jetbrains.kotlin-wrappers/kotlin-css-jvm
-kotlin-css-jvm = "org.jetbrains.kotlin-wrappers:kotlin-css-jvm:1.0.0-pre.849"
+kotlin-css-jvm = "org.jetbrains.kotlin-wrappers:kotlin-css-jvm:2026.1.3"
 
 [plugins]
 vaadin = { id = "com.vaadin", version.ref = "vaadin" }
