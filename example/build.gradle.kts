@@ -9,10 +9,9 @@ plugins {
 dependencies {
     // Vaadin
     implementation(project(":karibu-dsl-v23"))
-    implementation(libs.vaadin.core) {
-        if (vaadin.effective.productionMode.get()) {
-            exclude(module = "vaadin-dev")
-        }
+    implementation(libs.vaadin.core)
+    if (!vaadin.effective.productionMode.get()) {
+        implementation(libs.vaadin.dev)
     }
     implementation(libs.vaadinboot)
 

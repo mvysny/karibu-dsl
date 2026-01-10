@@ -51,12 +51,7 @@ public fun (@VaadinDsl Details).summary(block: (@VaadinDsl HasComponents).() -> 
  * Removes all [content][Details.getContent] components from this [Details].
  */
 public fun Details.clearContent() {
-    if (VaadinVersion.get.isAtLeast(24, 2)) {
-        Details::class.java.getMethod("removeAll").invoke(this)
-    } else {
-        @Suppress("DEPRECATION")  // no other way to do this for Vaadin 24.1 and lower
-        setContent(null)
-    }
+    removeAll()
 }
 
 /**
@@ -67,10 +62,5 @@ public fun (@VaadinDsl Details).content(block: (@VaadinDsl HasComponents).() -> 
     clearContent()
     val div = Div() // throwaway div, will be used to grab components produced by block
     div.block()
-    if (VaadinVersion.get.isAtLeast(24, 2)) {
-        add(div.children.toList())
-    } else {
-        @Suppress("DEPRECATION")  // no other way to do this for Vaadin 24.1 and lower
-        addContent(*div.children.toList().toTypedArray())
-    }
+    add(div.children.toList())
 }
