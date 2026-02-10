@@ -1,6 +1,6 @@
 [versions]
 # https://github.com/vaadin/platform/tags
-vaadin = "25.0.4"
+vaadin = "25.0.5"
 vaadin_next = "25.1.0-alpha3"
 # https://repo1.maven.org/maven2/org/slf4j/slf4j-api/
 slf4j = "2.0.17"
