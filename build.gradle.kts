@@ -34,6 +34,7 @@ subprojects {
         testLogging {
             // to see the stacktraces of failed tests in CI console.
             exceptionFormat = TestExceptionFormat.FULL
+            showCauses = true
         }
     }
 
