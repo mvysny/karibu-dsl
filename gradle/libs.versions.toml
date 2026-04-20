@@ -13,7 +13,7 @@ vaadin-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin" }
 vaadin-dev = { module = "com.vaadin:vaadin-dev", version.ref = "vaadin" }
 vaadinnext-core = { module = "com.vaadin:vaadin-core", version.ref = "vaadin_next" }
 kaributesting = "com.github.mvysny.kaributesting:karibu-testing-v24:2.7.0"
-junit = "org.junit.jupiter:junit-jupiter-engine:6.0.1"
+junit = "org.junit.jupiter:junit-jupiter-engine:6.0.3"
 vaadinboot = "com.github.mvysny.vaadin-boot:vaadin-boot:13.7"
 # https://github.com/mvysny/karibu-tools/tags
 kaributools = "com.github.mvysny.karibu-tools:karibu-tools-23:0.27"
