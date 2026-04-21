@@ -19,13 +19,8 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         distribution: 'temurin'
-    - name: Cache Gradle packages
-      uses: actions/cache@v5
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties', 'gradle.properties') }}
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
     - name: Build with Gradle
       run: ./gradlew --no-daemon --no-watch-fs
 
