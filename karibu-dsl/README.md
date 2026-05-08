@@ -1142,7 +1142,7 @@ into `LocalDate` and `LocalDateTime` values edited by Vaadin's `DatePicker`
 and `DateTimePicker`.
 
 In order to do that, it's recommended to call `fetchTimeZoneFromBrowser()` when
-[Vaadin Session is being initialized](https://vaadin.com/docs/v14/flow/advanced/tutorial-application-lifecycle.html).
+[Vaadin Session is being initialized](https://vaadin.com/docs/v14/flow/advanced/tutorial-application-lifecycle.html) (provided by Karibu-Tools).
 
 # CSS
 
