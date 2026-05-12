@@ -2,50 +2,50 @@
 
 # Vaadin Kotlin DSL
 
-Karibu-DSL supports Vaadin 14+.
+Karibu-DSL targets Vaadin 24+ (tested against Vaadin 25 as of this writing).
+Requires Kotlin 1.9+ and JDK 17+ (to match Vaadin's own baseline).
 
 ## Using in your projects
 
-You can include Karibu-DSL library into your WAR project very easily,
-simply by including appropriate Gradle dependency:
+Karibu-DSL ships as two Maven Central artifacts:
 
-```groovy
+* `karibu-dsl` — the core DSL covering all standard Vaadin components. This is the only artifact most apps need.
+* `karibu-dsl-v23` — extra DSLs for components introduced in Vaadin 23+: `multiSelectComboBox`, `virtualList`, `popover`,
+  `tabSheet`, `sideNav`, `masterDetailLayout`, `openConfirmDialog`, `Dialog.header{}`/`footer{}`, Markdown, Card.
+  Pull this in only if you use those components — sections below mark which DSLs come from this module.
+
+Gradle:
+
+```kotlin
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile("com.github.mvysny.karibudsl:karibu-dsl:x.y.z")
+    implementation("com.github.mvysny.karibudsl:karibu-dsl:x.y.z")
+    // optional, for Vaadin 23+ extras:
+    implementation("com.github.mvysny.karibudsl:karibu-dsl-v23:x.y.z")
 }
 ```
 
-> Note: obtain the newest version from the latest tag name above. See the Compatibility Chart for version compatible with your Vaadin version
+> Pick the version from the latest tag at the top of this page.
 
-Maven: Karibu-DSL is in Maven-Central, just add Karibu-DSL to your project as a dependency:
+Maven:
 
 ```xml
-<project>
-	<dependencies>
-		<dependency>
-			<groupId>com.github.mvysny.karibudsl</groupId>
-			<artifactId>karibu-dsl</artifactId>
-			<version>x.y.z</version>
-		</dependency>
-    </dependencies>
-</project>
+<dependency>
+    <groupId>com.github.mvysny.karibudsl</groupId>
+    <artifactId>karibu-dsl</artifactId>
+    <version>x.y.z</version>
+</dependency>
 ```
-
-To quickly test out Karibu DSL you can simply start with one
-of the example applications below.
 
 # How to write DSLs
 
-The following example shows a really simple form with two fields and one "Save" button (todo screenshot).
+The following example shows a really simple form with two fields and one "Save" button:
 
 ```kotlin
 verticalLayout {
-  w = wrapContent; isSpacing = true
-
   formLayout {
     textField("Name:") {
       focus()
@@ -55,7 +55,7 @@ verticalLayout {
   horizontalLayout {
     content { align(right, middle) }
     button("Save") {
-      onLeftClick { okPressed() }
+      onClick { okPressed() }
       setPrimary()
     }
   }
@@ -89,10 +89,11 @@ button("Create (Alt+N)", VaadinIcon.PLUS.create()) {
 }
 ```
 
-* `setPrimary()` is a shortcut for adding `ButtonVariant.LUMO_PRIMARY` button variant.
-* `onClick()` is a shorthand for `addClickListener()`.
+* `setPrimary()` (from [Karibu-Tools](https://github.com/mvysny/karibu-tools)) is a shortcut for adding the `ButtonVariant.LUMO_PRIMARY` theme.
+* `onClick()` is a shorthand for `addClickListener()`. (The older `onLeftClick()` is deprecated; use `onClick()`.)
 * `iconButton(icon) {}` is a shorthand for creating a button with just an icon (no text) and
   adding the `ButtonVariant.LUMO_ICON` button variant.
+* `nativeButton(text) {}` wraps Vaadin's native (un-themed) `<button>` element.
 
 ## VerticalLayout / HorizontalLayout
 
@@ -122,21 +123,40 @@ inside of the vertical / horizontal layout.
 
 Important notes:
 
-* Layouting in Vaadin 14 employs the so-called *CSS FlexBox*; if the layout doesn't work according to your
-  expectations, the [CSS Flexbox Layout Guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) might help.
-* `HorizontalLayout` only supports one row of components; if you have multiple rows you need to use `FlexLayout`.
-* The `setSizeFull()` nor set the `setWidth("100%")` sets it to be as wide as the HorizontalLayout is, which is not what you want.
+* Layouts in Vaadin 24 are built on top of *CSS Flexbox*; if the layout doesn't behave according to your
+  expectations, the [CSS Flexbox Layout Guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) is the place to look.
+* `HorizontalLayout` only supports one row of components; if you have multiple rows use `FlexLayout`.
+* Don't call `setSizeFull()` or `setWidth("100%")` on a child — it makes the child as wide as its parent, which is rarely what you want.
 
-Instead of setting the width of the child to `100%`, set the width to some ideal width, say, `100px` (or `null` to wrap its contents).
-The child will initially be exactly
-as wide as you tell it to be; if you use `flexGrow` the component will enlarge itself automatically.
+Instead of setting a child's width to `100%`, set the width to a concrete value (e.g. `100px`, or `null` to wrap its contents)
+and let `flexGrow` enlarge it automatically.
 
-To alter the layout further, call the following properties on children:
-* Most important: `flexGrow` (and its brother `isExpand`) expands that particular child to take up all of the remaining space. The child
-is automatically enlarged.
-* `verticalAlignSelf` to align child vertically; it is not possible to align particular child horizontally
-* `flexShrink` - when there is not enough room for all children then they are shrank
-* `flexBasis`
+To control individual children, the DSL exposes these extension properties on `Component`:
+
+* `flexGrow` (and the boolean shortcut `isExpand`) — expands the child to take all remaining space.
+* `verticalAlignSelf` — aligns a child vertically (children of `HorizontalLayout` can't be aligned horizontally).
+* `horizontalAlignSelf` — aligns a child horizontally (children of `VerticalLayout` can't be aligned vertically).
+* `alignSelf` — the generic flex alignment variant.
+* `flexShrink` — how much the child shrinks when there isn't room.
+* `flexBasis` — the child's flex basis.
+
+## FlexLayout
+
+[Flex Layout](https://vaadin.com/docs/latest/components/flex-layout) is a wrapping flexbox container. Use it when `HorizontalLayout`'s
+single-row constraint is too limiting.
+
+```kotlin
+flexLayout(classNames: String = "") {}
+```
+
+The DSL also exposes a `flexWrap` extension property (`Nowrap` / `Wrap` / `WrapReverse`) for controlling wrapping.
+
+```kotlin
+flexLayout {
+  flexWrap = FlexWrap.Wrap
+  repeat(20) { span("Item $it") }
+}
+```
 
 ## Accordion
 
@@ -170,6 +190,14 @@ accordion {
 ```kotlin
 appLayout {}
 ```
+
+DSL building blocks (all in core):
+
+* `navbar { }` — populates the top navbar slot.
+* `drawer { }` — populates the side drawer slot.
+* `drawerToggle()` — adds the hamburger toggle button.
+* `content { }` — sets a single content component (usually you let `AppLayout`'s `RouterLayout` behavior fill this automatically).
+
 Typically, you don't use the `appLayout{}` DSL call when building views; it's usually easier to extend
 from the `AppLayout` class:
 ```kotlin
@@ -181,6 +209,7 @@ class MainLayout : AppLayout() {
       h3("Beverage Buddy")
     }
     drawer {
+      // sideNav{} requires the karibu-dsl-v23 module — see the Side Navigation section.
       sideNav("Tasks") {
         route(TaskListView::class, VaadinIcon.CHECK)
         route(AboutView::class, VaadinIcon.QUESTION)
@@ -190,13 +219,13 @@ class MainLayout : AppLayout() {
 }
 ```
 
-However, a cleaner (but a bit more complex) way is to use `KComposite`:
+A cleaner alternative is to use `KComposite`:
 ```kotlin
 class MainLayout : KComposite() {
   private val root = ui {
     appLayout {
       isDrawerOpened = false
-      navBar {}
+      navbar {}
       // ...
     }
   }
@@ -263,10 +292,12 @@ comboBox<Department>("Department") {
 
 ## ConfirmDialog
 
+> Requires the `karibu-dsl-v23` module.
+
 [Confirm Dialog](https://vaadin.com/docs/latest/components/confirm-dialog) is a modal Dialog used to confirm user actions.
 
 Since `ConfirmDialog` isn't expected to be inserted into components, there's no special DSL function for the dialog, but there
-is a utility builder function which creates the dialog and opens it automatically (since Karibu-DSL 2.1.5). Example of use:
+is a utility builder function which creates the dialog and opens it automatically. Example of use:
 ```kotlin
 openConfirmDialog(
   "Delete beverage",
@@ -361,10 +392,10 @@ details {
 [Dialog](https://vaadin.com/docs/latest/components/dialog) is a small window that can be used to present information and user interface elements in an overlay.
 
 Since Dialog is not meant to be inserted into a component tree, there's no DSL for the dialog itself. There's
-`openDialog{}` function which creates and opens the dialog and allows you to build the contents, but it's limited
+the `openDialog{}` function which creates and opens the dialog and allows you to build the contents, but it's limited
 to one-off dialogs; usually you'll have a bigger dialogs which are typically implemented as a class extending the `Dialog` class.
 
-There are utility DSL functions to build dialog's header and footer. Example:
+The `header{}` and `footer{}` DSLs shown below require the `karibu-dsl-v23` module. Example:
 
 ```kotlin
 openDialog {
@@ -533,6 +564,59 @@ column(buildLitRenderer<Category> {
 }
 ```
 
+## HTML Elements
+
+Karibu-DSL wraps Vaadin's `com.vaadin.flow.component.html.*` components — useful when you need a thin element rather than a themed Vaadin component:
+
+```kotlin
+div(classNames: String = "") {}
+span(text: String? = null) {}
+p(text: String = "") {}
+h1(text: String = "") {} // also h2, h3, h4, h5, h6
+hr() {}
+br() {}
+em(text: String? = null) {}
+strong(text: String = "") {}
+pre(text: String? = null) {}
+anchor(href: String = "", text: String? = href) {}
+image(src: String = "", alt: String = "") {}
+label(text: String? = null, `for`: Component? = null) {}   // alias for nativeLabel
+nativeLabel(text: String? = null, `for`: Component? = null) {}
+input() {}
+nativeButton(text: String? = null) {}
+iframe(src: String? = null) {}
+article() {}
+aside() {}
+header { }   // <header> element — distinct from Dialog.header{}
+footer { }   // <footer> element — distinct from Dialog.footer{}
+ol(type: OrderedList.NumberingType? = null) {}
+ul() {}
+li(text: String? = null) {}
+dl() {}
+dt(text: String? = null) {}
+dd(text: String? = null) {}
+text(text: String) {}        // appends a plain text node
+```
+
+There's also `htmlSpan(innerHTML)` for inserting raw HTML wrapped in a `<span>`, and `html(rawHtml)` which parses a snippet
+with Jsoup and adds the resulting elements directly to the current container.
+
+```kotlin
+div {
+  h2("Section title")
+  p("Some paragraph text containing ") {
+    em("emphasis")
+    +" and "
+    strong("strong emphasis")
+    +"."
+  }
+  ul {
+    li("first")
+    li("second")
+  }
+}
+```
+
 ## Icons
 
 [The icon component](https://vaadin.com/docs/latest/components/icons) can render SVG and font icons. Two icon collections are available out-of-the-box.
@@ -543,14 +627,15 @@ icon(collection: String, icon: String) {}
 
 ## ListBox
 
-[List Box](https://vaadin.com/docs/latest/components/icons) allows the user to select one or more values from a scrollable list of items.
+[List Box](https://vaadin.com/docs/latest/components/list-box) allows the user to select one or more values from a scrollable list of items.
 ```kotlin
-listBox {}
+listBox<T> {}
+multiSelectListBox<T> {}
 ```
 
 ## Login
 
-[Login is a component](https://vaadin.com/docs/latest/components/icons) that contains a log-in form.
+[Login](https://vaadin.com/docs/latest/components/login-form) is a component that contains a log-in form.
 You can use it to authenticate the user with a username and password. It’s compatible with password managers, supports internationalization, and works on all device sizes.
 
 Login comes in two variants: `LoginForm` (a component designed to be inserted into the component tree) and a
@@ -641,8 +726,10 @@ messageList(messages: List<MessageListItem> = listOf()) {}
 
 ## MultiSelectComboBox
 
+> Requires the `karibu-dsl-v23` module.
+
 [Multi-Select Combo Box](https://vaadin.com/docs/latest/components/multi-select-combo-box) allows the user to choose one or more values from a filterable list of options presented in an overlay.
-The component supports the same features as the regular Combo Box, such as lazy loading or allowing custom typed values. This page explains how to add this component to your project and how to configure it.
+The component supports the same features as the regular Combo Box, such as lazy loading or allowing custom typed values.
 ```kotlin
 multiSelectComboBox(label: String? = null) {}
 ```
@@ -682,6 +769,8 @@ passwordField(label: String? = null) {}
 
 ## Popover
 
+> Requires the `karibu-dsl-v23` module.
+
 [Popover](https://vaadin.com/docs/latest/components/popover) is a generic overlay whose position is anchored to an element in the UI.
 ```kotlin
 popover(position: PopoverPosition? = null) {}
@@ -694,6 +783,26 @@ button("hello") {
     verticalLayout {
       span("Hi!")
     }
+  }
+}
+```
+
+## PopupButton
+
+`PopupButton` is a Karibu-DSL utility component (it doesn't ship with Vaadin) that renders a button which opens an attached
+popup on click. Use it for compact toolbars or filter bars where a full dialog would be overkill.
+
+```kotlin
+popupButton(caption: String = "") {}
+```
+
+Example:
+
+```kotlin
+popupButton("More filters") {
+  verticalLayout {
+    checkBox("Only active")
+    datePicker("After")
   }
 }
 ```
@@ -721,6 +830,28 @@ radioButtonGroup<String>("Nationality") {
 ```
 
 > Note: Vaadin doesn't offer a single radio button component out-of-the-box.
+
+## RouterLink
+
+[RouterLink](https://vaadin.com/docs/latest/routing/router-link) creates a navigation link that triggers Vaadin's
+client-side router instead of a full page reload. There are overloads for view classes with no parameters, a
+`Map<String, String>` of route parameters, or a single `HasUrlParameter`.
+
+```kotlin
+routerLink(icon: IconFactory? = null, text: String? = null, viewType: KClass<out Component>) {}
+routerLink(icon: IconFactory? = null, text: String? = null, viewType: KClass<out Component>, parameters: Map<String, String>) {}
+routerLink<T, C>(icon: IconFactory? = null, text: String? = null, viewType: KClass<out C>, parameter: T) {}  // C: HasUrlParameter<T>
+routerLink(icon: IconFactory? = null, text: String? = null) {}  // target set later
+```
+
+Example:
+
+```kotlin
+verticalLayout {
+  routerLink(VaadinIcon.CHECK, "Tasks", TaskListView::class)
+  routerLink(VaadinIcon.QUESTION, "About", AboutView::class)
+}
+```
 
 ## Scroller
 
@@ -754,6 +885,8 @@ select<String>("Foo") {
 ```
 
 ## Side Navigation
+
+> Requires the `karibu-dsl-v23` module.
 
 [Side Navigation](https://vaadin.com/docs/latest/components/side-nav) provides a vertical list of navigation links with support for collapsible, nested sections.
 ```kotlin
@@ -810,6 +943,8 @@ tabs {
 ```
 
 ## TabSheet
+
+> Requires the `karibu-dsl-v23` module.
 
 Tabs are most conveniently used as part of a [Tab Sheet](https://vaadin.com/docs/latest/components/tabs#tab-sheet) that includes automatically switched content areas for each tab.
 ```kotlin
@@ -904,13 +1039,13 @@ upload {
 
 ## VirtualList
 
+> Requires the `karibu-dsl-v23` module.
+
 [Virtual List](https://vaadin.com/docs/latest/components/virtual-list) allows you to render a long list of items inside a scrollable container without sacrificing performance. Each item is rendered on the fly as the user scrolls the list.
 
 ```kotlin
 virtualList(dataProvider: DataProvider<T, *>? = null) {}
 ```
-
-You need to depend on the `karibu-dsl-v23` module to use this.
 
 ```kotlin
 virtualList<String> {
@@ -921,10 +1056,10 @@ virtualList<String> {
 
 ## MasterDetailLayout
 
-[MasterDetailLayout](https://vaadin.com/docs/latest/components/master-detail-layout)
-is component for building UIs with a horizontally or vertically split pair consisting of a master area and a detail area that can responsively switch to an overlay.
+> Requires the `karibu-dsl-v23` module.
 
-Since Karibu-DSL 2.5.0.
+[MasterDetailLayout](https://vaadin.com/docs/latest/components/master-detail-layout)
+is a component for building UIs with a horizontally or vertically split pair consisting of a master area and a detail area that can responsively switch to an overlay.
 
 Example of use:
 ```kotlin
@@ -1005,7 +1140,7 @@ class ReviewEditor(val bean: Review) : VerticalLayout() {
       }
     }
     button("Save") {
-      onLeftClick { save() }
+      onClick { save() }
     }
     
     binder.readBean(bean)
@@ -1024,7 +1159,7 @@ class ReviewEditor(val bean: Review) : VerticalLayout() {
 
 # Writing your own components
 
-Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/v10/flow/creating-components/tutorial-component-composite.html) for more details.
+Usually one writes custom components by extending the `KComposite` class. Please read the [Creating a Component](https://vaadin.com/docs/latest/create-ui/creating-components/composite) for more details.
 
 > We promote composition over inheritance, similar to [React's Composition vs Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html).
 > You should always extend `KComposite` instead of extending e.g. `HorizontalLayout` - extending from `HorizontalLayout` makes
@@ -1039,10 +1174,10 @@ class ButtonBar : KComposite() {
             // create the component UI here; maybe even attach very simple listeners here
             horizontalLayout {
                 button("ok") {
-                    onLeftClick { okClicked() }
+                    onClick { okClicked() }
                 }
                 button("cancel") {
-                    onLeftClick { cancelClicked() }
+                    onClick { cancelClicked() }
                 }
             }
         }
@@ -1136,13 +1271,14 @@ To use the `content{}` function, see the `Scroller` documentation above.
 
 ## Retrieving TimeZone from the browser
 
-It's important to retrieve browser's TimeZone, in order to be able to convert
-`Instant`, `Date` and `Calendar`-typed values (retrieved from the database)
+It's important to retrieve the browser's TimeZone in order to be able to convert
+`Instant`, `Date` and `Calendar` values (retrieved from the database)
 into `LocalDate` and `LocalDateTime` values edited by Vaadin's `DatePicker`
 and `DateTimePicker`.
 
-In order to do that, it's recommended to call `fetchTimeZoneFromBrowser()` when
-[Vaadin Session is being initialized](https://vaadin.com/docs/v14/flow/advanced/tutorial-application-lifecycle.html) (provided by Karibu-Tools).
+Call `BrowserTimeZone.fetch()` (from
+[Karibu-Tools](https://github.com/mvysny/karibu-tools)) when the
+[Vaadin Session is being initialized](https://vaadin.com/docs/latest/advanced/application-lifecycle).
 
 # CSS
 
