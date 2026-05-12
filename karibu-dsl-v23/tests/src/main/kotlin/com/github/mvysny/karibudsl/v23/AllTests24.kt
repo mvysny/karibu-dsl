@@ -13,4 +13,5 @@ abstract class AllTests24() {
     @Nested inner class MarkdownTests: AbstractMarkdownTests()
     @Nested inner class CardTests : AbstractCardTests()
     @Nested inner class MasterDetailLayoutTests: AbstractMasterDetailLayoutTests()
+    @Nested inner class HorizontalLayoutUtils : HorizontalLayoutUtilsTest()
 }
