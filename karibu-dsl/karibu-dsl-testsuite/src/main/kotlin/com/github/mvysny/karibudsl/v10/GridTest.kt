@@ -10,6 +10,8 @@ import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.provider.ListDataProvider
+import com.vaadin.flow.data.renderer.ComponentRenderer
+import com.vaadin.flow.function.SerializableFunction
 import com.vaadin.flow.data.provider.SortDirection
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -129,6 +131,82 @@ abstract class GridTest {
         expect(1) { col.flexGrow }  // by default the flexGrow is 1
         val col2 = grid.columnFor(Person::fullName) { isExpand = false }
         expect(0) { col2.flexGrow }
+    }
+
+    @Nested inner class `column() tests` {
+        /**
+         * [ComponentRenderer] has both a supplier and a function constructor, so a bare
+         * SAM lambda is ambiguous; name the functional interface to pick the function one.
+         */
+        private fun nameRenderer(): ComponentRenderer<Span, Person> =
+            ComponentRenderer(SerializableFunction { person: Person -> Span(person.fullName) })
+
+        @Test fun `column with a value provider`() {
+            val grid = Grid<Person>()
+            val col = grid.column({ it.fullName }) { setHeader("Full Name") }
+            expect("Full Name") { col.header2 }
+            expect(1) { grid.columns.size }
+            grid.setItems(Person(fullName = "Zaphod"))
+            grid.expectRow(0, "Zaphod")
+        }
+
+        @Test fun `column with a renderer`() {
+            val grid = Grid<Person>()
+            val col = grid.column(nameRenderer()) { key = "name" }
+            expect("name") { col.key }
+            grid.setItems(Person(fullName = "Zaphod"))
+            grid.expectRow(0, "Span[text='Zaphod']")
+        }
+
+        @Test fun `columnFor with a property and a renderer`() {
+            val grid = Grid<Person>()
+            val col = grid.columnFor(Person::fullName, nameRenderer())
+            expect("fullName") { col.key }
+            expect("Full Name") { col.header2 }
+            grid.setItems(Person(fullName = "Zaphod"))
+            grid.expectRow(0, "Span[text='Zaphod']")
+        }
+
+        @Test fun `columnFor with a property name and a renderer`() {
+            val grid = Grid<Person>()
+            val col = grid.columnFor<Person, String>(
+                "fullName",
+                nameRenderer(),
+                key = "mykey"
+            )
+            expect("mykey") { col.key }
+            grid.setItems(Person(fullName = "Zaphod"))
+            grid.expectRow(0, "Span[text='Zaphod']")
+        }
+    }
+
+    @Nested inner class `hierarchyColumn() tests` {
+        @Test fun `hierarchyColumn with a value provider`() {
+            val grid = TreeGrid<Person>()
+            val col = grid.hierarchyColumn({ it.fullName }) { setHeader("Full Name") }
+            expect("Full Name") { col.header2 }
+            expect(1) { grid.columns.size }
+        }
+
+        @Test fun `hierarchyColumnFor with a property`() {
+            val grid = TreeGrid<Person>()
+            val col = grid.hierarchyColumnFor(Person::fullName)
+            expect("fullName") { col.key }
+            expect("Full Name") { col.header2 }
+        }
+
+        @Test fun `hierarchyColumnFor with a property and a custom key`() {
+            val grid = TreeGrid<Person>()
+            val col = grid.hierarchyColumnFor(Person::fullName, key = "mykey") { setHeader("Name") }
+            expect("mykey") { col.key }
+            expect("Name") { col.header2 }
+        }
+
+        @Test fun `hierarchyColumnFor with a property name`() {
+            val grid = TreeGrid<Person>()
+            val col = grid.hierarchyColumnFor<Person, String>("fullName", key = "mykey")
+            expect("mykey") { col.key }
+        }
     }
 
     @Nested inner class `componentColumn tests` {

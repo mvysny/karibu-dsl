@@ -5,6 +5,7 @@ import com.github.mvysny.kaributesting.v10._clickItemWithCaption
 import com.vaadin.flow.component.UI
 import com.vaadin.flow.component.contextmenu.ContextMenu
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu
+import com.vaadin.flow.component.html.Span
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -56,7 +57,37 @@ abstract class ContextMenuTest {
         expect(1) { bold }
     }
 
+    @Test fun `component-based item overloads`() {
+        lateinit var menu: ContextMenu
+        UI.getCurrent().button {
+            menu = contextMenu {
+                item(Span("save")) {
+                    item(Span("nested"))
+                }
+            }
+        }
+        val top = menu.items.single()
+        expect("save") { (top.children.findFirst().get() as Span).text }
+        val nested = top.subMenu.items.single()
+        expect("nested") { (nested.children.findFirst().get() as Span).text }
+    }
+
     @Nested inner class GridTests {
+        @Test fun `component-based item overloads`() {
+            lateinit var menu: GridContextMenu<String>
+            UI.getCurrent().grid<String> {
+                menu = gridContextMenu {
+                    item(Span("edit")) {
+                        item(Span("rename"))
+                    }
+                }
+            }
+            val top = menu.items.single()
+            expect("edit") { (top.children.findFirst().get() as Span).text }
+            val nested = top.subMenu.items.single()
+            expect("rename") { (nested.children.findFirst().get() as Span).text }
+        }
+
         @Test fun smoke() {
             UI.getCurrent().grid<String> {
                 gridContextMenu {

@@ -10,6 +10,7 @@ import com.github.mvysny.kaributesting.v10._get
 import com.github.mvysny.kaributesting.v10.pro._fireCancel
 import com.github.mvysny.kaributesting.v10.pro._fireConfirm
 import com.vaadin.flow.component.button.Button
+import com.vaadin.flow.component.button.ButtonVariant
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog
 import com.vaadin.flow.component.dialog.Dialog
 import com.vaadin.flow.component.html.H3
@@ -119,6 +120,26 @@ abstract class Dialog23_1Tests {
             _expectOne<ConfirmDialog>()
             _get<Button> { text = "Cancel" } .click()
             _expectNone<ConfirmDialog>()
+        }
+
+        @Test
+        fun `button variants are joined into the theme property`() {
+            // ConfirmDialog exposes no getters for the button themes, so assert the
+            // element properties it writes them to.
+            val dlg = ConfirmDialog()
+            dlg.setConfirmButtonVariant(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY)
+            dlg.setCancelButtonVariant(ButtonVariant.LUMO_TERTIARY)
+            dlg.setRejectButtonVariant(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_TERTIARY)
+            expect("error primary") { dlg.element.getProperty("confirmTheme") }
+            expect("tertiary") { dlg.element.getProperty("cancelTheme") }
+            expect("error tertiary") { dlg.element.getProperty("rejectTheme") }
+        }
+
+        @Test
+        fun `setConfirmIsDanger marks the confirm button error primary`() {
+            val dlg = ConfirmDialog()
+            dlg.setConfirmIsDanger()
+            expect("error primary") { dlg.element.getProperty("confirmTheme") }
         }
     }
 }

@@ -38,6 +38,15 @@ abstract class ElementTest {
         MyTest().cloneBySerialization()
     }
 
+    @Test fun `defaultValue is exposed`() {
+        expect("") { ElementStringProperty().defaultValue }
+        expect("N/A") { ElementStringProperty("N/A").defaultValue }
+        expect(false) { ElementBooleanProperty(false).defaultValue }
+        expect(true) { ElementBooleanProperty(true).defaultValue }
+        expect(null) { ElementAttributeProperty().defaultValue }
+        expect("foo") { ElementAttributeProperty("foo").defaultValue }
+    }
+
     @Test fun stringProperty() {
         val t = MyTest()
         expect("") { t.userName }

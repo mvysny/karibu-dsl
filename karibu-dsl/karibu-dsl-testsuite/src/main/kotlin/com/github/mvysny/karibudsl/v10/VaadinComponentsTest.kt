@@ -338,6 +338,15 @@ abstract class VaadinComponentsTest {
         expect(1) { i }
     }
 
+    @Suppress("DEPRECATION")
+    @Test fun onLeftClick() {
+        var i = 0
+        UI.getCurrent().button("foo") {
+            onLeftClick { i++ }
+        } ._click()
+        expect(1) { i }
+    }
+
     @Nested inner class timepicker {
         @Test fun smoke() {
             UI.getCurrent().timePicker()

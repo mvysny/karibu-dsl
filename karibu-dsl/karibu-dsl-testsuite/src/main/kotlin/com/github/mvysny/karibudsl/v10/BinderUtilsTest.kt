@@ -3,7 +3,10 @@ package com.github.mvysny.karibudsl.v10
 import com.github.mvysny.kaributesting.v10.MockVaadin
 import com.github.mvysny.kaributesting.v10._value
 import com.vaadin.flow.component.AbstractField
+import com.github.mvysny.kaributools.BrowserTimeZone
 import com.vaadin.flow.data.binder.Binder
+import com.vaadin.flow.data.binder.ValueContext
+import com.vaadin.flow.data.converter.StringToFloatConverter
 import com.vaadin.flow.component.checkbox.Checkbox
 import com.vaadin.flow.component.HasValue
 import com.vaadin.flow.component.UI
@@ -176,6 +179,175 @@ abstract class BinderUtilsTest {
         binder.setReadOnly(false)
         expect(false) { binder.guessIsReadOnly }
     }
+
+    @Test fun localDateTimeToInstant() {
+        val binder = Binder<InstantBean>(InstantBean::class.java)
+        val field = UI.getCurrent().dateTimePicker("Created:") {
+            bind(binder).toInstant().bind(InstantBean::created)
+        }
+        field.value = LocalDateTime.of(2015, 1, 25, 6, 10, 20)
+        val bean = InstantBean()
+        expect(true) { binder.writeBeanIfValid(bean) }
+        expect(LocalDateTime.of(2015, 1, 25, 6, 10, 20).atZone(ZoneId.of("UTC")).toInstant()) { bean.created }
+
+        binder.readBean(InstantBean(LocalDateTime.of(2020, 3, 1, 12, 0, 0).atZone(ZoneId.of("UTC")).toInstant()))
+        expect(LocalDateTime.of(2020, 3, 1, 12, 0, 0)) { field.value }
+    }
+
+    @Test fun `localDate to Date and to Calendar`() {
+        val binder = Binder<DateBean>(DateBean::class.java)
+        val datePicker = UI.getCurrent().datePicker("Date:") {
+            bind(binder).toDate().bind(DateBean::date)
+        }
+        val calPicker = UI.getCurrent().datePicker("Calendar:") {
+            bind(binder).toCalendar().bind(DateBean::calendar)
+        }
+        datePicker.value = LocalDate.of(2015, 1, 25)
+        calPicker.value = LocalDate.of(2015, 1, 25)
+
+        val bean = DateBean()
+        expect(true) { binder.writeBeanIfValid(bean) }
+        val expected = LocalDate.of(2015, 1, 25).atStartOfDay(ZoneId.of("UTC")).toInstant()
+        expect(expected) { bean.date!!.toInstant() }
+        expect(expected) { bean.calendar!!.toInstant() }
+    }
+
+    @Test fun `the Instant converters expose their zoneId`() {
+        val prague = ZoneId.of("Europe/Prague")
+        // the no-arg default is the browser's zone, which MockVaadin reports as UTC ("Z")
+        expect(BrowserTimeZone.get) { LocalDateToInstantConverter().zoneId }
+        expect(BrowserTimeZone.get) { LocalDateTimeToInstantConverter().zoneId }
+        expect(prague) { LocalDateToInstantConverter(prague).zoneId }
+        expect(prague) { LocalDateTimeToInstantConverter(prague).zoneId }
+    }
+
+    @Nested inner class Validators {
+        @Test fun `StringNotBlankValidator rejects null, empty and whitespace-only`() {
+            val validator = StringNotBlankValidator()
+            expect("must not be blank") { validator.errorMessage }
+            expect(true) { validator.apply(null, ValueContext()).isError }
+            expect(true) { validator.apply("", ValueContext()).isError }
+            expect(true) { validator.apply(" \t ", ValueContext()).isError }
+            expect(false) { validator.apply("Zaphod", ValueContext()).isError }
+        }
+
+        @Test fun validateNotBlank() {
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            val tf = UI.getCurrent().textField("Name:") {
+                bind(binder).validateNotBlank().bind(ValidationBean::name)
+            }
+            expect(false) { binder.validate().isOk }  // an empty TextField binds as null
+            tf.value = "   "
+            expect(false) { binder.validate().isOk }
+            tf.value = "Zaphod"
+            expect(true) { binder.validate().isOk }
+        }
+
+        @Test fun `validateNotBlank uses the custom error message`() {
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            UI.getCurrent().textField("Name:") {
+                bind(binder).validateNotBlank("name is mandatory").bind(ValidationBean::name)
+            }
+            expect(listOf("name is mandatory")) {
+                binder.validate().validationErrors.map { it.errorMessage }
+            }
+        }
+
+        @Test fun validEmail() {
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            val tf = UI.getCurrent().textField("Email:") {
+                bind(binder).validEmail().bind(ValidationBean::email)
+            }
+            tf.value = "not-an-email"
+            expect(false) { binder.validate().isOk }
+            tf.value = "zaphod@beeblebrox.com"
+            expect(true) { binder.validate().isOk }
+        }
+
+        @Test fun `validEmail uses the custom error message`() {
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            val tf = UI.getCurrent().textField("Email:") {
+                bind(binder).validEmail("not an e-mail").bind(ValidationBean::email)
+            }
+            tf.value = "not-an-email"
+            expect(listOf("not an e-mail")) {
+                binder.validate().validationErrors.map { it.errorMessage }
+            }
+        }
+
+        @Test fun `validateInRange Float`() {
+            val tf = UI.getCurrent().textField("Float:")
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            tf.bind(binder)
+                .withConverter(StringToFloatConverter("not a number"))
+                .validateInRange(0f..10f)
+                .bind(ValidationBean::testFloat)
+            expectInRange(binder, tf, inRange = "5.5", tooHigh = "10.5", tooLow = "-0.5")
+        }
+
+        @Test fun `validateInRange Int`() {
+            val tf = UI.getCurrent().textField("Int:")
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            tf.bind(binder).toInt().validateInRange(0..10).bind(ValidationBean::testInt)
+            expectInRange(binder, tf, inRange = "5", tooHigh = "11", tooLow = "-1")
+        }
+
+        @Test fun `validateInRange Long`() {
+            val tf = UI.getCurrent().textField("Long:")
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            tf.bind(binder).toLong().validateInRange(0L..10L).bind(ValidationBean::testLong)
+            expectInRange(binder, tf, inRange = "5", tooHigh = "11", tooLow = "-1")
+        }
+
+        @Test fun `validateInRange Double`() {
+            val tf = UI.getCurrent().textField("Double:")
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            tf.bind(binder).toDouble().validateInRange(0.0..10.0).bind(ValidationBean::testDouble)
+            expectInRange(binder, tf, inRange = "5.5", tooHigh = "10.5", tooLow = "-0.5")
+        }
+
+        @Test fun `validateInRange BigInteger`() {
+            val tf = UI.getCurrent().textField("BigInteger:")
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            tf.bind(binder).toBigInteger()
+                .validateInRange(BigInteger.ZERO..BigInteger.TEN)
+                .bind(ValidationBean::testBI)
+            expectInRange(binder, tf, inRange = "5", tooHigh = "11", tooLow = "-1")
+        }
+
+        @Test fun `validateInRange BigDecimal`() {
+            val tf = UI.getCurrent().textField("BigDecimal:")
+            val binder = Binder<ValidationBean>(ValidationBean::class.java)
+            tf.bind(binder).toBigDecimal()
+                .validateInRange(BigDecimal.ZERO..BigDecimal.TEN)
+                .bind(ValidationBean::testBD)
+            expectInRange(binder, tf, inRange = "5.5", tooHigh = "10.5", tooLow = "-0.5")
+        }
+
+        /**
+         * Asserts that the binder accepts [inRange] and rejects [tooHigh] and [tooLow], with an
+         * error message naming the range. A blank field converts to null, which every
+         * `RangeValidator` passes.
+         */
+        private fun expectInRange(
+            binder: Binder<ValidationBean>,
+            tf: TextField,
+            inRange: String,
+            tooHigh: String,
+            tooLow: String
+        ) {
+            tf.value = inRange
+            expect(true, "$inRange should be in range") { binder.validate().isOk }
+            for (outOfRange in listOf(tooHigh, tooLow)) {
+                tf.value = outOfRange
+                val errors = binder.validate().validationErrors.map { it.errorMessage }
+                expect(1, "$outOfRange should be rejected, got $errors") { errors.size }
+                expect(true, "expected a range error, got $errors") { errors[0].startsWith("must be in ") }
+            }
+            tf.value = ""
+            expect(true, "a blank field is null, which is always in range") { binder.validate().isOk }
+        }
+    }
 }
 
 private class Form2(binder: Binder<Person>): VerticalLayout() {
@@ -298,6 +470,21 @@ data class Person(@field:NotNull
                   var created: Instant? = null,
 
                   var testCalendar: Calendar? = null
+) : Serializable
+
+data class InstantBean(var created: Instant? = null) : Serializable
+
+data class DateBean(var date: Date? = null, var calendar: Calendar? = null) : Serializable
+
+data class ValidationBean(
+    var name: String? = null,
+    var email: String? = null,
+    var testFloat: Float? = null,
+    var testInt: Int? = null,
+    var testLong: Long? = null,
+    var testDouble: Double? = null,
+    var testBI: BigInteger? = null,
+    var testBD: BigDecimal? = null
 ) : Serializable
 
 data class PersonNoJSR303(

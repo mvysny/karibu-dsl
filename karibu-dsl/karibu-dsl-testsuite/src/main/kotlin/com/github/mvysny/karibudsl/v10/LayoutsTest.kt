@@ -148,4 +148,164 @@ abstract class LayoutsTest {
         expect(FlexComponent.Alignment.AUTO) { button.alignSelf }
         expect(null) { button.element.style.get("alignSelf") }
     }
+
+    @Nested inner class alignSelfInParent {
+        @Test fun verticalAlignSelf() {
+            lateinit var button: Button
+            UI.getCurrent().horizontalLayout { button = button() }
+            expect(FlexComponent.Alignment.AUTO) { button.verticalAlignSelf }
+            button.verticalAlignSelf = FlexComponent.Alignment.END
+            expect(FlexComponent.Alignment.END) { button.verticalAlignSelf }
+        }
+
+        @Test fun horizontalAlignSelf() {
+            lateinit var button: Button
+            UI.getCurrent().verticalLayout { button = button() }
+            expect(FlexComponent.Alignment.AUTO) { button.horizontalAlignSelf }
+            button.horizontalAlignSelf = FlexComponent.Alignment.END
+            expect(FlexComponent.Alignment.END) { button.horizontalAlignSelf }
+        }
+
+        @Test fun `verticalAlignSelf only works inside a HorizontalLayout`() {
+            lateinit var button: Button
+            UI.getCurrent().verticalLayout { button = button() }
+            val ex = runCatching { button.verticalAlignSelf }.exceptionOrNull()
+            check(ex is ClassCastException) { "expected ClassCastException, got $ex" }
+        }
+
+        @Test fun `horizontalAlignSelf only works inside a VerticalLayout`() {
+            lateinit var button: Button
+            UI.getCurrent().horizontalLayout { button = button() }
+            val ex = runCatching { button.horizontalAlignSelf }.exceptionOrNull()
+            check(ex is ClassCastException) { "expected ClassCastException, got $ex" }
+        }
+    }
+
+    @Nested inner class horizontalLayoutContent {
+        @Test fun `every horizontalAlignment constant`() {
+            val hl = HorizontalLayout()
+            hl.content {
+                for ((constant, expected) in listOf(
+                    left to FlexComponent.JustifyContentMode.START,
+                    right to FlexComponent.JustifyContentMode.END,
+                    center to FlexComponent.JustifyContentMode.CENTER,
+                    between to FlexComponent.JustifyContentMode.BETWEEN,
+                    around to FlexComponent.JustifyContentMode.AROUND,
+                    evenly to FlexComponent.JustifyContentMode.EVENLY
+                )) {
+                    horizontalAlignment = constant
+                    expect(expected) { horizontalAlignment }
+                    expect(expected) { hl.justifyContentMode }
+                }
+            }
+        }
+
+        @Test fun `every verticalAlignment constant`() {
+            val hl = HorizontalLayout()
+            hl.content {
+                for ((constant, expected) in listOf(
+                    top to FlexComponent.Alignment.START,
+                    bottom to FlexComponent.Alignment.END,
+                    middle to FlexComponent.Alignment.CENTER,
+                    stretch to FlexComponent.Alignment.STRETCH,
+                    baseline to FlexComponent.Alignment.BASELINE
+                )) {
+                    verticalAlignment = constant
+                    expect(expected) { verticalAlignment }
+                    expect(expected) { hl.defaultVerticalComponentAlignment }
+                }
+            }
+        }
+
+        @Test fun align() {
+            val hl = HorizontalLayout()
+            hl.content { align(right, bottom) }
+            expect(FlexComponent.JustifyContentMode.END) { hl.justifyContentMode }
+            expect(FlexComponent.Alignment.END) { hl.defaultVerticalComponentAlignment }
+        }
+
+        @Test fun center() {
+            val hl = HorizontalLayout()
+            hl.content { center() }
+            expect(FlexComponent.JustifyContentMode.CENTER) { hl.justifyContentMode }
+            expect(FlexComponent.Alignment.CENTER) { hl.defaultVerticalComponentAlignment }
+        }
+    }
+
+    @Nested inner class verticalLayoutContent {
+        @Test fun `every horizontalAlignment constant`() {
+            val vl = VerticalLayout()
+            vl.content {
+                for ((constant, expected) in listOf(
+                    left to FlexComponent.Alignment.START,
+                    right to FlexComponent.Alignment.END,
+                    center to FlexComponent.Alignment.CENTER,
+                    stretch to FlexComponent.Alignment.STRETCH
+                )) {
+                    horizontalAlignment = constant
+                    expect(expected) { horizontalAlignment }
+                    expect(expected) { vl.defaultHorizontalComponentAlignment }
+                }
+            }
+        }
+
+        @Test fun `every verticalAlignment constant`() {
+            val vl = VerticalLayout()
+            vl.content {
+                for ((constant, expected) in listOf(
+                    top to FlexComponent.JustifyContentMode.START,
+                    bottom to FlexComponent.JustifyContentMode.END,
+                    middle to FlexComponent.JustifyContentMode.CENTER,
+                    between to FlexComponent.JustifyContentMode.BETWEEN,
+                    around to FlexComponent.JustifyContentMode.AROUND,
+                    evenly to FlexComponent.JustifyContentMode.EVENLY
+                )) {
+                    verticalAlignment = constant
+                    expect(expected) { verticalAlignment }
+                    expect(expected) { vl.justifyContentMode }
+                }
+            }
+        }
+
+        @Test fun align() {
+            val vl = VerticalLayout()
+            vl.content { align(right, bottom) }
+            expect(FlexComponent.Alignment.END) { vl.defaultHorizontalComponentAlignment }
+            expect(FlexComponent.JustifyContentMode.END) { vl.justifyContentMode }
+        }
+
+        @Test fun center() {
+            val vl = VerticalLayout()
+            vl.content { center() }
+            expect(FlexComponent.Alignment.CENTER) { vl.defaultHorizontalComponentAlignment }
+            expect(FlexComponent.JustifyContentMode.CENTER) { vl.justifyContentMode }
+        }
+    }
+
+    /**
+     * Only the enum is reachable. Vaadin's own [FlexLayout.setFlexWrap]/[FlexLayout.getFlexWrap]
+     * members shadow Karibu's `FlexLayout.flexWrap` extension property, and in Kotlin a member
+     * always wins over an extension - so `flexLayout.flexWrap` resolves to Vaadin's, taking
+     * Vaadin's own `FlexLayout.FlexWrap`. The extension property cannot be called from Kotlin
+     * source at all, which is why it has no test here.
+     */
+    @Nested inner class flexWrapTests {
+        @Test fun findByFlex() {
+            expect(FlexWrap.Nowrap) { FlexWrap.findByFlex("nowrap") }
+            expect(FlexWrap.Wrap) { FlexWrap.findByFlex("wrap") }
+            expect(FlexWrap.WrapReverse) { FlexWrap.findByFlex("wrap-reverse") }
+            expect(null) { FlexWrap.findByFlex(null) }
+            expect(null) { FlexWrap.findByFlex("bogus") }
+        }
+
+        @Test fun flexValue() {
+            expect(listOf("nowrap", "wrap", "wrap-reverse")) { FlexWrap.entries.map { it.flexValue } }
+        }
+
+        @Test fun `every constant is findable by its own flexValue`() {
+            for (wrap in FlexWrap.entries) {
+                expect(wrap) { FlexWrap.findByFlex(wrap.flexValue) }
+            }
+        }
+    }
 }

@@ -67,6 +67,62 @@ open class AppLayoutTest {
         expect("Hello world!") { content.text }
     }
 
+    @Test fun `removeNavbar clears the navbar slot`() {
+        val a: AppLayout = UI.getCurrent().appLayout {
+            navbar {
+                drawerToggle()
+                h3("My App")
+            }
+        }
+        expect(2) { a.children.count() }
+        a.removeNavbar(false)
+        expect(0) { a.children.count() }
+    }
+
+    @Test fun `removeNavbar only clears the slot it was asked for`() {
+        val a: AppLayout = UI.getCurrent().appLayout {
+            navbar { span("plain") }
+            navbar(touchOptimized = true) { span("touch") }
+        }
+        expect(2) { a.children.count() }
+        a.removeNavbar(true)
+        expect(listOf("plain")) { a.children.toList().map { (it as Span).text } }
+        a.removeNavbar(false)
+        expect(0) { a.children.count() }
+    }
+
+    @Test fun `removeDrawer clears the drawer slot`() {
+        val a: AppLayout = UI.getCurrent().appLayout {
+            drawer {
+                span("Item 1")
+                span("Item 2")
+            }
+        }
+        expect(2) { a.children.count() }
+        a.removeDrawer()
+        expect(0) { a.children.count() }
+    }
+
+    @Test fun `removeContent clears the content`() {
+        val a: AppLayout = UI.getCurrent().appLayout {
+            content { span("Hello world!") }
+        }
+        expect(true) { a.content != null }
+        a.removeContent()
+        expect(null) { a.content }
+    }
+
+    @Test fun `content can be re-set after removeContent`() {
+        val a: AppLayout = UI.getCurrent().appLayout {
+            content { span("first") }
+        }
+        a.removeContent()
+        a.content { span("second") }
+        val content = a.content
+        check(content is Span)
+        expect("second") { content.text }
+    }
+
     @Test fun `content block accepts at most one child`() {
         val ex = runCatching {
             UI.getCurrent().appLayout {
