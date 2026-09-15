@@ -3,6 +3,13 @@ name: Gradle
 on: [push, pull_request]
 
 jobs:
+  design-tripwires:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Check the doc layer
+      run: design/verify_design_tripwires.sh
+
   build:
 
     strategy:

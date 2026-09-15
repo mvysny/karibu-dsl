@@ -7,6 +7,9 @@
 # Karibu-DSL (Vaadin Kotlin Extensions)
 
 This is a Kotlin extensions and DSL library for the [Vaadin](https://www.vaadin.com) framework.
+Vaadin owns the components, the router and the server-client bridge; Karibu-DSL owns the *building
+surface*: one type-safe builder function per Vaadin component, `KComposite` for composing your own,
+and the extension functions Vaadin lacks. The component you get back is the real Vaadin component.
 
 Need a button? Write `button {}`. Need a text field? Write `textField {}`.
 Need a layout? Write

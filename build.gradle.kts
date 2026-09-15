@@ -11,6 +11,17 @@ plugins {
 
 defaultTasks("clean", "build")
 
+// The doc-layer checks; the script's header lists them. Needs bash and git, so it is skipped
+// on Windows — the Linux and macOS legs of CI cover it.
+val designTripwires by tasks.registering(Exec::class) {
+    group = "verification"
+    description = "Checks the doc layer: design/verify_design_tripwires.sh"
+    workingDir = rootDir
+    commandLine("bash", "design/verify_design_tripwires.sh")
+    onlyIf { !System.getProperty("os.name").startsWith("Windows") }
+}
+tasks.named("check") { dependsOn(designTripwires) }
+
 allprojects {
     group = "com.github.mvysny.karibudsl"
     version = "2.6.1-SNAPSHOT"
